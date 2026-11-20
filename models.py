@@ -1,6 +1,7 @@
 """Shared contracts. Changes should be agreed across all module owners."""
 from enum import Enum
-from datetime import date, datetime, timezone
+from datetime import date as Date
+from datetime import datetime, timezone
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl
@@ -29,7 +30,22 @@ class Evidence(Contract):
     url: HttpUrl
     finding: str = Field(min_length=1)
     field: str | None = None
+    source_date: Date | None = None
     retrieved_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class SourceSignal(Contract):
+    source: str = Field(min_length=1)
+    type: str = Field(min_length=1)
+    url: HttpUrl
+    date: Date | None = None
+    evidence: str = Field(min_length=1)
+
+
+class FounderProfile(Contract):
+    name: str = Field(min_length=1)
+    role: str | None = None
+    qualifications: str | None = None
 
 
 class RawLead(Contract):
@@ -48,15 +64,35 @@ class RawLead(Contract):
     contact_email: str | None = Field(default=None, pattern=r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
     founding_year: int | None = Field(default=None, ge=1800, le=2100)
     founding_month: int | None = Field(default=None, ge=1, le=12)
+    has_vc: bool | None = None
+    signals: list[SourceSignal] = Field(default_factory=list)
+    prioritization_reason: str | None = None
+    htgf_sector: Literal["digital_tech", "industrial_deep_tech", "climate_tech",
+                         "life_sciences", "chemie_materialien"] | None = None
 
 
 class EnrichedLead(RawLead):
     evidence: list[Evidence] = Field(default_factory=list)
+    founder_profiles: list[FounderProfile] = Field(default_factory=list)
+    target_customers: str | None = None
+    customer_problem: str | None = None
+    solution: str | None = None
+    market: str | None = None
+    technology: str | None = None
+    competition: str | None = None
+    sales: str | None = None
+    capital_need: str | None = None
+    round_size_eur: int | None = Field(default=None, gt=0)
+    asking_pre_money_eur: int | None = Field(default=None, gt=0)
+    research_questions: list[str] = Field(default_factory=list)
+    funding_status: Literal["vc_backed", "non_vc_funded", "unfunded", "funded", "conflicting", "unknown"] = "unknown"
+    vc_status: Literal["confirmed", "reported_none", "conflicting", "unknown"] = "unknown"
+    first_signal_date: Date | None = None
     funding_stage: str | None = None
-    founded_on: date | None = None
+    founded_on: Date | None = None
     team_size: int | None = Field(default=None, ge=0)
     funding_total_eur: float | None = Field(default=None, ge=0, allow_inf_nan=False)
-    last_funding_on: date | None = None
+    last_funding_on: Date | None = None
     product_stage: str | None = None
     customer_count: int | None = Field(default=None, ge=0)
     annual_revenue_eur: float | None = Field(default=None, ge=0, allow_inf_nan=False)

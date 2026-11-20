@@ -142,12 +142,235 @@
           "default": null,
           "title": "Founding Month"
         },
+        "has_vc": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Has Vc"
+        },
+        "signals": {
+          "items": {
+            "$ref": "#/$defs/SourceSignal"
+          },
+          "title": "Signals",
+          "type": "array"
+        },
+        "prioritization_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prioritization Reason"
+        },
+        "htgf_sector": {
+          "anyOf": [
+            {
+              "enum": [
+                "digital_tech",
+                "industrial_deep_tech",
+                "climate_tech",
+                "life_sciences",
+                "chemie_materialien"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Htgf Sector"
+        },
         "evidence": {
           "items": {
             "$ref": "#/$defs/Evidence"
           },
           "title": "Evidence",
           "type": "array"
+        },
+        "founder_profiles": {
+          "items": {
+            "$ref": "#/$defs/FounderProfile"
+          },
+          "title": "Founder Profiles",
+          "type": "array"
+        },
+        "target_customers": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Customers"
+        },
+        "customer_problem": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Customer Problem"
+        },
+        "solution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Solution"
+        },
+        "market": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Market"
+        },
+        "technology": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Technology"
+        },
+        "competition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Competition"
+        },
+        "sales": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sales"
+        },
+        "capital_need": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capital Need"
+        },
+        "round_size_eur": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Round Size Eur"
+        },
+        "asking_pre_money_eur": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Asking Pre Money Eur"
+        },
+        "research_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Research Questions",
+          "type": "array"
+        },
+        "funding_status": {
+          "default": "unknown",
+          "enum": [
+            "vc_backed",
+            "non_vc_funded",
+            "unfunded",
+            "funded",
+            "conflicting",
+            "unknown"
+          ],
+          "title": "Funding Status",
+          "type": "string"
+        },
+        "vc_status": {
+          "default": "unknown",
+          "enum": [
+            "confirmed",
+            "reported_none",
+            "conflicting",
+            "unknown"
+          ],
+          "title": "Vc Status",
+          "type": "string"
+        },
+        "first_signal_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Signal Date"
         },
         "funding_stage": {
           "anyOf": [
@@ -447,6 +670,19 @@
           "default": null,
           "title": "Field"
         },
+        "source_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Date"
+        },
         "retrieved_at": {
           "format": "date-time",
           "title": "Retrieved At",
@@ -459,6 +695,45 @@
         "finding"
       ],
       "title": "Evidence",
+      "type": "object"
+    },
+    "FounderProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        },
+        "qualifications": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Qualifications"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "FounderProfile",
       "type": "object"
     },
     "Industry": {
@@ -545,6 +820,54 @@
         "industry"
       ],
       "title": "SearchCriteria",
+      "type": "object"
+    },
+    "SourceSignal": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "type": {
+          "minLength": 1,
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Date"
+        },
+        "evidence": {
+          "minLength": 1,
+          "title": "Evidence",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "type",
+        "url",
+        "evidence"
+      ],
+      "title": "SourceSignal",
       "type": "object"
     }
   },
