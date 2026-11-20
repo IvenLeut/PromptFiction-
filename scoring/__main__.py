@@ -8,7 +8,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from .engine import _leer, _stichtag, clip, load_config, score_all, score_dossier
+from .engine import _lead_id, _leer, _stichtag, clip, load_config, score_all, score_dossier
 from .sources import load_dossiers
 
 SCHEMA_PATH = Path(__file__).with_name("scores.schema.json")
@@ -71,22 +71,29 @@ def write_outputs(rows, out_dir):
 def _score_input(item, cfg, tag, explicit_cutoff):
     if not isinstance(item, dict):
         return score_dossier(item, cfg, tag)
+    lead = None
     if "rules_version" in item and "lead_id" in item:
-        from evaluation.engine import score_lead
         from scoring_models import ScoringInput
         scoring = ScoringInput.model_validate(item)
         if explicit_cutoff and scoring.as_of != tag:
             raise ValueError(f"{scoring.lead_id}: Für einen anderen Stichtag das Kontext-Dossier verwenden.")
-        return score_lead(scoring, cfg=cfg)
-    if {"id", "industry", "source_url"} <= item.keys():
-        from evaluation.engine import score_lead
+    elif {"id", "industry", "source_url"} <= item.keys():
         from models import EnrichedLead
         from scoring_input import build_scoring_input
         lead = EnrichedLead.model_validate(item)
         cutoff = tag if explicit_cutoff or lead.scoring_input is None else lead.scoring_input.as_of
         scoring = build_scoring_input(lead, as_of=cutoff or tag)
-        return score_lead(scoring, lead=lead, cfg=cfg)
-    return score_dossier(item, cfg, tag)
+    else:
+        return score_dossier(item, cfg, tag)
+    from evaluation.engine import score_lead
+    from scoring_input import admission_issue
+    if reason := admission_issue(scoring):
+        name = lead.name if lead else scoring.lead_id
+        identity = _lead_id({"lead_id": scoring.lead_id}, name)
+        row = _leer(identity, name, cfg, scoring.as_of or tag)
+        row["ausschluss_grund"] = reason
+        return row
+    return score_lead(scoring, lead=lead, cfg=cfg)
 
 
 def main(argv=None):
