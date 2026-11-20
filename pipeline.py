@@ -81,5 +81,32 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
             logger.exception("Evaluation failed for %s", lead.id)
             result.issues.append(PipelineIssue(lead_id=lead.id, stage="evaluation",
                                 message="Bewertung fehlgeschlagen. Details im Server-Log."))
-    result.leads.sort(key=lambda x: x.quality_score, reverse=True)
+    result.leads.sort(key=lambda x: (x.overall_score is None, -(x.overall_score or 0), x.id))
     return result
+
+
+def run_pipeline(criteria: SearchCriteria, *, use_mock: bool = True,
+                 provider: Callable | None = None, enricher: Callable | None = None,
+                 evaluator: Callable | None = None, on_progress: Callable | None = None):
+    """One category request executes steps 1–3 and returns the dashboard contract.
+
+    Providers are replaceable independently. A failed lead is reported in issues;
+    a failed discovery raises to the caller rather than returning invented data.
+    """
+    from models import AnalysisRun
+    if use_mock:
+        from demo_portfolio import demo_search, demo_enrich, demo_evaluate
+        provider = provider or demo_search
+        enricher = enricher or demo_enrich
+        evaluator = evaluator or demo_evaluate
+    progress = on_progress or (lambda percent, message: None)
+    progress(0, "Passende deutsche Startups finden")
+    raw = discover(criteria, use_mock=use_mock, provider=provider)
+    progress(33, "Kontext und Quellen zusammenführen")
+    context = collect_context(raw, use_mock=use_mock, enricher=enricher)
+    progress(66, "Scores und Investmenthypothesen auswerten")
+    result = evaluate_context(context.leads, use_mock=use_mock, evaluator=evaluator)
+    result.issues = context.issues + result.issues
+    progress(100, "Analyse abgeschlossen")
+    return AnalysisRun(criteria=criteria, mode="demo" if use_mock else "live",
+                       discovered_count=len(raw), enriched_count=len(context.leads), result=result)

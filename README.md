@@ -1,12 +1,14 @@
 ﻿# FounderRadar
 
-Lokales Python-/Streamlit-Grundgerüst zum VC-Screening deutscher Early-Stage-Startups.
-**Status: Demo-Prototyp. Echte Such-, Scraping- und Bewertungsanbieter sind noch nicht angeschlossen.**
-Alle Demo-Unternehmen, Quellen und Bewertungen sind fiktiv.
+Ein zusammenhängender Ablauf für VC-Screening: **Kategorie auswählen → Analyse
+starten → visualisierte Ergebnisse → Startup-Deep-Dive**.
 
-## Start unter Windows
+Die aktuelle Version arbeitet vollständig mit fiktiven Daten. Pro Kategorie stehen
+30 Demo-Startups zur Verfügung. Keine echten Kontakte, Registerfunde oder Investmentempfehlungen.
 
-Python 3.11 oder neuer, dann im Projektverzeichnis:
+## Start
+
+Python 3.11 oder neuer. Im Projektordner:
 
 ```powershell
 python -m venv .venv
@@ -14,75 +16,129 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Dashboard: http://localhost:8501. Keine API-Schlüssel im Demo-Modus nötig.
+http://localhost:8501 öffnen. Bei einem laufenden Server nach Änderungen an
+`.streamlit/config.toml` den Server mit Strg+C beenden und neu starten.
 Tests: `.\.venv\Scripts\python.exe -m pytest -q`
 
-## Vier Schritte
+## Bedienung und Visualisierungen
 
-1. **Branche auswählen / Sourcing:** `discover(SearchCriteria) -> list[RawLead]`.
-   Nur deutsche Standorte mit Beleg aus der Fundquelle und passender Branche.
-   Deduplizierung nach ID und Trefferlimit; keine Kontext-Recherche oder Sortierung.
-   Unklarer Deutschland-Bezug wird ausgeschlossen; eine .de-Domain genügt nicht.
-2. **Kontext scrapen:** `collect_context(raw_leads) -> ContextResult`.
-   Liefert EnrichedLead mit Kennzahlen und Quellen. Unbekannte Werte bleiben None.
-   Keine Scores; Reihenfolge bleibt erhalten.
-3. **Berechnen / bewerten:** `evaluate_context(enriched_leads) -> ResearchResult`.
-   Qualität, Earliness, Konfidenz, Investment-These, Risiken und finales Ranking.
-   Erst hier wird Early-Stage-Eignung bewertet.
-4. **Dashboard / Visualisierung:** `app.py` stellt die bewerteten Leads aus
-   `ResearchResult` als Ranking mit Scores, Detailansichten, Investment-Thesen,
-   Risiken und Quellen dar. Die Darstellung berechnet keine eigenen Bewertungen.
+1. Kategorie auf der Startseite auswählen und **Analyse starten** drücken.
+2. Sourcing, Kontextsammlung und Bewertung laufen automatisch nacheinander.
+3. Das Dashboard zeigt Top 10 oder Top 20 der gewählten Kategorie:
+   - vier KPI-Anzeigen: durchschnittlicher Score, Unternehmensscore, Marktpotenzial und Risiko;
+   - interaktiven 3D-Potenzialraum mit Risiko auf X, Unternehmensscore auf Y, Marktpotenzial auf Z;
+   - Stage-Verteilung als Ringdiagramm;
+   - direkten Vergleich von Unternehmen, Markt und Risiko für die besten zehn;
+   - anklickbare Ranking-Tabelle und Export des gesamten Analyselaufs.
+4. Tabellenzeile oder „Startup kennenlernen“ öffnet eine eigene Detailansicht:
+   Value Proposition, Investmenthypothese, Score-Profil, Unternehmensdaten, Risiken,
+   Quellen, Gründer und Kontakt. Der Kontaktbutton öffnet einen Mailentwurf, versendet aber nichts.
+5. **Zurück zur Übersicht** erhält die Top-N-Auswahl. **Neue Analyse** startet einen
+   neuen Kategorieauftrag und verwirft alte Ergebnisse und die alte Detailauswahl.
 
-Die Schritte 1 bis 3 werden ausdrücklich in der Oberfläche gestartet. Schritt 4
-zeigt anschließend automatisch die fertigen Ergebnisse. Neue Suche löscht nachgelagerte
-Ergebnisse. Ein neuer Kontextlauf löscht die bisherige Bewertung.
+Alle Scores: 0–100. Höhere Unternehmens-/Marktwerte sind besser; niedrigeres Risiko
+ist besser. KPI-Mittelwerte und Stage-Verteilung beziehen sich auf die sichtbaren
+Top-N-Startups, nicht auf die gesamte Ausgangsliste. Fehlende Scores sind unbekannt,
+werden nicht als null gewertet und werden bei Mittelwerten ausgelassen. Unvollständige
+3D-Punkte bleiben in der Tabelle. Demoberechnung ausschließlich im Fixture-Generator:
+45 % Unternehmen + 35 % Markt + 20 % (100 − Risiko). Diese Formel muss das Team noch
+fachlich abstimmen; das Dashboard übernimmt den fertigen Score.
 
-## Zuständigkeiten
+## Architektur: vier Personen, vier Module
 
-| Datei | Vertrag / Aufgabe |
-| --- | --- |
-| models.py | Gemeinsame Pydantic-Verträge; Änderungen im Team abstimmen |
-| sourcing/engine.py | search(criteria) -> list[RawLead]; Discovery-Anbieter integrieren |
-| context/engine.py | enrich(raw) -> EnrichedLead; Scraping und Normalisierung |
-| evaluation/engine.py | evaluate(enriched) -> EvaluatedLead; Bewertungslogik |
-| pipeline.py | Stufengrenzen, Filter, Fehlerisolierung, finales Ranking |
-| mock_data.py | Fiktive Engines zur unabhängigen Entwicklung |
-| app.py | Schritt 4: Ergebnis-Dashboard; außerdem Bedienung der Schritte 1 bis 3 und JSON-Export |
-| tests/ | Pipeline-Verträge und Dashboard-Ablauf |
+| Person | Modul | Vertrag |
+| --- | --- | --- |
+| 1 | sourcing/engine.py | search(SearchCriteria) → list[RawLead] |
+| 2 | context/engine.py | enrich(RawLead) → EnrichedLead |
+| 3 | evaluation/engine.py | evaluate(EnrichedLead) → EvaluatedLead |
+| 4 | dashboard.py / deep_dive.py / charts.py | ResearchResult visualisieren |
 
-Alle Engines bleiben unabhängig von Streamlit. Die Pipeline akzeptiert auch injizierte
-Provider-Funktionen für Tests. use_mock=False nutzt echte Engines; die Platzhalter
-melden ausdrücklich fehlende Implementierung. Kein stiller Rückfall auf Demo-Daten.
-Die Oberfläche bleibt bis zur Integration im Demo-Modus.
+`models.py` ist der gemeinsame Datenvertrag. `pipeline.run_pipeline(criteria)` führt
+alle drei Engines aus und liefert **AnalysisRun** mit Schema-Version 2.0, Suchkriterien,
+Modus, Zeitstempel, Anzahl gefundener/angereicherter Leads und `ResearchResult`.
+`ResearchResult.leads` enthält die bewerteten Startups; `issues` enthält Fehler je Lead.
+Sourcing filtert ausschließlich Branche und belegten Deutschland-Bezug, dedupliziert
+nach ID und erhält die Fundreihenfolge. Kontext sammelt Fakten ohne Ranking.
+Erst Bewertung sortiert nach `overall_score`. Fehlende Gesamt-Scores kommen zuletzt.
 
-## Kontextfelder für Schritt 3
+## Verbindliche Felder aus Schritt 1
 
-| Feld | Bedeutung / Einheit |
-| --- | --- |
-| website, location, founders | Website, Standort, Teamnamen |
-| founded_on, team_size | Gründungsdatum, Anzahl Mitarbeitende |
-| funding_stage, funding_total_eur, last_funding_on | Phase, kumulierte Finanzierung EUR, Datum |
-| product_stage | Idee, Prototyp, MVP, Marktstart etc. |
-| customer_count, annual_revenue_eur, traction_notes | Kunden, Jahresumsatz EUR, Traktion |
-| evidence | Quelle, HTTP(S)-URL, Aussage, optionaler Feldname, Abrufzeitpunkt |
+| Fachliches Feld | JSON-/Python-Feld | Typ |
+| --- | --- | --- |
+| Name Gründer | founders | Liste von Namen |
+| E-Mail | contact_email | primäre Kontaktadresse oder null |
+| Name Unternehmen | name | Text |
+| Website | website | HTTP(S)-URL oder null |
+| Branche | industry | Wert aus Industry |
+| Gründungsjahr | founding_year | Ganzzahl oder null |
+| Gründungsmonat | founding_month | 1–12 oder null |
+| Standort | location | Text oder null |
 
-Erster Vorschlag für den gemeinsamen Vertrag: Jeder gescrapte Fakt soll einen
-zugehörigen Evidence-Eintrag erhalten. Fehlende Werte bleiben unbekannt, nicht null.
-Währungen normalisieren und Umrechnung belegen. Folgemodule dürfen Eingangsdaten
-nicht überschreiben; Widersprüche als Beleg erfassen. Bewertungsgewichte und genaue
-Early-Stage-Definition müssen noch fachlich festgelegt werden. Demo-Scores sind
-feste Testwerte und keine echte Bewertungsformel.
+Zusätzlich: `id`, `description` (kurze Fundbeschreibung), `country`, `source_name`,
+`source_url`, `country_evidence`, `is_demo`. Die Quelle bleibt bis ins Dashboard erhalten.
+Keine tiefe Recherche in Schritt 1: fehlende Kontaktangaben bleiben null, ein unbekannter
+Gründungsmonat wird nicht erfunden. Eine .de-Domain allein belegt keinen deutschen Sitz.
 
-## Speicherung / nächste Integrationen
+**Änderung gegenüber v1:** Website, Gründer, E-Mail und Gründungsjahr/-monat liegen jetzt
+bereits in RawLead, nicht erst in EnrichedLead. Alle bisherigen Felder werden vererbt.
+Die Kontext-Engine darf diese Felder nicht erneut als zusätzliche Constructor-Argumente
+übergeben; `EnrichedLead(**lead.model_dump(), evidence=...)` übernimmt sie bereits.
 
-Der Stand lebt pro Browsersitzung im Session State und kann als versioniertes JSON
-exportiert werden. Ein Reload verliert die Sitzung. Dauerhafte Speicherung und Import
-sind noch nicht implementiert. Keine Datenbank oder Zugangsdaten erforderlich.
+## Schritt 2: zusätzlicher Kontext
 
-Nächste Aufgaben: Discovery-Quellen wählen; Scraper mit Timeouts, Quellenbelegen und
-normalisierten Kennzahlen implementieren; Bewertungsformel definieren; echte Engines
-verbinden; dauerhafte Speicherung ergänzen.
+EnrichedLead enthält alle RawLead-Felder plus Quellenbelege, Finanzierungsdaten,
+Teamgröße, Produktstatus, Kunden, Umsatz und Traktionsnotizen. Fehlende Daten bleiben
+None. Neue Rechercheaussagen und Widersprüche werden als Evidence dokumentiert;
+Eingangsdaten werden nicht still überschrieben. Jeder Beleg enthält Quelle, URL,
+Aussage, Abrufdatum und optional das zugehörige Feld.
 
-Referenzen: [Streamlit Session State](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state),
-[Streamlit Forms](https://docs.streamlit.io/develop/api-reference/execution-flow/st.form),
-[Pydantic Models](https://pydantic.dev/docs/validation/latest/concepts/models/).
+## Verbindliche Felder aus Schritt 3
+
+| Fachliches Feld | JSON-/Python-Feld | Typ |
+| --- | --- | --- |
+| Score | overall_score | 0–100 oder explizit null |
+| Risiko | risk_score | 0–100 oder explizit null; höher = riskanter |
+| Marktpotenzialscore | market_potential_score | 0–100 oder explizit null |
+| Unternehmensscore | company_score | 0–100 oder explizit null |
+| Stage Einordnung | stage_classification | Pre-Seed / Seed / Early Growth / Unbekannt |
+| Produktbeschreibung / Value Proposition | value_proposition | nicht leerer Text |
+| Investmenthypothese | investment_thesis | Text |
+
+Diese Felder müssen übergeben werden. Die alten quality_score, earliness_score und
+confidence_score sind optionale Zusatzinformationen und kein Pflichtinput des Dashboards.
+`funding_stage` bleibt eine Kontextangabe über die Finanzierung; `stage_classification`
+ist die daraus und aus weiteren Fakten abgeleitete Einordnung aus Schritt 3.
+`risks`, `score_drivers` und `open_questions` ergänzen den Deep Dive optional.
+
+## Demo und Live-Integration
+
+`demo_portfolio.py` enthält deterministische Fixtures und drei Adapter:
+`demo_search`, `demo_enrich`, `demo_evaluate`. Sie liefern jeweils nur die Felder
+ihres Prozessschritts. Die Demo durchläuft dieselben Pipeline-Funktionen wie die
+spätere Live-Integration. Die UI verwendet aktuell `use_mock=True`.
+
+`run_pipeline(criteria, use_mock=False)` verbindet die drei echten Engine-Dateien.
+Diese enthalten weiterhin ausdrückliche Platzhalter. Es gibt keinen stillen Rückfall
+auf erfundene Daten. Provider, Enricher und Evaluator lassen sich für Tests einzeln injizieren.
+Fehler einzelner Kontext-/Bewertungsaufrufe verhindern nicht die restliche Verarbeitung.
+Ein Totalausfall im Sourcing wird an die Oberfläche gemeldet.
+
+Beispielübergabe: `examples/analysis-demo.json`.
+Maschinenlesbares Schema: `examples/analysis-schema.json`.
+
+## Dateien und Grenzen
+
+- app.py: Kategorienwahl und Analyseauftrag, keine eigene Bewertungslogik.
+- ui_theme.py / .streamlit/config.toml: Layout, Farben, Typografie.
+- dashboard.py / charts.py: Visualisierungen und Ranking.
+- deep_dive.py: Startup-Dossier und Kontakt.
+- tests/: Verträge, Datenintegrität, Charts und kompletter Bedienablauf.
+
+Die Sitzung liegt im Streamlit Session State. Ein vollständiger Browser-Reload kann
+sie verwerfen. JSON-Export ist vorhanden; dauerhafte Speicherung und Import sind noch
+offen. Detail-URLs `?startup=<ID>` funktionieren innerhalb eines vorhandenen Analyselaufs.
+
+Visuelle Referenz: die vom Team bereitgestellte HTGF-Ansicht mit großer Typografie,
+Weißraum, klaren Kennzahlen und dezenten Akzenten. FounderRadar verwendet eine eigene Marke.
+Technik: [Streamlit](https://docs.streamlit.io/develop/api-reference/data/st.dataframe),
+[Plotly](https://plotly.com/python/3d-scatter-plots/).

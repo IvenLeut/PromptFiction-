@@ -1,0 +1,2207 @@
+{
+  "schema_version": "2.0",
+  "criteria": {
+    "industry": "AI / Software",
+    "country": "DE",
+    "limit": 30
+  },
+  "mode": "demo",
+  "created_at": "2026-11-20T17:08:43.283316Z",
+  "discovered_count": 30,
+  "enriched_count": 30,
+  "result": {
+    "leads": [
+      {
+        "id": "ai-16",
+        "name": "DovraLogic Labs",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Berlin",
+        "source_url": "https://example.org/ai-16/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-16/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-16",
+        "founders": [
+          "Demo-Gründerin 16",
+          "Demo-Mitgründer 16"
+        ],
+        "contact_email": "founder.16@example.org",
+        "founding_year": 2024,
+        "founding_month": 6,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-16/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-16/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": 5,
+        "funding_total_eur": 1375000.0,
+        "last_funding_on": null,
+        "product_stage": "Marktstart",
+        "customer_count": null,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 90.8,
+        "company_score": 96.0,
+        "market_potential_score": 88.0,
+        "risk_score": 16.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für kleine Teams. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 96/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 88/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 96.0,
+        "earliness_score": 80.0,
+        "confidence_score": 89.0,
+        "investment_thesis": "DovraLogic Labs adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-04",
+        "name": "AvenLogic One",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Köln",
+        "source_url": "https://example.org/ai-04/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-04/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-04",
+        "founders": [
+          "Demo-Gründerin 04",
+          "Demo-Mitgründer 04"
+        ],
+        "contact_email": "founder.04@example.org",
+        "founding_year": 2024,
+        "founding_month": 4,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-04/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-04/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": 5,
+        "funding_total_eur": 355000.0,
+        "last_funding_on": null,
+        "product_stage": "Marktstart",
+        "customer_count": 6,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 78.3,
+        "company_score": 87.0,
+        "market_potential_score": 96.0,
+        "risk_score": 72.0,
+        "stage_classification": "Early Growth",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für spezialisierte Anbieter. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 87/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 96/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 87.0,
+        "earliness_score": 92.0,
+        "confidence_score": 61.0,
+        "investment_thesis": "AvenLogic One adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-07",
+        "name": "BrivaLogic Systems",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "München",
+        "source_url": "https://example.org/ai-07/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-07/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-07",
+        "founders": [
+          "Demo-Gründerin 07",
+          "Demo-Mitgründer 07"
+        ],
+        "contact_email": "founder.07@example.org",
+        "founding_year": 2024,
+        "founding_month": 7,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-07/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-07/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": null,
+        "funding_total_eur": 610000.0,
+        "last_funding_on": null,
+        "product_stage": "Pilotkunden",
+        "customer_count": 12,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 76.0,
+        "company_score": 77.0,
+        "market_potential_score": 94.0,
+        "risk_score": 58.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für den Mittelstand. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 77/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 94/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 77.0,
+        "earliness_score": 89.0,
+        "confidence_score": 82.0,
+        "investment_thesis": "BrivaLogic Systems adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-29",
+        "name": "FarynLogic One",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Köln",
+        "source_url": "https://example.org/ai-29/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-29/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-29",
+        "founders": [
+          "Demo-Gründerin 29",
+          "Demo-Mitgründer 29"
+        ],
+        "contact_email": null,
+        "founding_year": 2025,
+        "founding_month": 9,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-29/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-29/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 6,
+        "funding_total_eur": null,
+        "last_funding_on": null,
+        "product_stage": "Prototyp",
+        "customer_count": 56,
+        "annual_revenue_eur": 392000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 75.0,
+        "company_score": 69.0,
+        "market_potential_score": 97.0,
+        "risk_score": 50.0,
+        "stage_classification": "Early Growth",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für spezialisierte Anbieter. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 69/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 97/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 69.0,
+        "earliness_score": 67.0,
+        "confidence_score": 68.0,
+        "investment_thesis": "FarynLogic One adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-19",
+        "name": "DovraLogic One",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Köln",
+        "source_url": "https://example.org/ai-19/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-19/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-19",
+        "founders": [
+          "Demo-Gründerin 19",
+          "Demo-Mitgründer 19"
+        ],
+        "contact_email": "founder.19@example.org",
+        "founding_year": 2024,
+        "founding_month": 9,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-19/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-19/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": null,
+        "funding_total_eur": 1630000.0,
+        "last_funding_on": null,
+        "product_stage": "Pilotkunden",
+        "customer_count": 36,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 74.2,
+        "company_score": 86.0,
+        "market_potential_score": 86.0,
+        "risk_score": 73.0,
+        "stage_classification": "Early Growth",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für spezialisierte Anbieter. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 86/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 86/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 86.0,
+        "earliness_score": 77.0,
+        "confidence_score": 54.0,
+        "investment_thesis": "DovraLogic One adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-10",
+        "name": "BrivaLogic Nova",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Dresden",
+        "source_url": "https://example.org/ai-10/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-10/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-10",
+        "founders": [
+          "Demo-Gründerin 10",
+          "Demo-Mitgründer 10"
+        ],
+        "contact_email": "founder.10@example.org",
+        "founding_year": 2024,
+        "founding_month": 10,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-10/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-10/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": 11,
+        "funding_total_eur": 865000.0,
+        "last_funding_on": null,
+        "product_stage": "MVP",
+        "customer_count": 18,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 73.5,
+        "company_score": 67.0,
+        "market_potential_score": 92.0,
+        "risk_score": 44.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für verteilte Organisationen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 67/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 92/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 67.0,
+        "earliness_score": 86.0,
+        "confidence_score": 47.0,
+        "investment_thesis": "BrivaLogic Nova adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-22",
+        "name": "ElunoLogic Systems",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "München",
+        "source_url": "https://example.org/ai-22/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-22/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-22",
+        "founders": [
+          "Demo-Gründerin 22",
+          "Demo-Mitgründer 22"
+        ],
+        "contact_email": null,
+        "founding_year": 2024,
+        "founding_month": 2,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-22/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-22/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": 11,
+        "funding_total_eur": 1885000.0,
+        "last_funding_on": null,
+        "product_stage": "MVP",
+        "customer_count": 42,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 71.8,
+        "company_score": 76.0,
+        "market_potential_score": 84.0,
+        "risk_score": 59.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für den Mittelstand. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 76/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 84/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 76.0,
+        "earliness_score": 74.0,
+        "confidence_score": 75.0,
+        "investment_thesis": "ElunoLogic Systems adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-13",
+        "name": "CaleoLogic Works",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Hamburg",
+        "source_url": "https://example.org/ai-13/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-13/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-13",
+        "founders": [
+          "Demo-Gründerin 13",
+          "Demo-Mitgründer 13"
+        ],
+        "contact_email": "founder.13@example.org",
+        "founding_year": 2024,
+        "founding_month": 3,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-13/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-13/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": null,
+        "funding_total_eur": null,
+        "last_funding_on": null,
+        "product_stage": "Prototyp",
+        "customer_count": 24,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 71.2,
+        "company_score": 57.0,
+        "market_potential_score": 90.0,
+        "risk_score": 30.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für Großunternehmen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 57/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 90/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 57.0,
+        "earliness_score": 83.0,
+        "confidence_score": 68.0,
+        "investment_thesis": "CaleoLogic Works adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-12",
+        "name": "CaleoLogic Systems",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "München",
+        "source_url": "https://example.org/ai-12/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-12/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": null,
+        "founders": [
+          "Demo-Gründerin 12",
+          "Demo-Mitgründer 12"
+        ],
+        "contact_email": "founder.12@example.org",
+        "founding_year": 2026,
+        "founding_month": 2,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-12/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-12/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 13,
+        "funding_total_eur": 1035000.0,
+        "last_funding_on": null,
+        "product_stage": "Marktstart",
+        "customer_count": 22,
+        "annual_revenue_eur": 154000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 71.0,
+        "company_score": 93.0,
+        "market_potential_score": 73.0,
+        "risk_score": 82.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für den Mittelstand. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 93/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 73/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 93.0,
+        "earliness_score": 84.0,
+        "confidence_score": 61.0,
+        "investment_thesis": "CaleoLogic Systems adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-03",
+        "name": "AvenLogic Works",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Hamburg",
+        "source_url": "https://example.org/ai-03/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-03/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-03",
+        "founders": [
+          "Demo-Gründerin 03",
+          "Demo-Mitgründer 03"
+        ],
+        "contact_email": "founder.03@example.org",
+        "founding_year": 2026,
+        "founding_month": 3,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-03/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-03/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 4,
+        "funding_total_eur": 270000.0,
+        "last_funding_on": null,
+        "product_stage": "Pilotkunden",
+        "customer_count": 4,
+        "annual_revenue_eur": 28000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 70.4,
+        "company_score": 74.0,
+        "market_potential_score": 79.0,
+        "risk_score": 53.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für Großunternehmen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 74/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 79/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 74.0,
+        "earliness_score": 93.0,
+        "confidence_score": 54.0,
+        "investment_thesis": "AvenLogic Works adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-25",
+        "name": "ElunoLogic Nova",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Dresden",
+        "source_url": "https://example.org/ai-25/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-25/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-25",
+        "founders": [
+          "Demo-Gründerin 25",
+          "Demo-Mitgründer 25"
+        ],
+        "contact_email": "founder.25@example.org",
+        "founding_year": 2024,
+        "founding_month": null,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-25/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-25/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": null,
+        "funding_total_eur": null,
+        "last_funding_on": null,
+        "product_stage": "Prototyp",
+        "customer_count": 48,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 69.4,
+        "company_score": 66.0,
+        "market_potential_score": 82.0,
+        "risk_score": 45.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für verteilte Organisationen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 66/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 82/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 66.0,
+        "earliness_score": 71.0,
+        "confidence_score": 40.0,
+        "investment_thesis": "ElunoLogic Nova adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-15",
+        "name": "CaleoLogic Nova",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Dresden",
+        "source_url": "https://example.org/ai-15/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-15/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-15",
+        "founders": [
+          "Demo-Gründerin 15",
+          "Demo-Mitgründer 15"
+        ],
+        "contact_email": null,
+        "founding_year": 2026,
+        "founding_month": 5,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-15/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-15/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 4,
+        "funding_total_eur": 1290000.0,
+        "last_funding_on": null,
+        "product_stage": "Pilotkunden",
+        "customer_count": 28,
+        "annual_revenue_eur": 196000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 68.6,
+        "company_score": 83.0,
+        "market_potential_score": 71.0,
+        "risk_score": 68.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für verteilte Organisationen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 83/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 71/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 83.0,
+        "earliness_score": 81.0,
+        "confidence_score": 82.0,
+        "investment_thesis": "CaleoLogic Nova adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-06",
+        "name": "BrivaLogic Labs",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Berlin",
+        "source_url": "https://example.org/ai-06/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-06/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-06",
+        "founders": [
+          "Demo-Gründerin 06",
+          "Demo-Mitgründer 06"
+        ],
+        "contact_email": "founder.06@example.org",
+        "founding_year": 2026,
+        "founding_month": 6,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-06/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-06/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 7,
+        "funding_total_eur": 525000.0,
+        "last_funding_on": null,
+        "product_stage": "MVP",
+        "customer_count": null,
+        "annual_revenue_eur": 70000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 68.0,
+        "company_score": 64.0,
+        "market_potential_score": 77.0,
+        "risk_score": 39.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für kleine Teams. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 64/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 77/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 64.0,
+        "earliness_score": 90.0,
+        "confidence_score": 75.0,
+        "investment_thesis": "BrivaLogic Labs adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-28",
+        "name": "FarynLogic Works",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Hamburg",
+        "source_url": "https://example.org/ai-28/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-28/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-28",
+        "founders": [
+          "Demo-Gründerin 28",
+          "Demo-Mitgründer 28"
+        ],
+        "contact_email": "founder.28@example.org",
+        "founding_year": 2024,
+        "founding_month": 8,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-28/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-28/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": 5,
+        "funding_total_eur": 2395000.0,
+        "last_funding_on": null,
+        "product_stage": "Marktstart",
+        "customer_count": 54,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 67.0,
+        "company_score": 56.0,
+        "market_potential_score": 80.0,
+        "risk_score": 31.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für Großunternehmen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 56/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 80/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 56.0,
+        "earliness_score": 68.0,
+        "confidence_score": 61.0,
+        "investment_thesis": "FarynLogic Works adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-27",
+        "name": "FarynLogic Systems",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "München",
+        "source_url": "https://example.org/ai-27/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-27/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-27",
+        "founders": [
+          "Demo-Gründerin 27",
+          "Demo-Mitgründer 27"
+        ],
+        "contact_email": "founder.27@example.org",
+        "founding_year": 2026,
+        "founding_month": 7,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-27/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-27/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 4,
+        "funding_total_eur": 2310000.0,
+        "last_funding_on": null,
+        "product_stage": "Pilotkunden",
+        "customer_count": 52,
+        "annual_revenue_eur": 364000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 66.8,
+        "company_score": 92.0,
+        "market_potential_score": 63.0,
+        "risk_score": 83.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für den Mittelstand. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 92/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 63/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 92.0,
+        "earliness_score": 69.0,
+        "confidence_score": 54.0,
+        "investment_thesis": "FarynLogic Systems adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-18",
+        "name": "DovraLogic Works",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Hamburg",
+        "source_url": "https://example.org/ai-18/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-18/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-18",
+        "founders": [
+          "Demo-Gründerin 18",
+          "Demo-Mitgründer 18"
+        ],
+        "contact_email": "founder.18@example.org",
+        "founding_year": 2026,
+        "founding_month": 8,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-18/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-18/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 7,
+        "funding_total_eur": 1545000.0,
+        "last_funding_on": null,
+        "product_stage": "MVP",
+        "customer_count": 34,
+        "annual_revenue_eur": 238000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 66.2,
+        "company_score": 73.0,
+        "market_potential_score": 69.0,
+        "risk_score": 54.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für Großunternehmen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 73/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 69/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 73.0,
+        "earliness_score": 78.0,
+        "confidence_score": 47.0,
+        "investment_thesis": "DovraLogic Works adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-09",
+        "name": "BrivaLogic One",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Köln",
+        "source_url": "https://example.org/ai-09/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-09/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-09",
+        "founders": [
+          "Demo-Gründerin 09",
+          "Demo-Mitgründer 09"
+        ],
+        "contact_email": "founder.09@example.org",
+        "founding_year": 2026,
+        "founding_month": null,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-09/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-09/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 10,
+        "funding_total_eur": null,
+        "last_funding_on": null,
+        "product_stage": "Prototyp",
+        "customer_count": 16,
+        "annual_revenue_eur": 112000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 65.5,
+        "company_score": 54.0,
+        "market_potential_score": 75.0,
+        "risk_score": 25.0,
+        "stage_classification": "Early Growth",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für spezialisierte Anbieter. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 54/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 75/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 54.0,
+        "earliness_score": 87.0,
+        "confidence_score": 40.0,
+        "investment_thesis": "BrivaLogic One adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-08",
+        "name": "BrivaLogic Works",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Hamburg",
+        "source_url": "https://example.org/ai-08/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-08/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-08",
+        "founders": [
+          "Demo-Gründerin 08",
+          "Demo-Mitgründer 08"
+        ],
+        "contact_email": null,
+        "founding_year": 2025,
+        "founding_month": 8,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-08/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-08/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 9,
+        "funding_total_eur": 695000.0,
+        "last_funding_on": null,
+        "product_stage": "Marktstart",
+        "customer_count": 14,
+        "annual_revenue_eur": 98000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 65.4,
+        "company_score": 90.0,
+        "market_potential_score": 58.0,
+        "risk_score": 77.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für Großunternehmen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 90/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 58/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 90.0,
+        "earliness_score": 88.0,
+        "confidence_score": 89.0,
+        "investment_thesis": "BrivaLogic Works adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-30",
+        "name": "FarynLogic Nova",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Dresden",
+        "source_url": "https://example.org/ai-30/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-30/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-30",
+        "founders": [
+          "Demo-Gründerin 30",
+          "Demo-Mitgründer 30"
+        ],
+        "contact_email": "founder.30@example.org",
+        "founding_year": 2026,
+        "founding_month": 10,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-30/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-30/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 7,
+        "funding_total_eur": 2565000.0,
+        "last_funding_on": null,
+        "product_stage": "MVP",
+        "customer_count": 58,
+        "annual_revenue_eur": 406000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 64.5,
+        "company_score": 82.0,
+        "market_potential_score": 61.0,
+        "risk_score": 69.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für verteilte Organisationen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 82/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 61/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 82.0,
+        "earliness_score": 66.0,
+        "confidence_score": 75.0,
+        "investment_thesis": "FarynLogic Nova adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-21",
+        "name": "ElunoLogic Labs",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Berlin",
+        "source_url": "https://example.org/ai-21/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-21/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-21",
+        "founders": [
+          "Demo-Gründerin 21",
+          "Demo-Mitgründer 21"
+        ],
+        "contact_email": "founder.21@example.org",
+        "founding_year": 2026,
+        "founding_month": 1,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-21/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-21/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 10,
+        "funding_total_eur": null,
+        "last_funding_on": null,
+        "product_stage": "Prototyp",
+        "customer_count": null,
+        "annual_revenue_eur": 280000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 63.8,
+        "company_score": 63.0,
+        "market_potential_score": 67.0,
+        "risk_score": 40.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für kleine Teams. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 63/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 67/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 63.0,
+        "earliness_score": 75.0,
+        "confidence_score": 68.0,
+        "investment_thesis": "ElunoLogic Labs adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-11",
+        "name": "CaleoLogic Labs",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Berlin",
+        "source_url": "https://example.org/ai-11/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-11/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-11",
+        "founders": [
+          "Demo-Gründerin 11",
+          "Demo-Mitgründer 11"
+        ],
+        "contact_email": "founder.11@example.org",
+        "founding_year": 2025,
+        "founding_month": 1,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-11/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-11/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 12,
+        "funding_total_eur": 950000.0,
+        "last_funding_on": null,
+        "product_stage": "Pilotkunden",
+        "customer_count": null,
+        "annual_revenue_eur": 140000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 63.0,
+        "company_score": 80.0,
+        "market_potential_score": 56.0,
+        "risk_score": 63.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für kleine Teams. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 80/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 56/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 80.0,
+        "earliness_score": 85.0,
+        "confidence_score": 54.0,
+        "investment_thesis": "CaleoLogic Labs adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-02",
+        "name": "AvenLogic Systems",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "München",
+        "source_url": "https://example.org/ai-02/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-02/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-02",
+        "founders": [
+          "Demo-Gründerin 02",
+          "Demo-Mitgründer 02"
+        ],
+        "contact_email": "founder.02@example.org",
+        "founding_year": 2025,
+        "founding_month": 2,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-02/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-02/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 3,
+        "funding_total_eur": 185000.0,
+        "last_funding_on": null,
+        "product_stage": "MVP",
+        "customer_count": 2,
+        "annual_revenue_eur": 14000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 62.4,
+        "company_score": 61.0,
+        "market_potential_score": 62.0,
+        "risk_score": 34.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für den Mittelstand. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 61/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 62/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 61.0,
+        "earliness_score": 94.0,
+        "confidence_score": 47.0,
+        "investment_thesis": "AvenLogic Systems adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-24",
+        "name": "ElunoLogic One",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Köln",
+        "source_url": "https://example.org/ai-24/source",
+        "source_name": "Hochschul-Inkubator",
+        "country_evidence": {
+          "source": "Hochschul-Inkubator – fiktiver Beleg",
+          "url": "https://example.org/ai-24/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-24",
+        "founders": [
+          "Demo-Gründerin 24",
+          "Demo-Mitgründer 24"
+        ],
+        "contact_email": "founder.24@example.org",
+        "founding_year": 2026,
+        "founding_month": 4,
+        "evidence": [
+          {
+            "source": "Hochschul-Inkubator – fiktiver Beleg",
+            "url": "https://example.org/ai-24/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-24/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Seed",
+        "founded_on": null,
+        "team_size": 13,
+        "funding_total_eur": 2055000.0,
+        "last_funding_on": null,
+        "product_stage": "Marktstart",
+        "customer_count": 46,
+        "annual_revenue_eur": 322000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 61.4,
+        "company_score": 53.0,
+        "market_potential_score": 65.0,
+        "risk_score": 26.0,
+        "stage_classification": "Early Growth",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für spezialisierte Anbieter. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 53/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 65/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 53.0,
+        "earliness_score": 72.0,
+        "confidence_score": 89.0,
+        "investment_thesis": "ElunoLogic One adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-23",
+        "name": "ElunoLogic Works",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Hamburg",
+        "source_url": "https://example.org/ai-23/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-23/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": null,
+        "founders": [
+          "Demo-Gründerin 23",
+          "Demo-Mitgründer 23"
+        ],
+        "contact_email": "founder.23@example.org",
+        "founding_year": 2025,
+        "founding_month": 3,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-23/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-23/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 12,
+        "funding_total_eur": 1970000.0,
+        "last_funding_on": null,
+        "product_stage": "Pilotkunden",
+        "customer_count": 44,
+        "annual_revenue_eur": 308000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 61.2,
+        "company_score": 89.0,
+        "market_potential_score": 48.0,
+        "risk_score": 78.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für Großunternehmen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 89/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 48/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 89.0,
+        "earliness_score": 73.0,
+        "confidence_score": 82.0,
+        "investment_thesis": "ElunoLogic Works adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-14",
+        "name": "CaleoLogic One",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Köln",
+        "source_url": "https://example.org/ai-14/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-14/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-14",
+        "founders": [
+          "Demo-Gründerin 14",
+          "Demo-Mitgründer 14"
+        ],
+        "contact_email": "founder.14@example.org",
+        "founding_year": 2025,
+        "founding_month": 4,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-14/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-14/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 3,
+        "funding_total_eur": 1205000.0,
+        "last_funding_on": null,
+        "product_stage": "MVP",
+        "customer_count": 26,
+        "annual_revenue_eur": 182000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 60.6,
+        "company_score": 70.0,
+        "market_potential_score": 54.0,
+        "risk_score": 49.0,
+        "stage_classification": "Early Growth",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für spezialisierte Anbieter. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 70/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 54/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 70.0,
+        "earliness_score": 82.0,
+        "confidence_score": 75.0,
+        "investment_thesis": "CaleoLogic One adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-05",
+        "name": "AvenLogic Nova",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Dresden",
+        "source_url": "https://example.org/ai-05/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-05/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-05",
+        "founders": [
+          "Demo-Gründerin 05",
+          "Demo-Mitgründer 05"
+        ],
+        "contact_email": "founder.05@example.org",
+        "founding_year": 2025,
+        "founding_month": 5,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-05/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-05/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 6,
+        "funding_total_eur": null,
+        "last_funding_on": null,
+        "product_stage": "Prototyp",
+        "customer_count": 8,
+        "annual_revenue_eur": 56000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 60.0,
+        "company_score": 51.0,
+        "market_potential_score": 60.0,
+        "risk_score": 20.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für verteilte Organisationen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 51/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 60/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 51.0,
+        "earliness_score": 91.0,
+        "confidence_score": 68.0,
+        "investment_thesis": "AvenLogic Nova adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-26",
+        "name": "FarynLogic Labs",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Berlin",
+        "source_url": "https://example.org/ai-26/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-26/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-26",
+        "founders": [
+          "Demo-Gründerin 26",
+          "Demo-Mitgründer 26"
+        ],
+        "contact_email": "founder.26@example.org",
+        "founding_year": 2025,
+        "founding_month": 6,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-26/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-26/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 3,
+        "funding_total_eur": 2225000.0,
+        "last_funding_on": null,
+        "product_stage": "MVP",
+        "customer_count": null,
+        "annual_revenue_eur": 350000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 58.9,
+        "company_score": 79.0,
+        "market_potential_score": 46.0,
+        "risk_score": 64.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für kleine Teams. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 79/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 46/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 79.0,
+        "earliness_score": 70.0,
+        "confidence_score": 47.0,
+        "investment_thesis": "FarynLogic Labs adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-17",
+        "name": "DovraLogic Systems",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "München",
+        "source_url": "https://example.org/ai-17/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-17/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-17",
+        "founders": [
+          "Demo-Gründerin 17",
+          "Demo-Mitgründer 17"
+        ],
+        "contact_email": "founder.17@example.org",
+        "founding_year": 2025,
+        "founding_month": null,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-17/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-17/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 6,
+        "funding_total_eur": null,
+        "last_funding_on": null,
+        "product_stage": "Prototyp",
+        "customer_count": 32,
+        "annual_revenue_eur": 224000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 58.2,
+        "company_score": 60.0,
+        "market_potential_score": 52.0,
+        "risk_score": 35.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für den Mittelstand. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 60/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 52/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 60.0,
+        "earliness_score": 79.0,
+        "confidence_score": 40.0,
+        "investment_thesis": "DovraLogic Systems adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-20",
+        "name": "DovraLogic Nova",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Dresden",
+        "source_url": "https://example.org/ai-20/source",
+        "source_name": "GitHub",
+        "country_evidence": {
+          "source": "GitHub – fiktiver Beleg",
+          "url": "https://example.org/ai-20/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": "https://example.org/ai-20",
+        "founders": [
+          "Demo-Gründerin 20",
+          "Demo-Mitgründer 20"
+        ],
+        "contact_email": "founder.20@example.org",
+        "founding_year": 2025,
+        "founding_month": 10,
+        "evidence": [
+          {
+            "source": "GitHub – fiktiver Beleg",
+            "url": "https://example.org/ai-20/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-20/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Pre-Seed",
+        "founded_on": null,
+        "team_size": 9,
+        "funding_total_eur": 1715000.0,
+        "last_funding_on": null,
+        "product_stage": "Marktstart",
+        "customer_count": 38,
+        "annual_revenue_eur": 266000.0,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 55.8,
+        "company_score": 50.0,
+        "market_potential_score": 50.0,
+        "risk_score": 21.0,
+        "stage_classification": "Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für verteilte Organisationen. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 50/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 50/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 50.0,
+        "earliness_score": 76.0,
+        "confidence_score": 61.0,
+        "investment_thesis": "DovraLogic Nova adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      },
+      {
+        "id": "ai-01",
+        "name": "AvenLogic Labs",
+        "description": "Entwickelt Dokumentenprüfung für industrielle Lieferketten.",
+        "industry": "AI / Software",
+        "country": "DE",
+        "location": "Berlin",
+        "source_url": "https://example.org/ai-01/source",
+        "source_name": "Unternehmensregister",
+        "country_evidence": {
+          "source": "Unternehmensregister – fiktiver Beleg",
+          "url": "https://example.org/ai-01/source",
+          "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+          "field": "country",
+          "retrieved_at": "2026-11-20T00:00:00Z"
+        },
+        "is_demo": true,
+        "website": null,
+        "founders": [
+          "Demo-Gründerin 01",
+          "Demo-Mitgründer 01"
+        ],
+        "contact_email": null,
+        "founding_year": 2024,
+        "founding_month": null,
+        "evidence": [
+          {
+            "source": "Unternehmensregister – fiktiver Beleg",
+            "url": "https://example.org/ai-01/source",
+            "finding": "Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
+            "field": "country",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          },
+          {
+            "source": "Demo-Produktprofil",
+            "url": "https://example.org/ai-01/product",
+            "finding": "Fiktive Produktannahme: Dokumentenprüfung für industrielle Lieferketten.",
+            "field": "product_stage",
+            "retrieved_at": "2026-11-20T00:00:00Z"
+          }
+        ],
+        "funding_stage": "Bootstrapped",
+        "founded_on": null,
+        "team_size": null,
+        "funding_total_eur": null,
+        "last_funding_on": null,
+        "product_stage": "Prototyp",
+        "customer_count": null,
+        "annual_revenue_eur": null,
+        "traction_notes": "Angenommene Pilotaktivität; weder Kunden noch Umsätze sind verifiziert.",
+        "overall_score": 54.4,
+        "company_score": 48.0,
+        "market_potential_score": 45.0,
+        "risk_score": 15.0,
+        "stage_classification": "Pre-Seed",
+        "value_proposition": "Dokumentenprüfung für industrielle lieferketten für kleine Teams. Ziel: kürzere Prüfzeiten.",
+        "score_drivers": [
+          "Unternehmensscore 48/100: simulierte Produkt- und Teamreife.",
+          "Marktpotenzial 45/100: angenommene Nachfrage im Zielsegment."
+        ],
+        "open_questions": [
+          "Welche Pilotkunden würden einen Jahresvertrag abschließen?",
+          "Wie lange reicht die Finanzierung bis zum nächsten Meilenstein?"
+        ],
+        "quality_score": 48.0,
+        "earliness_score": 95.0,
+        "confidence_score": 40.0,
+        "investment_thesis": "AvenLogic Labs adressiert dokumentenprüfung für industrielle lieferketten. Die Demo-These: kürzere Prüfzeiten könnte eine klar messbare Kaufmotivation schaffen. Vor einem Investment müssen Zahlungsbereitschaft und wiederholbarer Vertrieb belegt werden.",
+        "risks": [
+          "Zugang zu kundeneigenen trainingsdaten",
+          "Wirtschaftlichkeit und Kundenbindung noch nicht verifiziert."
+        ]
+      }
+    ],
+    "issues": []
+  }
+}

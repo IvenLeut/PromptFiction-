@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import pytest
 from pydantic import ValidationError
 import mock_data
@@ -20,7 +20,7 @@ def test_discovery_filters_without_ranking():
     leads = discover(criteria, provider=lambda _: [foreign, unknown, b, b, other, a])
     assert [x.id for x in leads] == [b.id, a.id]
     assert "quality_score" not in leads[0].model_dump()
-    assert "founders" not in leads[0].model_dump()
+    assert "founders" in leads[0].model_dump()
 
 
 def test_stages():
@@ -63,19 +63,41 @@ def test_preserve_geography():
     assert len(result.issues) == 3
 
 
-def test_dashboard_flow():
-    from streamlit.testing.v1 import AppTest
-    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=20).run()
-    assert not app.exception
-    next(b for b in app.button if b.label.endswith("Startups finden")).click().run()
-    assert len(app.dataframe) == 1
-    next(b for b in app.button if b.label == "Kontext erfassen").click().run()
-    assert len(app.dataframe) == 2
-    next(b for b in app.button if b.label == "Bewerten und sortieren").click().run()
-    assert len(app.dataframe) == 3
-    assert not app.exception
-    next(b for b in app.button if b.label.endswith("Startups finden")).click().run()
-    assert len(app.dataframe) == 1
-    assert not app.exception
+def test_full_category_pipeline():
+    from pipeline import run_pipeline
+    from models import AnalysisRun
+    seen = []
+    result = run_pipeline(SearchCriteria(industry=Industry.HEALTH),
+                          on_progress=lambda percent, message: seen.append(percent))
+    assert result.discovered_count == result.enriched_count == len(result.result.leads) == 30
+    assert seen == [0, 33, 66, 100]
+    assert all(x.industry == Industry.HEALTH and x.country == "DE" for x in result.result.leads)
+    assert not result.result.issues
+    assert result.result.leads[0].overall_score >= result.result.leads[-1].overall_score
+    assert AnalysisRun.model_validate_json(result.model_dump_json()) == result
 
 
+def test_step_one_contract_survives_processing():
+    from demo_portfolio import demo_search, demo_enrich, demo_evaluate
+    from models import RawLead
+    raw = demo_search(SearchCriteria(industry=Industry.AI, limit=1))[0]
+    assert {"founders", "contact_email", "website", "founding_year", "founding_month", "location"} <= set(raw.model_dump())
+    assert "overall_score" not in raw.model_dump()
+    enriched = demo_enrich(raw)
+    assert "stage_classification" not in enriched.model_dump()
+    evaluated = demo_evaluate(enriched)
+    assert evaluated.model_dump(include=set(RawLead.model_fields)) == raw.model_dump()
+    assert evaluated.value_proposition and evaluated.investment_thesis
+
+
+def test_pipeline_preserves_partial_errors():
+    from pipeline import run_pipeline
+    from demo_portfolio import demo_enrich
+    def sometimes(lead):
+        if lead.id.endswith("01"):
+            raise RuntimeError("Unavailable")
+        return demo_enrich(lead)
+    result = run_pipeline(SearchCriteria(industry=Industry.FINTECH, limit=3), enricher=sometimes)
+    assert result.discovered_count == 3
+    assert result.enriched_count == len(result.result.leads) == 2
+    assert len(result.result.issues) == 1

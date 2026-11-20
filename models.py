@@ -40,13 +40,17 @@ class RawLead(Contract):
     country: str | None = None
     location: str | None = None
     source_url: HttpUrl
+    source_name: str | None = None
     country_evidence: Evidence | None = None
     is_demo: bool = False
+    website: HttpUrl | None = None
+    founders: list[str] = Field(default_factory=list)
+    contact_email: str | None = Field(default=None, pattern=r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+    founding_year: int | None = Field(default=None, ge=1800, le=2100)
+    founding_month: int | None = Field(default=None, ge=1, le=12)
 
 
 class EnrichedLead(RawLead):
-    website: HttpUrl | None = None
-    founders: list[str] = Field(default_factory=list)
     evidence: list[Evidence] = Field(default_factory=list)
     funding_stage: str | None = None
     founded_on: date | None = None
@@ -60,9 +64,17 @@ class EnrichedLead(RawLead):
 
 
 class EvaluatedLead(EnrichedLead):
-    quality_score: float = Field(ge=0, le=100)
-    earliness_score: float = Field(ge=0, le=100)
-    confidence_score: float = Field(ge=0, le=100)
+    overall_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
+    company_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
+    market_potential_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
+    risk_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
+    stage_classification: Literal["Pre-Seed", "Seed", "Early Growth", "Unbekannt"]
+    value_proposition: str = Field(min_length=1)
+    score_drivers: list[str] = Field(default_factory=list)
+    open_questions: list[str] = Field(default_factory=list)
+    quality_score: float | None = Field(default=None, ge=0, le=100)
+    earliness_score: float | None = Field(default=None, ge=0, le=100)
+    confidence_score: float | None = Field(default=None, ge=0, le=100)
     investment_thesis: str
     risks: list[str] = Field(default_factory=list)
 
@@ -81,3 +93,13 @@ class ResearchResult(Contract):
 class ContextResult(Contract):
     leads: list[EnrichedLead] = Field(default_factory=list)
     issues: list[PipelineIssue] = Field(default_factory=list)
+
+
+class AnalysisRun(Contract):
+    schema_version: Literal["2.0"] = "2.0"
+    criteria: SearchCriteria
+    mode: Literal["demo", "live"]
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    discovered_count: int = Field(ge=0)
+    enriched_count: int = Field(ge=0)
+    result: ResearchResult

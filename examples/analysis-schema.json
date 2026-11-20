@@ -1,0 +1,598 @@
+{
+  "$defs": {
+    "EvaluatedLead": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "industry": {
+          "$ref": "#/$defs/Industry"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Country"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "source_url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "source_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Name"
+        },
+        "country_evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Evidence"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "is_demo": {
+          "default": false,
+          "title": "Is Demo",
+          "type": "boolean"
+        },
+        "website": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Website"
+        },
+        "founders": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Founders",
+          "type": "array"
+        },
+        "contact_email": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contact Email"
+        },
+        "founding_year": {
+          "anyOf": [
+            {
+              "maximum": 2100,
+              "minimum": 1800,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Year"
+        },
+        "founding_month": {
+          "anyOf": [
+            {
+              "maximum": 12,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Month"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "funding_stage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Funding Stage"
+        },
+        "founded_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founded On"
+        },
+        "team_size": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Size"
+        },
+        "funding_total_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Funding Total Eur"
+        },
+        "last_funding_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Funding On"
+        },
+        "product_stage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Stage"
+        },
+        "customer_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Customer Count"
+        },
+        "annual_revenue_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Annual Revenue Eur"
+        },
+        "traction_notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Traction Notes"
+        },
+        "overall_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Overall Score"
+        },
+        "company_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Company Score"
+        },
+        "market_potential_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Market Potential Score"
+        },
+        "risk_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Risk Score"
+        },
+        "stage_classification": {
+          "enum": [
+            "Pre-Seed",
+            "Seed",
+            "Early Growth",
+            "Unbekannt"
+          ],
+          "title": "Stage Classification",
+          "type": "string"
+        },
+        "value_proposition": {
+          "minLength": 1,
+          "title": "Value Proposition",
+          "type": "string"
+        },
+        "score_drivers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Score Drivers",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "quality_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quality Score"
+        },
+        "earliness_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Earliness Score"
+        },
+        "confidence_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence Score"
+        },
+        "investment_thesis": {
+          "title": "Investment Thesis",
+          "type": "string"
+        },
+        "risks": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Risks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "industry",
+        "source_url",
+        "overall_score",
+        "company_score",
+        "market_potential_score",
+        "risk_score",
+        "stage_classification",
+        "value_proposition",
+        "investment_thesis"
+      ],
+      "title": "EvaluatedLead",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "finding": {
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "title": "Retrieved At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "url",
+        "finding"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Industry": {
+      "enum": [
+        "AI / Software",
+        "ClimateTech",
+        "HealthTech",
+        "FinTech",
+        "Industrial / DeepTech"
+      ],
+      "title": "Industry",
+      "type": "string"
+    },
+    "PipelineIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "lead_id": {
+          "title": "Lead Id",
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "context",
+            "evaluation"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lead_id",
+        "stage",
+        "message"
+      ],
+      "title": "PipelineIssue",
+      "type": "object"
+    },
+    "ResearchResult": {
+      "additionalProperties": false,
+      "properties": {
+        "leads": {
+          "items": {
+            "$ref": "#/$defs/EvaluatedLead"
+          },
+          "title": "Leads",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/PipelineIssue"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "ResearchResult",
+      "type": "object"
+    },
+    "SearchCriteria": {
+      "additionalProperties": false,
+      "properties": {
+        "industry": {
+          "$ref": "#/$defs/Industry"
+        },
+        "country": {
+          "const": "DE",
+          "default": "DE",
+          "title": "Country",
+          "type": "string"
+        },
+        "limit": {
+          "default": 30,
+          "maximum": 200,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "industry"
+      ],
+      "title": "SearchCriteria",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "criteria": {
+      "$ref": "#/$defs/SearchCriteria"
+    },
+    "mode": {
+      "enum": [
+        "demo",
+        "live"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "discovered_count": {
+      "minimum": 0,
+      "title": "Discovered Count",
+      "type": "integer"
+    },
+    "enriched_count": {
+      "minimum": 0,
+      "title": "Enriched Count",
+      "type": "integer"
+    },
+    "result": {
+      "$ref": "#/$defs/ResearchResult"
+    }
+  },
+  "required": [
+    "criteria",
+    "mode",
+    "discovered_count",
+    "enriched_count",
+    "result"
+  ],
+  "title": "AnalysisRun",
+  "type": "object"
+}
