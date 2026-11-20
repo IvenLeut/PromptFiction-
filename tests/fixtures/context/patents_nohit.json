@@ -1,0 +1,32 @@
+{
+  "_note": "Made-up company: Google still reports fuzzy total_num_results and unrelated results; none has a matching assignee. Reconstructed on 2026-11-20 (live endpoint answered HTTP 503).",
+  "company": "Quantenfräse Zwölfhausen GmbH i.G.",
+  "founders": [],
+  "responses": {
+    "https://patents.google.com/xhr/query?url=assignee%3D%22quantenfraese+zwoelfhausen%22%26num%3D10&exp=": {
+      "results": {
+        "total_num_results": 12,
+        "num_page": 1,
+        "cluster": [
+          {
+            "result": [
+              {
+                "id": "patent/DE202012001234U1/de",
+                "patent": {
+                  "publication_number": "DE202012001234U1",
+                  "title": "Fräswerkzeug",
+                  "assignee": "Fräsen und Bohren GmbH",
+                  "inventor": "Hans Beispiel",
+                  "filing_date": "2012-02-01",
+                  "grant_date": "",
+                  "publication_date": "2012-05-03",
+                  "priority_date": "2012-02-01"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

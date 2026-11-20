@@ -1,0 +1,18 @@
+{
+ "authors": {
+  "meta": {
+   "count": 0
+  },
+  "results": []
+ },
+ "urls": [
+  "https://api.openalex.org/authors?search=Xyzzyq+Blorfnak&per-page=10&select=id%2Cdisplay_name%2Cworks_count%2Ccited_by_count%2Csummary_stats%2Clast_known_institutions%2Caffiliations%2Ctopics"
+ ],
+ "case": {
+  "name": "Xyzzyq Blorfnak",
+  "institution": "TU Dresden",
+  "field_terms": [
+   "robotics"
+  ]
+ }
+}

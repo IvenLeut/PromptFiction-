@@ -1,0 +1,46 @@
+{
+ "website": "https://www.proxima-fusion.com/",
+ "name": "Proxima Fusion GmbH",
+ "responses": {
+  "https://web.archive.org/cdx/search/cdx?url=proxima-fusion.com&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [
+   [
+    "timestamp",
+    "original",
+    "statuscode"
+   ],
+   [
+    "20250713042722",
+    "http://proxima-fusion.com/",
+    "200"
+   ]
+  ],
+  "https://web.archive.org/cdx/search/cdx?url=crunchbase.com%2Forganization%2Fproxima-fusion&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [
+   [
+    "timestamp",
+    "original",
+    "statuscode"
+   ],
+   [
+    "20241005175252",
+    "https://www.crunchbase.com/organization/proxima-fusion",
+    "200"
+   ]
+  ],
+  "https://web.archive.org/cdx/search/cdx?url=app.dealroom.co%2Fcompanies%2Fproxima-fusion&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [],
+  "https://web.archive.org/cdx/search/cdx?url=dealroom.co%2Fcompanies%2Fproxima-fusion&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [
+   [
+    "timestamp",
+    "original",
+    "statuscode"
+   ],
+   [
+    "20261011095937",
+    "https://dealroom.co/companies/proxima-fusion/",
+    "200"
+   ]
+  ],
+  "https://web.archive.org/cdx/search/cdx?url=crunchbase.com%2Forganization%2Fproximafusion&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [],
+  "https://web.archive.org/cdx/search/cdx?url=app.dealroom.co%2Fcompanies%2Fproximafusion&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [],
+  "https://web.archive.org/cdx/search/cdx?url=dealroom.co%2Fcompanies%2Fproximafusion&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": []
+ }
+}

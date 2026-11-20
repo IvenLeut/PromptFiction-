@@ -1,0 +1,171 @@
+{
+ "authors": {
+  "meta": {
+   "count": 4
+  },
+  "results": [
+   {
+    "id": "https://openalex.org/A5002413906",
+    "display_name": "Volker Markl",
+    "works_count": 357,
+    "cited_by_count": 12335,
+    "summary_stats": {
+     "h_index": 54
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I143288331",
+      "display_name": "Hasso Plattner Institute",
+      "country_code": "DE"
+     },
+     {
+      "id": "https://openalex.org/I176453806",
+      "display_name": "University of Potsdam",
+      "country_code": "DE"
+     },
+     {
+      "id": "https://openalex.org/I33256026",
+      "display_name": "German Research Centre for Artificial Intelligence",
+      "country_code": "DE"
+     },
+     {
+      "id": "https://openalex.org/I4401727010",
+      "display_name": "Berlin Institute for the Foundations of Learning and Data",
+      "country_code": "DE"
+     },
+     {
+      "id": "https://openalex.org/I4577782",
+      "display_name": "Technische Universität Berlin",
+      "country_code": "DE"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I1290206253",
+       "display_name": "Microsoft (United States)",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1324840837",
+       "display_name": "Hewlett-Packard (United States)",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1341412227",
+       "display_name": "IBM (United States)",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I143288331",
+       "display_name": "Hasso Plattner Institute",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I176453806",
+       "display_name": "University of Potsdam",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I219193219",
+       "display_name": "Purdue University West Lafayette",
+       "country_code": "US"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Advanced Database Systems and Queries",
+      "count": 280
+     },
+     {
+      "display_name": "Data Management and Algorithms",
+      "count": 111
+     },
+     {
+      "display_name": "Cloud Computing and Resource Management",
+      "count": 108
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5152685183",
+    "display_name": "Volker Markl",
+    "works_count": 1,
+    "cited_by_count": 0,
+    "summary_stats": {
+     "h_index": 0
+    },
+    "last_known_institutions": [],
+    "affiliations": [],
+    "topics": []
+   },
+   {
+    "id": "https://openalex.org/A5145863685",
+    "display_name": "Volker Markl Preface",
+    "works_count": 1,
+    "cited_by_count": 0,
+    "summary_stats": {
+     "h_index": 0
+    },
+    "last_known_institutions": [],
+    "affiliations": [],
+    "topics": [
+     {
+      "display_name": "Advanced Database Systems and Queries",
+      "count": 1
+     },
+     {
+      "display_name": "Data Mining Algorithms and Applications",
+      "count": 1
+     },
+     {
+      "display_name": "Data Management and Algorithms",
+      "count": 1
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5152695607",
+    "display_name": "Volker Markl (eds",
+    "works_count": 1,
+    "cited_by_count": 0,
+    "summary_stats": {
+     "h_index": 0
+    },
+    "last_known_institutions": [],
+    "affiliations": [],
+    "topics": []
+   }
+  ]
+ },
+ "urls": [
+  "https://api.openalex.org/authors?search=Volker+Markl&per-page=10&select=id%2Cdisplay_name%2Cworks_count%2Ccited_by_count%2Csummary_stats%2Clast_known_institutions%2Caffiliations%2Ctopics",
+  "https://api.openalex.org/works?filter=authorships.author.id%3AA5002413906&search=database+OR+data+management&per-page=1&select=id"
+ ],
+ "works": {
+  "meta": {
+   "count": 181
+  },
+  "results": []
+ },
+ "works_url": "https://api.openalex.org/works?filter=authorships.author.id%3AA5002413906&search=database+OR+data+management&per-page=1&select=id",
+ "case": {
+  "name": "Volker Markl",
+  "institution": "TU Berlin",
+  "field_terms": [
+   "database",
+   "data management"
+  ]
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "note": "Hand-made: values outside the schema enums, a non-object field and a 'nein' for regulated_market, all with verbatim quotes.",
+ "answer": {
+  "regulated_market": {"wert": "nein", "zitat": "Wir sind seit 2024 am Start und arbeiten aus Leipzig."},
+  "ip_status": {"wert": "trade_secret", "zitat": "Wir sind seit 2024 am Start und arbeiten aus Leipzig."},
+  "business_model": "b2b",
+  "product_type": {"wert": "cloud", "zitat": "Wir entwickeln eine SaaS-Lösung, mit der mittelständische Fertigungsbetriebe ihre Energiekosten pro Schicht automatisch auswerten können."}
+ }
+}

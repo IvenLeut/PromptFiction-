@@ -1,0 +1,58 @@
+{
+  "_note": "Shape as returned by patents.google.com/xhr/query (results.cluster[].result[].patent). Live recording on 2026-11-20 failed with HTTP 503 (IP already blocked); the kiutra entries are reconstructed from the published register data (DE102022110585B4, filed 2022-04-29, granted 2023-11-30), trimmed to 3 results. total_num_results is the fuzzy value Google reports for assignee=kiutra.",
+  "company": "kiutra GmbH",
+  "founders": ["Alexander Regnat"],
+  "responses": {
+    "https://patents.google.com/xhr/query?url=assignee%3D%22kiutra%22%26num%3D10&exp=": {
+      "results": {
+        "total_num_results": 888,
+        "num_page": 10,
+        "cluster": [
+          {
+            "result": [
+              {
+                "id": "patent/DE102022110585B4/de",
+                "patent": {
+                  "publication_number": "DE102022110585B4",
+                  "title": "Kühleinrichtung und Verfahren zum Betreiben einer Kühleinrichtung",
+                  "assignee": "Kiutra Gmbh",
+                  "inventor": "Alexander Regnat, Jan Spallek, Tomek Schulz",
+                  "filing_date": "2022-04-29",
+                  "grant_date": "2023-11-30",
+                  "publication_date": "2023-11-30",
+                  "priority_date": "2022-04-29"
+                }
+              },
+              {
+                "id": "patent/DE102022110585A1/de",
+                "patent": {
+                  "publication_number": "DE102022110585A1",
+                  "title": "Kühleinrichtung und Verfahren zum Betreiben einer Kühleinrichtung",
+                  "assignee": "Kiutra Gmbh",
+                  "inventor": "Alexander Regnat, Jan Spallek, Tomek Schulz",
+                  "filing_date": "2022-04-29",
+                  "grant_date": "",
+                  "publication_date": "2023-11-02",
+                  "priority_date": "2022-04-29"
+                }
+              },
+              {
+                "id": "patent/US20210310711A1/en",
+                "patent": {
+                  "publication_number": "US20210310711A1",
+                  "title": "Cryogenic refrigeration system",
+                  "assignee": "Kyocera Corporation",
+                  "inventor": "Taro Yamada",
+                  "filing_date": "2021-03-30",
+                  "grant_date": "",
+                  "publication_date": "2021-10-07",
+                  "priority_date": "2020-04-03"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

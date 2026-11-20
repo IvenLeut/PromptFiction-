@@ -1,0 +1,38 @@
+{
+ "company": "kiutra GmbH",
+ "founders": [
+  "Alexander Regnat",
+  "Tomek Schulz",
+  "Jan Spallek"
+ ],
+ "note": "Website lines quoted from kiutra.com (2026-11-20); the idw text is news718959 (TUM, 2019-07-09), a prize round-up about Blickfeld that mentions Kiutra once.",
+ "signals": [
+  {
+   "source": "Unternehmenswebsite",
+   "type": "website",
+   "url": "https://kiutra.com/",
+   "evidence": "kiutra | Cryogen-free cooling for quantum technologies\nCooling platforms behind quantum hardware, from superconducting circuits to single-photon detectors.\nCharacterize scientific samples and quantum devices\nOur white paper walks through real characterization scenarios comparing the L-Type Rapid to a dilution refrigerator, then lets you run the numbers for your own lab.\nRead the white paper\nWhite paper\nThe L-Type Rapid offers easy access to the kelvin and sub-kelvin range and delivers the fastest testing and characterization on the market, combining high sample throughput with low operating costs.\nMillikelvin without buying a cryostat: send us a sample, or rent a system in Munich.\nWorking with the L-Type Rapid cryostat has been a great experience. The fast-loading mechanism combined with the provided 48 DC contacts, allowed us to quickly characterize our devices.\nQuantum computing has the potential to address complex challenges in areas like drug development, battery technology and climate modeling.\nContact"
+  },
+  {
+   "source": "idw",
+   "type": "idw",
+   "url": "https://idw-online.de/de/news718959",
+   "date": "2019-07-09",
+   "evidence": "Start-up-Wettbewerb: Weitblick für das autonome Fahren\nDas Start-up Blickfeld hat „Start me up!“ gewonnen, den höchstdotierten deutschen Gründungspreis. Das an der Technischen Universität München (TUM) gegründete Unternehmen hat eine besonders leistungsfähige und zugleich kostengünstige Lidar-Sensorik entwickelt, die als Schlüsseltechnologie für das autonome Fahren gilt.\nAutos, die selbstständig unterwegs sind, müssen ihre Umgebung erkennen können, vor allem den Abstand zu anderen Objekten. Dafür wird in der Entwicklung des autonomen Fahrens größtenteils die Lasersensorik Lidar eingesetzt. Das Problem: Bisherige Technologien sind für die Serienfertigung entweder sehr teuer oder zu unpräzise. Denn der Laser muss permanent einen weiten Bereich abtasten, weshalb ein recht großes und mechanisch komplexes System mit einer Vielzahl von beweglichen Teilen notwendig ist, die den Laser in die verschiedenen Richtungen abstrahlen.\nEin Team aus Wissenschaftlern und Absolventen der Technischen Universität München (TUM) hat deshalb einen Lidar-Sensor entwickelt, der sowohl leistungsfähig ist als auch kostengünstig produziert werden kann. Die Entwickler setzen Silizium ein, um einen Spiegel mit einer komplexen Mikrostruktur zu erzeugen, der ein sehr weites Blickfeld abdecken kann. „Damit machen wir den aufwendigen Aufbau der herkömmlichen Systeme überflüssig“, sagt der Robotik-Experte Dr. Florian Petit.\nSensoren in Scheinwerfern und Rückspiegeln\nBlickfeld heißt auch das Start-up, das Petit 2017 mit dem Messtechniker Dr. Mathias Müller und dem Informatiker Rolf Wojtech an der TUM gegründet hat. Ihre Technologie hat weitere Vorteile: Das System ist nur faustgroß und kann deshalb zum Beispiel in Scheinwerfern oder Rückspiegeln eingebaut werden. Weil es kaum mechanische Teile braucht, ist es robuster als bisherige Lidar-Technologien. Und trotz der Hightech-Methode sind diese sogenannten MEMS-Spiegel einfach zu produzieren.\nBegleitet wurde das Team durch die TUM Gründungsberatung, als Mentor fungierte im Rahmen eines EXIST-Stipendiums Prof. Alexander Koch vom Lehrstuhl für Messsystem- und Sensortechnik, wo Gründer Mathias Müller habilitiert. Der Venture Capital Fonds von UnternehmerTUM, das Zentrum für Innovation und Gründung, investierte mit einem Konsortium in das Start-up. Mit potentiellen Kunden konnten sich die Gründer über den Digital Hub Mobility der Bundesregierung vernetzen, der bei UnternehmerTUM angesiedelt ist.\nEinsatz auch in Robotern und Drohnen\nBlickfeld hat mehr als 30 Patente angemeldet und beschäftigt bereits rund 70 Mitarbeiterinnen und Mitarbeiter. „Das Interesse aus der Automobilindustrie ist groß“, sagt Florian Petit. „Wir arbeiten derzeit mit mehreren Zulieferern zusammen, unter anderem mit dem Weltmarktführer für Scheinwerfer. Die Serienfertigung streben wir für das Jahr 2023 an.“\nNutzbar sind Lidar-Sensoren längst nicht nur für Autos, sondern für alle Technologien, die ihre Umwelt wahrnehmen sollen, beispielsweise Roboter, Transportdrohnen oder automatisierte Logistiksysteme.\nFünf von zehn Finalisten aus der TUM\nDieses Geschäftsmodell überzeugte auch die Jury von „Start me up!“ um den Silicon-Valley-Investor Andreas von Bechtolsheim. Rund 300 Start-ups hatten sich beim mit 100.000 Euro höchstdotierten deutschen Gründungswettbewerb beworben, der vom Wirtschaftsmagazin „Bilanz“ und den Unternehmen Daimler, HanseMerkur und ProSiebenSat1 Media ausgerichtet wird.\nUnter den zehn Finalisten waren vier weitere Start-ups mit TUM-Hintergrund: Hawa Dawa bietet ein System zur Messung der Luftqualität, Isar Aerospace Technologies produziert Trägerraketen für kleine Satelliten. Kiutra hat eine Magnettechnologie entwickelt, um Quantencomputer zu kühlen, und Social-Bee bringt als gemeinnütziger Zeitarbeitsdienstleister Geflüchtete und Unternehmen zusammen.\nMehr Informationen:\nTUM und UnternehmerTUM unterstützen Start-ups mit Programmen, die exakt auf die einzelnen Phasen der Gründung zugeschnitten sind – von der Konzeption eines Geschäftsmodells bis zum Management-Training, vom Markteintritt bis zum möglichen Börsengang. Bis zu 30 Teams gleichzeitig können Büros im „TUM Inkubator“ nutzen, um sich auf den Start ihres Unternehmens vorzubereiten – mit den aussichtsreichsten reist die TUM für zwei Wochen ins Silicon Valley. UnternehmerTUM bietet mit dem „MakerSpace“ eine 1.500 Quadratmeter große Hightech-Werkstatt für den Prototypenbau und der „Bio.Kitchen“ ein Biotechnologielabor für Experimente. Diese Förderung ist laut „Gründungsradar“ die beste an den großen deutschen Hochschulen. Jedes Jahr werden an der TUM mehr als 70 technologieorientierte Unternehmen gegründet."
+  }
+ ],
+ "model_answer": {
+  "regulated_market": {
+   "wert": "unbekannt",
+   "zitat": ""
+  },
+  "ip_status": {
+   "wert": "patent_angemeldet",
+   "zitat": "Blickfeld hat mehr als 30 Patente angemeldet und beschäftigt bereits rund 70 Mitarbeiterinnen und Mitarbeiter."
+  },
+  "business_model": {
+   "wert": "b2c",
+   "zitat": "Millikelvin without buying a cryostat: send us a sample, or rent a system in Munich."
+  }
+ }
+}

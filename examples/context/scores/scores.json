@@ -1,0 +1,967 @@
+[
+  {
+    "lead_id": "siderogain",
+    "name_gruender": "Aratrika Ghosh;Jonathan Engelhardt;Peter Boelens;Rohan Jain",
+    "email": "",
+    "name_unternehmen": "Siderogain",
+    "website": "https://siderogain.de/",
+    "branche": "chemie_materialien",
+    "gruendungsjahr": 2026,
+    "gruendungsmonat": null,
+    "gruendung_ist_proxy": false,
+    "risiko_score": 30.0,
+    "marktpotenzial_score": 58.5,
+    "team_score": 73.0,
+    "gesamt_score": 67.0,
+    "confidence": 0.63,
+    "stage": "pre_seed",
+    "produktbeschreibung": "Ausgründung aus dem Helmholtz-Zentrum Dresden-Rossendorf: biotechnologische Rückgewinnung von Gallium und Germanium aus Industrieabwässern mit Siderophoren.",
+    "value_proposition": "Ausgründung aus dem Helmholtz-Zentrum Dresden-Rossendorf: biotechnologische Rückgewinnung von Gallium und Germanium aus Industrieabwässern mit Siderophoren.",
+    "investmenthypothese": "Wir investieren, weil: Rohan Jain: 6 Papers im Produktfeld; 1 belegte Partner; stärkster: Freiberger Compound Materials (pilot). Nächster Meilenstein: der erste zahlende Kunde. Kein Risikofaktor ab 50 Punkten belegt.",
+    "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 07/2027; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 1 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "Rohan Jain: 6 Papers im Produktfeld",
+        "url": "https://openalex.org/A5101411304",
+        "datum": null,
+        "punkte": 80.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "4 Gründer, Profil-Mix unbekannt",
+        "url": "https://openalex.org/A5051619651",
+        "datum": null,
+        "punkte": 60.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "Vollzeit-Signal: EXIST-Forschungstransfer",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFSN0258",
+        "datum": "2026-08-01",
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "1 belegte Partner; stärkster: Freiberger Compound Materials (pilot)",
+        "url": "https://idw-online.de/de/news876491",
+        "datum": null,
+        "punkte": 85.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "Produkttyp: hardware",
+        "url": "https://idw-online.de/de/news876492",
+        "datum": null,
+        "punkte": 40.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "Reifegrad: pilot",
+        "url": "https://idw-online.de/de/news876492",
+        "datum": null,
+        "punkte": 30.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "Patent erteilt",
+        "url": "https://idw-online.de/de/news876492",
+        "datum": null,
+        "punkte": 15.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "Bisherige Förderung 774.408 EUR",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFSN0258",
+        "datum": "2026-08-01",
+        "punkte": 25.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "3 unabhängige Quellen",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFSN0258",
+        "datum": "2026-08-01",
+        "punkte": 20.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "pre_seed: gegründet laut Quelle (2026), Rechtsform nicht belegt",
+        "url": "https://idw-online.de/de/news876491",
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 80.0,
+          "gewicht": 0.35,
+          "belegt": true
+        },
+        "komplementaer": {
+          "punkte": 60.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 100.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 85.0,
+          "gewicht": 0.3,
+          "belegt": true
+        },
+        "skalierbarkeit": {
+          "punkte": 40.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 30.0,
+          "gewicht": 0.4,
+          "belegt": true
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 15.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "finanzierung": {
+          "punkte": 25.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "datenlage": {
+          "punkte": 20.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Regulatorik"
+    ],
+    "first_signal_date": "2026-08-01",
+    "earliness_delta_monate": 3,
+    "in_databases": false,
+    "source_url": "https://idw-online.de/de/news876491",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "spinmagic",
+    "name_gruender": "Anh Chu;Belal Alnajjar;Jakob Fitschen;Michele Segantini",
+    "email": "",
+    "name_unternehmen": "SpinMagIC",
+    "website": "",
+    "branche": "industrial_deep_tech",
+    "gruendungsjahr": 2024,
+    "gruendungsmonat": 9,
+    "gruendung_ist_proxy": true,
+    "risiko_score": 46.3,
+    "marktpotenzial_score": 48.0,
+    "team_score": 62.5,
+    "gesamt_score": 54.8,
+    "confidence": 0.42,
+    "stage": "pre_gruendung",
+    "produktbeschreibung": "EXIST-Forschungstransfer der Universität Stuttgart: miniaturisierte Elektronenspinresonanz-Sensorik (ESR) auf Chipbasis für Materialanalyse und Qualitätskontrolle.",
+    "value_proposition": "EXIST-Forschungstransfer der Universität Stuttgart: miniaturisierte Elektronenspinresonanz-Sensorik (ESR) auf Chipbasis für Materialanalyse und Qualitätskontrolle.",
+    "investmenthypothese": "Wir investieren, weil: Vollzeit-Signal: EXIST-Forschungstransfer. Hauptrisiko: Dünne Datenlage: 2 unabhängige Quellen.",
+    "why_now": "Noch vor der Gründung; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 23 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "Michele Segantini: 2 Papers im Produktfeld",
+        "url": "https://openalex.org/A5046438657",
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "4 Gründer, Profil-Mix unbekannt",
+        "url": "https://openalex.org/A5009830289",
+        "datum": null,
+        "punkte": 60.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "Vollzeit-Signal: EXIST-Forschungstransfer",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+        "datum": "2024-09-01",
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "Produkttyp: hardware",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+        "datum": null,
+        "punkte": 40.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "Bisherige Förderung 972.638 EUR",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+        "datum": "2024-09-01",
+        "punkte": 25.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "Dünne Datenlage: 2 unabhängige Quellen",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+        "datum": "2024-09-01",
+        "punkte": 50.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "pre_gruendung: keine Rechtsform belegt",
+        "url": null,
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 50.0,
+          "gewicht": 0.35,
+          "belegt": true
+        },
+        "komplementaer": {
+          "punkte": 60.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 100.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "skalierbarkeit": {
+          "punkte": 40.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 50.0,
+          "gewicht": 0.4,
+          "belegt": false
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "finanzierung": {
+          "punkte": 25.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "datenlage": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Partner, Piloten oder Kunden",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Reifegrad der Technologie",
+      "Kein Beleg für: Regulatorik",
+      "Kein Beleg für: Schutzrechte (IP)"
+    ],
+    "first_signal_date": "2024-09-01",
+    "earliness_delta_monate": 26,
+    "in_databases": false,
+    "source_url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "hochquant",
+    "name_gruender": "Owen C. Ernst",
+    "email": "",
+    "name_unternehmen": "HoCHQuant",
+    "website": "",
+    "branche": "chemie_materialien",
+    "gruendungsjahr": 2024,
+    "gruendungsmonat": 6,
+    "gruendung_ist_proxy": true,
+    "risiko_score": 46.3,
+    "marktpotenzial_score": 48.0,
+    "team_score": 42.0,
+    "gesamt_score": 47.6,
+    "confidence": 0.42,
+    "stage": "pre_gruendung",
+    "produktbeschreibung": "EXIST-Forschungstransfer der BTU Cottbus-Senftenberg: Herstellung hochreiner Materialien in Quantenqualität (quantum grade materials) für Quantentechnologien.",
+    "value_proposition": "EXIST-Forschungstransfer der BTU Cottbus-Senftenberg: Herstellung hochreiner Materialien in Quantenqualität (quantum grade materials) für Quantentechnologien.",
+    "investmenthypothese": "Wir investieren, weil: Vollzeit-Signal: EXIST-Forschungstransfer. Hauptrisiko: Dünne Datenlage: 2 unabhängige Quellen.",
+    "why_now": "Noch vor der Gründung; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 27 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "Owen C. Ernst: 0 Papers im Produktfeld",
+        "url": "https://openalex.org/A5059465394",
+        "datum": null,
+        "punkte": 20.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "Ein Gründer belegt",
+        "url": "https://openalex.org/A5059465394",
+        "datum": null,
+        "punkte": 20.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "Vollzeit-Signal: EXIST-Forschungstransfer",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+        "datum": "2024-06-01",
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "Produkttyp: hardware",
+        "url": "https://idw-online.de/de/news838372",
+        "datum": null,
+        "punkte": 40.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "Bisherige Förderung 876.964 EUR",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+        "datum": "2024-06-01",
+        "punkte": 25.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "Dünne Datenlage: 2 unabhängige Quellen",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+        "datum": "2024-06-01",
+        "punkte": 50.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "pre_gruendung: keine Rechtsform belegt",
+        "url": null,
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 20.0,
+          "gewicht": 0.35,
+          "belegt": true
+        },
+        "komplementaer": {
+          "punkte": 20.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 100.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "skalierbarkeit": {
+          "punkte": 40.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 50.0,
+          "gewicht": 0.4,
+          "belegt": false
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "finanzierung": {
+          "punkte": 25.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "datenlage": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Partner, Piloten oder Kunden",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Reifegrad der Technologie",
+      "Kein Beleg für: Regulatorik",
+      "Kein Beleg für: Schutzrechte (IP)"
+    ],
+    "first_signal_date": "2024-06-01",
+    "earliness_delta_monate": 29,
+    "in_databases": false,
+    "source_url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "kiutra",
+    "name_gruender": "Alexander Regnat;Jan Spallek;Tomek Schulz",
+    "email": "info@kiutra.com",
+    "name_unternehmen": "kiutra GmbH",
+    "website": "https://kiutra.com/",
+    "branche": "industrial_deep_tech",
+    "gruendungsjahr": 2018,
+    "gruendungsmonat": null,
+    "gruendung_ist_proxy": false,
+    "risiko_score": 29.3,
+    "marktpotenzial_score": 52.0,
+    "team_score": 52.5,
+    "gesamt_score": 20.0,
+    "confidence": 0.33,
+    "stage": "zu_spaet",
+    "produktbeschreibung": "Kryogene Kühlsysteme auf Basis magnetischer Kühlung für Quantentechnologie und Forschung, ohne Helium-3.",
+    "value_proposition": "Kryogene Kühlsysteme auf Basis magnetischer Kühlung für Quantentechnologie und Forschung, ohne Helium-3.",
+    "investmenthypothese": "Kein Investment-Case: stage = zu_spaet (älter als 36 Monate (gegründet 2018)).",
+    "why_now": "Zu spät für einen Erstkontakt; jüngstes Signal vor 4 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "stage = zu_spaet (älter als 36 Monate (gegründet 2018))",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "Alexander Regnat: 2 Papers im Produktfeld",
+        "url": "https://openalex.org/A5066347158",
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "3 Gründer, Profil-Mix unbekannt",
+        "url": "https://openalex.org/A5066347158",
+        "datum": null,
+        "punkte": 60.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "Produkttyp: hardware_software",
+        "url": "https://kiutra.com/",
+        "datum": null,
+        "punkte": 60.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "Reifegrad: erste_kunden",
+        "url": "https://kiutra.com/",
+        "datum": null,
+        "punkte": 15.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "Bisherige Förderung 2,1 Mio. EUR",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=01N15865",
+        "datum": "2021-09-01",
+        "punkte": 25.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "3 unabhängige Quellen",
+        "url": "https://web.archive.org/cdx/search/cdx?url=kiutra.com&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1",
+        "datum": "2019-03-04",
+        "punkte": 20.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "zu_spaet: älter als 36 Monate (gegründet 2018)",
+        "url": "https://idw-online.de/de/news797717",
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 50.0,
+          "gewicht": 0.35,
+          "belegt": true
+        },
+        "komplementaer": {
+          "punkte": 60.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "skalierbarkeit": {
+          "punkte": 60.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 15.0,
+          "gewicht": 0.4,
+          "belegt": true
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "finanzierung": {
+          "punkte": 25.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "datenlage": {
+          "punkte": 20.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Vollzeit-Signal",
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Partner, Piloten oder Kunden",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Regulatorik",
+      "Kein Beleg für: Schutzrechte (IP)"
+    ],
+    "first_signal_date": "2019-03-04",
+    "earliness_delta_monate": 0,
+    "in_databases": true,
+    "source_url": "https://kiutra.com/legal-notice",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  }
+]

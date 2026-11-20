@@ -1,0 +1,64 @@
+{
+  "_note": "Inventor fallback: company has no assignee hit, founder is queried as inventor; the only hits are university-held (same shape as the live endpoint, trimmed to 3 results). Reconstructed on 2026-11-20 because the live endpoint answered HTTP 503.",
+  "company": "Spinlabs Quantensensorik UG (haftungsbeschränkt)",
+  "founders": ["Lena Müller", "Jonas Berger", "Dritte Person"],
+  "responses": {
+    "https://patents.google.com/xhr/query?url=assignee%3D%22spinlabs+quantensensorik%22%26num%3D10&exp=": {
+      "results": {"total_num_results": 0, "num_page": 0, "cluster": [{"result": []}]}
+    },
+    "https://patents.google.com/xhr/query?url=inventor%3D%22Lena+M%C3%BCller%22%26num%3D10&exp=": {
+      "results": {
+        "total_num_results": 41,
+        "num_page": 10,
+        "cluster": [
+          {
+            "result": [
+              {
+                "id": "patent/DE102021201234A1/de",
+                "patent": {
+                  "publication_number": "DE102021201234A1",
+                  "title": "Magnetfeldsensor auf Basis von Stickstoff-Fehlstellen-Zentren",
+                  "assignee": "Technische Universität München",
+                  "inventor": "Lena Müller, Peter Schmidt",
+                  "filing_date": "2021-02-10",
+                  "grant_date": "",
+                  "publication_date": "2022-08-11",
+                  "priority_date": "2021-02-10"
+                }
+              },
+              {
+                "id": "patent/WO2022167890A1/en",
+                "patent": {
+                  "publication_number": "WO2022167890A1",
+                  "title": "Magnetfeldsensor auf Basis von Stickstoff-Fehlstellen-Zentren",
+                  "assignee": "Technische Universität München",
+                  "inventor": "Lena Müller, Peter Schmidt",
+                  "filing_date": "2022-02-09",
+                  "grant_date": "",
+                  "publication_date": "2022-08-18",
+                  "priority_date": "2021-02-10"
+                }
+              },
+              {
+                "id": "patent/US9876543B2/en",
+                "patent": {
+                  "publication_number": "US9876543B2",
+                  "title": "Packaging for frozen food",
+                  "assignee": "FreshPack Inc",
+                  "inventor": "Leon Müllerbach, Chris Brown",
+                  "filing_date": "2015-01-05",
+                  "grant_date": "2018-01-23",
+                  "publication_date": "2018-01-23",
+                  "priority_date": "2015-01-05"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "https://patents.google.com/xhr/query?url=inventor%3D%22Jonas+Berger%22%26num%3D10&exp=": {
+      "results": {"total_num_results": 3, "num_page": 3, "cluster": [{"result": []}]}
+    }
+  }
+}

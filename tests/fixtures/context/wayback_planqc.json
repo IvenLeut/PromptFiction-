@@ -1,0 +1,32 @@
+{
+ "website": "https://planqc.eu/",
+ "name": "planqc GmbH",
+ "responses": {
+  "https://web.archive.org/cdx/search/cdx?url=planqc.eu&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [
+   [
+    "timestamp",
+    "original",
+    "statuscode"
+   ],
+   [
+    "20220706082232",
+    "https://planqc.eu/",
+    "200"
+   ]
+  ],
+  "https://web.archive.org/cdx/search/cdx?url=crunchbase.com%2Forganization%2Fplanqc&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [
+   [
+    "timestamp",
+    "original",
+    "statuscode"
+   ],
+   [
+    "20240421115903",
+    "https://www.crunchbase.com/organization/planqc",
+    "200"
+   ]
+  ],
+  "https://web.archive.org/cdx/search/cdx?url=app.dealroom.co%2Fcompanies%2Fplanqc&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [],
+  "https://web.archive.org/cdx/search/cdx?url=dealroom.co%2Fcompanies%2Fplanqc&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": []
+ }
+}

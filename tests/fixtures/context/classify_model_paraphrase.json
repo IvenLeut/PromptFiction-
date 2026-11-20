@@ -1,0 +1,9 @@
+{
+ "note": "Derived from classify_model_synthetic.json: the business_model quote is a paraphrase, the product_type quote is verbatim but names no product type, the ip_status quote is verbatim but is not a patent statement.",
+ "answer": {
+  "regulated_market": {"wert": "unbekannt", "zitat": ""},
+  "ip_status": {"wert": "patent_angemeldet", "zitat": "Das Team besteht aus drei Gründerinnen mit Hintergrund in Energietechnik und Informatik."},
+  "business_model": {"wert": "b2b", "zitat": "Unsere Kunden sind Produktionsunternehmen mit 50-500 Mitarbeitern, die Energieberichte in Excel pflegen."},
+  "product_type": {"wert": "hardware", "zitat": "Wir sind seit 2024 am Start und arbeiten aus Leipzig."}
+ }
+}

@@ -1,5 +1,102 @@
 {
   "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "$ref": "#/$defs/CalculationInput"
+          },
+          "minItems": 1,
+          "title": "Inputs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "method",
+        "inputs"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "CalculationInput": {
+      "additionalProperties": false,
+      "properties": {
+        "parameter": {
+          "title": "Parameter",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Value"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "geography": {
+          "title": "Geography",
+          "type": "string"
+        },
+        "provenance": {
+          "enum": [
+            "source_reported",
+            "upstream_reported",
+            "observed",
+            "estimate",
+            "forecast",
+            "scenario"
+          ],
+          "title": "Provenance",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "parameter",
+        "value",
+        "unit",
+        "period",
+        "geography",
+        "provenance",
+        "evidence_ids"
+      ],
+      "title": "CalculationInput",
+      "type": "object"
+    },
     "CapitalRequirements": {
       "additionalProperties": false,
       "properties": {
@@ -714,6 +811,99 @@
           "default": null,
           "title": "Background"
         },
+        "institution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Institution"
+        },
+        "prior_experience": {
+          "items": {
+            "enum": [
+              "fruehere_gruendung",
+              "industrie"
+            ],
+            "type": "string"
+          },
+          "title": "Prior Experience",
+          "type": "array"
+        },
+        "openalex_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Openalex Url"
+        },
+        "works_total": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Works Total"
+        },
+        "works_in_field": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Works In Field"
+        },
+        "match_confidence": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Match Confidence"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
         "relevant_experience": {
           "anyOf": [
             {
@@ -1046,6 +1236,93 @@
       "title": "FundingResearch",
       "type": "object"
     },
+    "Grant": {
+      "additionalProperties": false,
+      "description": "Public funding (e.g. EXIST) with its catalogue URL.",
+      "properties": {
+        "programme": {
+          "minLength": 1,
+          "title": "Programme",
+          "type": "string"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference"
+        },
+        "recipient": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recipient"
+        },
+        "amount_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Amount Eur"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "programme",
+        "url"
+      ],
+      "title": "Grant",
+      "type": "object"
+    },
     "Industry": {
       "enum": [
         "AI / Software",
@@ -1056,6 +1333,24 @@
       ],
       "title": "Industry",
       "type": "string"
+    },
+    "MarketGrowth": {
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "title": "Metric",
+          "type": "string"
+        },
+        "cagr": {
+          "$ref": "#/$defs/Parameter_Decimal_"
+        }
+      },
+      "required": [
+        "metric",
+        "cagr"
+      ],
+      "title": "MarketGrowth",
+      "type": "object"
     },
     "MarketIntelligence": {
       "additionalProperties": false,
@@ -1329,6 +1624,1293 @@
       "title": "MarketSeries",
       "type": "object"
     },
+    "Parameter_Annotated_int__FieldInfo_annotation_NoneType__required_True__metadata__Strict_strict_True___Ge_ge_0_____": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "status": {
+          "enum": [
+            "usable",
+            "missing",
+            "ambiguous",
+            "conflicting",
+            "informational"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "enum": [
+                "source_reported",
+                "upstream_reported",
+                "observed",
+                "estimate",
+                "forecast",
+                "scenario"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provenance"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Period"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Calculation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "rule"
+      ],
+      "title": "Parameter[Annotated[int, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Ge(ge=0)])]]",
+      "type": "object"
+    },
+    "Parameter_Annotated_int__FieldInfo_annotation_NoneType__required_True__metadata__Strict_strict_True___Gt_gt_0_____": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "status": {
+          "enum": [
+            "usable",
+            "missing",
+            "ambiguous",
+            "conflicting",
+            "informational"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "enum": [
+                "source_reported",
+                "upstream_reported",
+                "observed",
+                "estimate",
+                "forecast",
+                "scenario"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provenance"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Period"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Calculation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "rule"
+      ],
+      "title": "Parameter[Annotated[int, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Gt(gt=0)])]]",
+      "type": "object"
+    },
+    "Parameter_Decimal_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "status": {
+          "enum": [
+            "usable",
+            "missing",
+            "ambiguous",
+            "conflicting",
+            "informational"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "enum": [
+                "source_reported",
+                "upstream_reported",
+                "observed",
+                "estimate",
+                "forecast",
+                "scenario"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provenance"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Period"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Calculation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "rule"
+      ],
+      "title": "Parameter[Decimal]",
+      "type": "object"
+    },
+    "Parameter_Literal__DE___": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "const": "DE",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "status": {
+          "enum": [
+            "usable",
+            "missing",
+            "ambiguous",
+            "conflicting",
+            "informational"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "enum": [
+                "source_reported",
+                "upstream_reported",
+                "observed",
+                "estimate",
+                "forecast",
+                "scenario"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provenance"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Period"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Calculation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "rule"
+      ],
+      "title": "Parameter[Literal['DE']]",
+      "type": "object"
+    },
+    "Parameter_Literal__applied____approved____received____none_reported___": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "enum": [
+                "applied",
+                "approved",
+                "received",
+                "none_reported"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "status": {
+          "enum": [
+            "usable",
+            "missing",
+            "ambiguous",
+            "conflicting",
+            "informational"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "enum": [
+                "source_reported",
+                "upstream_reported",
+                "observed",
+                "estimate",
+                "forecast",
+                "scenario"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provenance"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Period"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Calculation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "rule"
+      ],
+      "title": "Parameter[Literal['applied', 'approved', 'received', 'none_reported']]",
+      "type": "object"
+    },
+    "Parameter_Literal__confirmed____reported_none___": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "enum": [
+                "confirmed",
+                "reported_none"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "status": {
+          "enum": [
+            "usable",
+            "missing",
+            "ambiguous",
+            "conflicting",
+            "informational"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "enum": [
+                "source_reported",
+                "upstream_reported",
+                "observed",
+                "estimate",
+                "forecast",
+                "scenario"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provenance"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Period"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Calculation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "rule"
+      ],
+      "title": "Parameter[Literal['confirmed', 'reported_none']]",
+      "type": "object"
+    },
+    "Parameter_Literal__idea____paper____lab_prototype____prototype____mvp____pilot____first_customers____commercial___": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "enum": [
+                "idea",
+                "paper",
+                "lab_prototype",
+                "prototype",
+                "mvp",
+                "pilot",
+                "first_customers",
+                "commercial"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "status": {
+          "enum": [
+            "usable",
+            "missing",
+            "ambiguous",
+            "conflicting",
+            "informational"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "enum": [
+                "source_reported",
+                "upstream_reported",
+                "observed",
+                "estimate",
+                "forecast",
+                "scenario"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provenance"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Period"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Calculation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "rule"
+      ],
+      "title": "Parameter[Literal['idea', 'paper', 'lab_prototype', 'prototype', 'mvp', 'pilot', 'first_customers', 'commercial']]",
+      "type": "object"
+    },
+    "Parameter_Literal__pre_seed____seed____series_a____series_b____series_c____other___": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "enum": [
+                "pre_seed",
+                "seed",
+                "series_a",
+                "series_b",
+                "series_c",
+                "other"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "status": {
+          "enum": [
+            "usable",
+            "missing",
+            "ambiguous",
+            "conflicting",
+            "informational"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "enum": [
+                "source_reported",
+                "upstream_reported",
+                "observed",
+                "estimate",
+                "forecast",
+                "scenario"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provenance"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Period"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Calculation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "rule"
+      ],
+      "title": "Parameter[Literal['pre_seed', 'seed', 'series_a', 'series_b', 'series_c', 'other']]",
+      "type": "object"
+    },
+    "Parameter_PartialDate_": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartialDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status": {
+          "enum": [
+            "usable",
+            "missing",
+            "ambiguous",
+            "conflicting",
+            "informational"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "enum": [
+                "source_reported",
+                "upstream_reported",
+                "observed",
+                "estimate",
+                "forecast",
+                "scenario"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provenance"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "period": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Period"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Calculation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "rule"
+      ],
+      "title": "Parameter[PartialDate]",
+      "type": "object"
+    },
+    "PartialDate": {
+      "additionalProperties": false,
+      "properties": {
+        "year": {
+          "maximum": 2200,
+          "minimum": 1800,
+          "title": "Year",
+          "type": "integer"
+        },
+        "month": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Month"
+        },
+        "day": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Day"
+        },
+        "precision": {
+          "enum": [
+            "year",
+            "month",
+            "day"
+          ],
+          "title": "Precision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "year",
+        "precision"
+      ],
+      "title": "PartialDate",
+      "type": "object"
+    },
+    "Partner": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "kunde",
+            "pilot",
+            "loi",
+            "design_partner",
+            "forschungspartner"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "url"
+      ],
+      "title": "Partner",
+      "type": "object"
+    },
+    "Patent": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "patent_angemeldet",
+            "patent_erteilt"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "url"
+      ],
+      "title": "Patent",
+      "type": "object"
+    },
     "Period": {
       "additionalProperties": false,
       "properties": {
@@ -1556,6 +3138,212 @@
       "title": "ResearchStatus",
       "type": "object"
     },
+    "ScoringEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "excerpt": {
+          "minLength": 1,
+          "title": "Excerpt",
+          "type": "string"
+        },
+        "document_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Document Date"
+        },
+        "kind": {
+          "enum": [
+            "source_excerpt",
+            "unbound_excerpt",
+            "upstream_field",
+            "reviewed_market_input",
+            "market_assumption"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "subject_lead_id": {
+          "minLength": 1,
+          "title": "Subject Lead Id",
+          "type": "string"
+        },
+        "source_snapshot_id": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Snapshot Id"
+        }
+      },
+      "required": [
+        "url",
+        "excerpt",
+        "kind",
+        "subject_lead_id"
+      ],
+      "title": "ScoringEvidence",
+      "type": "object"
+    },
+    "ScoringInput": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "rules_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Rules Version",
+          "type": "string"
+        },
+        "lead_id": {
+          "title": "Lead Id",
+          "type": "string"
+        },
+        "as_of": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "As Of"
+        },
+        "country": {
+          "$ref": "#/$defs/Parameter_Literal__DE___"
+        },
+        "founded": {
+          "$ref": "#/$defs/Parameter_PartialDate_"
+        },
+        "product_stage": {
+          "$ref": "#/$defs/Parameter_Literal__idea____paper____lab_prototype____prototype____mvp____pilot____first_customers____commercial___"
+        },
+        "vc_status": {
+          "$ref": "#/$defs/Parameter_Literal__confirmed____reported_none___"
+        },
+        "public_grant": {
+          "$ref": "#/$defs/Parameter_Literal__applied____approved____received____none_reported___"
+        },
+        "completed_rounds": {
+          "items": {
+            "$ref": "#/$defs/Parameter_Literal__pre_seed____seed____series_a____series_b____series_c____other___"
+          },
+          "title": "Completed Rounds",
+          "type": "array"
+        },
+        "planned_round": {
+          "$ref": "#/$defs/Parameter_Literal__pre_seed____seed____series_a____series_b____series_c____other___"
+        },
+        "round_size_eur_cents": {
+          "$ref": "#/$defs/Parameter_Annotated_int__FieldInfo_annotation_NoneType__required_True__metadata__Strict_strict_True___Gt_gt_0_____"
+        },
+        "asking_pre_money_eur_cents": {
+          "$ref": "#/$defs/Parameter_Annotated_int__FieldInfo_annotation_NoneType__required_True__metadata__Strict_strict_True___Gt_gt_0_____"
+        },
+        "annual_revenue_eur_cents": {
+          "items": {
+            "$ref": "#/$defs/Parameter_Annotated_int__FieldInfo_annotation_NoneType__required_True__metadata__Strict_strict_True___Ge_ge_0_____"
+          },
+          "title": "Annual Revenue Eur Cents",
+          "type": "array"
+        },
+        "annual_customer_count": {
+          "items": {
+            "$ref": "#/$defs/Parameter_Annotated_int__FieldInfo_annotation_NoneType__required_True__metadata__Strict_strict_True___Ge_ge_0_____"
+          },
+          "title": "Annual Customer Count",
+          "type": "array"
+        },
+        "annual_paying_customer_count": {
+          "items": {
+            "$ref": "#/$defs/Parameter_Annotated_int__FieldInfo_annotation_NoneType__required_True__metadata__Strict_strict_True___Ge_ge_0_____"
+          },
+          "title": "Annual Paying Customer Count",
+          "type": "array"
+        },
+        "annual_revenue_growth_pct": {
+          "items": {
+            "$ref": "#/$defs/Parameter_Decimal_"
+          },
+          "title": "Annual Revenue Growth Pct",
+          "type": "array"
+        },
+        "tam": {
+          "$ref": "#/$defs/Parameter_Decimal_"
+        },
+        "sam": {
+          "$ref": "#/$defs/Parameter_Decimal_"
+        },
+        "som": {
+          "$ref": "#/$defs/Parameter_Decimal_"
+        },
+        "market_growth": {
+          "items": {
+            "$ref": "#/$defs/MarketGrowth"
+          },
+          "title": "Market Growth",
+          "type": "array"
+        },
+        "evidence": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ScoringEvidence"
+          },
+          "title": "Evidence",
+          "type": "object"
+        }
+      },
+      "required": [
+        "lead_id",
+        "country",
+        "founded",
+        "product_stage",
+        "vc_status",
+        "public_grant",
+        "completed_rounds",
+        "planned_round",
+        "round_size_eur_cents",
+        "asking_pre_money_eur_cents",
+        "annual_revenue_eur_cents",
+        "annual_customer_count",
+        "annual_paying_customer_count",
+        "annual_revenue_growth_pct",
+        "tam",
+        "sam",
+        "som",
+        "market_growth",
+        "evidence"
+      ],
+      "title": "ScoringInput",
+      "type": "object"
+    },
     "SectorMetrics": {
       "additionalProperties": false,
       "properties": {
@@ -1768,6 +3556,18 @@
           "minLength": 1,
           "title": "Evidence",
           "type": "string"
+        },
+        "subject_lead_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subject Lead Id"
         }
       },
       "required": [
@@ -2138,6 +3938,32 @@
       ],
       "default": null
     },
+    "scoring_sources": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/SourceSignal"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Scoring Sources"
+    },
+    "scoring_input": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ScoringInput"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
     "founder_profiles": {
       "items": {
         "$ref": "#/$defs/FounderProfile"
@@ -2415,6 +4241,248 @@
       ],
       "title": "Vc Status",
       "type": "string"
+    },
+    "imprint_url": {
+      "anyOf": [
+        {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Imprint Url"
+    },
+    "imprint_email": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Imprint Email"
+    },
+    "founding_year_hint": {
+      "anyOf": [
+        {
+          "maximum": 2100,
+          "minimum": 1900,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Founding Year Hint"
+    },
+    "legal_form": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Legal Form"
+    },
+    "in_formation": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "In Formation"
+    },
+    "managing_directors": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Managing Directors",
+      "type": "array"
+    },
+    "register_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Register Id"
+    },
+    "grants": {
+      "items": {
+        "$ref": "#/$defs/Grant"
+      },
+      "title": "Grants",
+      "type": "array"
+    },
+    "partners": {
+      "items": {
+        "$ref": "#/$defs/Partner"
+      },
+      "title": "Partners",
+      "type": "array"
+    },
+    "patents": {
+      "items": {
+        "$ref": "#/$defs/Patent"
+      },
+      "title": "Patents",
+      "type": "array"
+    },
+    "ip_status": {
+      "anyOf": [
+        {
+          "enum": [
+            "keine",
+            "patent_angemeldet",
+            "patent_erteilt"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ip Status"
+    },
+    "product_type": {
+      "anyOf": [
+        {
+          "enum": [
+            "software",
+            "plattform",
+            "hardware",
+            "hardware_software",
+            "wirkstoff"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Product Type"
+    },
+    "regulated_market": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Regulated Market"
+    },
+    "market_size_eur": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Market Size Eur"
+    },
+    "in_databases": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "In Databases"
+    },
+    "first_db_date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "First Db Date"
+    },
+    "database_urls": {
+      "items": {
+        "format": "uri",
+        "maxLength": 2083,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Database Urls",
+      "type": "array"
+    },
+    "first_web_capture": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "First Web Capture"
+    },
+    "match_confidence": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Match Confidence"
+    },
+    "enrichment_sources": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Enrichment Sources",
+      "type": "array"
+    },
+    "enrichment_errors": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Enrichment Errors",
+      "type": "array"
     },
     "funding_stage": {
       "anyOf": [

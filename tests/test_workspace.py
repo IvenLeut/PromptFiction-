@@ -122,6 +122,20 @@ def test_automatic_handoff_and_live_failure_without_demo_fallback(monkeypatch):
         start_analysis(Industry.AI)
 
 
+def test_optional_ollama_preserves_live_research_lookups(monkeypatch):
+    monkeypatch.setenv("FOUNDERRADAR_MODE", "live")
+    monkeypatch.setenv("FOUNDERRADAR_OLLAMA_MODEL", "local-test-model")
+    calls = []
+    lookups = {"model": "local-test-model", "imprint": object()}
+    monkeypatch.setattr("context.engine.default_lookups", lambda **kwargs: calls.append(kwargs) or lookups)
+    monkeypatch.setattr("cockpit_service.pipeline.run_pipeline", lambda criteria, **kwargs: kwargs)
+    options = start_analysis(Industry.AI)
+    assert calls == [{"model": "local-test-model"}]
+    assert options["enricher"].keywords["lookups"] is lookups
+    assert options["enricher"].keywords["extract_quotes"].args == ("local-test-model",)
+    assert options["use_mock"] is False
+
+
 def test_native_evaluation_preserves_scoring_evidence_and_exclusions():
     from evaluation.engine import evaluate
     from models import EnrichedLead, Evidence

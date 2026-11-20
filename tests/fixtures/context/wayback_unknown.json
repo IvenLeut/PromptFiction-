@@ -1,0 +1,12 @@
+{
+ "website": null,
+ "name": "Zxqv Quantenfräse GmbH",
+ "responses": {
+  "https://web.archive.org/cdx/search/cdx?url=crunchbase.com%2Forganization%2Fzxqv-quantenfraese&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [],
+  "https://web.archive.org/cdx/search/cdx?url=app.dealroom.co%2Fcompanies%2Fzxqv-quantenfraese&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [],
+  "https://web.archive.org/cdx/search/cdx?url=dealroom.co%2Fcompanies%2Fzxqv-quantenfraese&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [],
+  "https://web.archive.org/cdx/search/cdx?url=crunchbase.com%2Forganization%2Fzxqvquantenfraese&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [],
+  "https://web.archive.org/cdx/search/cdx?url=app.dealroom.co%2Fcompanies%2Fzxqvquantenfraese&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [],
+  "https://web.archive.org/cdx/search/cdx?url=dealroom.co%2Fcompanies%2Fzxqvquantenfraese&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": []
+ }
+}

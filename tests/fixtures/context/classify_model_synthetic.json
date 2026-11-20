@@ -1,0 +1,34 @@
+{
+ "company": "Beispiel Energie GmbH",
+ "model": "qwen3.5:4b",
+ "recorded": "2026-11-20",
+ "latency_s": 4.4,
+ "signals": [
+  {
+   "source": "Unternehmenswebsite",
+   "type": "website",
+   "url": "https://example-startup.de/ueber-uns",
+   "date": null,
+   "evidence": "Über uns\nWir entwickeln eine SaaS-Lösung, mit der mittelständische Fertigungsbetriebe ihre Energiekosten pro Schicht automatisch auswerten können.\nUnsere Kunden sind produzierende Unternehmen mit 50 bis 500 Mitarbeitenden, die ihre Energieberichte heute noch in Excel pflegen.\nDas Team besteht aus drei Gründerinnen mit Hintergrund in Energietechnik und Informatik.\nWir sind seit 2024 am Start und arbeiten aus Leipzig.\nKontakt: Schreiben Sie uns über das Formular, wir melden uns innerhalb von zwei Werktagen."
+  }
+ ],
+ "fields_sent": [
+  "regulated_market",
+  "ip_status",
+  "business_model"
+ ],
+ "answer": {
+  "regulated_market": {
+   "wert": "unbekannt",
+   "zitat": ""
+  },
+  "ip_status": {
+   "wert": "unbekannt",
+   "zitat": ""
+  },
+  "business_model": {
+   "wert": "b2b",
+   "zitat": "Unsere Kunden sind produzierende Unternehmen mit 50 bis 500 Mitarbeitenden, die ihre Energieberichte heute noch in Excel pflegen."
+  }
+ }
+}

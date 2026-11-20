@@ -224,7 +224,7 @@ def test_existenzkredit_is_not_exist():
 
 def test_hypothesis_wording(rows):
     leer = score_dossier(basis(), stichtag=TAG)["investmenthypothese"]
-    assert leer == "Datenlage zu dünn für eine Hypothese (Confidence 0.03). Hauptrisiko: Nur eine unabhängige Quelle."
+    assert leer == "Datenlage zu dünn für eine Hypothese (Confidence 0.03). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle."
     assert all("Technologierisiko" not in r["investmenthypothese"] for r in rows.values())
     assert "Nächster Meilenstein: ein Prototyp beim Anwender." in rows["dummy-deeptech"]["investmenthypothese"]
     assert rows["dummy-agentur"]["investmenthypothese"].startswith("Kein Investment-Case")
@@ -306,8 +306,10 @@ def test_adapter_translates_only_exact_and_sourced_values():
     ev = Evidence(source="Demo", url="https://example.org/a", finding="Sitz in Berlin", field="country",
                   retrieved_at=datetime(2026, 11, 20, tzinfo=timezone.utc))
     def lead(**extra):
+        from models import SourceSignal
+        sig = SourceSignal(source="Sourcing", type="fund", url="https://example.org/a", date=datetime(2026, 9, 1).date(), evidence="Fund")
         return EnrichedLead(**dict(dict(id="a", name="A", description="A baut Dinge.", industry=Industry.AI, country="DE",
-                                        source_url="https://example.org/a", country_evidence=ev, evidence=[ev]), **extra))
+                                        source_url="https://example.org/a", country_evidence=ev, evidence=[ev], signals=[sig]), **extra))
     basis_lead = evaluate(lead())
     assert basis_lead.overall_score is not None and basis_lead.stage_classification == "Pre-Seed"
     for extra in ({"product_stage": "Marktforschung läuft"}, {"product_stage": "Pilot abgeschlossen, Konzept für Serie"},

@@ -397,7 +397,9 @@ class Scorer:
         if not self.signals:
             return None
         n = len({domain(s["url"]) for s in self.signals})
-        wert, aussage = stufe(k["stufen"], n), ("Nur eine unabhängige Quelle" if n == 1 else "%d unabhängige Quellen" % n)
+        wert = stufe(k["stufen"], n)
+        aussage = ("Dünne Datenlage: nur eine unabhängige Quelle" if n == 1
+                   else "Dünne Datenlage: %d unabhängige Quellen" % n if wert >= 0.5 else "%d unabhängige Quellen" % n)
         mc = num(self.d.get("match_confidence"))
         if mc is not None and mc < k["match_confidence_min"]:
             wert, aussage = max(wert, k["wert_bei_unsicherem_match"]), aussage + "; Zuordnung Projekt→Firma laut Sourcing unsicher (%.2f)" % mc
@@ -475,9 +477,11 @@ class Scorer:
         if noise == "bereits_finanziert":
             return "zu_spaet", "laut Sourcing bereits finanziert", None
         if self.d.get("in_databases") is True and cfg["zu_spaet_wenn_in_databases"]:
-            return "zu_spaet", "laut Sourcing bereits in Datenbanken gelistet", None
+            return "zu_spaet", "bereits in Datenbanken gelistet", text(self.d.get("in_databases_quelle"))
         if gr and not proxy and months_between(gr, self.stichtag) > cfg["htgf_max_alter_monate"]:
             return "zu_spaet", "älter als %d Monate (gegründet %s)" % (cfg["htgf_max_alter_monate"], gr.strftime("%m/%Y") if monat else str(gr.year)), gr_url
+        if (not rf or rf == "keine") and gr and not proxy:
+            return "pre_seed", "gegründet laut Quelle (%s), Rechtsform nicht belegt" % (gr.strftime("%m/%Y") if monat else gr.year), gr_url
         if not rf or rf == "keine":
             return "pre_gruendung", "keine Rechtsform belegt", rf_url
         if ig:
@@ -664,7 +668,7 @@ def _score(dossier, cfg, stichtag):
             now.append("%s endet %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
             break
     if in_db is False:
-        now.append("laut Sourcing in keiner Datenbank gefunden")
+        now.append("in Crunchbase/Dealroom nicht gefunden" if d.get("in_databases_quelle") else "laut Sourcing in keiner Datenbank gefunden")
     now.append("jüngstes Signal vor %d Monaten" % months_between(s.signals[-1]["datum"], stichtag))
     rec["why_now"] = "; ".join(now)
     return rec

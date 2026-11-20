@@ -16,10 +16,12 @@ def start_analysis(category: Industry, on_progress=None):
     options = {}
     model = os.getenv("FOUNDERRADAR_OLLAMA_MODEL", "").strip()
     if mode == "live" and model:
-        from context.engine import enrich
+        from context.engine import default_lookups, enrich
         from context.web import original_page
         from context.ollama import extract_quotes
-        options["enricher"] = partial(enrich, load_original=original_page, extract_quotes=partial(extract_quotes, model))
+        options["enricher"] = partial(enrich, load_original=original_page,
+                                     lookups=default_lookups(model=model),
+                                     extract_quotes=partial(extract_quotes, model))
     return pipeline.run_pipeline(SearchCriteria(industry=category, limit=30),
                                  use_mock=mode == "demo", on_progress=on_progress, **options)
 

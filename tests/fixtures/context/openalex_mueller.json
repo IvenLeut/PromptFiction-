@@ -1,0 +1,753 @@
+{
+ "authors": {
+  "meta": {
+   "count": 532
+  },
+  "results": [
+   {
+    "id": "https://openalex.org/A5107826304",
+    "display_name": "Th. Müller",
+    "works_count": 2623,
+    "cited_by_count": 216522,
+    "summary_stats": {
+     "h_index": 206
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I102335020",
+      "display_name": "Karlsruhe Institute of Technology",
+      "country_code": "DE"
+     },
+     {
+      "id": "https://openalex.org/I138728355",
+      "display_name": "High Energy Accelerator Research Organization",
+      "country_code": "JP"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I102335020",
+       "display_name": "Karlsruhe Institute of Technology",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I106959904",
+       "display_name": "Florida Institute of Technology",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I114395901",
+       "display_name": "University of Nebraska–Lincoln",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I11932220",
+       "display_name": "Institució Catalana de Recerca i Estudis Avançats",
+       "country_code": "ES"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I123044942",
+       "display_name": "Universitat Autònoma de Barcelona",
+       "country_code": "ES"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1282105669",
+       "display_name": "Argonne National Laboratory",
+       "country_code": "US"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Particle physics theoretical and experimental studies",
+      "count": 2590
+     },
+     {
+      "display_name": "Quantum Chromodynamics and Particle Interactions",
+      "count": 2200
+     },
+     {
+      "display_name": "Particle Detector Development and Performance",
+      "count": 1822
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5107841038",
+    "display_name": "Th. Müller",
+    "works_count": 478,
+    "cited_by_count": 58405,
+    "summary_stats": {
+     "h_index": 113
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I4210091772",
+      "display_name": "Max Planck Institute for Extraterrestrial Physics",
+      "country_code": "DE"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I100532134",
+       "display_name": "Lyon 1 Université",
+       "country_code": "FR"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I102335020",
+       "display_name": "Karlsruhe Institute of Technology",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I114395901",
+       "display_name": "University of Nebraska–Lincoln",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I130769515",
+       "display_name": "Pennsylvania State University",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I13134134",
+       "display_name": "Universidad de Cantabria",
+       "country_code": "ES"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1314696892",
+       "display_name": "Fermi National Accelerator Laboratory",
+       "country_code": "US"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Particle physics theoretical and experimental studies",
+      "count": 413
+     },
+     {
+      "display_name": "Quantum Chromodynamics and Particle Interactions",
+      "count": 348
+     },
+     {
+      "display_name": "Particle Detector Development and Performance",
+      "count": 306
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5040048377",
+    "display_name": "Thomas Müller",
+    "works_count": 458,
+    "cited_by_count": 15006,
+    "summary_stats": {
+     "h_index": 52
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I3129555431",
+      "display_name": "University Hospital Regensburg",
+      "country_code": "DE"
+     },
+     {
+      "id": "https://openalex.org/I4210149574",
+      "display_name": "St. Joseph-Krankenhaus",
+      "country_code": "DE"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I114090438",
+       "display_name": "Goethe University Frankfurt",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1313014049",
+       "display_name": "Springer Nature (Germany)",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I155976169",
+       "display_name": "Witten/Herdecke University",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I196349391",
+       "display_name": "Universität Ulm",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I202697423",
+       "display_name": "University of Zurich",
+       "country_code": "CH"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I25974101",
+       "display_name": "University of Würzburg",
+       "country_code": "DE"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Parkinson's Disease Mechanisms and Treatments",
+      "count": 250
+     },
+     {
+      "display_name": "Deep Brain Stimulation and Movement Disorders",
+      "count": 183
+     },
+     {
+      "display_name": "Nuclear Receptors and Signaling",
+      "count": 60
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5100653238",
+    "display_name": "Thomas E. Müller",
+    "works_count": 185,
+    "cited_by_count": 15072,
+    "summary_stats": {
+     "h_index": 48
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I904495901",
+      "display_name": "Ruhr University Bochum",
+      "country_code": "DE"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I102322142",
+       "display_name": "Rutgers, The State University of New Jersey",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I130194489",
+       "display_name": "University of Alicante",
+       "country_code": "ES"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I162608824",
+       "display_name": "University of Sussex",
+       "country_code": "GB"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I165932596",
+       "display_name": "National University of Singapore",
+       "country_code": "SG"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I172675005",
+       "display_name": "Nanyang Technological University",
+       "country_code": "SG"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I35440088",
+       "display_name": "ETH Zurich",
+       "country_code": "CH"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Carbon dioxide utilization in catalysis",
+      "count": 51
+     },
+     {
+      "display_name": "Organometallic Complex Synthesis and Catalysis",
+      "count": 43
+     },
+     {
+      "display_name": "Catalytic Alkyne Reactions",
+      "count": 34
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5015038856",
+    "display_name": "Thomas Müller",
+    "works_count": 309,
+    "cited_by_count": 12862,
+    "summary_stats": {
+     "h_index": 50
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I1310048521",
+      "display_name": "Friedrich-Loeffler-Institut",
+      "country_code": "DE"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I118564535",
+       "display_name": "University of Bern",
+       "country_code": "CH"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1289490764",
+       "display_name": "Centers for Disease Control and Prevention",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1307613440",
+       "display_name": "Canadian Food Inspection Agency",
+       "country_code": "CA"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1310048521",
+       "display_name": "Friedrich-Loeffler-Institut",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1313014049",
+       "display_name": "Springer Nature (Germany)",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1320745970",
+       "display_name": "Food and Agriculture Organization of the United Nations",
+       "country_code": "IT"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Rabies epidemiology and control",
+      "count": 203
+     },
+     {
+      "display_name": "Virology and Viral Diseases",
+      "count": 124
+     },
+     {
+      "display_name": "Animal Disease Management and Epidemiology",
+      "count": 107
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5100661928",
+    "display_name": "Thomas M. Müller",
+    "works_count": 1248,
+    "cited_by_count": 11082,
+    "summary_stats": {
+     "h_index": 53
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I3129555431",
+      "display_name": "University Hospital Regensburg",
+      "country_code": "DE"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I114090438",
+       "display_name": "Goethe University Frankfurt",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I115503518",
+       "display_name": "Netherlands Institute for Innovative Ocular Surgery",
+       "country_code": "NL"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I118564535",
+       "display_name": "University of Bern",
+       "country_code": "CH"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I125749732",
+       "display_name": "Western University",
+       "country_code": "CA"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I126744593",
+       "display_name": "University of Maryland, Baltimore",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1283582996",
+       "display_name": "Novartis (Switzerland)",
+       "country_code": "CH"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Mechanical Circulatory Support Devices",
+      "count": 120
+     },
+     {
+      "display_name": "Multiple Sclerosis Research Studies",
+      "count": 108
+     },
+     {
+      "display_name": "Respiratory Support and Mechanisms",
+      "count": 97
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5110786944",
+    "display_name": "Thomas G. Muller",
+    "works_count": 389,
+    "cited_by_count": 15576,
+    "summary_stats": {
+     "h_index": 61
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I4210091772",
+      "display_name": "Max Planck Institute for Extraterrestrial Physics",
+      "country_code": "DE"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I100066346",
+       "display_name": "University of Stuttgart",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I106165777",
+       "display_name": "University of Central Florida",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I114112103",
+       "display_name": "Leibniz University Hannover",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1294671590",
+       "display_name": "Centre National de la Recherche Scientifique",
+       "country_code": "FR"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I145847075",
+       "display_name": "TU Wien",
+       "country_code": "AT"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I149899117",
+       "display_name": "Max Planck Society",
+       "country_code": "DE"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Astro and Planetary Science",
+      "count": 207
+     },
+     {
+      "display_name": "Stellar, planetary, and galactic studies",
+      "count": 156
+     },
+     {
+      "display_name": "Planetary Science and Exploration",
+      "count": 104
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5100661927",
+    "display_name": "Thomas Müller",
+    "works_count": 32,
+    "cited_by_count": 10993,
+    "summary_stats": {
+     "h_index": 22
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I4210127875",
+      "display_name": "Nvidia (United States)",
+      "country_code": "US"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I35440088",
+       "display_name": "ETH Zurich",
+       "country_code": "CH"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I4210127875",
+       "display_name": "Nvidia (United States)",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I4210142140",
+       "display_name": "Walt Disney (United States)",
+       "country_code": "US"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Computer Graphics and Visualization Techniques",
+      "count": 28
+     },
+     {
+      "display_name": "3D Shape Modeling and Analysis",
+      "count": 24
+     },
+     {
+      "display_name": "Radiative Heat Transfer Studies",
+      "count": 15
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5012113227",
+    "display_name": "Thomas Mueller",
+    "works_count": 202,
+    "cited_by_count": 23766,
+    "summary_stats": {
+     "h_index": 47
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I145847075",
+      "display_name": "TU Wien",
+      "country_code": "AT"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I120691247",
+       "display_name": "FernUniversität in Hagen",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I131729948",
+       "display_name": "University of Salerno",
+       "country_code": "IT"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1341412227",
+       "display_name": "IBM (United States)",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I145847075",
+       "display_name": "TU Wien",
+       "country_code": "AT"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I165932596",
+       "display_name": "National University of Singapore",
+       "country_code": "SG"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I204824540",
+       "display_name": "University of Wollongong",
+       "country_code": "AU"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "2D Materials and Applications",
+      "count": 85
+     },
+     {
+      "display_name": "Graphene research and applications",
+      "count": 83
+     },
+     {
+      "display_name": "Silicon and Solar Cell Technologies",
+      "count": 82
+     }
+    ]
+   },
+   {
+    "id": "https://openalex.org/A5006669393",
+    "display_name": "Thomas Müller‐Reichert",
+    "works_count": 164,
+    "cited_by_count": 8828,
+    "summary_stats": {
+     "h_index": 45
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I4210162051",
+      "display_name": "University Hospital Carl Gustav Carus",
+      "country_code": "DE"
+     },
+     {
+      "id": "https://openalex.org/I78650965",
+      "display_name": "Technische Universität Dresden",
+      "country_code": "DE"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I1338920048",
+       "display_name": "Marine Biological Laboratory",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I149899117",
+       "display_name": "Max Planck Society",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I154526488",
+       "display_name": "Inserm",
+       "country_code": "FR"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I2799318839",
+       "display_name": "Universitätsmedizin Greifswald",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I35440088",
+       "display_name": "ETH Zurich",
+       "country_code": "CH"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I4210105918",
+       "display_name": "Normandie Université",
+       "country_code": "FR"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Microtubule and mitosis dynamics",
+      "count": 97
+     },
+     {
+      "display_name": "Advanced Electron Microscopy Techniques and Applications",
+      "count": 50
+     },
+     {
+      "display_name": "Genomics and Chromatin Dynamics",
+      "count": 40
+     }
+    ]
+   }
+  ]
+ },
+ "urls": [
+  "https://api.openalex.org/authors?search=Thomas+M%C3%BCller&per-page=10&select=id%2Cdisplay_name%2Cworks_count%2Ccited_by_count%2Csummary_stats%2Clast_known_institutions%2Caffiliations%2Ctopics"
+ ],
+ "case": {
+  "name": "Thomas Müller",
+  "institution": null,
+  "field_terms": [
+   "machine learning"
+  ]
+ }
+}

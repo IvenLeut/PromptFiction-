@@ -5,6 +5,7 @@ from typing import Any
 
 from models import EnrichedLead
 from research_models import CapitalRequirements, MarketIntelligence, MarketMeasure, MarketSeries, Period
+from scoring_input import build_scoring_input
 
 
 def _ids(*items):
@@ -176,4 +177,8 @@ def research_market(lead: EnrichedLead, research: MarketIntelligence) -> Enriche
     context.research_status.mode = "targeted"
     context.research_status.market = "partial" if result.research_gaps else "complete"
     context.updated_at = datetime.now(timezone.utc)
-    return lead.model_copy(update={"context_v2": context})
+    enriched = lead.model_copy(update={"context_v2": context})
+    if not lead.is_demo:
+        as_of = lead.scoring_input.as_of if lead.scoring_input else None
+        enriched.scoring_input = build_scoring_input(enriched, as_of=as_of)
+    return enriched
