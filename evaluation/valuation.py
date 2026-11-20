@@ -7,6 +7,7 @@ from typing import Annotated, Literal
 from pydantic import Field, TypeAdapter, ValidationError, model_validator
 
 from models import ContextResult, Contract, EnrichedLead
+from scoring_input import build_scoring_input
 
 Positive = Annotated[Decimal, Field(gt=0, allow_inf_nan=False)]
 Ratio = Annotated[Decimal, Field(ge=0, le=1, allow_inf_nan=False)]
@@ -46,8 +47,8 @@ class ValuationAssumptions(Contract):
 class ValuationResult(Contract):
     lead_id: str
     assumptions: ValuationAssumptions
-    round_size_eur: int | None = None
-    asking_pre_money_eur: int | None = None
+    round_size_eur: int | Decimal | None = None
+    asking_pre_money_eur: int | Decimal | None = None
     scorecard_pre_money_eur: Decimal | None = None
     vc_max_pre_money_eur: Decimal | None = None
     vc_price_headroom_eur: Decimal | None = None
@@ -55,21 +56,32 @@ class ValuationResult(Contract):
 
 def value_lead(lead: EnrichedLead, assumptions: ValuationAssumptions) -> ValuationResult:
     """Compare the asking price with the maximum entry price under the supplied scenario."""
+    scoring = build_scoring_input(lead, as_of=lead.scoring_input.as_of if lead.scoring_input else None)
+
+    def euro(parameter):
+        if parameter.status != "usable":
+            return None
+        euros, cent = divmod(parameter.value, 100)
+        return Decimal(parameter.value) / 100 if cent else euros
+
+    round_size, asking = scoring.round_size_eur_cents, scoring.asking_pre_money_eur_cents
     result = ValuationResult(lead_id=lead.id, assumptions=assumptions,
-                             round_size_eur=lead.round_size_eur,
-                             asking_pre_money_eur=lead.asking_pre_money_eur)
-    eligible = (lead.has_vc is False or lead.vc_status == "reported_none")
-    if not eligible or lead.has_vc is True or lead.vc_status in {"confirmed", "conflicting"}:
+                             round_size_eur=euro(round_size), asking_pre_money_eur=euro(asking))
+    if scoring.vc_status.status != "usable" or scoring.vc_status.value != "reported_none":
         return result
     if scorecard := assumptions.scorecard:
         result.scorecard_pre_money_eur = scorecard.benchmark_pre_money_eur * sum(
             factor.weight * factor.relative_score for factor in scorecard.factors.values()
         )
-    if assumptions.vc_method and lead.round_size_eur and lead.asking_pre_money_eur:
+    def snapshots(parameter):
+        return {scoring.evidence[key].source_snapshot_id for key in parameter.evidence_ids} - {None}
+
+    if (assumptions.vc_method and result.round_size_eur and result.asking_pre_money_eur
+            and snapshots(round_size) & snapshots(asking)):
         vc = assumptions.vc_method
         max_post_money = vc.exit_equity_value_eur * (1 - vc.future_dilution) / vc.target_moic
-        result.vc_max_pre_money_eur = max_post_money - lead.round_size_eur
-        result.vc_price_headroom_eur = result.vc_max_pre_money_eur - lead.asking_pre_money_eur
+        result.vc_max_pre_money_eur = max_post_money - result.round_size_eur
+        result.vc_price_headroom_eur = result.vc_max_pre_money_eur - result.asking_pre_money_eur
     return result
 
 

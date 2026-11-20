@@ -25,6 +25,7 @@ from research_models import (
     Claim, CompanyResearch, ContextV2, FounderResearch, FundingResearch, MarketMeasure, Period,
     ProductResearch, ResearchStatus, TractionResearch,
 )
+from scoring_input import build_scoring_input
 
 logger = logging.getLogger(__name__)
 STOPWORDS = set("""für mit und oder der die das des dem den ein eine einer eines einem einen von zur zum auf aus bei nach über unter durch
@@ -219,6 +220,7 @@ def enrich(
     load_original: Callable[[str], SourceSignal | None] | None = None,
     extract_quotes: Callable | None = None,
     light: bool = False, lookups: dict | None = None,
+    as_of: date | None = None,
 ) -> EnrichedLead:
     """Return the original lead plus public context and per-field evidence."""
     signals = list(lead.signals)
@@ -258,6 +260,8 @@ def enrich(
             if result and result[0] is not None:
                 profiles_by_name[founder] = result[0]
     evidence = list(merged.evidence)
+    # Frozen source excerpts for the replayable scoring handoff, incl. lookup texts (Impressum, idw, Förderkatalog).
+    scoring_sources = [signal.model_copy(deep=True) for signal in signals] if not lead.is_demo else None
     evidence_by_key = {}
     facts = defaultdict(dict)
     discovery = []
@@ -403,7 +407,8 @@ def enrich(
                     and "for sale" not in s.evidence.lower()]
         if missing and quotable:
             try:
-                for field, quote, signal in extract_quotes(lead.name, quotable, missing):
+                model_signals = [signal.model_copy(deep=True) for signal in quotable]
+                for field, quote, signal in extract_quotes(lead.name, model_signals, missing):
                     if field in missing and signal in quotable and quote.strip() and quote in signal.evidence:
                         record(field, quote, quote, SourceSignal(source="Ollama-Zitat aus " + signal.source, type=signal.type,
                                                                  url=signal.url, date=signal.date, evidence=signal.evidence),
@@ -562,6 +567,7 @@ def enrich(
     values = dict(
         evidence=evidence,
         context_v2=context,
+        scoring_sources=scoring_sources,
         founder_profiles=founder_profiles,
         **{field: unambiguous(field) for field in LABELS},
         **round_terms,
@@ -577,4 +583,7 @@ def enrich(
         enrichment_errors=merged.errors,
     )
     values.update({k: v for k, v in extra.items() if k not in values})
-    return EnrichedLead(**lead.model_dump(), **values)
+    enriched = EnrichedLead(**lead.model_dump(), **values)
+    if not lead.is_demo:
+        enriched.scoring_input = build_scoring_input(enriched, as_of=as_of)
+    return enriched

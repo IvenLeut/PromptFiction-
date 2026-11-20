@@ -1,0 +1,33 @@
+[
+  {
+    "id": "example-scoring",
+    "name": "Beispiel GmbH",
+    "description": "Fiktive Eingabe für den Offline-Replay.",
+    "country": "DE",
+    "industry": "Industrial / DeepTech",
+    "source_url": "https://example.org/lead",
+    "country_evidence": {
+      "source": "Beispielquelle",
+      "url": "https://example.org/lead",
+      "finding": "Sitz in Berlin"
+    },
+    "signals": [
+      {
+        "source": "Beispielquelle 1",
+        "type": "report",
+        "url": "https://example.org/report-a",
+        "date": "2025-01-01",
+        "subject_lead_id": "example-scoring",
+        "evidence": "Produktreife: Pilot\nJahresumsatz 2023: 0 EUR\nJahresumsatz 2024: 10 000 EUR"
+      },
+      {
+        "source": "Beispielquelle 2",
+        "type": "report",
+        "url": "https://example.org/report-b",
+        "date": "2025-02-01",
+        "subject_lead_id": "example-scoring",
+        "evidence": "Jahresumsatz 2024: 11 000 EUR"
+      }
+    ]
+  }
+]

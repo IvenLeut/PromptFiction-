@@ -1,4 +1,9 @@
-"""Schritt 3: EnrichedLead -> EvaluatedLead. Die Rechenlogik liegt in scoring/, hier nur die Übersetzung.
+"""Schritt 3: Bewertung. Die Rechenlogik liegt in scoring/, hier nur die Übersetzung.
+
+Schnittstelle (Toms Vertrag, SCORING_HANDOFF.md): `evaluate(ScoringInput) -> EvaluationScores`.
+Die Pipeline reicht zusätzlich das Dossier als `lead=` durch, weil der ScoringInput keine Gründerprofile,
+Förderbeträge, Rechtsform, Partner oder Patente enthält. Ohne `lead` wird nur der ScoringInput bewertet.
+Gilt ein Parameter im ScoringInput als `usable`, hat er Vorrang vor dem gleichbedeutenden Dossierfeld.
 
 Regeln der Übersetzung:
 - Felder aus Schritt 1 (Name, Beschreibung, Gründer, Gründungsdatum) gelten als durch `source_url` belegt.
@@ -8,8 +13,9 @@ Regeln der Übersetzung:
 """
 from datetime import date
 
-from models import EnrichedLead, EvaluatedLead, Industry
+from models import EnrichedLead, EvaluatedLead, EvaluationScores, Industry
 from scoring import load_config, score_dossier
+from scoring_models import ScoringInput
 
 BRANCHE = {Industry.AI: "digital_tech", Industry.FINTECH: "digital_tech", Industry.CLIMATE: "climate_tech",
            Industry.HEALTH: "life_sciences", Industry.INDUSTRIAL: "industrial_deep_tech"}
@@ -125,19 +131,70 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     }
 
 
-def evaluate(lead: EnrichedLead) -> EvaluatedLead:
-    """Evaluate researched evidence; preserve enriched fields."""
+STAGE_EN = {"idea": "idee", "paper": "paper", "lab_prototype": "labor_prototyp", "prototype": "prototyp", "mvp": "prototyp",
+            "pilot": "pilot", "first_customers": "erste_kunden", "commercial": "erste_kunden"}
+
+
+def _evidence_url(scoring: ScoringInput, parameter):
+    return next((str(scoring.evidence[k].url) for k in parameter.evidence_ids if k in scoring.evidence), None)
+
+
+def apply_scoring_input(dossier: dict, scoring: ScoringInput) -> dict:
+    """Overlay the usable, frozen parameters of Tom's ScoringInput onto the scorer dossier."""
+    def usable(p):
+        return p.status == "usable" and p.value is not None and _evidence_url(scoring, p)
+
+    if usable(scoring.founded):
+        f = scoring.founded.value
+        wert = "-".join(["%04d" % f.year] + ["%02d" % x for x in (f.month, f.day) if x is not None])
+        dossier["gruendungsdatum"] = {"wert": wert, "quelle": _evidence_url(scoring, scoring.founded)}
+    if usable(scoring.product_stage) and scoring.product_stage.value in STAGE_EN:
+        dossier["reifegrad"] = {"wert": STAGE_EN[scoring.product_stage.value], "quelle": _evidence_url(scoring, scoring.product_stage)}
+    late = [r for r in scoring.completed_rounds if usable(r) and r.value in {"series_a", "series_b", "series_c"}]
+    if late or (usable(scoring.vc_status) and scoring.vc_status.value == "confirmed"):
+        src = _evidence_url(scoring, late[0] if late else scoring.vc_status)
+        dossier["funding_meldung"] = {"wert": True, "quelle": src}
+    for p in scoring.annual_paying_customer_count:
+        if usable(p) and p.value:
+            dossier.setdefault("partner", []).append({"name": "%d zahlende Kunden" % p.value, "typ": "kunde",
+                                                       "quelle": _evidence_url(scoring, p)})
+            break
+    if usable(scoring.tam):
+        dossier.setdefault("markt", {})["volumen_eur"] = {"wert": float(scoring.tam.value), "quelle": _evidence_url(scoring, scoring.tam)}
+    return dossier
+
+
+def _dossier_from_scoring(scoring: ScoringInput) -> dict:
+    """Minimal dossier when only the ScoringInput is available (no lead passed)."""
+    urls = [str(e.url) for e in scoring.evidence.values()]
+    signals = [{"typ": e.kind, "url": str(e.url), "datum": e.document_date.isoformat() if e.document_date else None}
+               for e in scoring.evidence.values()]
+    country_url = _evidence_url(scoring, scoring.country) if scoring.country.status == "usable" else None
+    return {"lead_id": scoring.lead_id, "name_unternehmen": {"wert": scoring.lead_id, "quelle": urls[0] if urls else None},
+            "beschreibung_rohtext": {"wert": scoring.lead_id, "quelle": urls[0] if urls else None},
+            "deutschland_beleg": {"wert": "DE", "quelle": country_url} if country_url else None,
+            "signals": signals, "source_url": urls[0] if urls else None}
+
+
+def _score(lead: EnrichedLead | None, scoring: ScoringInput | None) -> dict:
     global _CONFIG
     _CONFIG = _CONFIG or load_config()
-    r = score_dossier(to_dossier(lead, _CONFIG), _CONFIG, date.today())
+    dossier = to_dossier(lead, _CONFIG) if lead is not None else _dossier_from_scoring(scoring)
+    if scoring is not None:
+        dossier = apply_scoring_input(dossier, scoring)
+    stichtag = scoring.as_of if scoring is not None and scoring.as_of else date.today()
+    return score_dossier(dossier, _CONFIG, stichtag)
+
+
+def _scores(r: dict, lead: EnrichedLead | None) -> dict:
     belege = [e for e in r["evidence"] if e["url"] and e["dimension"] in ("team", "marktpotenzial", "risiko")]
-    fragen = list(dict.fromkeys(list(lead.research_questions) + r["offene_punkte"]))
-    return EvaluatedLead(
-        **lead.model_dump(),
+    fragen = list(dict.fromkeys((list(lead.research_questions) if lead else []) + r["offene_punkte"]))
+    beschreibung = (lead.description or lead.name) if lead else r["lead_id"]
+    return dict(
         overall_score=r["gesamt_score"], company_score=r["team_score"],
         market_potential_score=r["marktpotenzial_score"], risk_score=r["risiko_score"],
         stage_classification=STAGE.get(r["stage"], "Unbekannt"),
-        value_proposition=r["value_proposition"] or lead.description or lead.name,
+        value_proposition=r["value_proposition"] or beschreibung,
         investment_thesis=r["investmenthypothese"] or "Nicht bewertet. %s." % r["ausschluss_grund"],
         confidence_score=round(r["confidence"] * 100, 1),
         score_drivers=["%s (Quelle: %s)" % (e["aussage"], e["url"]) for e in belege if e["dimension"] != "risiko"],
@@ -145,3 +202,19 @@ def evaluate(lead: EnrichedLead) -> EvaluatedLead:
               + (["Ausschluss: " + r["ausschluss_grund"]] if r["ausschluss_grund"] else []),
         open_questions=fragen,
     )
+
+
+def evaluate(scoring: ScoringInput | EnrichedLead, *, lead: EnrichedLead | None = None):
+    """Live scoring.
+
+    - `evaluate(ScoringInput, lead=EnrichedLead) -> EvaluationScores`: the pipeline path (Tom's handoff plus dossier).
+    - `evaluate(ScoringInput) -> EvaluationScores`: frozen handoff only.
+    - `evaluate(EnrichedLead) -> EvaluatedLead`: direct call with a dossier (kept for tests and scripts).
+    """
+    if isinstance(scoring, EnrichedLead):
+        dossier_lead = scoring
+        r = _score(dossier_lead, dossier_lead.scoring_input)
+        return EvaluatedLead(**dossier_lead.model_dump(), **_scores(r, dossier_lead))
+    r = _score(lead, scoring)
+    return EvaluationScores(**_scores(r, lead))
+
