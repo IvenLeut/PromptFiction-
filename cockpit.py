@@ -273,7 +273,8 @@ def main():
         st.button("Change sector", on_click=restart, width="stretch")
         st.caption("Demo data · fictional companies" if run.mode == "demo" else "Live pipeline · evidence-led screening")
         with st.expander("Pipeline status"):
-            st.caption(f"{run.discovered_count} sourced → {run.enriched_count} enriched → {len(leads)} scored")
+            scored = sum(item.overall_score is not None for item in run.result.leads)
+            st.caption(f"{run.discovered_count} sourced → {run.enriched_count} enriched → {scored} scored")
             for issue in run.result.issues:
                 st.caption(f"{issue.lead_id}: {issue.message}")
             if not run.result.issues:
@@ -282,7 +283,7 @@ def main():
     if st.session_state.get("decision_saved"):
         st.toast("Saved: " + st.session_state.pop("decision_saved"))
     if not leads:
-        st.info("The pipeline returned no scored companies. See pipeline status for unresolved research steps.")
+        st.info("The pipeline returned no companies. See pipeline status for unresolved research steps.")
         st.button("Choose another sector", on_click=restart)
         return
     if page == "Company Deep Dive":

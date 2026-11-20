@@ -51,3 +51,39 @@ def test_decision_ui_roundtrip():
     app.run()
     assert app.radio[0].value == "Watchlist"
     assert next(x for x in app.text_area if x.label == "Analysten-Notizen").value == "Test note"
+
+
+def test_parallel_first_writes_and_activity_keep_decisions(tmp_path, monkeypatch):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+    from analyst_store import load_decisions, load_history, save_activity, save_decision
+
+    monkeypatch.setenv("FOUNDERRADAR_DB", str(tmp_path / "new.sqlite3"))
+    barrier = Barrier(12)
+
+    def write(index):
+        barrier.wait(timeout=5)
+        save_decision("live", str(index), "Watchlist", f"Note {index}", "Review")
+
+    with ThreadPoolExecutor(max_workers=12) as executor:
+        list(executor.map(write, range(12)))
+    assert len(load_decisions("live")) == 12
+
+    barrier = Barrier(2)
+
+    def decide():
+        barrier.wait(timeout=5)
+        save_decision("live", "0", "Reject", "Updated note", "Updated review", "Call")
+
+    def plan():
+        barrier.wait(timeout=5)
+        save_activity("live", "0", "Call", "Analyst", "2026-12-01", "Not contacted", "Open")
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        decision, activity = executor.submit(decide), executor.submit(plan)
+        decision.result()
+        activity.result()
+    saved = load_decisions("live")["0"]
+    assert saved["decision"] == "Reject" and saved["notes"] == "Updated note"
+    assert saved["next_action"] == "Call" and saved["due_date"] == "2026-12-01"
+    assert len(load_history("live", "0")) == 3
