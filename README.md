@@ -73,6 +73,7 @@ Erst Bewertung sortiert nach `overall_score`. Fehlende Gesamt-Scores kommen zule
 | Gründungsjahr | founding_year | Ganzzahl oder null |
 | Gründungsmonat | founding_month | 1–12 oder null |
 | Standort | location | Text oder null |
+| VC-Beteiligung laut Sourcing | has_vc | true, false oder null |
 
 Zusätzlich: `id`, `description` (kurze Fundbeschreibung), `country`, `source_name`,
 `source_url`, `country_evidence`, `is_demo`. Die Quelle bleibt bis ins Dashboard erhalten.
@@ -86,11 +87,73 @@ Die Kontext-Engine darf diese Felder nicht erneut als zusätzliche Constructor-A
 
 ## Schritt 2: zusätzlicher Kontext
 
-EnrichedLead enthält alle RawLead-Felder plus Quellenbelege, Finanzierungsdaten,
-Teamgröße, Produktstatus, Kunden, Umsatz und Traktionsnotizen. Fehlende Daten bleiben
-None. Neue Rechercheaussagen und Widersprüche werden als Evidence dokumentiert;
-Eingangsdaten werden nicht still überschrieben. Jeder Beleg enthält Quelle, URL,
-Aussage, Abrufdatum und optional das zugehörige Feld.
+Schritt 2 lässt sich mit einer bestehenden Liste separat ausführen.
+
+~~~powershell
+python -m context shortlist.json dossiers.json
+python -m context shortlist.json dossiers.json --ollama-model qwen3.5:4b
+python -m context shortlist.json dossiers.json --offline --limit 10
+~~~
+
+Die Eingabe ist ein priorisiertes JSON-Array mit RawLead-Objekten inklusive
+Deutschland-Beleg. Die CLI vertieft standardmäßig die ersten fünf Leads.
+Sourcing kann `htgf_sector` und `prioritization_reason` mitgeben. Der optionale
+HTGF-Sektor verwendet die fünf Track-Kategorien, während `industry` die
+bestehende Produktkategorie bleibt.
+Die Ausgabe ist ein ContextResult mit Dossiers in `leads` und Verarbeitungsfehlern
+in `issues`. `collect_context(leads, use_mock=False)` liefert denselben Vertrag in Python.
+
+Optional kann Sourcing pro Lead `signals` mitgeben. Ein Signal enthält `source`,
+`type`, `url`, `date` (ISO-Datum oder null) und `evidence` (Quelltextauszug).
+Online liest Schritt 2 zusätzlich die Startseite und bis zu vier von dort verlinkte
+Unternehmensseiten sowie die ursprüngliche Fundseite, falls noch kein Auszug daraus
+mitgeliefert wurde. Externe Bestätigungen können als weitere Signale mitgegeben werden.
+Der Extraktor erkennt eindeutige deutsch- und englischsprachige
+Angaben wie „Produktreife: MVP“, „Zielkunden: Industriebetriebe“ und
+„Kim Muster – Rolle: CTO“. Bei freier Web-Sprache ist die Abdeckung begrenzt.
+Mit `--ollama-model` kann ein lokal laufendes Modell für noch leere Textfelder
+wörtliche Zitate ergänzen. Python prüft die Zitate gegen die übergebenen
+Quellenausschnitte. Bei einem Modellfehler bleiben die regelbasierten Felder erhalten.
+
+Die neuen Dossierfelder sind `founder_profiles` (Name, Rolle, Qualifikation),
+`target_customers`, `customer_problem`, `solution`, `product_stage`, `funding_status`,
+`vc_status` und `first_signal_date`. Das Dossier übernimmt alle Eingangsfelder.
+Belege verknüpfen Aussagen mit Feldern und enthalten Quell-URL, Abrufdatum und,
+falls mitgegeben, Publikations- bzw. Signaldatum. Bei widersprüchlichen Produkt- oder
+Profilangaben bleiben die Werte leer und die konkurrierenden Belege erhalten.
+
+`funding_status` erfasst auch Eigenfinanzierung, Förderung oder eine Finanzierung
+unbekannter Art. `vc_status` bleibt ohne ausdrückliche Angabe `unknown`. Ein positives
+VC-Signal bei anderslautender Sourcing-Angabe führt zu `conflicting`. Die Live-Pipeline
+hält bestätigte, widersprüchliche und unbekannte VC-Fälle vor dem Scoring zurück
+und meldet den Grund in `issues`. Die Dossiers bleiben im Schritt-2-Export sichtbar.
+
+### Übergabe für Scorecard und VC Method
+
+Das Dossier enthält zusätzlich Markt, Technologie, Wettbewerb, Vertrieb,
+weiteren Kapitalbedarf, Rundengröße und geforderte Pre-Money-Bewertung. Fehlende
+oder widersprüchliche Angaben bleiben offen. `research_questions` enthält dazu
+Fragen für das Erstgespräch.
+
+~~~powershell
+python -m evaluation.valuation dossiers.json assumptions.json valuations.json
+~~~
+
+`assumptions.json` ordnet jeder Lead-ID die gewünschten Methodenannahmen zu.
+Unter `scorecard` stehen `benchmark_pre_money_eur`, `benchmark_source`
+und `factors`. Die sechs Faktoren `team`, `market`, `technology`,
+`competition`, `sales` und `capital_need` benötigen jeweils `weight`,
+`relative_score` und eine `rationale`. Die Gewichte summieren sich auf 1.
+Ein relativer Faktor von 1 entspricht dem Benchmark.
+
+Unter `vc_method` stehen `exit_equity_value_eur`, `future_dilution`
+als Anteil zwischen 0 und 1 und `target_moic`. Der maximale Einstiegspreis
+vor der Runde entspricht dem verwässerungsbereinigten Exit-Eigenkapitalwert
+geteilt durch den Ziel-MOIC abzüglich der Rundengröße. Die Ausgabe zeigt
+auch den Abstand zur Preisforderung. Fehlen Rundengröße oder Preisforderung,
+bleibt dieser Methodenblock offen. Euro-Ergebnisse werden als Dezimalstrings
+exportiert. Der Python-Rechenkern ist eine lokale Umsetzung der beiden
+Methoden, ohne Abhängigkeit von einem externen Bewertungsdienst.
 
 ## Verbindliche Felder aus Schritt 3
 
@@ -117,9 +180,9 @@ ist die daraus und aus weiteren Fakten abgeleitete Einordnung aus Schritt 3.
 ihres Prozessschritts. Die Demo durchläuft dieselben Pipeline-Funktionen wie die
 spätere Live-Integration. Die UI verwendet aktuell `use_mock=True`.
 
-`run_pipeline(criteria, use_mock=False)` verbindet die drei echten Engine-Dateien.
-Diese enthalten weiterhin ausdrückliche Platzhalter. Es gibt keinen stillen Rückfall
-auf erfundene Daten. Provider, Enricher und Evaluator lassen sich für Tests einzeln injizieren.
+`run_pipeline(criteria, use_mock=False)` verbindet die drei Live-Module.
+Sourcing und Bewertung sind weiterhin Platzhalter. Provider, Enricher und Evaluator
+lassen sich für Tests einzeln injizieren.
 Fehler einzelner Kontext-/Bewertungsaufrufe verhindern nicht die restliche Verarbeitung.
 Ein Totalausfall im Sourcing wird an die Oberfläche gemeldet.
 
