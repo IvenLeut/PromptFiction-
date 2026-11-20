@@ -35,7 +35,11 @@ def test_context_combines_sourcing_and_website_with_evidence():
     ))
     assert not result.issues
     lead = result.leads[0]
-    assert lead.model_dump(include=set(RawLead.model_fields)) == raw.model_dump()
+    # first_signal_date now also exists in RawLead: context may fill a missing
+    # date from evidence, while the rest of the sourcing contract stays intact.
+    unchanged = set(RawLead.model_fields) - {"first_signal_date"}
+    assert lead.model_dump(include=unchanged) == raw.model_dump(include=unchanged)
+    assert raw.first_signal_date is None
     assert lead.founder_profiles[0].role == "CTO"
     assert lead.founder_profiles[0].qualifications == "Promotion in Informatik."
     assert lead.customer_problem == "Lange Prüfzeiten."

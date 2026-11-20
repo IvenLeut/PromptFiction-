@@ -37,7 +37,14 @@ def _validate_input(leads: Sequence[RawLead], use_mock: bool) -> None:
 
 
 def _preserve(before: RawLead, after: RawLead) -> None:
-    if after.model_dump(include=set(type(before).model_fields)) != before.model_dump():
+    fields = set(type(before).model_fields)
+    # The merged sourcing contract can carry this date. Context may fill an empty
+    # value only when a dated source supports it; existing values stay immutable.
+    if (type(before) is RawLead and isinstance(after, EnrichedLead)
+            and before.first_signal_date is None and after.first_signal_date is not None
+            and any(e.field == "first_signal_date" and e.source_date == after.first_signal_date for e in after.evidence)):
+        fields.discard("first_signal_date")
+    if after.model_dump(include=fields) != before.model_dump(include=fields):
         raise ValueError("Ein Modul hat Eingangsdaten verändert.")
 
 

@@ -111,7 +111,7 @@ class EnrichedLead(RawLead):
     round_size_eur: int | None = Field(default=None, gt=0)
     asking_pre_money_eur: int | None = Field(default=None, gt=0)
     research_questions: list[str] = Field(default_factory=list)
-    funding_status: Literal["Bootstrapped", "Grant-funded", "Pre-Seed", "Seed", "Later", "Unknown", "vc_backed", "non_vc_funded", "unfunded", "funded", "conflicting", "unknown"] = "unknown"
+    funding_status: Literal["Bootstrapped", "Grant-funded", "Pre-Seed", "Seed", "Later", "Unknown", "vc_backed", "non_vc_funded", "unfunded", "funded", "conflicting", "unknown"] = "Unknown"
     vc_status: Literal["confirmed", "reported_none", "conflicting", "unknown"] = "unknown"
     first_signal_date: Date | None = None
     funding_stage: str | None = None

@@ -491,7 +491,7 @@
           "type": "array"
         },
         "funding_status": {
-          "default": "unknown",
+          "default": "Unknown",
           "enum": [
             "Bootstrapped",
             "Grant-funded",

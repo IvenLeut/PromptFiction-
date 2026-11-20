@@ -216,7 +216,7 @@ def enrich(
     if model_failed:
         questions.append("Welche offenen Angaben lassen sich anhand der Originalquellen bestätigen?")
     return EnrichedLead(
-        **lead.model_dump(),
+        **lead.model_dump(exclude={"first_signal_date"}),
         evidence=evidence,
         founder_profiles=[
             FounderProfile(name=name, role=unambiguous(f"founder_profiles.{index}.role"),
@@ -229,5 +229,6 @@ def enrich(
         product_stage=unambiguous("product_stage"),
         funding_status=funding_status,
         vc_status=vc_status,
-        first_signal_date=min((signal.date for signal in signals if signal.date is not None), default=None),
+        first_signal_date=lead.first_signal_date or min(
+            (signal.date for signal in signals if signal.date is not None), default=None),
     )

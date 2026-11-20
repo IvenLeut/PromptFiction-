@@ -1,4 +1,114 @@
-﻿# FounderRadar
+# FounderRadar 2.0 - Investment Cockpit
+
+Neuer Einstieg:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m streamlit run cockpit.py
+```
+
+Das Cockpit startet mit den zehn fiktiven Leads aus `examples/scoring/scores.json`.
+Die Datei und Bewertungsengine stammen aus dem integrierten `feature/scoring`-Branch;
+der aktuelle `main` mit Kontext-Recherche wurde ebenfalls integriert.
+Die ursprüngliche Anwendung bleibt mit `streamlit run app.py` als Fallback erhalten.
+
+- **Dealflow:** Suche, sortierbare Tabelle, Sektor/Stage/Fit/Confidence/Status-Filter,
+  Noise-Ansicht, Profilauswahl und unveränderter JSON-Export der ausgewählten Records.
+- **Company Research:** Investment Overview, Market Intelligence, Competition,
+  Funding & Valuation, Discovery & Evidence.
+- **Watchlist / Screening Decisions:** persistente Entscheidungen, Begründungen,
+  Notizen, nächste Aktionen und optional Analystenname.
+- **Szenarien:** Ownership-/Exit-Rechner und Deep-Tech-Readiness-Workspace mit
+  ausdrücklich gekennzeichneten Analystenannahmen.
+
+Datenimport über die Sidebar: scores-Liste, einzelnes Lead, ResearchResult oder
+AnalysisRun. Alternativer Standardpfad und persistente Datenbank:
+
+```powershell
+$env:FOUNDERRADAR_SCORES = 'C:\Pfad\scores.json'
+$env:FOUNDERRADAR_DB = 'C:\Pfad\screening.sqlite3'
+.\.venv\Scripts\python.exe -m streamlit run cockpit.py
+```
+
+Ohne DB-Variable: `data/screening.sqlite3` (Git-ignored). Bestehende Entscheidungen
+bleiben durch additive Migration erhalten. Demo und Live haben getrennte Namespaces.
+`bewertet` ist kein Analystenstatus. Keine E-Mails werden versendet. Die lokale
+SQLite-Lösung ist für den Hackathon gedacht, ohne Mehrbenutzer-Login.
+
+### Architektur und Grenzen
+
+| Datei | Aufgabe |
+| --- | --- |
+| `cockpit.py` | Navigation, Dealflow, Profile, Evidence, Analystenworkflow |
+| `cockpit_data.py` | Normalisiertes Lead-Modell, Legacy/v2-Adapter, HTGF-Heuristik, Szenariomathematik |
+| `cockpit_research.py` | Marktcharts, Competition, Funding, sektorbezogene Ansichten |
+| `config/htgf.v1.json` | Versionierte Kriterien mit Quelle, Prüfdatum und Mandatsabgrenzung |
+| `analyst_store.py` | SQLite; Migration für next_action und analyst_name |
+| `tests/test_cockpit.py` | Zehn Scoring-Fixtures, Adapter, Mathematik, UI, Persistenz und Datenlücken |
+
+Der bestehende Python-/Streamlit-Stack wird weiterverwendet. Ein separater
+React-/Next.js-Build und eine HTTP-API sind für diese Implementierung nicht nötig.
+Die Engines werden nicht neu implementiert. Die Integration der Team-Branches erhält
+beide Modell-Feldmengen und erlaubt das belegte Ergänzen eines zuvor unbekannten
+first_signal_date; vorhandene Sourcing-Daten bleiben geschützt.
+
+`context_v2` und `evaluation_v2` sind optionale Erweiterungsobjekte. Kanonische Felder
+können darin ergänzt werden; das Original bleibt in Lead.raw erhalten. Doppelte IDs
+werden zurückgewiesen. Legacy-Confidence 0-1 wird als Prozent angezeigt; native
+confidence_score 0-100 entsprechend normalisiert. Vollständig unbelegte Dimensionen
+werden als **Not assessed** dargestellt. Gemischte Scores bleiben Originalwerte und
+tragen einen Hinweis auf neutrale 50-Punkte-Anteile. Risiko: 100 = hohes Risiko,
+entsprechend `scoring/SCORING.md`. Fehlende DB-Angaben bleiben unbekannt, Proxy-Gründung
+bleibt Proxy, first_signal_date wird nicht als Engine-Entdeckung ausgegeben.
+Dummy-Namen und example-Domains kennzeichnen Demo-Daten.
+
+Die [offiziellen HTGF-Kriterien](https://www.htgf.de/) wurden am 20.11.2026 geprüft:
+frühe Phase, Technologiefokus, höchstens drei Jahre und deutscher Sitz/Betriebsstätte.
+800.000+ EUR sind ein flexibler Sweet Spot, keine harte Ausschlussgrenze.
+Potential Fit benötigt passende vier Kernkriterien; Ticket und Portfolio-Overlap
+bleiben gesonderte Prüfungen. Geografie wird nicht aus Domain/Sprache abgeleitet.
+Deshalb bleiben gute Scoring-Dummies ohne geografische Angaben Review Required.
+Die Heuristik gilt für Erstinvestitionen und ist keine offizielle HTGF-Bewertung.
+
+### Research-Vertrag
+
+Optionale Felder auf Lead-Ebene oder unter context_v2:
+
+- `market_intelligence`: definition, geography, year, methodology, sizing,
+  growth_series, drivers, uncertainties, growth, maturity, competition_intensity,
+  commercialization_potential.
+- `sizing`: Einträge mit label (TAM/SAM/SOM), value, unit, source. Grafik nur bei
+  drei belegten Größen, gleicher Einheit, TAM >= SAM >= SOM und vollständiger Methodik.
+- `growth_series`: year, value, unit, definition, geography, as_of, source,
+  kind (Historical/Forecast). Mindestens zwei eindeutige Jahre mit identischer
+  Einheit, Marktdefinition, Geografie und Datenstand. Forecasts gestrichelt;
+  CAGR aus Endpunkten, inklusive Prognosen, wenn vorhanden.
+- `competitors`: Strings oder Objekte mit name, product, customer_segment,
+  geography, stage, differentiation, funding, source.
+- `competitive_positioning`: x_label, y_label, rationale, points mit name, x, y,
+  source. Ohne belegte Koordinaten und begründete Achsen keine Positionierungsgrafik.
+- `comparable_transactions`: name, type, date, value, currency, value_type,
+  revenue, ebitda, multiple_basis, metrics_comparable, source. Multiples nur bei
+  Enterprise Value, positivem Nenner, EV/Revenue oder EV/EBITDA und explizit
+  vergleichbarer Währung/Periode (metrics_comparable: true).
+- `sector_research`: z. B. arr, retention, unit_economics für Digital Tech;
+  technology_readiness, commercial_pilots, capital_intensity für DeepTech;
+  regulatory_pathway, patent_protection, next_catalyst für Life Sciences/Chemistry.
+
+Noch kein dedizierter Market-Research-Endpunkt: kein vorgetäuschter Generate-Button.
+Die vorhandene Kontext-CLI bleibt separat nutzbar (siehe unten). Marktcharts und
+Wettbewerbspositionierung sind implementiert, aber die zehn Scoring-Dummies liefern
+noch keine ausreichend strukturierten Eingaben dafür. Es gibt keine erfundenen
+Finanzierungen, Marktgrößen, Zeitreihen, Exitbewertungen oder Empfehlungen.
+
+Prüfung:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m compileall -q cockpit.py cockpit_data.py cockpit_research.py
+```
+
+## Bisherige Anwendung und Pipeline
 
 Ein zusammenhängender Ablauf für VC-Screening: **Kategorie auswählen → Analyse
 starten → visualisierte Ergebnisse → Startup-Deep-Dive**.

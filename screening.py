@@ -6,9 +6,9 @@ def screening_status(lead):
         return "Ausgeschlossen"
     if lead.eligibility_status == "Unknown":
         return "Fondskriterien prüfen"
-    if lead.funding_status == "Unknown":
+    if lead.funding_status in {"Unknown", "unknown", "conflicting"}:
         return "Funding prüfen"
-    if lead.funding_status in {"Pre-Seed", "Seed", "Later"}:
+    if lead.funding_status in {"Pre-Seed", "Seed", "Later", "vc_backed", "non_vc_funded", "funded"}:
         return "Finanzierung bekannt"
     return "Kontakt prüfen"
 
