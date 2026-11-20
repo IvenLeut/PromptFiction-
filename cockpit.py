@@ -62,8 +62,8 @@ def landing():
                 import logging
                 logging.getLogger(__name__).exception("Analysis failed")
                 st.error("Analysis could not finish. Check the connected sourcing service and server log; then retry.")
-                if isinstance(exc, NotImplementedError):
-                    st.info("The live sourcing provider is not implemented in this repository yet. The automatic handoff is ready; a provider must return leads first.")
+                if isinstance(exc, (NotImplementedError, ValueError)):
+                    st.info(str(exc))
     with b:
         st.markdown("#### Your research workspace")
         st.markdown("**01 · Overview**  \nPriorities, score distribution and next actions.\n\n**02 · Dealflow**  \nCompare, filter and shortlist companies.\n\n**03 · Company Deep Dive**  \nBusiness, team, market, capital and sources.\n\n**04 · Activities**  \nOwners, deadlines, outreach and decision history.")

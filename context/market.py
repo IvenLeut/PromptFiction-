@@ -1,6 +1,7 @@
 """Build market research for a selected lead from a bounded source dossier."""
 from datetime import datetime, timezone
-from math import floor, isfinite
+from decimal import Decimal, ROUND_FLOOR
+from math import isfinite
 from typing import Any
 
 from models import EnrichedLead
@@ -45,7 +46,7 @@ def _market_size(count, price):
             or count.geography != price.geography or count.period != price.period):
         raise ValueError("Marktgröße benötigt Unternehmen und jährlichen Preis für dieselbe Geografie und Periode.")
     return MarketMeasure(
-        value=count.value * price.value, unit="pro Jahr", currency=price.currency,
+        value=Decimal(str(count.value)) * Decimal(str(price.value)), unit="pro Jahr", currency=price.currency,
         geography=count.geography, period=count.period,
         methodology=f"{count.value:,.0f} Unternehmen × {price.value:,.2f} {price.currency}/Unternehmen/Jahr. "
                     f"Grundgesamtheit: {count.methodology}",
@@ -58,7 +59,8 @@ def _subset(base, *, share=None, capacity=None):
         if (share.unit != "Anteil" or share.currency is not None or not 0 <= share.value <= 1
                 or share.geography != base.geography or share.period != base.period):
             raise ValueError("SAM-Anteil muss zwischen 0 und 1 liegen und zur TAM-Grundgesamtheit passen.")
-        value = floor(base.value * share.value)
+        fraction = Decimal(str(base.value)) * Decimal(str(share.value))
+        value = int(fraction.to_integral_value(rounding=ROUND_FLOOR))
         detail = f"TAM-Grundgesamtheit × {share.value:.1%} erreichbarer Anteil, abgerundet"
         factor = share
     else:

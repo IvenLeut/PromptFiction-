@@ -86,6 +86,12 @@ def from_sqlite(path):
         con.close()
 
 
+GERMAN_SEAT = re.compile(
+    r"\b(?:sitz|firmensitz|unternehmenssitz|standort|hauptsitz|registered office|headquarters|project location|vorhabenort)"
+    r"\s*(?:in\s+|:\s*)(?:[\w -]{1,70},\s*)?(?:Deutschland|Germany)\s*(?=$|[.;\n])", re.I
+)
+
+
 def _read(con, path):
     if True:
         tabellen = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
@@ -100,7 +106,8 @@ def _read(con, path):
             roh_id = lead.get("lead_id")
             lead_id = str(roh_id) if roh_id not in (None, "") else re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
             sig = sorted((s for s in signals if lead_id and str(s.get("lead_id")) == lead_id), key=lambda s: (str(s.get("date")), str(s.get("url"))))
-            de = next((s for s in sig if s.get("source") in ("foekat", "impressum") and s.get("url") and s.get("evidence")), None)
+            de = next((s for s in sig if s.get("source") in ("foekat", "impressum")
+                       and s.get("url") and GERMAN_SEAT.search(str(s.get("evidence") or ""))), None)
             foerderung, kennzeichen = [], set()  # EXIST nur bei bekanntem Signal-Typ oder EXIST-Förderkennzeichen (03EF…/03EG…)
             for s in sig:
                 typ = str(s.get("type") or "").strip().lower()

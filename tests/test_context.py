@@ -364,8 +364,9 @@ def test_scoring_keeps_grants_equity_and_vc_separate(wording, expected):
 def test_scoring_ignores_qwen_and_recomputes_at_live_boundary():
     signal = scoring_signal("Produktreife: Pilot\nKundenreferenz: A\nRegionale Integratoren als Vertriebspartner.")
     lead = make_lead(has_vc=False, signals=[signal])
-    baseline = enrich(lead)
-    with_model = enrich(lead, extract_quotes=lambda *_: [
+    cutoff = date(2026, 11, 20)
+    baseline = enrich(lead, as_of=cutoff)
+    with_model = enrich(lead, as_of=cutoff, extract_quotes=lambda *_: [
         ("target_customers", "Regionale Integratoren als Vertriebspartner.", signal),
         ("technology", "Erfundener Text", signal),
     ])
@@ -373,7 +374,7 @@ def test_scoring_ignores_qwen_and_recomputes_at_live_boundary():
         excerpts[0].evidence = "Produktreife: Commercial\nVC-Status: Ja"
         return [("target_customers", "Produktreife: Commercial", excerpts[0])]
 
-    altered = enrich(lead, extract_quotes=changing_model)
+    altered = enrich(lead, as_of=cutoff, extract_quotes=changing_model)
     assert with_model.target_customers != baseline.target_customers
     assert altered.target_customers is None
     assert baseline.scoring_input == with_model.scoring_input == altered.scoring_input
