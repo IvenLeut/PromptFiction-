@@ -46,9 +46,20 @@ def test_partial_failure():
     assert result.issues[0].lead_id == raw[0].id
 
 
-def test_no_live_fallback():
-    with pytest.raises(NotImplementedError):
-        discover(SearchCriteria(industry=Industry.AI), use_mock=False)
+def test_no_live_fallback(monkeypatch):
+    # The sourcing placeholder was replaced by the Förderkatalog sourcing; a failed live discovery must still raise.
+    from context.foekat import FoekatError
+    from sourcing.engine import SourcingError
+
+    class Offline:
+        def fetch(self, *args, **kwargs):
+            raise FoekatError("URLError")
+    monkeypatch.setenv("CONTEXT_CACHE", "off")
+    monkeypatch.setattr("sourcing.foekat_export.Session", Offline)
+    found = []
+    with pytest.raises(SourcingError):
+        found = discover(SearchCriteria(industry=Industry.AI), use_mock=False)
+    assert found == []
 
 
 def test_no_mixing():

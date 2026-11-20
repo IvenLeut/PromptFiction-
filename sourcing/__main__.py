@@ -1,0 +1,94 @@
+"""Step-1 CLI: `python -m sourcing foekat --since 2024-01-01 --out shortlist.json`.
+
+Writes a JSON array of RawLead that `python -m context shortlist.json dossiers.json` reads unchanged.
+With the cache filled, two runs produce byte-identical files.
+"""
+import argparse
+import json
+import logging
+import sys
+from datetime import date
+from pathlib import Path
+
+from pydantic import TypeAdapter
+
+from context.cache import Cache
+from models import Industry, RawLead
+from sourcing.engine import since_default
+from sourcing.foekat_export import ExportError, export_rows, fetch_export
+from sourcing.mapping import build_leads
+
+PROGRAMME_PREFIXES = {"ef": ("03EF",), "eg": ("03EG",), "both": ("03EF", "03EG")}
+INDUSTRY_ALIASES = {"ai": Industry.AI, "software": Industry.AI, "climate": Industry.CLIMATE, "health": Industry.HEALTH,
+                    "fintech": Industry.FINTECH, "industrial": Industry.INDUSTRIAL, "deeptech": Industry.INDUSTRIAL}
+
+
+def parse_industry(value: str) -> Industry | None:
+    if value.casefold() == "all":
+        return None
+    for industry in Industry:
+        if value.casefold() in {industry.value.casefold(), industry.name.casefold()}:
+            return industry
+    if value.casefold() in INDUSTRY_ALIASES:
+        return INDUSTRY_ALIASES[value.casefold()]
+    raise argparse.ArgumentTypeError("unbekannte Branche %r (all, %s)" % (value, ", ".join(sorted(INDUSTRY_ALIASES))))
+
+
+def _raw_copies(directory: Path, prefixes, since, cache) -> None:
+    """Copy the cached raw exports (original ISO-8859-15 bytes) of the top-level queries; no network."""
+    directory.mkdir(parents=True, exist_ok=True)
+    for prefix in prefixes:
+        def offline(*_):
+            raise ExportError("nicht im Cache")
+        try:
+            export = fetch_export(prefix, since, fetch=offline, cache=cache)
+        except ExportError:
+            continue
+        (directory / ("foekat_%s_%s.csv" % (prefix, since.isoformat()))).write_bytes(export.raw)
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(prog="python -m sourcing", description="Schritt 1: Sourcing")
+    sub = parser.add_subparsers(dest="source", required=True)
+    p = sub.add_parser("foekat", help="EXIST-Projekte aus dem Förderkatalog des Bundes (CSV-Export)")
+    p.add_argument("--since", type=date.fromisoformat, default=None,
+                   help="Projektbeginn ab (JJJJ-MM-TT, Standard FOEKAT_SINCE oder 2024-01-01)")
+    p.add_argument("--out", type=Path, required=True, help="Ausgabe: JSON-Array mit RawLead")
+    p.add_argument("--industry", type=parse_industry, default=None, help="Branche (Standard all)")
+    p.add_argument("--limit", type=int, help="Höchstens so viele Leads ausgeben (nach Sortierung)")
+    p.add_argument("--cache", default=None, help="Cache-Datenbank (Standard .cache/context.db, 'off' = aus)")
+    p.add_argument("--programme", choices=sorted(PROGRAMME_PREFIXES), default="both",
+                   help="ef = Forschungstransfer, eg = Gründungsstipendium")
+    p.add_argument("--stats", type=Path, help="Optional: Statistik (Trefferzahlen, Branchen, Flags) als JSON")
+    p.add_argument("--raw-dir", type=Path, help="Optional: Roh-Exporte (ISO-8859-15) aus dem Cache hierhin kopieren")
+    args = parser.parse_args(argv)
+    if args.limit is not None and args.limit < 1:
+        parser.error("--limit muss positiv sein")
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s", stream=sys.stderr)
+    since = args.since or since_default()
+    prefixes = PROGRAMME_PREFIXES[args.programme]
+    cache = Cache(args.cache)
+    try:
+        result = build_leads(export_rows(prefixes, since, cache=cache))
+    except ExportError as exc:
+        print("Fehler: %s" % exc, file=sys.stderr)
+        return 2
+    leads = [lead for lead in result.leads if args.industry is None or lead.industry == args.industry]
+    if args.limit is not None:
+        leads = leads[:args.limit]
+    args.out.write_bytes(TypeAdapter(list[RawLead]).dump_json(leads, indent=2) + b"\n")
+    if args.stats:
+        stats = result.stats(args.industry)
+        stats.update({"since": since.isoformat(), "programme": args.programme, "written": len(leads),
+                      "industry_filter": args.industry.value if args.industry else "all"})
+        args.stats.write_text(json.dumps(stats, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    if args.raw_dir:
+        _raw_copies(args.raw_dir, prefixes, since, cache)
+    if not result.export.complete:
+        print("Warnung: Export unvollständig: %s" % "; ".join(result.export.warnings), file=sys.stderr)
+    print("%d Leads geschrieben nach %s" % (len(leads), args.out), file=sys.stderr)
+    return 0 if result.export.complete else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

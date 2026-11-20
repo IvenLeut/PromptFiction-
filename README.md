@@ -86,6 +86,37 @@ bereits in RawLead, nicht erst in EnrichedLead. Alle bisherigen Felder werden ve
 Die Kontext-Engine darf diese Felder nicht erneut als zusätzliche Constructor-Argumente
 übergeben; `EnrichedLead(**lead.model_dump(), evidence=...)` übernimmt sie bereits.
 
+## Schritt 1: Sourcing aus dem Förderkatalog
+
+`sourcing.engine.search(criteria)` liefert EXIST-Projekte aus dem
+[Förderkatalog des Bundes](https://foerderportal.bund.de/foekat/) als RawLead:
+EXIST-Forschungstransfer (FKZ `03EF*`) und EXIST-Gründungsstipendium (`03EG*`) mit
+Projektbeginn ab 01.01.2024, laufende und abgeschlossene Projekte. Das Startdatum lässt sich mit
+`--since` oder `FOEKAT_SINCE` ändern.
+
+~~~powershell
+python -m sourcing foekat --since 2024-01-01 --out shortlist.json --stats stats.json
+python -m sourcing foekat --out health.json --industry health --programme ef --limit 20
+python -m context shortlist.json dossiers.json
+~~~
+
+Je Programm laufen eine Detailsuche und der CSV-Export des Katalogs. Die Zeilenzahl wird gegen die
+gemeldete Trefferzahl geprüft. Bei Abweichung wird die Abfrage nach FKZ-Präfix aufgeteilt und über die
+FKZ dedupliziert. Ist die Lücke nicht zu schließen, meldet der Lauf `complete=false` mit Warnung.
+Der Cache `.cache/context.db` macht Folgeläufe byte-identisch.
+
+Pro Projekt entsteht ein Lead:
+- Signale: eines je FKZ, mit FKZ, Thema, Förderempfänger, Ausführender Stelle, Laufzeit und Summe.
+- Deutschland-Beleg: die Detailseite des Katalogs.
+- Branche: über Schlüsselwortregeln für Thema, Ausführende Stelle und Empfänger. Trifft keine Regel,
+  gilt ein Standardwert mit dem Flag `industry_unclassified`.
+
+Grenzen: EXIST-Teams sind meist noch nicht gegründet. Gründer:innen, E-Mail, Website und
+Gründungsdatum bleiben deshalb leer, und die Flags `pre_founding_team` und `internal_review_case`
+markieren diese Leads als Prüffälle. Details stehen in `sourcing/FOEKAT.md`.
+
+NOTICE: Vorgehen nach technologiestiftung/udb-foerderkatalog-scraper (MIT).
+
 ## Schritt 2: zusätzlicher Kontext
 
 Schritt 2 lässt sich mit einer bestehenden Liste separat ausführen.
@@ -259,7 +290,7 @@ ihres Prozessschritts. Die Demo durchläuft dieselben Pipeline-Funktionen wie di
 spätere Live-Integration. Die UI verwendet aktuell `use_mock=True`.
 
 `run_pipeline(criteria, use_mock=False)` verbindet die drei Live-Module.
-Sourcing ist weiterhin ein Platzhalter; Kontext und Bewertung laufen live (Bewertung:
+Sourcing liest live EXIST-Projekte aus dem Förderkatalog (siehe „Schritt 1“). Kontext und Bewertung laufen ebenfalls live (Bewertung:
 `scoring/SCORING.md`). Provider, Enricher und Evaluator lassen sich für Tests einzeln injizieren.
 Fehler einzelner Kontext-/Bewertungsaufrufe verhindern nicht die restliche Verarbeitung.
 Ein Totalausfall im Sourcing wird an die Oberfläche gemeldet.

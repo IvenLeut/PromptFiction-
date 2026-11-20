@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="de">
+
+
+
+
+<head>
+	
+	<meta charset="ISO-8859-15">
+    
+
+	
+	
+		<title>Förderkatalog</title>
+	
+
+	
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	
+	<meta http-equiv="Expires" content="0" />
+	
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	
+	<meta http-equiv="Pragma" content="no-cache" />	
+
+	
+	<link id="favicon" rel="shortcut icon" href="/foekat/favicon.ico?version=3.5.0.2" type="image/x-icon"/>
+
+	
+	<link rel="stylesheet" type="text/css" href="/foekat/css/standard.css?version=3.5.0.2" />
+
+	
+	<script type="text/javascript" src="/foekat/js/standard.js?version=3.5.0.2"></script>
+	
+	
+	<link rel="stylesheet" type="text/css" href="/foekat/css/navigations.css?version=3.5.0.2" />
+</head>
+<body>
+	<header>
+	<div class="header_container">
+	
+		<nav id="metaNavigation" role="navigation" aria-label="Meta-Navigation">
+			<div class="topnav_container">
+				
+				<a href="/foekat/jsp/DefaultAction.do?actionMode=impressum">Impressum</a>                                                     
+				&nbsp;&nbsp; 
+
+				
+				<a href="/foekat/jsp/DefaultAction.do?actionMode=datenschutz">Datenschutz</a>                                                     
+				&nbsp;
+			</div>
+		</nav>
+		
+		<div class="header_logo_bundesreg">
+			<a href="https://www.bundesregierung.de">
+			
+			<img border="0" src="/foekat/images/BReg_Web_de.png" alt="Die Bundesregierung" />
+			</a>
+		</div>
+
+		<div class="header_logo_foekat">
+			<img border="0" src="/foekat/images/Logo_Foekat.gif" alt="Foerderkatalog" />
+		</div> 
+		
+		<nav id="hauptNavigation" role="navigation" aria-label="Haupt-Navigation">
+			<div class="menu_container">
+				<div class="menu_item first_item">
+					<a href="/foekat/jsp/StartAction.do?actionMode=list">Startseite</a>
+				</div>
+					
+				<div class="menu_item">
+					<a href="/foekat/jsp/SucheAction.do?actionMode=searchmask" >Vorhabensuche</a>
+				</div>
+					
+				<div class="menu_item">
+					<a href="/foekat/jsp/DefaultAction.do?actionMode=kontakt" >Weitere Informationen</a>
+				</div>
+					
+			</div>
+		</nav>
+	</div>
+	</header>
+
+
+	<div style="clear: both; margin-bottom: 1em; border-bottom: 5px solid #7091b3;">
+			<!-- content -->
+			<div class="content" style="float: none;" role="main">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="content_background_outer">
+
+				<div class="header_bg3" style="width: 100%; margin-bottom: 0.8em; padding-bottom: 0.2em;">
+				<nav id="unterNavigation" role="nav" aria-label="Unter-Navigation">
+					<ul class="nobreak_hz">							
+						
+							<li class="nobreak_hz">
+								<div style="float:left;vertical-align:top;padding-top:2px;">
+									
+									<div style="float:left;padding-top:1px;"><img src="/foekat/images/suche_neu.gif" alt="Grafik neue Suche" /></div>
+									&nbsp;
+									<a href="SucheAction.do?actionMode=searchreset" class="fk_menu" title="neue Suche">neue Suche</a>
+									&nbsp;&nbsp;
+								</div>
+							</li>
+							<li class="nobreak_hz">
+								<div style="float:left;vertical-align:top;padding-top:2px;">
+									
+									<div style="float:left;padding-top:1px;"><img src="/foekat/images/suche_aendern.gif" alt="Grafik Suche" /></div>
+									&nbsp;
+									
+									<a href="/foekat/jsp/SucheAction.do?actionMode=searchmask" class="fk_menu" title="Suche &auml;ndern">Suche &auml;ndern</a>
+									&nbsp;&nbsp;
+								</div>
+							</li>
+							
+							
+							<li class="nobreak_hz">
+								<div style="float:left;vertical-align:top;padding-top:2px;">
+									
+									<div style="float:left;padding-top:1px;"><img src="/foekat/images/print.gif" alt="Grafik f&uuml;r Ausgabe als PDF" /></div>
+									&nbsp;
+									
+									<a href="/foekat/jsp/SucheAction.do?actionMode=print&presentationType=pdf" class="fk_menu"
+									   title="Link öffnet ein neues Fenster zur Ausgabe als PDF" target="_blank">Ausgabe als PDF</a>
+									&nbsp;&nbsp;
+								</div>
+							</li>
+							<li class="nobreak_hz">
+								<div style="float:left;vertical-align:top;padding-top:2px;">
+									
+									<div style="float:left;padding-top:1px;"><img src="/foekat/images/excel.gif" alt="Grafik f&uuml;r Ausgabe als Textdatei" style="height:12px;" /></div>
+									&nbsp;
+									<a href="#" class="fk_menu"
+									   title="Link öffnet ein neues Fenster für die Ausgabe als Textdatei"
+									   onclick="
+									   			
+									   				javascript:openExportWindow('/foekat/jsp/SucheAction.do?actionMode=print&amp;presentationType=csv', 
+									   										    '',
+									   										    false)
+									   			">Ausgabe als Textdatei</a>
+									&nbsp;&nbsp;
+								</div>
+							</li>
+							
+						
+					</ul>
+				</nav>
+				</div>
+
+		
+    	
+			<nav id="pagingArea" role="nav" aria-label="Navigationsbereich zum Blättern in der Ergebnisliste">
+				
+
+
+
+	<!-- listheader -->
+		<div style="height:20px;float:right;padding:0px;">
+			
+			<form id="listprev" name="listprev" action="/foekat/jsp/SucheAction.do" method="post" style="display:inline;margin: 0px;" title="HTML-FORM zum Blättern zur vorherigen Seite in der Ergebnisliste">
+				<input type="hidden" name="suche.listrowfrom" value="1" id="listrowprev"/>
+				<input type="hidden" name="suche.listrowpersite" value="10" id="listrowpersite_prev"/>
+				<input type="hidden" name="suche.orderby" value="1" id="orderbyprev"/>
+				<input type="hidden" name="suche.order" value="asc" id="orderprev"/>
+				
+				
+					<strong class="listheaderDeaktivate">Vorherige</strong>&nbsp;
+				
+			</form>
+
+
+
+	
+			<form id="listselect" name="listselect" action="/foekat/jsp/SucheAction.do" method="post" style="display:inline;margin: 0px;" title="HTML-FORM zur Auswahl einer bestimmten Seite in der Ergebnisliste">
+				<input type="hidden" name="suche.listrowpersite" value="10" id="listrowpersite"/>
+				<input type="hidden" name="suche.orderby" value="1" id="listselect_suche_orderby"/>
+				<input type="hidden" name="suche.order" value="asc" id="listselect_suche_order"/>
+				
+				
+					<select name="suche.listrowfrom" id="listselect_suche_listrowfrom" title="Auswahlbox für die direkte Auswahl einer bestimmten Seite der Ergebnisliste" onchange="this.form.submit();">
+    <option value="1" selected="selected">1 - 10</option>
+    <option value="11">11 - 20</option>
+    <option value="21">21 - 30</option>
+    <option value="31">31 - 40</option>
+    <option value="41">41 - 50</option>
+    <option value="51">51 - 60</option>
+    <option value="61">61 - 70</option>
+    <option value="71">71 - 80</option>
+    <option value="81">81 - 90</option>
+    <option value="91">91 - 100</option>
+    <option value="101">101 - 110</option>
+    <option value="111">111 - 120</option>
+    <option value="121">121 - 130</option>
+    <option value="131">131 - 140</option>
+    <option value="141">141 - 150</option>
+    <option value="151">151 - 160</option>
+    <option value="161">161 - 170</option>
+    <option value="171">171 - 180</option>
+    <option value="181">181 - 190</option>
+    <option value="191">191 - 200</option>
+    <option value="201">201 - 210</option>
+    <option value="211">211 - 220</option>
+    <option value="221">221 - 230</option>
+    <option value="231">231 - 240</option>
+    <option value="241">241 - 250</option>
+    <option value="251">251 - 260</option>
+    <option value="261">261 - 270</option>
+    <option value="271">271 - 280</option>
+    <option value="281">281 - 290</option>
+    <option value="291">291 - 300</option>
+    <option value="301">301 - 310</option>
+    <option value="311">311 - 320</option>
+    <option value="321">321 - 330</option>
+    <option value="331">331 - 340</option>
+    <option value="341">341 - 350</option>
+    <option value="351">351 - 360</option>
+    <option value="361">361 - 370</option>
+    <option value="371">371 - 380</option>
+    <option value="381">381 - 390</option>
+    <option value="391">391 - 400</option>
+    <option value="401">401 - 410</option>
+    <option value="411">411 - 420</option>
+    <option value="421">421 - 430</option>
+    <option value="431">431 - 440</option>
+    <option value="441">441 - 450</option>
+    <option value="451">451 - 460</option>
+    <option value="461">461 - 470</option>
+    <option value="471">471 - 480</option>
+    <option value="481">481 - 490</option>
+    <option value="491">491 - 500</option>
+    <option value="501">501 - 510</option>
+    <option value="511">511 - 520</option>
+    <option value="521">521 - 530</option>
+    <option value="531">531 - 540</option>
+    <option value="541">541 - 550</option>
+    <option value="551">551 - 560</option>
+    <option value="561">561 - 570</option>
+    <option value="571">571 - 580</option>
+    <option value="581">581 - 587</option>
+</select>
+
+
+				
+			</form>
+
+
+
+	
+			<form id="listnext" name="listnext" action="/foekat/jsp/SucheAction.do" method="post" style="display:inline;margin: 0px;" title="HTML-FORM zum Blättern zur nächsten Seite in der Ergebnisliste">
+				<input type="hidden" name="suche.listrowfrom" value="11" id="listrowfrom"/>
+				<input type="hidden" name="suche.listrowpersite" value="10" id="listrowpersite_next"/>
+				<input type="hidden" name="suche.orderby" value="1" id="orderbyfrom"/>
+				<input type="hidden" name="suche.order" value="asc" id="orderfrom"/>
+				
+					<a href="#" onclick="document.getElementById('listnext').submit();"><strong>Nächste</strong></a>&nbsp;
+				
+				
+			</form>
+
+
+
+		</div>
+
+		<div style="clear:left;height:0px;width:0px;font-size:0px;"></div>
+	<!-- Ende listheader -->	
+
+				
+	
+
+	<!-- rowcount -->
+		<div style="height:20px;float:right;padding:0px;">	
+			
+			<form id="rowselect" name="rowselect" action="/foekat/jsp/SucheAction.do" method="post" style="display:inline;margin: 0px;" title="HTML-FORM zur Auswahl der Anzahl der Treffer pro Seite in der Ergebnisliste">
+					<input type="hidden" name="suche.orderby0" value="1" id="rowselect_suche_orderby0"/>
+					<input type="hidden" name="suche.order0" value="asc" id="rowselect_suche_order0"/>
+					
+					
+						<select name="suche.listrowpersite" id="rowselect_suche_listrowpersite" title="Auswahlbox für die der Anzahl der Treffer pro Seite in der Ergebnisliste" onchange="this.form.submit();">
+    <option value="10" selected="selected">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+    <option value="50">50</option>
+</select>
+
+
+						<label for="rowselect_suche_listrowpersite">Treffer pro Seite&nbsp;&nbsp;&nbsp;</label>
+					
+			</form>
+
+
+
+		</div>
+
+		<div style="clear:left;height:0px;width:0px;font-size:0px;"></div>
+	<!-- Ende rowcount -->	
+
+			</nav>
+		
+    	
+		
+			
+		
+		
+    	<h1
+		    aria-label="Suchergebnis. 26 Treffer insgesamt. Angezeigt 1 bis 10"
+		>
+				Suchergebnis
+				
+				
+					&nbsp;(26&nbsp;Treffer)
+				
+		</h1>
+			
+		<div class="content_background_inner">
+			
+			
+			
+			
+			<table cellpadding="3" cellspacing="0" border="0" width="100%"
+			       aria-label="Suchergebnis"
+			>
+				<colgroup>
+    				<col width="10%">
+    				<col width="8%">
+   					<col width="15%">
+   					<col width="15%">
+   					<col width="27%">
+   					<col width="8%">
+   					<col width="13%">
+   					<col width="4%">
+  				</colgroup>
+				<thead>
+				<tr aria-label="Kopfzeile">
+					<th class="table_header_cell" style="border-left:0.05em solid #002266;" scope="col">
+						
+						
+						
+						
+
+
+
+	
+		
+		
+		
+			
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=1&amp;suche.order=desc"  title="Sortieren"
+		   aria-label="Förderkennzeichen. Ist aufsteigend sortiert. Der Link sortiert die Tabelle absteigend."
+		>
+			
+			
+				<img src="../images/pfeil_hoch.gif" title="aufsteigend sortiert" alt="aufsteigend sortiert" />
+			
+			<b>FKZ</b>
+		</a>
+	
+	
+					</th>
+					<th class="table_header_cell" scope="col">
+						
+						
+						
+						
+
+
+
+	
+	
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=3&amp;suche.order=asc"  title="Sortieren"
+		   aria-label="Ressort. Der Link sortiert die Tabelle aufsteigend."
+		>
+			<b>Ressort,<br/></b>
+		</a>
+	
+
+						
+
+						
+						
+						
+						
+
+
+
+	
+	
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=4&amp;suche.order=asc"  title="Sortieren"
+		   aria-label="Administrierende Stelle. Der Link sortiert die Tabelle aufsteigend."
+		>
+			<b>Adm. Stelle<br/></b>
+		</a>
+	
+
+						
+					</th>
+					<th class="table_header_cell" scope="col">
+						
+						
+						
+						
+
+
+
+	
+	
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=5&amp;suche.order=asc"  title="Sortieren"
+		   aria-label="Förderempfänger/Auftragnehmer. Der Link sortiert die Tabelle aufsteigend."
+		>
+			<b>Förderempfänger /<br />Auftragnehmer</b>
+		</a>
+	
+					</th>
+					<th class="table_header_cell" scope="col">
+						
+						
+						
+						
+
+
+
+	
+	
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=6&amp;suche.order=asc"  title="Sortieren"
+		   aria-label="Ausführende Stelle. Der Link sortiert die Tabelle aufsteigend."
+		>
+			<b>Ausführende Stelle</b>
+		</a>
+	
+					</th>
+					<th class="table_header_cell" style="width:40%;" scope="col">
+						
+						
+						
+						
+
+
+
+	
+	
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=7&amp;suche.order=asc"  title="Sortieren"
+		   aria-label="Thema des geförderten Vorhabens. Der Link sortiert die Tabelle aufsteigend."
+		>
+			<b>Thema des geförderten Vorhabens</b>
+		</a>
+	
+					</th>
+					<th class="table_header_cell" scope="col">
+						
+						
+						
+						
+
+
+
+	
+	
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=8&amp;suche.order=asc"  title="Sortieren"
+		   aria-label="Laufzeit von. Der Link sortiert die Tabelle aufsteigend."
+		>
+			<b>Laufzeit von&nbsp;/</b>
+		</a>
+	
+						
+						
+						
+						
+
+
+
+	
+	
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=9&amp;suche.order=asc"  title="Sortieren"
+		   aria-label="Laufzeit bis. Der Link sortiert die Tabelle aufsteigend."
+		>
+			<b>bis</b>
+		</a>
+	
+					</th>
+					<th class="table_header_cell" scope="col">
+						
+						
+						
+						
+
+
+
+	
+	
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=10&amp;suche.order=asc"  title="Sortieren"
+		   aria-label="Förder- / Auftragssumme (Anteil des Bundes). Der Link sortiert die Tabelle aufsteigend."
+		>
+			<b>Förder- / Auftragssumme<br>(Anteil des Bundes)</b>
+		</a>
+	
+					</th>
+					<th class="table_header_cell" scope="col">
+						
+						
+						
+						
+
+
+
+	
+	
+		
+		<a href="/foekat/jsp/SucheAction.do?actionMode=sortlist&amp;suche.orderby=11&amp;suche.order=asc"  title="Sortieren"
+		   aria-label="Projekt. Der Link sortiert die Tabelle aufsteigend."
+		>
+			<b>Projekt</b>
+		</a>
+	
+					</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<!-- rows trimmed for the fixture -->
+				</tbody>
+			</table>
+			 
+		</div>
+		
+		<div>
+			<a href="#"><img style="float:left;clear:left" id="pfeil_top" src="/foekat/images/top.gif" alt="Pfeil nach oben" title="nach oben" /></a>
+		</div>
+		
+	</div>
+
+
+			</div>
+		</div>
+		<!--  content -->
+		<!-- Bottom -->
+		<div class="bottom_line" role="contentinfo">Version:&nbsp;3.5.0.2</div>
+		<!-- Bottom -->
+</body>
+</html>
