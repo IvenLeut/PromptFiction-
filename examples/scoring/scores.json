@@ -1,0 +1,2247 @@
+[
+  {
+    "lead_id": "dummy-software",
+    "name_gruender": "Dummy Gründer B;Dummy Gründerin A",
+    "email": "info@example.org",
+    "name_unternehmen": "Kontraktwerk (Dummy)",
+    "website": "https://example.org/kontraktwerk",
+    "branche": "digital_tech",
+    "gruendungsjahr": 2025,
+    "gruendungsmonat": 10,
+    "gruendung_ist_proxy": true,
+    "risiko_score": 41.3,
+    "marktpotenzial_score": 92.5,
+    "team_score": 93.0,
+    "gesamt_score": 82.5,
+    "confidence": 0.89,
+    "stage": "in_gruendung",
+    "produktbeschreibung": "Kontraktwerk prüft Lieferverträge im Maschinenbau automatisch auf Haftungsrisiken. Einkäufer laden Verträge hoch und erhalten in Minuten eine Liste kritischer Klauseln.",
+    "value_proposition": "Kontraktwerk prüft Lieferverträge im Maschinenbau automatisch auf Haftungsrisiken.",
+    "investmenthypothese": "Wir investieren, weil: 2 belegte Partner; stärkster: Dummy Maschinenbau 2 (pilot); Dummy Gründerin A: 4 Papers im Produktfeld. Nächster Meilenstein: der erste zahlende Kunde. Hauptrisiko: Keine Schutzrechte.",
+    "why_now": "Gerade in Gründung; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 5 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "Dummy Gründerin A: 4 Papers im Produktfeld",
+        "url": "https://example.net/openalex/A1",
+        "datum": null,
+        "punkte": 80.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "2 Gründer mit Technik und Business",
+        "url": "https://example.org/kontraktwerk/team",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "Vollzeit-Signal: EXIST-Gründungsstipendium",
+        "url": "https://example.com/foerderkatalog/03EGDUMMY1",
+        "datum": "2025-10-01",
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "Dummy Gründer B hat bereits gegründet",
+        "url": "https://example.org/kontraktwerk/team",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "Marktvolumen 1,4 Mrd. EUR",
+        "url": "https://example.com/marktstudie-vertragssoftware",
+        "datum": null,
+        "punkte": 90.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "2 belegte Partner; stärkster: Dummy Maschinenbau 2 (pilot)",
+        "url": "https://example.org/kontraktwerk/referenzen",
+        "datum": null,
+        "punkte": 95.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "Produkttyp: software",
+        "url": "https://example.org/kontraktwerk",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "Zielkunde: Einkauf im Maschinenbau; Modell: b2b",
+        "url": "https://example.org/kontraktwerk",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "1 belegte Wettbewerber: Dummy Wettbewerber X",
+        "url": "https://example.com/marktstudie-vertragssoftware",
+        "datum": null,
+        "punkte": 70.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "Reifegrad: pilot",
+        "url": "https://example.org/kontraktwerk",
+        "datum": null,
+        "punkte": 30.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "Keine Schutzrechte",
+        "url": "https://example.org/kontraktwerk/faq",
+        "datum": null,
+        "punkte": 70.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "Bisherige Förderung 140.000 EUR",
+        "url": "https://example.com/foerderkatalog/03EGDUMMY1",
+        "datum": "2025-10-01",
+        "punkte": 45.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "3 unabhängige Quellen",
+        "url": "https://example.net/openalex/A1",
+        "datum": "2025-03-15",
+        "punkte": 20.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "in_gruendung: Rechtsform UG i.G.",
+        "url": "https://example.org/kontraktwerk/impressum",
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 80.0,
+          "gewicht": 0.35,
+          "belegt": true
+        },
+        "komplementaer": {
+          "punkte": 100.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 100.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "vorerfahrung": {
+          "punkte": 100.0,
+          "gewicht": 0.2,
+          "belegt": true
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 90.0,
+          "gewicht": 0.3,
+          "belegt": true
+        },
+        "traktion": {
+          "punkte": 95.0,
+          "gewicht": 0.3,
+          "belegt": true
+        },
+        "skalierbarkeit": {
+          "punkte": 100.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "zielkunde": {
+          "punkte": 100.0,
+          "gewicht": 0.1,
+          "belegt": true
+        },
+        "wettbewerb": {
+          "punkte": 70.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 30.0,
+          "gewicht": 0.4,
+          "belegt": true
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 70.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "finanzierung": {
+          "punkte": 45.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "datenlage": {
+          "punkte": 20.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Regulatorik"
+    ],
+    "first_signal_date": "2025-03-15",
+    "earliness_delta_monate": 20,
+    "in_databases": false,
+    "source_url": "https://example.com/foerderkatalog/03EGDUMMY1",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "dummy-lifesciences",
+    "name_gruender": "Dummy Ingenieur F;Dummy Kauffrau G;Dummy Ärztin E",
+    "email": "",
+    "name_unternehmen": "OsteoPrint (Dummy)",
+    "website": "https://example.org/osteoprint",
+    "branche": "life_sciences",
+    "gruendungsjahr": 2026,
+    "gruendungsmonat": 1,
+    "gruendung_ist_proxy": false,
+    "risiko_score": 45.0,
+    "marktpotenzial_score": 57.5,
+    "team_score": 94.0,
+    "gesamt_score": 69.5,
+    "confidence": 0.97,
+    "stage": "pre_seed",
+    "produktbeschreibung": "OsteoPrint druckt patientenspezifische Knochenimplantate aus resorbierbarem Material. Chirurgen bestellen das Implantat auf Basis von CT-Daten.",
+    "value_proposition": "OsteoPrint druckt patientenspezifische Knochenimplantate aus resorbierbarem Material.",
+    "investmenthypothese": "Wir investieren, weil: Dummy Ärztin E: 11 Papers im Produktfeld; 3 Gründer mit Technik und Business. Nächster Meilenstein: ein erster Pilot. Hauptrisiko: Reifegrad: prototyp.",
+    "why_now": "Gegründet, Pre-Seed; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 8 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "Dummy Ärztin E: 11 Papers im Produktfeld",
+        "url": "https://example.net/openalex/E1",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "3 Gründer mit Technik und Business",
+        "url": "https://example.net/openalex/F1",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "Vollzeit-Signal: EXIST-Forschungstransfer",
+        "url": "https://example.com/foerderkatalog/03EFDUMMY3",
+        "datum": "2024-07-01",
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "Dummy Kauffrau G hat Industrieerfahrung",
+        "url": "https://example.org/osteoprint/team",
+        "datum": null,
+        "punkte": 70.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "Marktvolumen 600,0 Mio. EUR",
+        "url": "https://example.com/marktstudie-implantate",
+        "datum": null,
+        "punkte": 65.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "1 belegte Partner; stärkster: Dummy-Klinikum Berlin (forschungspartner)",
+        "url": "https://example.org/osteoprint/partner",
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "Produkttyp: hardware",
+        "url": "https://example.org/osteoprint",
+        "datum": null,
+        "punkte": 40.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "Zielkunde: Unfallchirurgie in Kliniken; Modell: b2b",
+        "url": "https://example.org/osteoprint",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "Reifegrad: prototyp",
+        "url": "https://example.org/osteoprint",
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "Regulierter Markt, Zulassung nötig",
+        "url": "https://example.org/osteoprint",
+        "datum": null,
+        "punkte": 85.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "Patent erteilt",
+        "url": "https://example.com/patent/DUMMY-EP-1",
+        "datum": null,
+        "punkte": 15.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "Bisherige Förderung 900.000 EUR",
+        "url": "https://example.com/foerderkatalog/03EFDUMMY3",
+        "datum": "2024-07-01",
+        "punkte": 25.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "3 unabhängige Quellen",
+        "url": "https://example.com/foerderkatalog/03EFDUMMY3",
+        "datum": "2024-07-01",
+        "punkte": 20.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "pre_seed: Rechtsform GmbH",
+        "url": "https://example.org/osteoprint/impressum",
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 100.0,
+          "gewicht": 0.35,
+          "belegt": true
+        },
+        "komplementaer": {
+          "punkte": 100.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 100.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "vorerfahrung": {
+          "punkte": 70.0,
+          "gewicht": 0.2,
+          "belegt": true
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 65.0,
+          "gewicht": 0.3,
+          "belegt": true
+        },
+        "traktion": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": true
+        },
+        "skalierbarkeit": {
+          "punkte": 40.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "zielkunde": {
+          "punkte": 100.0,
+          "gewicht": 0.1,
+          "belegt": true
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 50.0,
+          "gewicht": 0.4,
+          "belegt": true
+        },
+        "regulatorik": {
+          "punkte": 85.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "ip": {
+          "punkte": 15.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "finanzierung": {
+          "punkte": 25.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "datenlage": {
+          "punkte": 20.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Wettbewerber"
+    ],
+    "first_signal_date": "2024-07-01",
+    "earliness_delta_monate": 28,
+    "in_databases": false,
+    "source_url": "https://example.com/foerderkatalog/03EFDUMMY3",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "dummy-deeptech",
+    "name_gruender": "Dummy Forscher C",
+    "email": "",
+    "name_unternehmen": "FerroSense (Dummy)",
+    "website": "",
+    "branche": "industrial_deep_tech",
+    "gruendungsjahr": 2025,
+    "gruendungsmonat": 4,
+    "gruendung_ist_proxy": true,
+    "risiko_score": 50.0,
+    "marktpotenzial_score": 57.0,
+    "team_score": 77.5,
+    "gesamt_score": 62.1,
+    "confidence": 0.53,
+    "stage": "pre_gruendung",
+    "produktbeschreibung": "FerroSense entwickelt einen magnetischen Sensor, der Risse in Stahlträgern ohne Demontage erkennt. Ein Laborprototyp misst an Probekörpern.",
+    "value_proposition": "FerroSense entwickelt einen magnetischen Sensor, der Risse in Stahlträgern ohne Demontage erkennt.",
+    "investmenthypothese": "Wir investieren, weil: Dummy Forscher C: 14 Papers im Produktfeld; 1 belegte Partner; stärkster: Dummy Brückenbetreiber (loi). Nächster Meilenstein: ein Prototyp beim Anwender. Hauptrisiko: Reifegrad: labor_prototyp.",
+    "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 12/2026; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 9 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "Dummy Forscher C: 14 Papers im Produktfeld",
+        "url": "https://example.net/openalex/C1",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "2 Gründer, kein Business-Profil",
+        "url": "https://example.net/openalex/C1",
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "Vollzeit-Signal: EXIST-Forschungstransfer",
+        "url": "https://example.com/foerderkatalog/03EFDUMMY2",
+        "datum": "2025-04-01",
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "1 belegte Partner; stärkster: Dummy Brückenbetreiber (loi)",
+        "url": "https://example.org/idw/news-dummy-2",
+        "datum": null,
+        "punkte": 70.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "Zielkunde: Betreiber von Brücken und Industriehallen; Modell: nicht belegt",
+        "url": "https://example.com/foerderkatalog/03EFDUMMY2",
+        "datum": null,
+        "punkte": 60.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "Reifegrad: labor_prototyp",
+        "url": "https://example.com/foerderkatalog/03EFDUMMY2",
+        "datum": null,
+        "punkte": 65.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "Patent angemeldet",
+        "url": "https://example.org/idw/news-dummy-2",
+        "datum": null,
+        "punkte": 35.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "Bisherige Förderung 780.000 EUR",
+        "url": "https://example.com/foerderkatalog/03EFDUMMY2",
+        "datum": "2025-04-01",
+        "punkte": 25.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "2 unabhängige Quellen",
+        "url": "https://example.com/foerderkatalog/03EFDUMMY2",
+        "datum": "2025-04-01",
+        "punkte": 50.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "pre_gruendung: keine Rechtsform belegt",
+        "url": null,
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 100.0,
+          "gewicht": 0.35,
+          "belegt": true
+        },
+        "komplementaer": {
+          "punkte": 50.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 100.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 70.0,
+          "gewicht": 0.3,
+          "belegt": true
+        },
+        "skalierbarkeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "zielkunde": {
+          "punkte": 60.0,
+          "gewicht": 0.1,
+          "belegt": true
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 65.0,
+          "gewicht": 0.4,
+          "belegt": true
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 35.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "finanzierung": {
+          "punkte": 25.0,
+          "gewicht": 0.15,
+          "belegt": true
+        },
+        "datenlage": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Skalierbarkeit (Produkttyp)",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Regulatorik"
+    ],
+    "first_signal_date": "2025-04-01",
+    "earliness_delta_monate": 19,
+    "in_databases": false,
+    "source_url": "https://example.com/foerderkatalog/03EFDUMMY2",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "dummy-nur-pflicht",
+    "name_gruender": "",
+    "email": "",
+    "name_unternehmen": "NurPflicht (Dummy)",
+    "website": "",
+    "branche": "climate_tech",
+    "gruendungsjahr": null,
+    "gruendungsmonat": null,
+    "gruendung_ist_proxy": false,
+    "risiko_score": 53.0,
+    "marktpotenzial_score": 50.0,
+    "team_score": 50.0,
+    "gesamt_score": 49.1,
+    "confidence": 0.03,
+    "stage": "pre_gruendung",
+    "produktbeschreibung": "Projekt zur Speicherung von Prozesswärme in Salzschmelzen.",
+    "value_proposition": "Projekt zur Speicherung von Prozesswärme in Salzschmelzen.",
+    "investmenthypothese": "Datenlage zu dünn für eine Hypothese (Confidence 0.03). Hauptrisiko: Nur eine unabhängige Quelle.",
+    "why_now": "Noch vor der Gründung; jüngstes Signal vor 10 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "Nur eine unabhängige Quelle",
+        "url": "https://example.com/foerderkatalog/03EGDUMMY4",
+        "datum": "2026-01-01",
+        "punkte": 80.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "pre_gruendung: keine Rechtsform belegt",
+        "url": null,
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 50.0,
+          "gewicht": 0.35,
+          "belegt": false
+        },
+        "komplementaer": {
+          "punkte": 50.0,
+          "gewicht": 0.25,
+          "belegt": false
+        },
+        "vollzeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "skalierbarkeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 50.0,
+          "gewicht": 0.4,
+          "belegt": false
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "finanzierung": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "datenlage": {
+          "punkte": 80.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Forscher-Match (Papers im Produktfeld)",
+      "Kein Beleg für: komplementäres Gründerteam",
+      "Kein Beleg für: Vollzeit-Signal",
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Partner, Piloten oder Kunden",
+      "Kein Beleg für: Skalierbarkeit (Produkttyp)",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Reifegrad der Technologie",
+      "Kein Beleg für: Regulatorik",
+      "Kein Beleg für: Schutzrechte (IP)",
+      "Kein Beleg für: bisherige Förderung"
+    ],
+    "first_signal_date": "2026-01-01",
+    "earliness_delta_monate": 10,
+    "in_databases": null,
+    "source_url": "https://example.com/foerderkatalog/03EGDUMMY4",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "dummy-unbelegte-behauptungen",
+    "name_gruender": "",
+    "email": "",
+    "name_unternehmen": "Luftschloss (Dummy)",
+    "website": "",
+    "branche": "industrial_deep_tech",
+    "gruendungsjahr": null,
+    "gruendungsmonat": null,
+    "gruendung_ist_proxy": false,
+    "risiko_score": 54.0,
+    "marktpotenzial_score": 50.0,
+    "team_score": 50.0,
+    "gesamt_score": 48.8,
+    "confidence": 0.01,
+    "stage": "pre_seed",
+    "produktbeschreibung": "Luftschloss will den Weltmarkt für Quantenbatterien anführen.",
+    "value_proposition": "Luftschloss will den Weltmarkt für Quantenbatterien anführen.",
+    "investmenthypothese": "Datenlage zu dünn für eine Hypothese (Confidence 0.01). Hauptrisiko: Nur eine unabhängige Quelle; Zuordnung Projekt→Firma laut Sourcing unsicher (0.40).",
+    "why_now": "Gegründet, Pre-Seed; jüngstes Signal vor 2 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "Nur eine unabhängige Quelle; Zuordnung Projekt→Firma laut Sourcing unsicher (0.40)",
+        "url": "https://example.org/luftschloss",
+        "datum": "2026-09-01",
+        "punkte": 90.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "pre_seed: Rechtsform UG",
+        "url": "https://example.org/luftschloss/impressum",
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 50.0,
+          "gewicht": 0.35,
+          "belegt": false
+        },
+        "komplementaer": {
+          "punkte": 50.0,
+          "gewicht": 0.25,
+          "belegt": false
+        },
+        "vollzeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "skalierbarkeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 50.0,
+          "gewicht": 0.4,
+          "belegt": false
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "finanzierung": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "datenlage": {
+          "punkte": 90.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Forscher-Match (Papers im Produktfeld)",
+      "Kein Beleg für: komplementäres Gründerteam",
+      "Kein Beleg für: Vollzeit-Signal",
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Partner, Piloten oder Kunden",
+      "Kein Beleg für: Skalierbarkeit (Produkttyp)",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Reifegrad der Technologie",
+      "Kein Beleg für: Regulatorik",
+      "Kein Beleg für: Schutzrechte (IP)",
+      "Kein Beleg für: bisherige Förderung"
+    ],
+    "first_signal_date": "2026-09-01",
+    "earliness_delta_monate": 2,
+    "in_databases": null,
+    "source_url": "https://example.org/luftschloss",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "dummy-agentur",
+    "name_gruender": "Dummy Inhaber H",
+    "email": "",
+    "name_unternehmen": "PixelFreunde (Dummy)",
+    "website": "https://example.org/pixelfreunde",
+    "branche": "digital_tech",
+    "gruendungsjahr": null,
+    "gruendungsmonat": null,
+    "gruendung_ist_proxy": false,
+    "risiko_score": 53.0,
+    "marktpotenzial_score": 50.0,
+    "team_score": 42.5,
+    "gesamt_score": 20.0,
+    "confidence": 0.12,
+    "stage": "pre_seed",
+    "produktbeschreibung": "Wir sind eine Agentur für Webdesign und digitale Markenauftritte.",
+    "value_proposition": "Wir sind eine Agentur für Webdesign und digitale Markenauftritte.",
+    "investmenthypothese": "Kein Investment-Case: noise_class = agentur (Regel).",
+    "why_now": "Gegründet, Pre-Seed; jüngstes Signal vor 6 Monaten",
+    "noise_class": "agentur",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "noise_class = agentur (Regel)",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "Ein Gründer belegt",
+        "url": "https://example.org/pixelfreunde/impressum",
+        "datum": null,
+        "punkte": 20.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "Nur eine unabhängige Quelle",
+        "url": "https://example.org/pixelfreunde/impressum",
+        "datum": "2026-05-01",
+        "punkte": 80.0
+      },
+      {
+        "dimension": "noise",
+        "kriterium": "noise_class",
+        "aussage": "agentur (heuristik)",
+        "url": "https://example.org/pixelfreunde",
+        "datum": null,
+        "punkte": null
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "pre_seed: Rechtsform GmbH",
+        "url": "https://example.org/pixelfreunde/impressum",
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 50.0,
+          "gewicht": 0.35,
+          "belegt": false
+        },
+        "komplementaer": {
+          "punkte": 20.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "skalierbarkeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 50.0,
+          "gewicht": 0.4,
+          "belegt": false
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "finanzierung": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "datenlage": {
+          "punkte": 80.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Forscher-Match (Papers im Produktfeld)",
+      "Kein Beleg für: Vollzeit-Signal",
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Partner, Piloten oder Kunden",
+      "Kein Beleg für: Skalierbarkeit (Produkttyp)",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Reifegrad der Technologie",
+      "Kein Beleg für: Regulatorik",
+      "Kein Beleg für: Schutzrechte (IP)",
+      "Kein Beleg für: bisherige Förderung"
+    ],
+    "first_signal_date": "2026-05-01",
+    "earliness_delta_monate": 6,
+    "in_databases": null,
+    "source_url": "https://example.org/pixelfreunde/impressum",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "dummy-finanziert",
+    "name_gruender": "Dummy Gründer I;Dummy Gründerin J",
+    "email": "",
+    "name_unternehmen": "ScaleBatt (Dummy)",
+    "website": "https://example.org/scalebatt",
+    "branche": "climate_tech",
+    "gruendungsjahr": 2025,
+    "gruendungsmonat": 2,
+    "gruendung_ist_proxy": false,
+    "risiko_score": 36.0,
+    "marktpotenzial_score": 63.0,
+    "team_score": 72.5,
+    "gesamt_score": 20.0,
+    "confidence": 0.48,
+    "stage": "zu_spaet",
+    "produktbeschreibung": "ScaleBatt baut Batteriespeicher für Gewerbebetriebe und hat eine Finanzierungsrunde abgeschlossen.",
+    "value_proposition": "ScaleBatt baut Batteriespeicher für Gewerbebetriebe und hat eine Finanzierungsrunde abgeschlossen.",
+    "investmenthypothese": "Kein Investment-Case: noise_class = bereits_finanziert (Regel); stage = zu_spaet (Finanzierung gemeldet).",
+    "why_now": "Zu spät für einen Erstkontakt; jüngstes Signal vor 14 Monaten",
+    "noise_class": "bereits_finanziert",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "noise_class = bereits_finanziert (Regel); stage = zu_spaet (Finanzierung gemeldet)",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "2 Gründer mit Technik und Business",
+        "url": "https://example.org/scalebatt/team",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "Dummy Gründer I hat bereits gegründet",
+        "url": "https://example.org/scalebatt/team",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "1 belegte Partner; stärkster: Dummy Gewerbekunde (kunde)",
+        "url": "https://example.org/scalebatt/kunden",
+        "datum": null,
+        "punkte": 100.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "Produkttyp: hardware",
+        "url": "https://example.org/scalebatt",
+        "datum": null,
+        "punkte": 40.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "Reifegrad: erste_kunden",
+        "url": "https://example.org/scalebatt",
+        "datum": null,
+        "punkte": 15.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "2 unabhängige Quellen",
+        "url": "https://example.org/scalebatt/impressum",
+        "datum": "2025-03-01",
+        "punkte": 50.0
+      },
+      {
+        "dimension": "noise",
+        "kriterium": "noise_class",
+        "aussage": "bereits_finanziert (heuristik)",
+        "url": "https://example.com/presse/scalebatt-runde",
+        "datum": null,
+        "punkte": null
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "zu_spaet: Finanzierung gemeldet",
+        "url": "https://example.com/presse/scalebatt-runde",
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 50.0,
+          "gewicht": 0.35,
+          "belegt": false
+        },
+        "komplementaer": {
+          "punkte": 100.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "vorerfahrung": {
+          "punkte": 100.0,
+          "gewicht": 0.2,
+          "belegt": true
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 100.0,
+          "gewicht": 0.3,
+          "belegt": true
+        },
+        "skalierbarkeit": {
+          "punkte": 40.0,
+          "gewicht": 0.2,
+          "belegt": true
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 15.0,
+          "gewicht": 0.4,
+          "belegt": true
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "finanzierung": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "datenlage": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Forscher-Match (Papers im Produktfeld)",
+      "Kein Beleg für: Vollzeit-Signal",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Regulatorik",
+      "Kein Beleg für: Schutzrechte (IP)",
+      "Kein Beleg für: bisherige Förderung"
+    ],
+    "first_signal_date": "2025-03-01",
+    "earliness_delta_monate": 6,
+    "in_databases": true,
+    "source_url": "https://example.org/scalebatt/impressum",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "dummy-solo-hobby",
+    "name_gruender": "Dummy Entwickler K",
+    "email": "",
+    "name_unternehmen": "WetterBot (Dummy)",
+    "website": "",
+    "branche": "digital_tech",
+    "gruendungsjahr": null,
+    "gruendungsmonat": null,
+    "gruendung_ist_proxy": false,
+    "risiko_score": 53.0,
+    "marktpotenzial_score": 50.0,
+    "team_score": 42.5,
+    "gesamt_score": 20.0,
+    "confidence": 0.12,
+    "stage": "pre_gruendung",
+    "produktbeschreibung": "Ein Bot, der lokale Wetterdaten in einen Chat postet.",
+    "value_proposition": "Ein Bot, der lokale Wetterdaten in einen Chat postet.",
+    "investmenthypothese": "Kein Investment-Case: noise_class = hobby (Regel).",
+    "why_now": "Noch vor der Gründung; jüngstes Signal vor 3 Monaten",
+    "noise_class": "hobby",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "noise_class = hobby (Regel)",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "Ein Gründer belegt",
+        "url": "https://example.org/github/wetterbot",
+        "datum": null,
+        "punkte": 20.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "Nur eine unabhängige Quelle",
+        "url": "https://example.org/github/wetterbot",
+        "datum": "2026-08-01",
+        "punkte": 80.0
+      },
+      {
+        "dimension": "noise",
+        "kriterium": "noise_class",
+        "aussage": "hobby (heuristik)",
+        "url": "https://example.org/github/wetterbot",
+        "datum": null,
+        "punkte": null
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "pre_gruendung: keine Rechtsform belegt",
+        "url": "https://example.org/github/wetterbot",
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 50.0,
+          "gewicht": 0.35,
+          "belegt": false
+        },
+        "komplementaer": {
+          "punkte": 20.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "skalierbarkeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 50.0,
+          "gewicht": 0.4,
+          "belegt": false
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "finanzierung": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "datenlage": {
+          "punkte": 80.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Forscher-Match (Papers im Produktfeld)",
+      "Kein Beleg für: Vollzeit-Signal",
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Partner, Piloten oder Kunden",
+      "Kein Beleg für: Skalierbarkeit (Produkttyp)",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Reifegrad der Technologie",
+      "Kein Beleg für: Regulatorik",
+      "Kein Beleg für: Schutzrechte (IP)",
+      "Kein Beleg für: bisherige Förderung"
+    ],
+    "first_signal_date": "2026-08-01",
+    "earliness_delta_monate": 3,
+    "in_databases": null,
+    "source_url": "https://example.org/github/wetterbot",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "dummy-zu-alt",
+    "name_gruender": "Dummy Chemiker M;Dummy Chemikerin L",
+    "email": "",
+    "name_unternehmen": "AltGarde (Dummy)",
+    "website": "",
+    "branche": "chemie_materialien",
+    "gruendungsjahr": 2021,
+    "gruendungsmonat": 3,
+    "gruendung_ist_proxy": false,
+    "risiko_score": 45.0,
+    "marktpotenzial_score": 50.0,
+    "team_score": 50.0,
+    "gesamt_score": 20.0,
+    "confidence": 0.24,
+    "stage": "zu_spaet",
+    "produktbeschreibung": "AltGarde entwickelt Beschichtungen gegen Korrosion für Offshore-Anlagen.",
+    "value_proposition": "AltGarde entwickelt Beschichtungen gegen Korrosion für Offshore-Anlagen.",
+    "investmenthypothese": "Kein Investment-Case: stage = zu_spaet (älter als 36 Monate (gegründet 03/2021)).",
+    "why_now": "Zu spät für einen Erstkontakt; jüngstes Signal vor 7 Monaten",
+    "noise_class": "vc_potenzial",
+    "noise_quelle": "heuristik",
+    "status": "bewertet",
+    "ausschluss_grund": "stage = zu_spaet (älter als 36 Monate (gegründet 03/2021))",
+    "evidence": [
+      {
+        "dimension": "team",
+        "kriterium": "forscher_match",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "komplementaer",
+        "aussage": "2 Gründer, kein Business-Profil",
+        "url": "https://example.org/altgarde/impressum",
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vollzeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "team",
+        "kriterium": "vorerfahrung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "marktvolumen",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "traktion",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "skalierbarkeit",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "zielkunde",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "marktpotenzial",
+        "kriterium": "wettbewerb",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "tech_reife",
+        "aussage": "Reifegrad: pilot",
+        "url": "https://example.org/altgarde",
+        "datum": null,
+        "punkte": 30.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "regulatorik",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "ip",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "finanzierung",
+        "aussage": "keine Daten – neutral gesetzt",
+        "url": null,
+        "datum": null,
+        "punkte": 50.0
+      },
+      {
+        "dimension": "risiko",
+        "kriterium": "datenlage",
+        "aussage": "Nur eine unabhängige Quelle",
+        "url": "https://example.org/altgarde/impressum",
+        "datum": "2026-04-01",
+        "punkte": 80.0
+      },
+      {
+        "dimension": "stage",
+        "kriterium": "stage",
+        "aussage": "zu_spaet: älter als 36 Monate (gegründet 03/2021)",
+        "url": "https://example.org/altgarde/impressum",
+        "datum": null,
+        "punkte": null
+      }
+    ],
+    "teilwerte": {
+      "team": {
+        "forscher_match": {
+          "punkte": 50.0,
+          "gewicht": 0.35,
+          "belegt": false
+        },
+        "komplementaer": {
+          "punkte": 50.0,
+          "gewicht": 0.25,
+          "belegt": true
+        },
+        "vollzeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "vorerfahrung": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        }
+      },
+      "marktpotenzial": {
+        "marktvolumen": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "traktion": {
+          "punkte": 50.0,
+          "gewicht": 0.3,
+          "belegt": false
+        },
+        "skalierbarkeit": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "zielkunde": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        },
+        "wettbewerb": {
+          "punkte": 50.0,
+          "gewicht": 0.1,
+          "belegt": false
+        }
+      },
+      "risiko": {
+        "tech_reife": {
+          "punkte": 30.0,
+          "gewicht": 0.4,
+          "belegt": true
+        },
+        "regulatorik": {
+          "punkte": 50.0,
+          "gewicht": 0.2,
+          "belegt": false
+        },
+        "ip": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "finanzierung": {
+          "punkte": 50.0,
+          "gewicht": 0.15,
+          "belegt": false
+        },
+        "datenlage": {
+          "punkte": 80.0,
+          "gewicht": 0.1,
+          "belegt": true
+        }
+      }
+    },
+    "offene_punkte": [
+      "Kein Beleg für: Forscher-Match (Papers im Produktfeld)",
+      "Kein Beleg für: Vollzeit-Signal",
+      "Kein Beleg für: Vorerfahrung der Gründer",
+      "Kein Beleg für: Marktvolumen",
+      "Kein Beleg für: Partner, Piloten oder Kunden",
+      "Kein Beleg für: Skalierbarkeit (Produkttyp)",
+      "Kein Beleg für: Zielkunde und Geschäftsmodell",
+      "Kein Beleg für: Wettbewerber",
+      "Kein Beleg für: Regulatorik",
+      "Kein Beleg für: Schutzrechte (IP)",
+      "Kein Beleg für: bisherige Förderung"
+    ],
+    "first_signal_date": "2026-04-01",
+    "earliness_delta_monate": 7,
+    "in_databases": null,
+    "source_url": "https://example.org/altgarde/impressum",
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  },
+  {
+    "lead_id": "dummy-ohne-beleg",
+    "name_gruender": "",
+    "email": "",
+    "name_unternehmen": "OhneBeleg (Dummy)",
+    "website": "",
+    "branche": null,
+    "gruendungsjahr": null,
+    "gruendungsmonat": null,
+    "gruendung_ist_proxy": false,
+    "risiko_score": null,
+    "marktpotenzial_score": null,
+    "team_score": null,
+    "gesamt_score": null,
+    "confidence": 0.1,
+    "stage": null,
+    "produktbeschreibung": "",
+    "value_proposition": "",
+    "investmenthypothese": "",
+    "why_now": "",
+    "noise_class": null,
+    "noise_quelle": null,
+    "status": "zurueck_an_sourcing",
+    "ausschluss_grund": "Pflichtangaben fehlen: beschreibung_rohtext (mit Quellen-URL), signals (mind. 1 mit URL und Datum bis zum Stichtag), deutschland_beleg (mit Quellen-URL)",
+    "evidence": [],
+    "teilwerte": {},
+    "offene_punkte": [
+      "beschreibung_rohtext (mit Quellen-URL)",
+      "signals (mind. 1 mit URL und Datum bis zum Stichtag)",
+      "deutschland_beleg (mit Quellen-URL)"
+    ],
+    "first_signal_date": null,
+    "earliness_delta_monate": null,
+    "in_databases": null,
+    "source_url": null,
+    "dim3_name": "Team",
+    "scoring_version": "1.0",
+    "stichtag": "2026-11-20"
+  }
+]
