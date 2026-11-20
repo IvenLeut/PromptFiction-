@@ -15,6 +15,7 @@ from research_models import (
     Claim, CompanyResearch, ContextV2, FounderResearch, FundingResearch, MarketMeasure, Period,
     ProductResearch, ResearchStatus, TractionResearch,
 )
+from scoring import build_scoring_input
 
 LABELS = {
     "target_customers": r"Zielkund(?:en|schaft)|Zielgruppe|Target customers|Target audience",
@@ -113,6 +114,7 @@ def enrich(
     load_original: Callable[[str], SourceSignal | None] | None = None,
     extract_quotes: Callable | None = None,
     light: bool = False,
+    as_of: date | None = None,
 ) -> EnrichedLead:
     """Return the original lead plus public context and per-field evidence."""
     signals = list(lead.signals)
@@ -122,6 +124,7 @@ def enrich(
             and not any(signal.url == lead.source_url for signal in signals)):
         if original := load_original(str(lead.source_url)):
             signals.append(original)
+    scoring_sources = [signal.model_copy(deep=True) for signal in signals] if not lead.is_demo else None
     evidence = []
     evidence_by_key = {}
     facts = defaultdict(dict)
@@ -251,7 +254,8 @@ def enrich(
         missing = tuple(field for field in text_fields if field != "funding_stage" and not facts[field])
         if missing:
             try:
-                for field, quote, signal in extract_quotes(lead.name, signals, missing):
+                model_signals = [signal.model_copy(deep=True) for signal in signals]
+                for field, quote, signal in extract_quotes(lead.name, model_signals, missing):
                     if field in missing and signal in signals and quote.strip() and quote in signal.evidence:
                         record(field, quote, quote, signal, model_quote=True)
             except (OSError, ValueError, KeyError, TypeError):
@@ -364,10 +368,11 @@ def enrich(
         discovery_signals=discovery,
         research_status=ResearchStatus(mode="light" if light else "standard", gaps=questions),
     )
-    return EnrichedLead(
+    enriched = EnrichedLead(
         **lead.model_dump(),
         evidence=evidence,
         context_v2=context,
+        scoring_sources=scoring_sources,
         founder_profiles=[
             FounderProfile(name=name, role=unambiguous(f"founder_profiles.{index}.role"),
                            qualifications=unambiguous(f"founder_profiles.{index}.qualifications"))
@@ -384,3 +389,6 @@ def enrich(
         annual_revenue_eur=float(revenue) if revenue is not None else None,
         customer_count=int(customers) if customers is not None else None,
     )
+    if not lead.is_demo:
+        enriched.scoring_input = build_scoring_input(enriched, as_of=as_of)
+    return enriched

@@ -51,7 +51,7 @@ fachlich abstimmen; das Dashboard übernimmt den fertigen Score.
 | --- | --- | --- |
 | 1 | sourcing/engine.py | search(SearchCriteria) → list[RawLead] |
 | 2 | context/engine.py | enrich(RawLead) → EnrichedLead |
-| 3 | evaluation/engine.py | evaluate(EnrichedLead) → EvaluatedLead |
+| 3 | evaluation/engine.py | evaluate(ScoringInput) → EvaluationScores |
 | 4 | dashboard.py / deep_dive.py / charts.py | ResearchResult visualisieren |
 
 `models.py` ist der gemeinsame Datenvertrag. `pipeline.run_pipeline(criteria)` führt
@@ -241,6 +241,9 @@ Ein Totalausfall im Sourcing wird an die Oberfläche gemeldet.
 
 Beispielübergabe: `examples/analysis-demo.json`.
 Maschinenlesbares Schema: `examples/analysis-schema.json`.
+
+Der [Datenvertrag für Schritt 3](SCORING_HANDOFF.md) beschreibt den
+standardisierten Export und den reproduzierbaren Offline-Aufruf.
 
 ## Dateien und Grenzen
 

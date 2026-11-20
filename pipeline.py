@@ -2,7 +2,10 @@
 import logging
 from collections.abc import Callable, Sequence
 from functools import partial
-from models import ContextResult, EnrichedLead, EvaluatedLead, PipelineIssue, RawLead, ResearchResult, SearchCriteria
+from models import (
+    ContextResult, EnrichedLead, EvaluatedLead, EvaluationScores, PipelineIssue, RawLead, ResearchResult, SearchCriteria,
+)
+from scoring import build_scoring_input
 
 logger = logging.getLogger(__name__)
 
@@ -76,21 +79,26 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
             from evaluation.engine import evaluate as evaluator
     result = ResearchResult()
     for lead in leads:
-        if not use_mock:
-            if lead.has_vc is True or lead.vc_status in {"confirmed", "conflicting"}:
-                result.issues.append(PipelineIssue(
-                    lead_id=lead.id, stage="evaluation",
-                    message="VC-Finanzierung gefunden oder widersprüchlich gemeldet.",
-                ))
-                continue
-            if lead.vc_status == "unknown" and lead.has_vc is None:
-                result.issues.append(PipelineIssue(
-                    lead_id=lead.id, stage="evaluation",
-                    message="VC-Status unbekannt. Vor der Bewertung prüfen.",
-                ))
-                continue
         try:
-            evaluated = EvaluatedLead.model_validate(evaluator(lead))
+            if use_mock:
+                evaluated = EvaluatedLead.model_validate(evaluator(lead))
+            else:
+                scoring = build_scoring_input(lead, as_of=lead.scoring_input.as_of if lead.scoring_input else None)
+                if scoring.country.status != "usable":
+                    result.issues.append(PipelineIssue(
+                        lead_id=lead.id, stage="evaluation", message="Kein nutzbarer Deutschland-Beleg am Stichtag.",
+                    ))
+                    continue
+                vc = scoring.vc_status
+                if vc.status != "usable" or vc.value != "reported_none":
+                    reason = ("VC-Finanzierung gefunden oder widersprüchlich gemeldet."
+                              if vc.value == "confirmed" or vc.status == "conflicting"
+                              else "VC-Status unbekannt oder mehrdeutig. Vor der Bewertung prüfen.")
+                    result.issues.append(PipelineIssue(lead_id=lead.id, stage="evaluation", message=reason))
+                    continue
+                scores = EvaluationScores.model_validate(evaluator(scoring))
+                lead = lead.model_copy(update={"scoring_input": scoring})
+                evaluated = EvaluatedLead(**lead.model_dump(), **scores.model_dump())
             _preserve(lead, evaluated)
             result.leads.append(evaluated)
         except Exception:

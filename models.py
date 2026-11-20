@@ -7,6 +7,7 @@ from typing import Literal
 from pydantic import Field, HttpUrl
 
 from research_models import ContextV2, Contract, Evidence
+from scoring_models import ScoringInput
 
 
 class Industry(str, Enum):
@@ -29,6 +30,7 @@ class SourceSignal(Contract):
     url: HttpUrl
     date: Date | None = None
     evidence: str = Field(min_length=1)
+    subject_lead_id: str | None = None
 
 
 class FounderProfile(Contract):
@@ -63,6 +65,8 @@ class RawLead(Contract):
 class EnrichedLead(RawLead):
     evidence: list[Evidence] = Field(default_factory=list)
     context_v2: ContextV2 | None = None
+    scoring_sources: list[SourceSignal] | None = None
+    scoring_input: ScoringInput | None = None
     founder_profiles: list[FounderProfile] = Field(default_factory=list)
     target_customers: str | None = None
     customer_problem: str | None = None
@@ -89,7 +93,7 @@ class EnrichedLead(RawLead):
     traction_notes: str | None = None
 
 
-class EvaluatedLead(EnrichedLead):
+class EvaluationScores(Contract):
     overall_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
     company_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
     market_potential_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
@@ -103,6 +107,10 @@ class EvaluatedLead(EnrichedLead):
     confidence_score: float | None = Field(default=None, ge=0, le=100)
     investment_thesis: str
     risks: list[str] = Field(default_factory=list)
+
+
+class EvaluatedLead(EvaluationScores, EnrichedLead):
+    pass
 
 
 class PipelineIssue(Contract):
