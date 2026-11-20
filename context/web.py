@@ -13,7 +13,9 @@ import ipaddress
 import logging
 import re
 import socket
+from functools import lru_cache
 from html.parser import HTMLParser
+from time import monotonic
 from urllib.parse import unquote, urljoin, urlsplit
 
 from models import SourceSignal
@@ -121,6 +123,11 @@ def fetch(url, site, cache=None):
 
 
 def _fetch(url, site):
+    return _fetch_window(url, site, int(monotonic() // 900))
+
+
+@lru_cache(maxsize=64)
+def _fetch_window(url, site, _cache_window):
     for _ in range(4):
         parsed = urlsplit(url)
         if (parsed.scheme not in {"http", "https"} or not site or site_key(url) != site

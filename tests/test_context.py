@@ -2,6 +2,8 @@ from datetime import date
 from decimal import Decimal
 import sys
 
+import pytest
+
 from context.__main__ import main
 from context.engine import enrich
 from context.web import CompanyPage
@@ -200,3 +202,95 @@ def test_company_pages_yield_nothing_for_a_parked_site(monkeypatch):
     monkeypatch.setattr(web, "_fetch", lambda url, site: (_ for _ in ()).throw(ValueError(web.PARKED_ERROR)))
     assert list(web.company_pages("https://parked.example.org/")) == []
     assert web.original_page("https://parked.example.org/") is None
+
+
+def test_context_v2_preserves_legacy_evidence_and_distinguishes_traction():
+    old = Evidence.model_validate({
+        "dimension": "Team", "kriterium": "Erfahrung", "aussage": "Quellenangabe",
+        "url": "https://example.org/", "datum": "2025-02-03", "punkte": 2,
+    })
+    assert old.finding == old.aussage and old.punkte == 2
+    assert old.document_date == date(2025, 2, 3)
+    assert Evidence.model_validate_json(old.model_dump_json()).evidence_id == old.evidence_id
+    signal = SourceSignal(
+        source="Unternehmen", type="press", url="https://example.org/press", date=date(2025, 3, 1),
+        evidence="Kim Muster – Erfahrung mit dem Kundenproblem: Leitete Maschinenwartung.\n"
+                 "Gründungsdatum: 2025-02-03\n"
+                 "Zahlende Kunden: A\n"
+                 "Bezahlte Pilotprojekte: B\nUnbezahlte Pilotprojekte: C\n"
+                 "LOI: D\nForschungspartner: E\nÖffentliche Förderung: Antrag geplant\n"
+                 "Jahresumsatz 2025: 120.000 EUR\nUmsatzwachstum 2025: 12,5 %",
+    )
+    raw = make_lead(website="https://example.org/", founding_year=2024, signals=[signal], country_evidence=old)
+    enriched = enrich(raw, light=True, load_pages=lambda _: pytest.fail("unexpected network access"))
+    assert enriched.model_dump(include=set(RawLead.model_fields)) == raw.model_dump()
+    context = enriched.context_v2
+    assert context.company.founding_date_status == "conflicting"
+    assert context.company.founding_date is None
+    assert context.founders[0].customer_problem_experience.value == "Leitete Maschinenwartung."
+    traction = context.traction
+    assert traction.paid_customers[0].value == "A"
+    assert traction.paid_pilots[0].value == "B"
+    assert traction.unpaid_pilots[0].value == "C"
+    assert traction.lois[0].value == "D"
+    assert traction.research_partners[0].value == "E"
+    assert traction.reported_metrics["revenue_growth"][0].value == 12.5
+    assert enriched.annual_revenue_eur == 120000
+    assert not context.funding.rounds and context.funding.status == "unknown"
+    assert context.funding.public_grants[0].value == "Antrag geplant"
+    assert traction.paid_customers[0].evidence_ids[0] in {item.evidence_id for item in enriched.evidence}
+
+
+def test_demo_market_has_reproducible_sizing_growth_and_original_sources():
+    from models import SearchCriteria
+    from pipeline import run_pipeline
+
+    run = run_pipeline(SearchCriteria(industry=Industry.INDUSTRIAL))
+    assert not run.result.issues
+    lead = next(lead for lead in run.result.leads if lead.id == "industrial-16")
+    market = lead.context_v2.market_intelligence
+    assert (market.tam.value, market.sam.value, market.som.value) == (2_414_124_000, 241_404_000, 360_000)
+    assert len(market.competitors) == 3
+    assert market.historical_growth[0].cagr.value < 0
+    assert not market.forecast_growth
+    assert market.comparable_transactions[0].transaction_value.value == 1_400_000
+    assert market.comparable_transactions[0].ev_revenue is None
+    assert market.comparable_transactions[0].ev_ebitda is None
+    assert set(market.tam.evidence_ids) <= {item.evidence_id for item in market.sources}
+    assert market.sizing_inputs["annual_revenue_per_company"].data_type == "assumption"
+
+
+def test_targeted_market_source_claim_links_and_missing_numbers():
+    from context.market import research_market
+    from context.market_sources import gather_market_sources
+    from research_models import Claim, MarketIntelligence
+
+    url = "https://example.org/industry"
+    signal = SourceSignal(source="Marktstudie", type="market", url=url,
+                          evidence="Marktdefinition: Industrieüberwachung\nWachstumstreiber: Nachrüstbarkeit\n"
+                                   "TRL: 6 – Demonstration in relevanter Umgebung")
+    inputs = gather_market_sources(MarketIntelligence(), [url], load_page=lambda _: signal)
+    raw_context = enrich(make_lead(), light=True)
+    market = research_market(raw_context, inputs).context_v2.market_intelligence
+    assert market.market_definition.value == "Industrieüberwachung"
+    assert market.sector_metrics.technology_readiness.level == 6
+    assert market.tam is None and market.research_gaps
+    inputs.market_definition = Claim(value="Unbelegt", evidence_ids=["missing"])
+    with pytest.raises(ValueError, match="Unbekannte Evidence-IDs"):
+        research_market(raw_context, inputs)
+
+
+def test_market_cli_targets_one_lead(tmp_path, monkeypatch):
+    source = tmp_path / "leads.json"
+    market = tmp_path / "market.json"
+    output = tmp_path / "dossiers.json"
+    leads = [make_lead(id=lead_id) for lead_id in ("first", "selected")]
+    source.write_text("[" + ",".join(lead.model_dump_json() for lead in leads) + "]", encoding="utf-8")
+    market.write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", [
+        "context", str(source), str(output), "--offline", "--lead", "selected", "--market-input", str(market),
+    ])
+    main()
+    result = ContextResult.model_validate_json(output.read_bytes())
+    assert [lead.id for lead in result.leads] == ["selected"]
+    assert result.leads[0].context_v2.research_status.market == "partial"

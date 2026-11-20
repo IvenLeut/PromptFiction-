@@ -5,6 +5,7 @@ import streamlit as st
 
 from ui_theme import fact, heading
 from charts import profile_figure
+from market_view import render_company_research, render_market
 
 
 def render_deep_dive(lead, back, contact_url, value):
@@ -23,7 +24,11 @@ def render_deep_dive(lead, back, contact_url, value):
     with main:
         st.markdown('<div class="fr-thesis"><div class="fr-eyebrow">Investmenthypothese</div>'
                     f'<p>{escape(lead.investment_thesis)}</p></div>', unsafe_allow_html=True)
-        overview, diligence, sources = st.tabs(["Unternehmen & Kennzahlen", "Risiken & Prüfung", "Quellen & Belege"])
+        context = lead.context_v2
+        has_market = bool(context and context.market_intelligence)
+        tabs = st.tabs(["Unternehmen & Kennzahlen", "Risiken & Prüfung", "Quellen & Belege"]
+                       + (["Marktrecherche"] if has_market else []))
+        overview, diligence, sources = tabs[:3]
         with overview:
             st.plotly_chart(profile_figure(lead), width="stretch", theme=None, key="startup_profile",
                             config={"displayModeBar": False})
@@ -51,6 +56,8 @@ def render_deep_dive(lead, back, contact_url, value):
                 st.caption("Noch keine Bewertungstreiber übergeben.")
             if lead.traction_notes:
                 st.write(lead.traction_notes)
+            if context:
+                render_company_research(context)
         with diligence:
             st.subheader("Wesentliche Risiken")
             for risk in lead.risks:
@@ -58,9 +65,10 @@ def render_deep_dive(lead, back, contact_url, value):
             if not lead.risks:
                 st.caption("Keine Risiken dokumentiert. Das bedeutet nicht, dass keine bestehen.")
             st.subheader("Fragen für das erste Gespräch")
-            for i, question in enumerate(lead.open_questions, 1):
+            questions = list(dict.fromkeys([*lead.open_questions, *lead.research_questions]))
+            for i, question in enumerate(questions, 1):
                 st.write(f"{i}. {question}")
-            if not lead.open_questions:
+            if not questions:
                 st.caption("Noch keine offenen Fragen dokumentiert.")
         with sources:
             st.subheader("Ursprünglicher Fund")
@@ -69,12 +77,20 @@ def render_deep_dive(lead, back, contact_url, value):
             evidence_items = list(lead.evidence)
             if lead.country_evidence and lead.country_evidence not in evidence_items:
                 evidence_items.insert(0, lead.country_evidence)
-            for i, evidence in enumerate(evidence_items, 1):
+            if has_market:
+                evidence_items.extend(context.market_intelligence.sources)
+            unique_evidence = {item.evidence_id: item for item in evidence_items}
+            for i, evidence in enumerate(unique_evidence.values(), 1):
                 with st.container(border=True):
                     st.markdown(f"**{i}. {evidence.source}**")
                     st.write(evidence.finding)
-                    st.caption(f"{evidence.field or 'Allgemein'} · Abgerufen am {evidence.retrieved_at:%d.%m.%Y}")
+                    document = f" · Dokument vom {evidence.document_date:%d.%m.%Y}" if evidence.document_date else ""
+                    st.caption(f"{evidence.field or 'Allgemein'} · Abgerufen am {evidence.retrieved_at:%d.%m.%Y}"
+                               f"{document} · {evidence.verification_status} · ID {evidence.evidence_id}")
                     st.link_button("Beleg öffnen", str(evidence.url))
+        if has_market:
+            with tabs[3]:
+                render_market(context)
     with contact:
         with st.container(border=True):
             st.subheader("Gründer kontaktieren")
@@ -92,4 +108,4 @@ def render_deep_dive(lead, back, contact_url, value):
         st.download_button("Startup-Dossier exportieren", lead.model_dump_json(indent=2),
                            file_name=f"{lead.id}.json", mime="application/json", width="stretch")
         if lead.is_demo:
-            st.caption("Fiktives Demo-Profil. Website, E-Mail und Quellenlinks sind Platzhalter auf example.org.")
+            st.caption("Fiktives Unternehmensprofil. Die Marktrecherche kennzeichnet Datenquellen und Demoannahmen.")

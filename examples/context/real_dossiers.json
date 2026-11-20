@@ -15,7 +15,15 @@
         "finding": "Ausführende Stelle: Universität Stuttgart",
         "field": null,
         "source_date": null,
-        "retrieved_at": "2026-11-20T21:42:00.329132Z"
+        "retrieved_at": "2026-11-20T21:47:46.187327Z",
+        "evidence_id": "84ebc160b3201a17841c32bc",
+        "document_date": null,
+        "verification_status": "unverified",
+        "dimension": null,
+        "kriterium": null,
+        "aussage": null,
+        "datum": null,
+        "punkte": null
       },
       "is_demo": false,
       "website": null,
@@ -47,7 +55,15 @@
           "finding": "EXIST-Forschungstransfer 03EFBW0275: Thema: SpinMagIC; Förderempfänger: Universität Stuttgart; Ausführende Stelle: Universität Stuttgart - Fakultät 5 Informatik, Elektrotechnik und Informationstechnik - Institut für Intelligente Sensorik und Theoretische Elektrotechnik (IIS); Laufzeit: 01.09.2024 bis 30.09.2026; Summe: 972.638 €; Leistungsplansystematik: Technologietransfer Hochschule - Wirtschaft / Public-Private-Partnership; EXIST",
           "field": "grants",
           "source_date": "2024-09-01",
-          "retrieved_at": "2026-11-20T21:42:00.386732Z"
+          "retrieved_at": "2026-11-20T21:47:46.232421Z",
+          "evidence_id": "b84117c64a997fef336b0d00",
+          "document_date": "2024-09-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -55,7 +71,15 @@
           "finding": "Ausführende Stelle: Universität Stuttgart - Fakultät 5 Informatik, Elektrotechnik und Informationstechnik - Institut für Intelligente Sensorik und Theoretische Elektrotechnik (IIS)",
           "field": "institution",
           "source_date": "2024-09-01",
-          "retrieved_at": "2026-11-20T21:42:00.386801Z"
+          "retrieved_at": "2026-11-20T21:47:46.232492Z",
+          "evidence_id": "f5e45877a070adf976ecf698",
+          "document_date": "2024-09-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -63,7 +87,15 @@
           "finding": "Förderkatalog-Treffer 03EFBW0275 für 'SpinMagIC' (Konfidenz 1.0)",
           "field": "match_confidence",
           "source_date": "2024-09-01",
-          "retrieved_at": "2026-11-20T21:42:00.386810Z"
+          "retrieved_at": "2026-11-20T21:47:46.232520Z",
+          "evidence_id": "a4b18f183ad95b604d2594c6",
+          "document_date": "2024-09-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback CDX",
@@ -71,7 +103,15 @@
           "finding": "Keine archivierte Crunchbase-/Dealroom-Profilseite für spinmagic",
           "field": "in_databases",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:00.387109Z"
+          "retrieved_at": "2026-11-20T21:47:46.232785Z",
+          "evidence_id": "a3f17c727ba663f1272a88ca",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -79,7 +119,15 @@
           "finding": "Start-up brings quantum sensor to market maturity: SpinMagIC receives EXIST research transfer funding",
           "field": "idw",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.403461Z"
+          "retrieved_at": "2026-11-20T21:47:46.247487Z",
+          "evidence_id": "55f5daee36de357bb3dbf708",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -87,7 +135,15 @@
           "finding": "Start-up brings quantum sensor to market maturity: SpinMagIC receives EXIST research transfer funding",
           "field": "grants_mention",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.404738Z"
+          "retrieved_at": "2026-11-20T21:47:46.248768Z",
+          "evidence_id": "c1e83226d442136e7aad5486",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -95,7 +151,15 @@
           "finding": "As a start-up, this spin-off from the University of Stuttgart will receive funding from the EXIST research transfer program of the Federal Ministry of Economics and Climate Protection (BMWK).",
           "field": "grants_mention",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.404743Z"
+          "retrieved_at": "2026-11-20T21:47:46.248780Z",
+          "evidence_id": "8f3c16961a2f12a9b5ee6e89",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -103,7 +167,15 @@
           "finding": "Start-up bringt Quantensensor zur Marktreife: SpinMagIC erhält EXIST-Forschungstransfer-Förderung",
           "field": "idw",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.406067Z"
+          "retrieved_at": "2026-11-20T21:47:46.250077Z",
+          "evidence_id": "11baef0137da4b451db6b250",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -111,7 +183,15 @@
           "finding": "Start-up bringt Quantensensor zur Marktreife: SpinMagIC erhält EXIST-Forschungstransfer-Förderung",
           "field": "grants_mention",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.408514Z"
+          "retrieved_at": "2026-11-20T21:47:46.251537Z",
+          "evidence_id": "c0d058e8dd660943094a3d60",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -119,7 +199,15 @@
           "finding": "Als Spin-off erhält die Ausgründung aus der Universität Stuttgart Mittel der EXIST-Forschungstransfer-Förderung des Bundesministeriums für Wirtschaft und Klimaschutz (BMWK).",
           "field": "grants_mention",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.408520Z"
+          "retrieved_at": "2026-11-20T21:47:46.251548Z",
+          "evidence_id": "f902a518fdab6f51d1cf1edb",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -127,7 +215,15 @@
           "finding": "SpinMagIC: EPR auf einem Chip sichert Qualität von Olivenöl und Bier",
           "field": "idw",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.409998Z"
+          "retrieved_at": "2026-11-20T21:47:46.253030Z",
+          "evidence_id": "e55b8fdbc2c41eafdd6eb2c5",
+          "document_date": "2024-09-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -135,7 +231,15 @@
           "finding": "Nun bereitet das Team die Gründung eines Spin-off-Unternehmens vor, gefördert durch das EXIST-Forschungstransferprogramm des Bundesministeriums für Wirtschaft und Klimaschutz.",
           "field": "founding_statement",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.410883Z"
+          "retrieved_at": "2026-11-20T21:47:46.253935Z",
+          "evidence_id": "e7dfab768ebbad0c0e9ec077",
+          "document_date": "2024-09-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -143,7 +247,15 @@
           "finding": "Nun bereitet das Team die Gründung eines Spin-off-Unternehmens vor, gefördert durch das EXIST-Forschungstransferprogramm des Bundesministeriums für Wirtschaft und Klimaschutz.",
           "field": "grants_mention",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.410886Z"
+          "retrieved_at": "2026-11-20T21:47:46.253945Z",
+          "evidence_id": "dc535258d3417588b104a645",
+          "document_date": "2024-09-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -151,7 +263,15 @@
           "finding": "OpenAlex: Belal M.K. Alnajjar, University of Stuttgart, 7 Arbeiten, 0 im Feld Elektronenspinresonanz-Sensorik, EXIST-Forschungstransfer, Qualitätskontrolle, miniaturisierte, Materialanalyse, Universität, Zuordnung 90 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:00.412710Z"
+          "retrieved_at": "2026-11-20T21:47:46.255437Z",
+          "evidence_id": "097a911f3daad56de640f421",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -159,7 +279,15 @@
           "finding": "0 von 7 Arbeiten passen zu: Elektronenspinresonanz-Sensorik, EXIST-Forschungstransfer, Qualitätskontrolle, miniaturisierte, Materialanalyse, Universität",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:00.412719Z"
+          "retrieved_at": "2026-11-20T21:47:46.255452Z",
+          "evidence_id": "de3ab2da057b1bcaf3b4ea44",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -167,7 +295,15 @@
           "finding": "OpenAlex: Michele Segantini, Helmholtz-Zentrum Berlin für Materialien und Energie, 9 Arbeiten, 2 im Feld Elektronenspinresonanz-Sensorik, EXIST-Forschungstransfer, Qualitätskontrolle, miniaturisierte, Materialanalyse, Universität, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:00.413822Z"
+          "retrieved_at": "2026-11-20T21:47:46.257071Z",
+          "evidence_id": "130abf0ec85f5092f9999e43",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -175,7 +311,47 @@
           "finding": "2 von 9 Arbeiten passen zu: Elektronenspinresonanz-Sensorik, EXIST-Forschungstransfer, Qualitätskontrolle, miniaturisierte, Materialanalyse, Universität",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:00.413827Z"
+          "retrieved_at": "2026-11-20T21:47:46.257084Z",
+          "evidence_id": "8208ec4e98a6a5db1bae0f6d",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "Förderkatalog",
+          "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+          "finding": "Standort laut Sourcing: Stuttgart",
+          "field": "company.reported_location",
+          "source_date": null,
+          "retrieved_at": "2026-11-20T21:47:46.257170Z",
+          "evidence_id": "e4cdfc7aa9c6f61a1959fd05",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "foekat",
+          "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+          "finding": "FKZ 03EFBW0275 SpinMagIC, Universität Stuttgart, 01.09.2024 bis 30.09.2026",
+          "field": "discovery_signals",
+          "source_date": "2024-09-01",
+          "retrieved_at": "2026-11-20T21:47:46.257198Z",
+          "evidence_id": "fba48f7cc0f52f3511d983fb",
+          "document_date": "2024-09-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "foekat",
@@ -183,7 +359,15 @@
           "finding": "FKZ 03EFBW0275 SpinMagIC, Universität Stuttgart, 01.09.2024 bis 30.09.2026",
           "field": "first_signal_date",
           "source_date": "2024-09-01",
-          "retrieved_at": "2026-11-20T21:42:00.414398Z"
+          "retrieved_at": "2026-11-20T21:47:46.257213Z",
+          "evidence_id": "cde73488f4e7ab8100460f46",
+          "document_date": "2024-09-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -191,7 +375,15 @@
           "finding": "Thema: SpinMagIC; Förderempfänger: Universität Stuttgart; Ausführende Stelle: Universität Stuttgart - Fakultät 5 Informatik, Elektrotechnik und Informationstechnik - Institut für Intelligente Sensorik und Theoretische Elektrotechnik (IIS); Laufzeit: 01.09.2024 bis 30.09.2026; Summe: 972.638 €; Leistungsplansystematik: Technologietransfer Hochschule - Wirtschaft / Public-Private-Partnership; EXIST",
           "field": "first_signal_date",
           "source_date": "2024-09-01",
-          "retrieved_at": "2026-11-20T21:42:00.417772Z"
+          "retrieved_at": "2026-11-20T21:47:46.264126Z",
+          "evidence_id": "9bcd8144db461801cd061ad0",
+          "document_date": "2024-09-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -199,7 +391,15 @@
           "finding": "Start-up brings quantum sensor to market maturity: SpinMagIC receives EXIST research transfer funding\nWhether beer, coffee beans, yogurt or lubricating oil: A device small enough to fit into one hand can measure the shelf life of substances. The idea: To bring this technology to the food industry. As a start-up, this spin-off from the University of Stuttgart will receive funding from the EXIST research transfer program of the Federal Ministry of Economics and Climate Protection (BMWK).\n“This quantum sensor technology is already just around the corner. Now we need to launch it on the market with full momentum,\" says Prof. Jens Anders. This is exactly what four young men are working on. With their spin-off, SpinMagIC, they aim to make it easy to measure the self-life of products using a quantum sensor. Two of them, Belal Alnajjar and Anh Chu, are Anders’ doctoral researchers and work in the labs at the University of Stuttgart's Institute for Smart Sensors (IIS). The other two - physics d",
           "field": "first_signal_date",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.417825Z"
+          "retrieved_at": "2026-11-20T21:47:46.264232Z",
+          "evidence_id": "68f4c0967e5b929ef6e70b1f",
+          "document_date": "2024-12-05",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -207,7 +407,15 @@
           "finding": "Start-up bringt Quantensensor zur Marktreife: SpinMagIC erhält EXIST-Forschungstransfer-Förderung\nEgal ob Bier, Kaffeebohnen, Joghurt oder Schmieröl: Ein Gerät, das locker auf eine Hand passt, kann die Haltbarkeit von Substanzen messen. Die Idee: Die Technologie in die Lebensmittelindustrie bringen. Als Spin-off erhält die Ausgründung aus der Universität Stuttgart Mittel der EXIST-Forschungstransfer-Förderung des Bundesministeriums für Wirtschaft und Klimaschutz (BMWK).\n„Der Quantensensor steht bereits greifbar in der Tür. Jetzt müssen wir ihn mit ordentlich PS auf den Markt bringen“, sagt Prof. Jens Anders. Genau daran arbeiten vier junge Männer. Mit ihrem Spin-off SpinMagIC möchten sie Haltbarkeitsmessungen mit Hilfe eines Quantensensors möglichst einfach gestalten. Zwei von ihnen, Belal Alnajjar und Anh Chu, sind Doktoranden von Anders und tüfteln in den Labors an der Universität Stuttgart, im Institut für Smarte Sensoren (IIS). Die beiden anderen – der Physik-Doktorand Michele Sega",
           "field": "first_signal_date",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.418672Z"
+          "retrieved_at": "2026-11-20T21:47:46.266353Z",
+          "evidence_id": "43594011c2b3694e2dc98e99",
+          "document_date": "2024-12-05",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -215,7 +423,15 @@
           "finding": "SpinMagIC: EPR auf einem Chip sichert Qualität von Olivenöl und Bier\nBevor Lebensmittel verderben bilden sich meist reaktionsfreudige Moleküle: sogenannte freie Radikale. Bisher war der Nachweis dieser Moleküle für Lebensmittelunternehmen sehr kostspielig. Ein Team aus HZB und Universität Stuttgart hat nun einen tragbaren und kostengünstigen „EPR-on-a-Chip“-Sensor entwickelt, der freie Radikale auch in geringsten Konzentrationen nachweisen kann. Nun bereitet das Team die Gründung eines Spin-off-Unternehmens vor, gefördert durch das EXIST-Forschungstransferprogramm des Bundesministeriums für Wirtschaft und Klimaschutz. Der EPRoC-Sensor soll zunächst bei der Herstellung von Olivenöl und Bier eingesetzt werden, um die Qualität dieser Produkte zu sichern.\nAls erste Anzeichen, dass Lebensmittel verderben, bilden sich in den meisten Produkten hochreaktive Moleküle, so genannte freie Radikale. Diese Moleküle nachzuweisen, ist bislang sehr aufwändig: Die einzige direkte Methode ist die paramag",
           "field": "first_signal_date",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.419004Z"
+          "retrieved_at": "2026-11-20T21:47:46.266976Z",
+          "evidence_id": "26ea92e1f57368a53008a192",
+          "document_date": "2024-09-04",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -223,7 +439,15 @@
           "finding": "Thema: SpinMagIC; Förderempfänger: Universität Stuttgart; Ausführende Stelle: Universität Stuttgart - Fakultät 5 Informatik, Elektrotechnik und Informationstechnik - Institut für Intelligente Sensorik und Theoretische Elektrotechnik (IIS); Laufzeit: 01.09.2024 bis 30.09.2026; Summe: 972.638 €; Leistungsplansystematik: Technologietransfer Hochschule - Wirtschaft / Public-Private-Partnership; EXIST",
           "field": "product_type",
           "source_date": "2024-09-01",
-          "retrieved_at": "2026-11-20T21:42:00.433260Z"
+          "retrieved_at": "2026-11-20T21:47:46.281554Z",
+          "evidence_id": "216f083f196afbbbc2918801",
+          "document_date": "2024-09-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -231,7 +455,15 @@
           "finding": "Start-up brings quantum sensor to market maturity: SpinMagIC receives EXIST research transfer funding",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433266Z"
+          "retrieved_at": "2026-11-20T21:47:46.281568Z",
+          "evidence_id": "63db9974eb6f5981f83c6466",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -239,7 +471,15 @@
           "finding": "Whether beer, coffee beans, yogurt or lubricating oil: A device small enough to fit into one hand can measure the shelf life of substances. The idea: To bring this technology to the food industry. As a start-up, this spin-off from the University of Stuttgart will receive funding from the EXIST research transfer program of the Federal Ministry of Economics and Climate Protection (BMWK).",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433269Z"
+          "retrieved_at": "2026-11-20T21:47:46.281579Z",
+          "evidence_id": "03374a4f8f556a0453a9fae4",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -247,7 +487,15 @@
           "finding": "Teamwork in Stuttgart and Berlin to develop wearable quantum sensor",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433272Z"
+          "retrieved_at": "2026-11-20T21:47:46.281587Z",
+          "evidence_id": "bfe68e28a1bd2fb3d0742079",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -255,7 +503,15 @@
           "finding": "The go-ahead for funding from the BMWK was given on October 1, 2024, and the four founders now have two years to make their spin-off a success. The doctoral students are supported by the Institute for Entrepreneurship (ENI), the technology transfer initiative TTI GmbH and the transfer center TRACES at the University of Stuttgart, together with the state initiative “NXTGN” (known before as \"Gründermotor\"). The three doctoral students from Stuttgart and Berlin have been working together on different projects for several years and know each other very well. Jakob Fitschen joined six months ago. Teamwork is paramount in the development of the highly complex wearable quantum sensor.",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433275Z"
+          "retrieved_at": "2026-11-20T21:47:46.281600Z",
+          "evidence_id": "a44fcccf2d035f4058fb5556",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -263,7 +519,15 @@
           "finding": "SpinMagIC relies on quantum sensors that detect reactive molecules, so-called free radicals. Any material that has unpaired electrons can be quantitatively measured with the sensor. Free radicals, for example, cause skin to age more quickly. They are also responsible for the decomposition of food. ESR have been used to measure free radicals “for 80 years”, notes Anders. Until now, their use was limited because the devices were too bulky, weighed at least a ton and cost several hundred thousand euros. Even available table-top devices weigh around 120 kilograms and are very expensive. This is an issue that calls into question efficient processes or broad application. This is now changing abruptly, and miniaturization is the magic word. All the researchers need to measure the shelf-life of products is a small permanent magnet and a microchip with an integrated circuit.",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433279Z"
+          "retrieved_at": "2026-11-20T21:47:46.281615Z",
+          "evidence_id": "7f9163f19500a2363df18f38",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -271,7 +535,15 @@
           "finding": "How does the measurement work? The microchip is no more than one square millimeter in size. It consists of all high-frequency circuit components that excite the unpaired electrons and sense their quantum responses. For the measurement process, the researchers switch on a micropump that transports the sample onto the chip or immerse the sensor directly in the liquid to be measured. The number of free radicals is shown on the display. “Using 3D-printed structures made of lightweight filament provides a cost-effective way to realize powerful resonance magnets,” emphasizes physicist Alnajjar. Before the printing process, he conducted numerous simulations to determine the optimal solution. The magnet from the 3D printer now weighs around 40 grams. The inside of the magnet consists of rings. \"The rings are selected to ensure that the magnetic field is highly homogeneous,\" says Alnajjar. The low weight and high quality are key characteristics of these magnets.",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433283Z"
+          "retrieved_at": "2026-11-20T21:47:46.281629Z",
+          "evidence_id": "8ed6a118e24fd4eb039c6520",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -279,7 +551,15 @@
           "finding": "The researchers are proud of the neologism SpinMagIC - three components of the measurement: Spin stands for the electrons, which have their own angular momentum, Mag for magnet, which enables the measurement, and IC for the integrated circuit. The division of tasks is clear: “We in Stuttgart are responsible for developing the core technology,” emphasizes electrical engineer Chu. These are the permanent magnet and the circuit board that carries a tiny chip-integrated quantum sensor. Segantini, the physicist in Berlin, looks at applications based on initial findings, such as measuring food shelf life. In particular, he has good connections to the olive oil production sector. The plan is to have the end product ready for the market in two years and to acquire the first pilot customers to test it. \"Extremely small, incredibly affordable, and with very high measurement accuracy,\" says Chu, highlighting the stringent requirements of the food industry and the strong incentive it provides.",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433287Z"
+          "retrieved_at": "2026-11-20T21:47:46.281643Z",
+          "evidence_id": "d8575fbd7ef85b25097b3398",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -287,7 +567,15 @@
           "finding": "The parts do not yet fit into a smartwatch. However, the researchers plan to eventually integrate the measurement equipment into an even smaller device in the long term.",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433289Z"
+          "retrieved_at": "2026-11-20T21:47:46.281651Z",
+          "evidence_id": "03252e11d0cc9a753a870551",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -295,7 +583,15 @@
           "finding": "Egal ob Bier, Kaffeebohnen, Joghurt oder Schmieröl: Ein Gerät, das locker auf eine Hand passt, kann die Haltbarkeit von Substanzen messen. Die Idee: Die Technologie in die Lebensmittelindustrie bringen. Als Spin-off erhält die Ausgründung aus der Universität Stuttgart Mittel der EXIST-Forschungstransfer-Förderung des Bundesministeriums für Wirtschaft und Klimaschutz (BMWK).",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433292Z"
+          "retrieved_at": "2026-11-20T21:47:46.281664Z",
+          "evidence_id": "1a876794c83325df6d6dedf3",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -303,7 +599,15 @@
           "finding": "SpinMagIC setzt auf Quantensensoren, mit denen sich reaktionsfreudige Moleküle, freie Radikale, ermitteln lassen. Jedes Material, das ungepaarte Elektronen hat, kann mit dem Sensor quantitativ vermessen werden. Freie Radikale lassen zum Beispiel Haut schneller altern. Sie sind ebenso verantwortlich dafür, dass sich Lebensmittel zersetzen. Um freie Radikale messbar zu machen, gibt es die ESR – „bereits seit 80 Jahren“, merkt Anders an. Bislang war deren Nutzung begrenzt, weil die Geräte zu sperrig waren mindestens eine Tonne wogen und mehrere Hunderttausend Euro kosteten. Auch verfügbare Tischgeräte wiegen etwa 120 Kilogramm und sind sehr teuer. Ein Flaschenhalsproblem, das effiziente Abläufe oder die breite Anwendung infrage stellt. Das ändert sich jetzt schlagartig: Miniaturisierung ist das Zauberwort. Denn alles, was die Forscher für die Messung von Haltbarkeiten brauchen, ist ein kleiner Permanentmagnet und ein Mikrochip mit integriertem Schaltkreis.",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433295Z"
+          "retrieved_at": "2026-11-20T21:47:46.281679Z",
+          "evidence_id": "d205d72149f9e2f42e9187e4",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -311,7 +615,15 @@
           "finding": "Auf die Wortschöpfung SpinMagIC – drei Bestandteile der Messung – sind die Forscher stolz: Spin steht für die Elektronen, die einen eigenen Drehimpuls mitbringen, Mag für Magnet, der die Messung ermöglicht und IC für den integrierten Schaltkreis. Die Aufgabenteilung ist klar: „Wir in Stuttgart sind für die Entwicklung der Kerntechnologie verantwortlich“, betont Elektrotechniker Chu. Dies sind der Permanentmagnet und die Leiterplatte, die einen winzigen chip-integrierten Quantensensor trägt. Segantini, der Physiker in Berlin, kümmert sich um die Anwendungen anhand erster Beispiele, etwa der Messung von Lebensmittelhaltbarkeit. Er hat insbesondere gute Verbindungen in die Olivenölproduktion. Geplant ist, das Endprodukt in zwei Jahren marktreif zu haben und erste Pilotkunden zu akquirieren, die es testen wollen. „Extrem klein und extrem preiswert mit einer sehr hohen Messgenauigkeit“, hebt Chu die hohen Anforderungen der Lebensmittelindustrie und somit auch ihren Ansporn hervor.",
           "field": "product_type",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:00.433299Z"
+          "retrieved_at": "2026-11-20T21:47:46.281696Z",
+          "evidence_id": "89855d3e1186fa55eeb78824",
+          "document_date": "2024-12-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -319,7 +631,15 @@
           "finding": "SpinMagIC: EPR auf einem Chip sichert Qualität von Olivenöl und Bier",
           "field": "product_type",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.433301Z"
+          "retrieved_at": "2026-11-20T21:47:46.281706Z",
+          "evidence_id": "a30b3248ce23238e7d65da24",
+          "document_date": "2024-09-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -327,7 +647,15 @@
           "finding": "Bevor Lebensmittel verderben bilden sich meist reaktionsfreudige Moleküle: sogenannte freie Radikale. Bisher war der Nachweis dieser Moleküle für Lebensmittelunternehmen sehr kostspielig. Ein Team aus HZB und Universität Stuttgart hat nun einen tragbaren und kostengünstigen „EPR-on-a-Chip“-Sensor entwickelt, der freie Radikale auch in geringsten Konzentrationen nachweisen kann. Nun bereitet das Team die Gründung eines Spin-off-Unternehmens vor, gefördert durch das EXIST-Forschungstransferprogramm des Bundesministeriums für Wirtschaft und Klimaschutz. Der EPRoC-Sensor soll zunächst bei der Herstellung von Olivenöl und Bier eingesetzt werden, um die Qualität dieser Produkte zu sichern.",
           "field": "product_type",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.433304Z"
+          "retrieved_at": "2026-11-20T21:47:46.281719Z",
+          "evidence_id": "ec6c7f677fb180ea42f5e563",
+          "document_date": "2024-09-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -335,7 +663,15 @@
           "finding": "Als erste Anzeichen, dass Lebensmittel verderben, bilden sich in den meisten Produkten hochreaktive Moleküle, so genannte freie Radikale. Diese Moleküle nachzuweisen, ist bislang sehr aufwändig: Die einzige direkte Methode ist die paramagnetische Elektronenspinresonanz (EPR). Herkömmliche EPR-Geräte sind jedoch teuer und platzraubend, sie benötigen Elektromagnete, die keinen Batteriebetrieb zulassen und auch in der Anschaffung und im Betrieb viel Geld kosten. Alternativ stehen chemische Methoden zur Verfügung, die nicht nur sehr arbeitsaufwändig sind, sondern auch giftige Abfälle erzeugen.",
           "field": "product_type",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.433307Z"
+          "retrieved_at": "2026-11-20T21:47:46.281730Z",
+          "evidence_id": "24a182f0c8d0937fea04653a",
+          "document_date": "2024-09-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -343,7 +679,15 @@
           "finding": "Doch nun bietet das Spin-Off-Unternehmen SpinMagIC eine kompakte und preisgünstige Alternative zu herkömmlichen EPR-Geräten: Einen EPR-Sensor, der auf einen kleinen Chip passt (EPRoC). „Wir werden kleine, tragbare und erschwingliche EPR-Geräte herstellen, die wir auf die Bedürfnisse des Kunden zuschneiden können“, erklärt der Physiker Michele Segantini (HZB), der in der Abteilung von Prof. Klaus Lips gerade seine Promotion abschließt. Zum Gründerteam gehören neben Segantini der Elektrotechniker Anh Chu, der Physiker Belal Alnajjar, die beide an der Universität Stuttgart im Team von Professor Jens Anders forschen, sowie der Betriebswirtschaftler Jakob Fitschen.",
           "field": "product_type",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.433311Z"
+          "retrieved_at": "2026-11-20T21:47:46.281742Z",
+          "evidence_id": "f5be45f4d5c37072e706a2c5",
+          "document_date": "2024-09-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -351,7 +695,15 @@
           "finding": "Die Entwicklung des ERPoC geht auf eine Idee von Klaus Lips (HZB) und Jens Anders (Universität Stuttgart) zurück, die 2019 mit dem Technologietransferpreis des HZB ausgezeichnet wurde. Die weitere Entwicklung wurde vom Bundesministerium für Bildung und Forschung (BMBF) gefördert. „Seitdem ist viel passiert, so dass wir jetzt eine Ausgründung planen können“, sagt Segantini. Während das Team an der Universität Stuttgart die „Hardware“ optimierte, untersuchte Segantini, wo und wie die Erfindung auf dem Markt eingesetzt werden könnte.",
           "field": "product_type",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.433315Z"
+          "retrieved_at": "2026-11-20T21:47:46.281754Z",
+          "evidence_id": "83255108ca4a5ebb270b0a50",
+          "document_date": "2024-09-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -359,7 +711,15 @@
           "finding": "Für die Zukunft planen die Gründer, ihr Produkt auch für andere Anwendungsbereiche wie medizinische Diagnostik, Arzneimittelentwicklung, Halbleitertechnologie und das Monitoring von Batterien anzupassen.",
           "field": "product_type",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:00.433317Z"
+          "retrieved_at": "2026-11-20T21:47:46.281762Z",
+          "evidence_id": "bcb6c07f0ab65a5fef6c877f",
+          "document_date": "2024-09-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
@@ -367,7 +727,15 @@
           "finding": "To bring this technology to the food industry.",
           "field": "target_customers",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:17.907821Z"
+          "retrieved_at": "2026-11-20T21:48:08.610014Z",
+          "evidence_id": "a8a81470657aeccc175e8b78",
+          "document_date": "2024-12-05",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
@@ -375,15 +743,31 @@
           "finding": "Der EPRoC-Sensor soll zunächst bei der Herstellung von Olivenöl und Bier eingesetzt werden, um die Qualität dieser Produkte zu sichern.",
           "field": "target_customers",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:17.908339Z"
+          "retrieved_at": "2026-11-20T21:48:08.610828Z",
+          "evidence_id": "c464d4a81665e8b7cb606d51",
+          "document_date": "2024-09-04",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
           "url": "https://idw-online.de/de/news844318",
-          "finding": "measure the shelf life of substances",
+          "finding": "Whether beer, coffee beans, yogurt or lubricating oil: A device small enough to fit into one hand can measure the shelf life of substances.",
           "field": "customer_problem",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:17.908364Z"
+          "retrieved_at": "2026-11-20T21:48:08.611066Z",
+          "evidence_id": "44bd1ed168b1a9a6832cd97e",
+          "document_date": "2024-12-05",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
@@ -391,7 +775,15 @@
           "finding": "Bisher war der Nachweis dieser Moleküle für Lebensmittelunternehmen sehr kostspielig.",
           "field": "customer_problem",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:17.908527Z"
+          "retrieved_at": "2026-11-20T21:48:08.611112Z",
+          "evidence_id": "236e86deb52cc7b648d1ace3",
+          "document_date": "2024-09-04",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
@@ -399,41 +791,223 @@
           "finding": "A device small enough to fit into one hand can measure the shelf life of substances.",
           "field": "solution",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:17.908547Z"
+          "retrieved_at": "2026-11-20T21:48:08.611144Z",
+          "evidence_id": "8db86912e85daef967a07607",
+          "document_date": "2024-12-05",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
           "url": "https://idw-online.de/de/news839134",
-          "finding": "Einen EPR-Sensor, der auf einen kleinen Chip passt (EPRoC).",
+          "finding": "Ein Team aus HZB und Universität Stuttgart hat nun einen tragbaren und kostengünstigen „EPR-on-a-Chip“-Sensor entwickelt, der freie Radikale auch in geringsten Konzentrationen nachweisen kann.",
           "field": "solution",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:17.908566Z"
+          "retrieved_at": "2026-11-20T21:48:08.611200Z",
+          "evidence_id": "cb17e0d51ea3bf237745c26c",
+          "document_date": "2024-09-04",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
           "url": "https://idw-online.de/de/news844318",
-          "finding": "Whether beer, coffee beans, yogurt or lubricating oil",
-          "field": "market",
+          "finding": "quantum sensor",
+          "field": "technology",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:17.908575Z"
+          "retrieved_at": "2026-11-20T21:48:08.611257Z",
+          "evidence_id": "e9975bde8a45e2b059347ec2",
+          "document_date": "2024-12-05",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
           "url": "https://idw-online.de/de/news839134",
-          "finding": "paramagnetische Elektronenspinresonanz (EPR)",
+          "finding": "EPR-on-a-Chip",
           "field": "technology",
           "source_date": "2024-09-04",
-          "retrieved_at": "2026-11-20T21:42:17.908588Z"
+          "retrieved_at": "2026-11-20T21:48:08.611294Z",
+          "evidence_id": "a48f03d25cf4c07431b95af6",
+          "document_date": "2024-09-04",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
           "url": "https://idw-online.de/de/news844318",
-          "finding": "SpinMagIC receives EXIST research transfer funding",
-          "field": "capital_need",
+          "finding": "Start-up brings quantum sensor to market maturity: SpinMagIC receives EXIST research transfer funding",
+          "field": "product.development_status",
           "source_date": "2024-12-05",
-          "retrieved_at": "2026-11-20T21:42:17.908596Z"
+          "retrieved_at": "2026-11-20T21:48:08.611315Z",
+          "evidence_id": "0477b1a65a0a925b5e0c5b3e",
+          "document_date": "2024-12-05",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         }
       ],
+      "context_v2": {
+        "company": {
+          "founding_date": null,
+          "founding_date_status": "unknown",
+          "headquarters": null,
+          "reported_location": {
+            "value": "Stuttgart",
+            "evidence_ids": [
+              "e4cdfc7aa9c6f61a1959fd05"
+            ],
+            "origin": "source_statement"
+          },
+          "germany_evidence_ids": [
+            "84ebc160b3201a17841c32bc"
+          ],
+          "company_status": null
+        },
+        "founders": [
+          {
+            "name": "Belal Alnajjar",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          },
+          {
+            "name": "Anh Chu",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          },
+          {
+            "name": "Michele Segantini",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          },
+          {
+            "name": "Jakob Fitschen",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          }
+        ],
+        "product": {
+          "customer_problem": null,
+          "solution": null,
+          "target_customers": null,
+          "economic_buyer": null,
+          "business_model": null,
+          "maturity": null,
+          "advantage": null,
+          "technology": null,
+          "ip": null,
+          "development_status": {
+            "value": "Start-up brings quantum sensor to market maturity: SpinMagIC receives EXIST research transfer funding",
+            "evidence_ids": [
+              "0477b1a65a0a925b5e0c5b3e"
+            ],
+            "origin": "model_selected_quote"
+          },
+          "next_milestone": null
+        },
+        "traction": {
+          "paid_customers": [],
+          "customers_payment_unknown": [],
+          "paid_pilots": [],
+          "unpaid_pilots": [],
+          "pilots_payment_unknown": [],
+          "lois": [],
+          "commercial_partners": [],
+          "research_partners": [],
+          "usage": null,
+          "revenue": null,
+          "growth": null,
+          "reported_metrics": {}
+        },
+        "funding": {
+          "status": "non_vc_funded",
+          "vc_status": "unknown",
+          "status_evidence_ids": [],
+          "rounds": [],
+          "investors": [],
+          "public_grants": [],
+          "fundraising_status": null,
+          "planned_round": null,
+          "capital_need": null,
+          "use_of_funds": null,
+          "next_milestone": null,
+          "time_to_milestone": null,
+          "burn_rate": null,
+          "cash_runway": null,
+          "round_size_eur": null,
+          "asking_pre_money_eur": null,
+          "round_terms_evidence_ids": []
+        },
+        "discovery_signals": [
+          {
+            "source": "foekat",
+            "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+            "finding": "FKZ 03EFBW0275 SpinMagIC, Universität Stuttgart, 01.09.2024 bis 30.09.2026",
+            "field": "discovery_signals",
+            "source_date": "2024-09-01",
+            "retrieved_at": "2026-11-20T21:47:46.257198Z",
+            "evidence_id": "fba48f7cc0f52f3511d983fb",
+            "document_date": "2024-09-01",
+            "verification_status": "source_matched",
+            "dimension": null,
+            "kriterium": null,
+            "aussage": null,
+            "datum": null,
+            "punkte": null
+          }
+        ],
+        "market_intelligence": null,
+        "research_status": {
+          "mode": "standard",
+          "market": "not_requested",
+          "gaps": [
+            "Welchen Markt adressiert ihr und wie grenzt ihr ihn ab?",
+            "Was ist der technische Ansatz und welche Nachweise gibt es?",
+            "Welche Alternativen nutzen eure Zielkunden heute?",
+            "Über welche Kanäle gewinnt ihr Kunden?",
+            "Welchen Kapitalbedarf habt ihr nach dieser Runde?",
+            "Wie groß ist die geplante Runde in Euro?",
+            "Welche Pre-Money-Bewertung fordert ihr in Euro?",
+            "Welche Investoren sind bereits beteiligt?",
+            "Welcher Produktstand ist heute nachweisbar?",
+            "Wer gehört zum Gründungsteam und wer bringt welche Erfahrung mit?",
+            "Welches konkrete Kundenproblem löst ihr?",
+            "Welche Kundengruppe nutzt das Produkt?"
+          ]
+        },
+        "updated_at": "2026-11-20T21:48:08.612693Z"
+      },
       "founder_profiles": [
         {
           "name": "Belal Alnajjar",
@@ -491,14 +1065,16 @@
       "target_customers": null,
       "customer_problem": null,
       "solution": null,
-      "market": "Whether beer, coffee beans, yogurt or lubricating oil",
-      "technology": "paramagnetische Elektronenspinresonanz (EPR)",
+      "market": null,
+      "technology": null,
       "competition": null,
       "sales": null,
-      "capital_need": "SpinMagIC receives EXIST research transfer funding",
+      "capital_need": null,
       "round_size_eur": null,
       "asking_pre_money_eur": null,
       "research_questions": [
+        "Welchen Markt adressiert ihr und wie grenzt ihr ihn ab?",
+        "Was ist der technische Ansatz und welche Nachweise gibt es?",
         "Welche Alternativen nutzen eure Zielkunden heute?",
         "Über welche Kanäle gewinnt ihr Kunden?",
         "Wie groß ist die geplante Runde in Euro?",
@@ -506,6 +1082,8 @@
         "Welche Investoren sind bereits beteiligt?",
         "Welcher Produktstand ist heute nachweisbar?",
         "Wer gehört zum Gründungsteam und wer bringt welche Erfahrung mit?",
+        "Welches konkrete Kundenproblem löst ihr?",
+        "Welche Kundengruppe nutzt das Produkt?",
         "Welche Rechtsform hat das Vorhaben heute (Impressum nicht gefunden)?",
         "Gibt es Schutzrechte oder Patentanmeldungen?",
         "Welche Piloten, Design-Partner oder Absichtserklärungen gibt es?"
@@ -580,7 +1158,15 @@
         "finding": "Ausführende Stelle: BTU Cottbus-Senftenberg",
         "field": null,
         "source_date": null,
-        "retrieved_at": "2026-11-20T21:42:00.329500Z"
+        "retrieved_at": "2026-11-20T21:47:46.187669Z",
+        "evidence_id": "06a7356b3ee46baba1259b9c",
+        "document_date": null,
+        "verification_status": "unverified",
+        "dimension": null,
+        "kriterium": null,
+        "aussage": null,
+        "datum": null,
+        "punkte": null
       },
       "is_demo": false,
       "website": null,
@@ -609,7 +1195,15 @@
           "finding": "EXIST-Forschungstransfer 03EFBB0063: Thema: HoCHQuant; Förderempfänger: Brandenburgische Technische Universität Cottbus-Senftenberg; Ausführende Stelle: Brandenburgische Technische Universität Cottbus-Senftenberg; Laufzeit: 01.06.2024 bis 30.09.2026; Summe: 876.964 €; Leistungsplansystematik: Technologietransfer Hochschule - Wirtschaft / Public-Private-Partnership; EXIST",
           "field": "grants",
           "source_date": "2024-06-01",
-          "retrieved_at": "2026-11-20T21:42:17.938949Z"
+          "retrieved_at": "2026-11-20T21:48:08.637721Z",
+          "evidence_id": "37d553f6563f32b04c584344",
+          "document_date": "2024-06-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -617,7 +1211,15 @@
           "finding": "Ausführende Stelle: Brandenburgische Technische Universität Cottbus-Senftenberg",
           "field": "institution",
           "source_date": "2024-06-01",
-          "retrieved_at": "2026-11-20T21:42:17.939019Z"
+          "retrieved_at": "2026-11-20T21:48:08.637771Z",
+          "evidence_id": "d3b8016ddbbf5e3e1d1e3413",
+          "document_date": "2024-06-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -625,7 +1227,15 @@
           "finding": "Förderkatalog-Treffer 03EFBB0063 für 'HoCHQuant' (Konfidenz 1.0)",
           "field": "match_confidence",
           "source_date": "2024-06-01",
-          "retrieved_at": "2026-11-20T21:42:17.939088Z"
+          "retrieved_at": "2026-11-20T21:48:08.637955Z",
+          "evidence_id": "9d9283ab6d81f4b03fadb305",
+          "document_date": "2024-06-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback CDX",
@@ -633,7 +1243,15 @@
           "finding": "Keine archivierte Crunchbase-/Dealroom-Profilseite für hochquant",
           "field": "in_databases",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:17.940567Z"
+          "retrieved_at": "2026-11-20T21:48:08.638348Z",
+          "evidence_id": "b091dd48f579301260ab1416",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -641,7 +1259,15 @@
           "finding": "Von der Lausitz auf den Weltmarkt: Neuartige Materialien für Hochleistungstechnologien",
           "field": "idw",
           "source_date": "2024-08-20",
-          "retrieved_at": "2026-11-20T21:42:17.945999Z"
+          "retrieved_at": "2026-11-20T21:48:08.643474Z",
+          "evidence_id": "0a9de40e053e27f970c24eeb",
+          "document_date": "2024-08-20",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -649,7 +1275,15 @@
           "finding": "Im Rahmen des „EXIST Forschungstransfers“ erhält die BTU dafür rund 900.000 Euro.",
           "field": "grants_mention",
           "source_date": "2024-08-20",
-          "retrieved_at": "2026-11-20T21:42:17.947763Z"
+          "retrieved_at": "2026-11-20T21:48:08.645257Z",
+          "evidence_id": "ebbbc9907c9de0d2c5a4a233",
+          "document_date": "2024-08-20",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -657,7 +1291,15 @@
           "finding": "OpenAlex: Owen C. Ernst, Brandenburg University of Technology Cottbus-Senftenberg, 32 Arbeiten, 0 im Feld EXIST-Forschungstransfer, Cottbus-Senftenberg, Quantentechnologien, Quantenqualität, Herstellung, Materialien, Zuordnung 90 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:17.949896Z"
+          "retrieved_at": "2026-11-20T21:48:08.647287Z",
+          "evidence_id": "19d6c9e1f5fab135dd0659b2",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -665,7 +1307,47 @@
           "finding": "0 von 32 Arbeiten passen zu: EXIST-Forschungstransfer, Cottbus-Senftenberg, Quantentechnologien, Quantenqualität, Herstellung, Materialien",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:17.949935Z"
+          "retrieved_at": "2026-11-20T21:48:08.647321Z",
+          "evidence_id": "5ad110d95166ba1a084802e3",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "Förderkatalog",
+          "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+          "finding": "Standort laut Sourcing: Cottbus",
+          "field": "company.reported_location",
+          "source_date": null,
+          "retrieved_at": "2026-11-20T21:48:08.647374Z",
+          "evidence_id": "5af4bbb41d6aa03d4ca93b99",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "foekat",
+          "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+          "finding": "FKZ 03EFBB0063 HoCHQuant, BTU Cottbus-Senftenberg, 01.06.2024 bis 30.09.2026",
+          "field": "discovery_signals",
+          "source_date": "2024-06-01",
+          "retrieved_at": "2026-11-20T21:48:08.647400Z",
+          "evidence_id": "0fb07b3785b0aee9552e3ded",
+          "document_date": "2024-06-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "foekat",
@@ -673,7 +1355,15 @@
           "finding": "FKZ 03EFBB0063 HoCHQuant, BTU Cottbus-Senftenberg, 01.06.2024 bis 30.09.2026",
           "field": "first_signal_date",
           "source_date": "2024-06-01",
-          "retrieved_at": "2026-11-20T21:42:17.949985Z"
+          "retrieved_at": "2026-11-20T21:48:08.647413Z",
+          "evidence_id": "6f96690526f5c443a65cda86",
+          "document_date": "2024-06-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -681,7 +1371,15 @@
           "finding": "Thema: HoCHQuant; Förderempfänger: Brandenburgische Technische Universität Cottbus-Senftenberg; Ausführende Stelle: Brandenburgische Technische Universität Cottbus-Senftenberg; Laufzeit: 01.06.2024 bis 30.09.2026; Summe: 876.964 €; Leistungsplansystematik: Technologietransfer Hochschule - Wirtschaft / Public-Private-Partnership; EXIST",
           "field": "first_signal_date",
           "source_date": "2024-06-01",
-          "retrieved_at": "2026-11-20T21:42:17.951032Z"
+          "retrieved_at": "2026-11-20T21:48:08.648751Z",
+          "evidence_id": "d046858768e99d75c1be94af",
+          "document_date": "2024-06-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -689,7 +1387,15 @@
           "finding": "Von der Lausitz auf den Weltmarkt: Neuartige Materialien für Hochleistungstechnologien\nAm Fachgebiet Physikalische Chemie der Brandenburgischen Technischen Universität Cottbus-Senftenberg (BTU) ist das Forschungsprojekt „HoCHQuant“ zur Herstellung von sogenannten isotopenreinen „quantum grade“ Materialien gestartet. Diese dienen als Rohstoffe für Zukunftstechnologien wie Quantencomputer und für Hochleistungsoptiken.\nAufbau einer neuen Wertschöpfungskette in der Lausitz\nIm Projekt „HoCHQuant“ beschäftigt sich ein vierköpfiges Forschungsteam an der BTU unter der Leitung von Dr. Owen C. Ernst mit der Herstellung der isotopenreinen Halbleiter-Wasserstoffe Silan-28 und German-73d. Aufgrund ihrer veränderten physikalischen und chemischen Eigenschaften bieten diese gegenüber ihren herkömmlichen Varianten eine höhere Stabilität für Quantenprozesse. Zudem dienen sie als Rohmaterial für neue Werkstoffe mit außergewöhnlich hoher Wärmeleitfähigkeit.\nRohstoffe dieser Güteklasse sind derzeit nicht a",
           "field": "first_signal_date",
           "source_date": "2024-08-20",
-          "retrieved_at": "2026-11-20T21:42:17.951093Z"
+          "retrieved_at": "2026-11-20T21:48:08.648848Z",
+          "evidence_id": "ccaeec04ddda3c4c38fa2fb8",
+          "document_date": "2024-08-20",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -697,7 +1403,15 @@
           "finding": "Rohstoffe dieser Güteklasse sind derzeit nicht auf dem Weltmarkt erhältlich. Ziel des Forschungsprojektes ist deshalb, das Herstellungsverfahren zur Marktreife zu bringen und die quantum grade materials [qgm] GmbH zu gründen, die diese Marktlücke schließt. Mit dieser Idee konnte das Team 2023 den Lausitzer Existenzgründerwettbewerb gewinnen. Verwendung finden können isotopenreine Materialien zum Beispiel in der Herstellung von Chips für Quantencomputer. Potenzielle Kunden sind beispielsweise einige der Unternehmen, die in den vergangenen Monaten ihre Ansiedlungen in der Region angekündigt haben.",
           "field": "product_type",
           "source_date": "2024-08-20",
-          "retrieved_at": "2026-11-20T21:42:17.958566Z"
+          "retrieved_at": "2026-11-20T21:48:08.657026Z",
+          "evidence_id": "cc20a01acda22aa667ab4fe1",
+          "document_date": "2024-08-20",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
@@ -705,17 +1419,149 @@
           "finding": "Verwendung finden können isotopenreine Materialien zum Beispiel in der Herstellung von Chips für Quantencomputer.",
           "field": "target_customers",
           "source_date": "2024-08-20",
-          "retrieved_at": "2026-11-20T21:42:17.962206Z"
+          "retrieved_at": "2026-11-20T21:48:21.112632Z",
+          "evidence_id": "97b369ad22baba934fa6bc73",
+          "document_date": "2024-08-20",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
           "url": "https://idw-online.de/de/news838372",
-          "finding": "Neuartige Materialien für Hochleistungstechnologien",
-          "field": "solution",
+          "finding": "Von der Lausitz auf den Weltmarkt: Neuartige Materialien für Hochleistungstechnologien",
+          "field": "market",
           "source_date": "2024-08-20",
-          "retrieved_at": "2026-11-20T21:42:17.962221Z"
+          "retrieved_at": "2026-11-20T21:48:21.112852Z",
+          "evidence_id": "ab42fee5bce6d59561c4f283",
+          "document_date": "2024-08-20",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         }
       ],
+      "context_v2": {
+        "company": {
+          "founding_date": null,
+          "founding_date_status": "unknown",
+          "headquarters": null,
+          "reported_location": {
+            "value": "Cottbus",
+            "evidence_ids": [
+              "5af4bbb41d6aa03d4ca93b99"
+            ],
+            "origin": "source_statement"
+          },
+          "germany_evidence_ids": [
+            "06a7356b3ee46baba1259b9c"
+          ],
+          "company_status": null
+        },
+        "founders": [
+          {
+            "name": "Owen C. Ernst",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          }
+        ],
+        "product": {
+          "customer_problem": null,
+          "solution": null,
+          "target_customers": {
+            "value": "Verwendung finden können isotopenreine Materialien zum Beispiel in der Herstellung von Chips für Quantencomputer.",
+            "evidence_ids": [
+              "97b369ad22baba934fa6bc73"
+            ],
+            "origin": "model_selected_quote"
+          },
+          "economic_buyer": null,
+          "business_model": null,
+          "maturity": null,
+          "advantage": null,
+          "technology": null,
+          "ip": null,
+          "development_status": null,
+          "next_milestone": null
+        },
+        "traction": {
+          "paid_customers": [],
+          "customers_payment_unknown": [],
+          "paid_pilots": [],
+          "unpaid_pilots": [],
+          "pilots_payment_unknown": [],
+          "lois": [],
+          "commercial_partners": [],
+          "research_partners": [],
+          "usage": null,
+          "revenue": null,
+          "growth": null,
+          "reported_metrics": {}
+        },
+        "funding": {
+          "status": "non_vc_funded",
+          "vc_status": "unknown",
+          "status_evidence_ids": [],
+          "rounds": [],
+          "investors": [],
+          "public_grants": [],
+          "fundraising_status": null,
+          "planned_round": null,
+          "capital_need": null,
+          "use_of_funds": null,
+          "next_milestone": null,
+          "time_to_milestone": null,
+          "burn_rate": null,
+          "cash_runway": null,
+          "round_size_eur": null,
+          "asking_pre_money_eur": null,
+          "round_terms_evidence_ids": []
+        },
+        "discovery_signals": [
+          {
+            "source": "foekat",
+            "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+            "finding": "FKZ 03EFBB0063 HoCHQuant, BTU Cottbus-Senftenberg, 01.06.2024 bis 30.09.2026",
+            "field": "discovery_signals",
+            "source_date": "2024-06-01",
+            "retrieved_at": "2026-11-20T21:48:08.647400Z",
+            "evidence_id": "0fb07b3785b0aee9552e3ded",
+            "document_date": "2024-06-01",
+            "verification_status": "source_matched",
+            "dimension": null,
+            "kriterium": null,
+            "aussage": null,
+            "datum": null,
+            "punkte": null
+          }
+        ],
+        "market_intelligence": null,
+        "research_status": {
+          "mode": "standard",
+          "market": "not_requested",
+          "gaps": [
+            "Was ist der technische Ansatz und welche Nachweise gibt es?",
+            "Welche Alternativen nutzen eure Zielkunden heute?",
+            "Über welche Kanäle gewinnt ihr Kunden?",
+            "Welchen Kapitalbedarf habt ihr nach dieser Runde?",
+            "Wie groß ist die geplante Runde in Euro?",
+            "Welche Pre-Money-Bewertung fordert ihr in Euro?",
+            "Welche Investoren sind bereits beteiligt?",
+            "Welcher Produktstand ist heute nachweisbar?",
+            "Wer gehört zum Gründungsteam und wer bringt welche Erfahrung mit?",
+            "Welches konkrete Kundenproblem löst ihr?"
+          ]
+        },
+        "updated_at": "2026-11-20T21:48:21.113156Z"
+      },
       "founder_profiles": [
         {
           "name": "Owen C. Ernst",
@@ -733,8 +1579,8 @@
       ],
       "target_customers": "Verwendung finden können isotopenreine Materialien zum Beispiel in der Herstellung von Chips für Quantencomputer.",
       "customer_problem": null,
-      "solution": "Neuartige Materialien für Hochleistungstechnologien",
-      "market": null,
+      "solution": null,
+      "market": "Von der Lausitz auf den Weltmarkt: Neuartige Materialien für Hochleistungstechnologien",
       "technology": null,
       "competition": null,
       "sales": null,
@@ -742,7 +1588,6 @@
       "round_size_eur": null,
       "asking_pre_money_eur": null,
       "research_questions": [
-        "Welchen Markt adressiert ihr und wie grenzt ihr ihn ab?",
         "Was ist der technische Ansatz und welche Nachweise gibt es?",
         "Welche Alternativen nutzen eure Zielkunden heute?",
         "Über welche Kanäle gewinnt ihr Kunden?",
@@ -751,6 +1596,7 @@
         "Welche Investoren sind bereits beteiligt?",
         "Welcher Produktstand ist heute nachweisbar?",
         "Wer gehört zum Gründungsteam und wer bringt welche Erfahrung mit?",
+        "Welches konkrete Kundenproblem löst ihr?",
         "Welche Rechtsform hat das Vorhaben heute (Impressum nicht gefunden)?",
         "Gibt es Schutzrechte oder Patentanmeldungen?",
         "Welche Piloten, Design-Partner oder Absichtserklärungen gibt es?"
@@ -822,7 +1668,15 @@
         "finding": "Helmholtz-Institut Freiberg für Ressourcentechnologie",
         "field": null,
         "source_date": null,
-        "retrieved_at": "2026-11-20T21:42:00.329758Z"
+        "retrieved_at": "2026-11-20T21:47:46.187700Z",
+        "evidence_id": "4a16efb0990e186a57c4a2c8",
+        "document_date": null,
+        "verification_status": "unverified",
+        "dimension": null,
+        "kriterium": null,
+        "aussage": null,
+        "datum": null,
+        "punkte": null
       },
       "is_demo": false,
       "website": "https://siderogain.de/",
@@ -854,7 +1708,15 @@
           "finding": "EXIST-Forschungstransfer 03EFSN0258: Thema: SideroGaIn; Förderempfänger: Helmholtz-Zentrum Dresden - Rossendorf e. V.; Ausführende Stelle: Helmholtz-Zentrum Dresden - Rossendorf e. V. - Helmholtz-Institut Freiberg für Ressourcentechnologie (HIF); Laufzeit: 01.08.2026 bis 31.07.2027; Summe: 774.408 €; Leistungsplansystematik: Technologietransfer Hochschule - Wirtschaft / Public-Private-Partnership; EXIST",
           "field": "grants",
           "source_date": "2026-08-01",
-          "retrieved_at": "2026-11-20T21:42:17.978923Z"
+          "retrieved_at": "2026-11-20T21:48:21.134690Z",
+          "evidence_id": "657b372759cd19dcefa65a2e",
+          "document_date": "2026-08-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -862,7 +1724,15 @@
           "finding": "Ausführende Stelle: Helmholtz-Zentrum Dresden - Rossendorf e. V. - Helmholtz-Institut Freiberg für Ressourcentechnologie (HIF)",
           "field": "institution",
           "source_date": "2026-08-01",
-          "retrieved_at": "2026-11-20T21:42:17.978964Z"
+          "retrieved_at": "2026-11-20T21:48:21.134734Z",
+          "evidence_id": "c92b41c7dcb9f58b5a7c297c",
+          "document_date": "2026-08-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -870,7 +1740,15 @@
           "finding": "Förderkatalog-Treffer 03EFSN0258 für 'Siderogain' (Konfidenz 0.9)",
           "field": "match_confidence",
           "source_date": "2026-08-01",
-          "retrieved_at": "2026-11-20T21:42:17.978984Z"
+          "retrieved_at": "2026-11-20T21:48:21.134754Z",
+          "evidence_id": "24e7acd04c3a0c4b49a6fda5",
+          "document_date": "2026-08-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback CDX",
@@ -878,7 +1756,15 @@
           "finding": "Erste Wayback-Aufnahme: 2026-10-05",
           "field": "first_web_capture",
           "source_date": "2026-10-05",
-          "retrieved_at": "2026-11-20T21:42:17.979299Z"
+          "retrieved_at": "2026-11-20T21:48:21.135019Z",
+          "evidence_id": "16e870fc7a34cb74f1cff3e1",
+          "document_date": "2026-10-05",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback CDX",
@@ -886,7 +1772,15 @@
           "finding": "Keine archivierte Crunchbase-/Dealroom-Profilseite für siderogain",
           "field": "in_databases",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:17.980657Z"
+          "retrieved_at": "2026-11-20T21:48:21.135195Z",
+          "evidence_id": "2abacd921f78e045a169f4e5",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -894,7 +1788,15 @@
           "finding": "Biomolecules save raw materials: HZDR Spin-off Siderogain enters the market",
           "field": "idw",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.993311Z"
+          "retrieved_at": "2026-11-20T21:48:21.143021Z",
+          "evidence_id": "1782a3c2719f56831faac89c",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -902,7 +1804,15 @@
           "finding": "Since August, the spin-off has also been receiving funding from the EXIST Research Transfer program to further develop the technology, acquire its first customers, and expand the pilot plant into a fully operational prototype.",
           "field": "grants_mention",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.995632Z"
+          "retrieved_at": "2026-11-20T21:48:21.144500Z",
+          "evidence_id": "47614b2b7918ae63de1139bf",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -910,7 +1820,15 @@
           "finding": "At the heart of the process is a patented technology that efficiently recovers strategically important metals such as gallium, indium, and germanium from process residues in the semiconductor industry.",
           "field": "ip_mention",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.995645Z"
+          "retrieved_at": "2026-11-20T21:48:21.144515Z",
+          "evidence_id": "7edc1bcf06a9be932424fd73",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -918,7 +1836,15 @@
           "finding": "“Starting with a biotechnology research question, and through laboratory experiments, patenting, and the construction of a pilot plant, a technology has emerged that can contribute to the European raw material security and the circular economy,” says Dr. Katrin Pollmann, head of the biotechnology department at HIF, expressing her delight at the institute’s fourth spin-off to date.",
           "field": "ip_mention",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.995653Z"
+          "retrieved_at": "2026-11-20T21:48:21.144531Z",
+          "evidence_id": "545af3ffbc768b42fc4b5b67",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -926,7 +1852,15 @@
           "finding": "Biomoleküle retten Rohstoffe: HZDR-Spin-off Siderogain gegründet",
           "field": "idw",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.997940Z"
+          "retrieved_at": "2026-11-20T21:48:21.146040Z",
+          "evidence_id": "02200b5d7bd6417dd9ef4ad6",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -934,7 +1868,15 @@
           "finding": "Biomoleküle retten Rohstoffe: HZDR-Spin-off Siderogain gegründet",
           "field": "founding_statement",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.999934Z"
+          "retrieved_at": "2026-11-20T21:48:21.147999Z",
+          "evidence_id": "9f03e8dc537759c60e1e5c8f",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -942,7 +1884,15 @@
           "finding": "Mit der Gründung von Siderogain beginnt nun die nächste Phase: Das Team will zusätzliche industrielle Anwendungen erschließen und Kunden sowie Partner für den Einsatz der Technologie gewinnen.",
           "field": "founding_statement",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.999946Z"
+          "retrieved_at": "2026-11-20T21:48:21.148020Z",
+          "evidence_id": "39cceda70b4ece9b402f311f",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -950,7 +1900,15 @@
           "finding": "Seit August erhält das Spin-off darüber hinaus die Förderung des EXIST-Forschungstransfers, um die Technologie weiterzuentwickeln, erste Kunden zu gewinnen und die Pilotanlage zu einem einsatzfähigen Prototyp auszubauen.",
           "field": "grants_mention",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.999951Z"
+          "retrieved_at": "2026-11-20T21:48:21.148034Z",
+          "evidence_id": "efb13f34e72775ddacc20602",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -958,7 +1916,15 @@
           "finding": "Im Mittelpunkt steht eine patentierte Technologie, mit der strategisch wichtige Metalle wie Gallium, Indium und Germanium effizient aus Prozessrückständen der Halbleiterindustrie zurückgewonnen werden können.",
           "field": "ip_mention",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.999956Z"
+          "retrieved_at": "2026-11-20T21:48:21.148046Z",
+          "evidence_id": "05ffe1a92aef0c4a99357bb4",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -966,7 +1932,15 @@
           "finding": "„Aus einer biotechnologischen Forschungsfrage ist über Laborversuche, Patentierungen und den Bau einer Pilotanlage eine Technologie entstanden, die einen Beitrag zur europäischen Rohstoffsicherheit und zur Kreislaufwirtschaft leisten kann“, freut sich Dr. Katrin Pollmann, Leiterin der biotechnologischen Abteilung am HIF über das mittlerweile vierte Spin-off des Instituts.",
           "field": "ip_mention",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:17.999960Z"
+          "retrieved_at": "2026-11-20T21:48:21.148060Z",
+          "evidence_id": "fd3fd9cd8b8ce0d97130ec88",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -974,7 +1948,15 @@
           "finding": "OpenAlex: Rohan Jain, Helmholtz-Zentrum Dresden-Rossendorf, 58 Arbeiten, 6 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.004606Z"
+          "retrieved_at": "2026-11-20T21:48:21.153199Z",
+          "evidence_id": "12642d2579929a0904445278",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -982,7 +1964,15 @@
           "finding": "6 von 58 Arbeiten passen zu: Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.004620Z"
+          "retrieved_at": "2026-11-20T21:48:21.153219Z",
+          "evidence_id": "e6b3dab3a4396b75aefe4040",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -990,7 +1980,15 @@
           "finding": "OpenAlex: Aratrika Ghosh, Helmholtz-Zentrum Dresden-Rossendorf, 16 Arbeiten, 1 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 90 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.005135Z"
+          "retrieved_at": "2026-11-20T21:48:21.153648Z",
+          "evidence_id": "4237c29579c4f90e05209e8b",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -998,7 +1996,15 @@
           "finding": "1 von 16 Arbeiten passen zu: Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.005142Z"
+          "retrieved_at": "2026-11-20T21:48:21.153661Z",
+          "evidence_id": "e685285fc3586e6ce6d046b9",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1006,7 +2012,15 @@
           "finding": "OpenAlex: Peter Boelens, Helmholtz-Zentrum Dresden-Rossendorf, 15 Arbeiten, 2 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 90 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.005520Z"
+          "retrieved_at": "2026-11-20T21:48:21.154010Z",
+          "evidence_id": "e9a84a319b95e5adbf5f609e",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1014,7 +2028,15 @@
           "finding": "2 von 15 Arbeiten passen zu: Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.005525Z"
+          "retrieved_at": "2026-11-20T21:48:21.154032Z",
+          "evidence_id": "21550f5758f7a21bb38524e7",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1022,7 +2044,15 @@
           "finding": "OpenAlex: Jonathan Engelhardt, Helmholtz Institute Freiberg for Resource Technology, 7 Arbeiten, 0 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 80 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.006218Z"
+          "retrieved_at": "2026-11-20T21:48:21.154407Z",
+          "evidence_id": "8051fd8132a8a77c6c4d50dd",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1030,7 +2060,47 @@
           "finding": "0 von 7 Arbeiten passen zu: Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.006223Z"
+          "retrieved_at": "2026-11-20T21:48:21.154419Z",
+          "evidence_id": "4f2e31bf5e41c7a0a4848a02",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "idw",
+          "url": "https://idw-online.de/de/news876491",
+          "finding": "Standort laut Sourcing: Freiberg",
+          "field": "company.reported_location",
+          "source_date": null,
+          "retrieved_at": "2026-11-20T21:48:21.154465Z",
+          "evidence_id": "9940a59eb2a7be5b28ff1f98",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "idw",
+          "url": "https://idw-online.de/de/news876491",
+          "finding": "Siderogain gegründet; EXIST-Forschungstransfer; patentierte Technologie; Pilotanlage mit Freiberger Compound Materials GmbH",
+          "field": "discovery_signals",
+          "source_date": "2026-08-28",
+          "retrieved_at": "2026-11-20T21:48:21.154486Z",
+          "evidence_id": "fc5b187d9ffbc7190e4cbbe0",
+          "document_date": "2026-08-28",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1038,7 +2108,15 @@
           "finding": "Siderogain gegründet; EXIST-Forschungstransfer; patentierte Technologie; Pilotanlage mit Freiberger Compound Materials GmbH",
           "field": "first_signal_date",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.006265Z"
+          "retrieved_at": "2026-11-20T21:48:21.154501Z",
+          "evidence_id": "1ce21d5e9fc20b206b6d1c86",
+          "document_date": "2026-08-28",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -1046,7 +2124,15 @@
           "finding": "Thema: SideroGaIn; Förderempfänger: Helmholtz-Zentrum Dresden - Rossendorf e. V.; Ausführende Stelle: Helmholtz-Zentrum Dresden - Rossendorf e. V. - Helmholtz-Institut Freiberg für Ressourcentechnologie (HIF); Laufzeit: 01.08.2026 bis 31.07.2027; Summe: 774.408 €; Leistungsplansystematik: Technologietransfer Hochschule - Wirtschaft / Public-Private-Partnership; EXIST",
           "field": "first_signal_date",
           "source_date": "2026-08-01",
-          "retrieved_at": "2026-11-20T21:42:18.009916Z"
+          "retrieved_at": "2026-11-20T21:48:21.157729Z",
+          "evidence_id": "3f37753135fcf42233284574",
+          "document_date": "2026-08-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback",
@@ -1054,7 +2140,15 @@
           "finding": "Erste Archivaufnahme der Website",
           "field": "first_signal_date",
           "source_date": "2026-10-05",
-          "retrieved_at": "2026-11-20T21:42:18.009973Z"
+          "retrieved_at": "2026-11-20T21:48:21.157822Z",
+          "evidence_id": "e52cfa13abbe7fb4e019a2ee",
+          "document_date": "2026-10-05",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1062,7 +2156,15 @@
           "finding": "Biomolecules save raw materials: HZDR Spin-off Siderogain enters the market\nWith a biotechnological process for recovering critical metals from industrial wastewater, Siderogain transfers a biotech process from research to business. At the heart of the process is a patented technology that efficiently recovers strategically important metals such as gallium, indium, and germanium from process residues in the semiconductor industry. The spin-off originated in the biotechnology department of the Helmholtz Institute Freiberg for Resource Technology (HIF) at the Helmholtz-Zentrum Dresden-Rossendorf (HZDR).\nGallium, indium, and germanium are key raw materials for the semiconductor industry and are used in wafers, electronic chips, LEDs, and lasers. At the same time, Europe heavily dependents on imports of these metals, and observes steadily rising world market prices are rising steadily. Currently, prices range from 2,270 to 2,900 euros per kilogram for gallium, 9,450 to 10,210 euros per kil",
           "field": "first_signal_date",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.010009Z"
+          "retrieved_at": "2026-11-20T21:48:21.157904Z",
+          "evidence_id": "b988c7a98b1f266378f34220",
+          "document_date": "2026-08-28",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1070,7 +2172,15 @@
           "finding": "Biomoleküle retten Rohstoffe: HZDR-Spin-off Siderogain gegründet\nMit einem biotechnologischen Verfahren zur Rückgewinnung kritischer Metalle aus Industrieabwässern geht Siderogain den Schritt von der Forschung in die Wirtschaft. Im Mittelpunkt steht eine patentierte Technologie, mit der strategisch wichtige Metalle wie Gallium, Indium und Germanium effizient aus Prozessrückständen der Halbleiterindustrie zurückgewonnen werden können. Das Spin-off geht aus der biotechnologischen Abteilung des Helmholtz-Instituts Freiberg für Ressourcentechnologie (HIF) am Helmholtz-Zentrum Dresden-Rossendorf (HZDR) hervor.\nGallium, Indium und Germanium sind Schlüsselrohstoffe für die Halbleiterindustrie und kommen unter anderem in Wafern, elektronischen Chips, LEDs und Lasern zum Einsatz. Gleichzeitig ist Europa bei der Versorgung mit den Metallen stark von Importen abhängig und die Weltmarktpreise steigen stetig. Aktuell liegen sie laut der asiatischen Leitbörse Shanghai Metals Market bei 2.270 – 2.900",
           "field": "first_signal_date",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.010400Z"
+          "retrieved_at": "2026-11-20T21:48:21.158642Z",
+          "evidence_id": "4b4813ca7a529d6aea113ce9",
+          "document_date": "2026-08-28",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1078,7 +2188,15 @@
           "finding": "With a biotechnological process for recovering critical metals from industrial wastewater, Siderogain transfers a biotech process from research to business. At the heart of the process is a patented technology that efficiently recovers strategically important metals such as gallium, indium, and germanium from process residues in the semiconductor industry. The spin-off originated in the biotechnology department of the Helmholtz Institute Freiberg for Resource Technology (HIF) at the Helmholtz-Zentrum Dresden-Rossendorf (HZDR).",
           "field": "ip_status",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.023972Z"
+          "retrieved_at": "2026-11-20T21:48:21.171944Z",
+          "evidence_id": "bf432dc6ab4a464ad902bac0",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1086,7 +2204,15 @@
           "finding": "Mit einem biotechnologischen Verfahren zur Rückgewinnung kritischer Metalle aus Industrieabwässern geht Siderogain den Schritt von der Forschung in die Wirtschaft. Im Mittelpunkt steht eine patentierte Technologie, mit der strategisch wichtige Metalle wie Gallium, Indium und Germanium effizient aus Prozessrückständen der Halbleiterindustrie zurückgewonnen werden können. Das Spin-off geht aus der biotechnologischen Abteilung des Helmholtz-Instituts Freiberg für Ressourcentechnologie (HIF) am Helmholtz-Zentrum Dresden-Rossendorf (HZDR) hervor.",
           "field": "ip_status",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.023979Z"
+          "retrieved_at": "2026-11-20T21:48:21.171960Z",
+          "evidence_id": "d0ab087b8bf475a28e914fbb",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1094,7 +2220,15 @@
           "finding": "Gallium, indium, and germanium are key raw materials for the semiconductor industry and are used in wafers, electronic chips, LEDs, and lasers. At the same time, Europe heavily dependents on imports of these metals, and observes steadily rising world market prices are rising steadily. Currently, prices range from 2,270 to 2,900 euros per kilogram for gallium, 9,450 to 10,210 euros per kilogram for germanium, and 840 euros per kilogram for indium (figures based on quotes from the leading Asian exchange, the Shanghai Metals Market).",
           "field": "product_type",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024000Z"
+          "retrieved_at": "2026-11-20T21:48:21.171983Z",
+          "evidence_id": "a21a3e498f571099f0b8fe25",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1102,7 +2236,15 @@
           "finding": "Gallium, Indium und Germanium sind Schlüsselrohstoffe für die Halbleiterindustrie und kommen unter anderem in Wafern, elektronischen Chips, LEDs und Lasern zum Einsatz. Gleichzeitig ist Europa bei der Versorgung mit den Metallen stark von Importen abhängig und die Weltmarktpreise steigen stetig. Aktuell liegen sie laut der asiatischen Leitbörse Shanghai Metals Market bei 2.270 – 2.900 Euro je Kilogramm für Gallium, 9.450 – 10.210 Euro je Kilogramm für Germanium und 840 Euro je Kilogramm für Indium.",
           "field": "product_type",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024007Z"
+          "retrieved_at": "2026-11-20T21:48:21.171997Z",
+          "evidence_id": "adc0674dd55ee2e9b6f91f4e",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1110,7 +2252,15 @@
           "finding": "Nach erfolgreichen Tests im Labormaßstab folgte 2025 der nächste entscheidende Schritt: Gemeinsam mit dem Halbleiterhersteller Freiberger Compound Materials (FCM) GmbH übertrug das Siderogain-Team die Technologie in den Pilotmaßstab. Die Übertragung des Verfahrens aus dem Labor in ein industrielles Umfeld war erfolgreich, denn die Anlage am Unternehmensstandort in Freiberg kann mittlerweile bis zu 2.000 Liter Prozessabwasser pro Tag aufbereiten. Die Zusammenarbeit mit FCM spielt für Siderogain eine zentrale Rolle. Sie ermöglicht es dem Team, die Technologie unter realen Produktionsbedingungen weiterzuentwickeln und Skalierbarkeit sowie Wirtschaftlichkeit zu untersuchen.",
           "field": "product_type",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024012Z"
+          "retrieved_at": "2026-11-20T21:48:21.172009Z",
+          "evidence_id": "cbb14ac5922a3d755aa6d8f6",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1118,7 +2268,15 @@
           "finding": "From laboratory experiment to pilot plant",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024054Z"
+          "retrieved_at": "2026-11-20T21:48:21.172065Z",
+          "evidence_id": "e78e34423ac3446b9d6224a0",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1126,7 +2284,15 @@
           "finding": "Following successful laboratory-scale tests, the next decisive step came in 2025: Together with the semiconductor manufacturer Freiberger Compound Materials (FCM) GmbH, the Siderogain team scaled up the technology to the pilot scale. The transfer of the process from the laboratory to an industrial setting was successful, as the facility at the company’s site in Freiberg can now treat up to 2,000 liters of process wastewater per day. Collaborating with FCM plays a central role for Siderogain. It enables the team to further develop the technology under real production conditions and to investigate its scalability and economic viability.",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024058Z"
+          "retrieved_at": "2026-11-20T21:48:21.172077Z",
+          "evidence_id": "9d4d3bc8cb20df1cc3eb35a8",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1134,7 +2300,15 @@
           "finding": "In parallel to the pilot plant tests, the Siderogain team investigated the transferability of the process to other metals. They were able to demonstrate that even critical and economically significant metals such as indium and germanium can be recovered using this biotechnological approach.",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024061Z"
+          "retrieved_at": "2026-11-20T21:48:21.172086Z",
+          "evidence_id": "924af8d9d95664e71e809bc0",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1142,7 +2316,15 @@
           "finding": "On its path to becoming a spin-off, Siderogain successfully applied for support from several technology transfer and startup programs. A key milestone was the commence of a project in the Helmholtz Enterprise spin-off program. The program enabled the team to automate the technology, advance the startup initiative, and prepare for pre-commercial testing in collaboration with industry partners. Since August, the spin-off has also been receiving funding from the EXIST Research Transfer program to further develop the technology, acquire its first customers, and expand the pilot plant into a fully operational prototype.",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024063Z"
+          "retrieved_at": "2026-11-20T21:48:21.172104Z",
+          "evidence_id": "c1885bc6317a789f7543c04f",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1150,7 +2332,15 @@
           "finding": "“Starting with a biotechnology research question, and through laboratory experiments, patenting, and the construction of a pilot plant, a technology has emerged that can contribute to the European raw material security and the circular economy,” says Dr. Katrin Pollmann, head of the biotechnology department at HIF, expressing her delight at the institute’s fourth spin-off to date.",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024066Z"
+          "retrieved_at": "2026-11-20T21:48:21.172120Z",
+          "evidence_id": "12d3bc242cc7ee6278a5b011",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1158,7 +2348,15 @@
           "finding": "Neben Jain, gehören Aratrika Ghosh, Dr. Peter Boelens und Dr. Jonathan Engelhardt zum Team. Ghosh ist für die Pilotanlage verantwortlich, Boelens ist für die Erschließung neuer Geschäfts- und Anwendungsfelder zuständig und Engelhardt arbeitet an der Geschäftsentwicklung.",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024069Z"
+          "retrieved_at": "2026-11-20T21:48:21.172132Z",
+          "evidence_id": "655c721923663a0cc2225213",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1166,7 +2364,15 @@
           "finding": "Vom Laborversuch zur Pilotanlage",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024071Z"
+          "retrieved_at": "2026-11-20T21:48:21.172139Z",
+          "evidence_id": "0333ee672c0867d6251c2e1c",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1174,7 +2380,15 @@
           "finding": "Nach erfolgreichen Tests im Labormaßstab folgte 2025 der nächste entscheidende Schritt: Gemeinsam mit dem Halbleiterhersteller Freiberger Compound Materials (FCM) GmbH übertrug das Siderogain-Team die Technologie in den Pilotmaßstab. Die Übertragung des Verfahrens aus dem Labor in ein industrielles Umfeld war erfolgreich, denn die Anlage am Unternehmensstandort in Freiberg kann mittlerweile bis zu 2.000 Liter Prozessabwasser pro Tag aufbereiten. Die Zusammenarbeit mit FCM spielt für Siderogain eine zentrale Rolle. Sie ermöglicht es dem Team, die Technologie unter realen Produktionsbedingungen weiterzuentwickeln und Skalierbarkeit sowie Wirtschaftlichkeit zu untersuchen.",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024074Z"
+          "retrieved_at": "2026-11-20T21:48:21.172149Z",
+          "evidence_id": "a7781cb7f665f20fe4033b72",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1182,7 +2396,15 @@
           "finding": "Auf dem Weg zur Ausgründung wurde Siderogain durch verschiedene Transfer- und Gründungsprogramme unterstützt. Einen wichtigen Meilenstein bildete die Aufnahme in das Spin-off-Programm Helmholtz Enterprise. Die Förderung ermöglichte dem Team, die Technologie zu automatisieren, das Gründungsvorhaben voranzutreiben und die vorkommerzielle Erprobung gemeinsam mit Industriepartnern vorzubereiten. Seit August erhält das Spin-off darüber hinaus die Förderung des EXIST-Forschungstransfers, um die Technologie weiterzuentwickeln, erste Kunden zu gewinnen und die Pilotanlage zu einem einsatzfähigen Prototyp auszubauen.",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024077Z"
+          "retrieved_at": "2026-11-20T21:48:21.172167Z",
+          "evidence_id": "2829b6dd8dbe887cd118d488",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1190,7 +2412,15 @@
           "finding": "„Aus einer biotechnologischen Forschungsfrage ist über Laborversuche, Patentierungen und den Bau einer Pilotanlage eine Technologie entstanden, die einen Beitrag zur europäischen Rohstoffsicherheit und zur Kreislaufwirtschaft leisten kann“, freut sich Dr. Katrin Pollmann, Leiterin der biotechnologischen Abteilung am HIF über das mittlerweile vierte Spin-off des Instituts.",
           "field": "product_stage",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024080Z"
+          "retrieved_at": "2026-11-20T21:48:21.172177Z",
+          "evidence_id": "e0440c713f87399e1906d583",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1198,7 +2428,15 @@
           "finding": "On its path to becoming a spin-off, Siderogain successfully applied for support from several technology transfer and startup programs. A key milestone was the commence of a project in the Helmholtz Enterprise spin-off program. The program enabled the team to automate the technology, advance the startup initiative, and prepare for pre-commercial testing in collaboration with industry partners. Since August, the spin-off has also been receiving funding from the EXIST Research Transfer program to further develop the technology, acquire its first customers, and expand the pilot plant into a fully operational prototype.",
           "field": "product_stage_alt",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024084Z"
+          "retrieved_at": "2026-11-20T21:48:21.172189Z",
+          "evidence_id": "181cee8815969c8316316ec9",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1206,7 +2444,15 @@
           "finding": "Auf dem Weg zur Ausgründung wurde Siderogain durch verschiedene Transfer- und Gründungsprogramme unterstützt. Einen wichtigen Meilenstein bildete die Aufnahme in das Spin-off-Programm Helmholtz Enterprise. Die Förderung ermöglichte dem Team, die Technologie zu automatisieren, das Gründungsvorhaben voranzutreiben und die vorkommerzielle Erprobung gemeinsam mit Industriepartnern vorzubereiten. Seit August erhält das Spin-off darüber hinaus die Förderung des EXIST-Forschungstransfers, um die Technologie weiterzuentwickeln, erste Kunden zu gewinnen und die Pilotanlage zu einem einsatzfähigen Prototyp auszubauen.",
           "field": "product_stage_alt",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024087Z"
+          "retrieved_at": "2026-11-20T21:48:21.172201Z",
+          "evidence_id": "d1beaa7b5ef371e071b1448d",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1214,7 +2460,15 @@
           "finding": "Nach erfolgreichen Tests im Labormaßstab folgte 2025 der nächste entscheidende Schritt: Gemeinsam mit dem Halbleiterhersteller Freiberger Compound Materials (FCM) GmbH übertrug das Siderogain-Team die Technologie in den Pilotmaßstab. Die Übertragung des Verfahrens aus dem Labor in ein industrielles Umfeld war erfolgreich, denn die Anlage am Unternehmensstandort in Freiberg kann mittlerweile bis zu 2.000 Liter Prozessabwasser pro Tag aufbereiten. Die Zusammenarbeit mit FCM spielt für Siderogain eine zentrale Rolle. Sie ermöglicht es dem Team, die Technologie unter realen Produktionsbedingungen weiterzuentwickeln und Skalierbarkeit sowie Wirtschaftlichkeit zu untersuchen.",
           "field": "product_stage_alt",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.024092Z"
+          "retrieved_at": "2026-11-20T21:48:21.172213Z",
+          "evidence_id": "8613022299f4b2f489646860",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1222,7 +2476,15 @@
           "finding": "With a biotechnological process for recovering critical metals from industrial wastewater, Siderogain transfers a biotech process from research to business. At the heart of the process is a patented technology that efficiently recovers strategically important metals such as gallium, indium, and germanium from process residues in the semiconductor industry. The spin-off originated in the biotechnology department of the Helmholtz Institute Freiberg for Resource Technology (HIF) at the Helmholtz-Zentrum Dresden-Rossendorf (HZDR).",
           "field": "patents",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.011939Z"
+          "retrieved_at": "2026-11-20T21:48:21.160580Z",
+          "evidence_id": "e5399d67a2d22741613c2a8c",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1230,7 +2492,15 @@
           "finding": "Mit einem biotechnologischen Verfahren zur Rückgewinnung kritischer Metalle aus Industrieabwässern geht Siderogain den Schritt von der Forschung in die Wirtschaft. Im Mittelpunkt steht eine patentierte Technologie, mit der strategisch wichtige Metalle wie Gallium, Indium und Germanium effizient aus Prozessrückständen der Halbleiterindustrie zurückgewonnen werden können. Das Spin-off geht aus der biotechnologischen Abteilung des Helmholtz-Instituts Freiberg für Ressourcentechnologie (HIF) am Helmholtz-Zentrum Dresden-Rossendorf (HZDR) hervor.",
           "field": "patents",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.017905Z"
+          "retrieved_at": "2026-11-20T21:48:21.165916Z",
+          "evidence_id": "9c427a8986549ce7220c504e",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1238,7 +2508,15 @@
           "finding": "Nach erfolgreichen Tests im Labormaßstab folgte 2025 der nächste entscheidende Schritt: Gemeinsam mit dem Halbleiterhersteller Freiberger Compound Materials (FCM) GmbH übertrug das Siderogain-Team die Technologie in den Pilotmaßstab. Die Übertragung des Verfahrens aus dem Labor in ein industrielles Umfeld war erfolgreich, denn die Anlage am Unternehmensstandort in Freiberg kann mittlerweile bis zu 2.000 Liter Prozessabwasser pro Tag aufbereiten. Die Zusammenarbeit mit FCM spielt für Siderogain eine zentrale Rolle. Sie ermöglicht es dem Team, die Technologie unter realen Produktionsbedingungen weiterzuentwickeln und Skalierbarkeit sowie Wirtschaftlichkeit zu untersuchen.",
           "field": "partners",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.021337Z"
+          "retrieved_at": "2026-11-20T21:48:21.169373Z",
+          "evidence_id": "2a9d262cda01fbe834e6d2ff",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
@@ -1246,7 +2524,15 @@
           "finding": "Europe heavily dependents on imports of these metals, and observes steadily rising world market prices are rising steadily.",
           "field": "customer_problem",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.025585Z"
+          "retrieved_at": "2026-11-20T21:48:32.027421Z",
+          "evidence_id": "788e9ac8ade95a2e458e918d",
+          "document_date": "2026-08-28",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
@@ -1254,23 +2540,15 @@
           "finding": "With a biotechnological process for recovering critical metals from industrial wastewater, Siderogain transfers a biotech process from research to business.",
           "field": "solution",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.025597Z"
-        },
-        {
-          "source": "Ollama-Zitat aus idw",
-          "url": "https://idw-online.de/de/news876492",
-          "finding": "Currently, prices range from 2,270 to 2,900 euros per kilogram for gallium, 9,450 to 10,210 euros per kilogram for germanium, and 840 euros per kilogram for indium (figures based on quotes from the leading Asian exchange, the Shanghai Metals Market).",
-          "field": "market",
-          "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.025607Z"
-        },
-        {
-          "source": "Ollama-Zitat aus idw",
-          "url": "https://idw-online.de/de/news876492",
-          "finding": "At the heart of the process is a patented technology that efficiently recovers strategically important metals such as gallium, indium, and germanium from process residues in the semiconductor industry.",
-          "field": "technology",
-          "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.025615Z"
+          "retrieved_at": "2026-11-20T21:48:32.027536Z",
+          "evidence_id": "726ac0b8c46ea3bcdb30a930",
+          "document_date": "2026-08-28",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Ollama-Zitat aus idw",
@@ -1278,7 +2556,47 @@
           "finding": "patentierte Technologie",
           "field": "technology",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.025623Z"
+          "retrieved_at": "2026-11-20T21:48:32.027580Z",
+          "evidence_id": "82c8461062959db172476b91",
+          "document_date": "2026-08-28",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "Ollama-Zitat aus idw",
+          "url": "https://idw-online.de/de/news876492",
+          "finding": "We use siderophores. These are biomolecules that have a particularly high binding affinity for certain metal ions.",
+          "field": "technology",
+          "source_date": "2026-08-28",
+          "retrieved_at": "2026-11-20T21:48:32.027611Z",
+          "evidence_id": "60239981186160b1647d57bd",
+          "document_date": "2026-08-28",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "Ollama-Zitat aus idw",
+          "url": "https://idw-online.de/de/news876492",
+          "finding": "a process known as biosorption",
+          "field": "technology",
+          "source_date": "2026-08-28",
+          "retrieved_at": "2026-11-20T21:48:32.027640Z",
+          "evidence_id": "17ac09b62472a74be93a1a76",
+          "document_date": "2026-08-28",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1286,9 +2604,163 @@
           "finding": "Biomoleküle retten Rohstoffe: HZDR-Spin-off Siderogain gegründet",
           "field": "founding_year_mention",
           "source_date": "2026-08-28",
-          "retrieved_at": "2026-11-20T21:42:18.025884Z"
+          "retrieved_at": "2026-11-20T21:48:32.029025Z",
+          "evidence_id": "f78ea1df1fbec6ab445a3b41",
+          "document_date": "2026-08-28",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         }
       ],
+      "context_v2": {
+        "company": {
+          "founding_date": null,
+          "founding_date_status": "unknown",
+          "headquarters": null,
+          "reported_location": {
+            "value": "Freiberg",
+            "evidence_ids": [
+              "9940a59eb2a7be5b28ff1f98"
+            ],
+            "origin": "source_statement"
+          },
+          "germany_evidence_ids": [
+            "4a16efb0990e186a57c4a2c8"
+          ],
+          "company_status": null
+        },
+        "founders": [
+          {
+            "name": "Rohan Jain",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          },
+          {
+            "name": "Aratrika Ghosh",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          },
+          {
+            "name": "Peter Boelens",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          },
+          {
+            "name": "Jonathan Engelhardt",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          }
+        ],
+        "product": {
+          "customer_problem": {
+            "value": "Europe heavily dependents on imports of these metals, and observes steadily rising world market prices are rising steadily.",
+            "evidence_ids": [
+              "788e9ac8ade95a2e458e918d"
+            ],
+            "origin": "model_selected_quote"
+          },
+          "solution": {
+            "value": "With a biotechnological process for recovering critical metals from industrial wastewater, Siderogain transfers a biotech process from research to business.",
+            "evidence_ids": [
+              "726ac0b8c46ea3bcdb30a930"
+            ],
+            "origin": "model_selected_quote"
+          },
+          "target_customers": null,
+          "economic_buyer": null,
+          "business_model": null,
+          "maturity": null,
+          "advantage": null,
+          "technology": null,
+          "ip": null,
+          "development_status": null,
+          "next_milestone": null
+        },
+        "traction": {
+          "paid_customers": [],
+          "customers_payment_unknown": [],
+          "paid_pilots": [],
+          "unpaid_pilots": [],
+          "pilots_payment_unknown": [],
+          "lois": [],
+          "commercial_partners": [],
+          "research_partners": [],
+          "usage": null,
+          "revenue": null,
+          "growth": null,
+          "reported_metrics": {}
+        },
+        "funding": {
+          "status": "non_vc_funded",
+          "vc_status": "unknown",
+          "status_evidence_ids": [],
+          "rounds": [],
+          "investors": [],
+          "public_grants": [],
+          "fundraising_status": null,
+          "planned_round": null,
+          "capital_need": null,
+          "use_of_funds": null,
+          "next_milestone": null,
+          "time_to_milestone": null,
+          "burn_rate": null,
+          "cash_runway": null,
+          "round_size_eur": null,
+          "asking_pre_money_eur": null,
+          "round_terms_evidence_ids": []
+        },
+        "discovery_signals": [
+          {
+            "source": "idw",
+            "url": "https://idw-online.de/de/news876491",
+            "finding": "Siderogain gegründet; EXIST-Forschungstransfer; patentierte Technologie; Pilotanlage mit Freiberger Compound Materials GmbH",
+            "field": "discovery_signals",
+            "source_date": "2026-08-28",
+            "retrieved_at": "2026-11-20T21:48:21.154486Z",
+            "evidence_id": "fc5b187d9ffbc7190e4cbbe0",
+            "document_date": "2026-08-28",
+            "verification_status": "source_matched",
+            "dimension": null,
+            "kriterium": null,
+            "aussage": null,
+            "datum": null,
+            "punkte": null
+          }
+        ],
+        "market_intelligence": null,
+        "research_status": {
+          "mode": "standard",
+          "market": "not_requested",
+          "gaps": [
+            "Welchen Markt adressiert ihr und wie grenzt ihr ihn ab?",
+            "Was ist der technische Ansatz und welche Nachweise gibt es?",
+            "Welche Alternativen nutzen eure Zielkunden heute?",
+            "Über welche Kanäle gewinnt ihr Kunden?",
+            "Welchen Kapitalbedarf habt ihr nach dieser Runde?",
+            "Wie groß ist die geplante Runde in Euro?",
+            "Welche Pre-Money-Bewertung fordert ihr in Euro?",
+            "Welche Investoren sind bereits beteiligt?",
+            "Wer gehört zum Gründungsteam und wer bringt welche Erfahrung mit?",
+            "Welche Kundengruppe nutzt das Produkt?"
+          ]
+        },
+        "updated_at": "2026-11-20T21:48:32.028029Z"
+      },
       "founder_profiles": [
         {
           "name": "Rohan Jain",
@@ -1346,7 +2818,7 @@
       "target_customers": null,
       "customer_problem": "Europe heavily dependents on imports of these metals, and observes steadily rising world market prices are rising steadily.",
       "solution": "With a biotechnological process for recovering critical metals from industrial wastewater, Siderogain transfers a biotech process from research to business.",
-      "market": "Currently, prices range from 2,270 to 2,900 euros per kilogram for gallium, 9,450 to 10,210 euros per kilogram for germanium, and 840 euros per kilogram for indium (figures based on quotes from the leading Asian exchange, the Shanghai Metals Market).",
+      "market": null,
       "technology": null,
       "competition": null,
       "sales": null,
@@ -1354,6 +2826,7 @@
       "round_size_eur": null,
       "asking_pre_money_eur": null,
       "research_questions": [
+        "Welchen Markt adressiert ihr und wie grenzt ihr ihn ab?",
         "Was ist der technische Ansatz und welche Nachweise gibt es?",
         "Welche Alternativen nutzen eure Zielkunden heute?",
         "Über welche Kanäle gewinnt ihr Kunden?",
@@ -1361,6 +2834,7 @@
         "Welche Pre-Money-Bewertung fordert ihr in Euro?",
         "Welche Investoren sind bereits beteiligt?",
         "Wer gehört zum Gründungsteam und wer bringt welche Erfahrung mit?",
+        "Welche Kundengruppe nutzt das Produkt?",
         "Welche Rechtsform hat das Vorhaben heute (Impressum nicht gefunden)?"
       ],
       "funding_status": "non_vc_funded",
@@ -1452,7 +2926,15 @@
         "finding": "kiutra GmbH, München, HRB 242819",
         "field": null,
         "source_date": null,
-        "retrieved_at": "2026-11-20T21:42:00.329770Z"
+        "retrieved_at": "2026-11-20T21:47:46.187719Z",
+        "evidence_id": "76edbdfbb382269e5a3519ab",
+        "document_date": null,
+        "verification_status": "unverified",
+        "dimension": null,
+        "kriterium": null,
+        "aussage": null,
+        "datum": null,
+        "punkte": null
       },
       "is_demo": false,
       "website": "https://kiutra.com/",
@@ -1483,7 +2965,15 @@
           "finding": "Legal Notice (Impressum) | kiutra Skip to content\nProducts\nOur cryostats\nThree systems to support your work – from first experiments to scaled-up quantum systems.\nFast-feedback characterization\nL-Type",
           "field": "imprint_url",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.029474Z"
+          "retrieved_at": "2026-11-20T21:48:32.035751Z",
+          "evidence_id": "8d4ea8813bbe49438e719cef",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Impressum",
@@ -1491,7 +2981,15 @@
           "finding": "kiutra GmbH",
           "field": "legal_form",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.029482Z"
+          "retrieved_at": "2026-11-20T21:48:32.035784Z",
+          "evidence_id": "e6cf89d05cf0f66470a831df",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Impressum",
@@ -1499,7 +2997,15 @@
           "finding": "kiutra GmbH",
           "field": "company_name",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.029486Z"
+          "retrieved_at": "2026-11-20T21:48:32.035797Z",
+          "evidence_id": "89ea20901efc61ff7f3c5bca",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Impressum",
@@ -1507,7 +3013,15 @@
           "finding": "Register number: HRB 242819\nRegister court: Amtsgericht München (Munich Local Court)",
           "field": "register_id",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.029489Z"
+          "retrieved_at": "2026-11-20T21:48:32.035808Z",
+          "evidence_id": "9fad673a5560e62320f619e6",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Impressum",
@@ -1515,7 +3029,15 @@
           "finding": "Register number: HRB 242819\nRegister court: Amtsgericht München (Munich Local Court)",
           "field": "in_formation",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.029491Z"
+          "retrieved_at": "2026-11-20T21:48:32.035819Z",
+          "evidence_id": "114629f6df20e5e7512e5a41",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Impressum",
@@ -1523,7 +3045,15 @@
           "finding": "Managing Director authorized to represent the company: Dr. Alexander Regnat",
           "field": "managing_directors",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.029494Z"
+          "retrieved_at": "2026-11-20T21:48:32.035831Z",
+          "evidence_id": "fba758b6a1067bef719f8af2",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Impressum",
@@ -1531,7 +3061,15 @@
           "finding": "Email: info@kiutra.com",
           "field": "contact_email",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.029497Z"
+          "retrieved_at": "2026-11-20T21:48:32.035841Z",
+          "evidence_id": "cf435ebb2281e6b4b2e69a8b",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Impressum",
@@ -1539,7 +3077,15 @@
           "finding": "81369 Munich",
           "field": "address_city",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.029499Z"
+          "retrieved_at": "2026-11-20T21:48:32.035850Z",
+          "evidence_id": "0ae150375ce2a5847f2ee16f",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -1547,7 +3093,15 @@
           "finding": "Quantentechnologien: Quantencomputing und -simulation 01N121139G: Thema: Verbundprojekt: Munich Quantum Valley Quantencomputer Demonstratoren - Supraleitende Qubits (MUNIQC-SC) - Teilvorhaben: Schnellcharakterisierung von kryoelektronischen Komponenten für Supraleiter-basierte Quantenprozessoren; Förderempfänger: kiutra GmbH; Ausführende Stelle: kiutra GmbH; Laufzeit: 01.01.2022 bis 31.12.2026; Summe: 1.330.140 €; Leistungsplansystematik: Quantentechnologien: Quantencomputing und -simulation",
           "field": "grants",
           "source_date": "2022-01-01",
-          "retrieved_at": "2026-11-20T21:42:18.041413Z"
+          "retrieved_at": "2026-11-20T21:48:32.051036Z",
+          "evidence_id": "9378f0ff544052e2a7052576",
+          "document_date": "2022-01-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -1555,7 +3109,15 @@
           "finding": "Quantentechnologien: applikationsübergreifende Technologiefeldentwicklung 01N126058A: Thema: Verbundprojekt: Green Advanced Refrigerants: Light-element oxides & intermetallics for Quantum cooling (GarliQ) - Teilvorhaben: Mechanisch-thermische Kopplung und Systemintegration; Förderempfänger: kiutra GmbH; Ausführende Stelle: kiutra GmbH; Laufzeit: 01.07.2026 bis 30.06.2029; Summe: 563.595 €; Leistungsplansystematik: Quantentechnologien: applikationsübergreifende Technologiefeldentwicklung",
           "field": "grants",
           "source_date": "2026-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.041636Z"
+          "retrieved_at": "2026-11-20T21:48:32.051559Z",
+          "evidence_id": "b4cf187a6c2eeb145b0bd19e",
+          "document_date": "2026-07-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -1563,7 +3125,15 @@
           "finding": "Quantentechnologien: Quantencomputing und -simulation 01N15865: Thema: Verbundprojekt: Materials in Quantum Computing (MATQu) - Teilvorhaben: Tieftemperaturtechnik zum Schnelltesten supraleitender Schaltkreise; Förderempfänger: kiutra GmbH; Ausführende Stelle: kiutra GmbH; Laufzeit: 01.09.2021 bis 31.05.2024; Summe: 227.291 €; Leistungsplansystematik: Quantentechnologien: Quantencomputing und -simulation",
           "field": "grants",
           "source_date": "2021-09-01",
-          "retrieved_at": "2026-11-20T21:42:18.041829Z"
+          "retrieved_at": "2026-11-20T21:48:32.053398Z",
+          "evidence_id": "da69d51e9024d5a38351c88b",
+          "document_date": "2021-09-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -1571,7 +3141,15 @@
           "finding": "Ausführende Stelle: kiutra GmbH",
           "field": "institution",
           "source_date": "2022-01-01",
-          "retrieved_at": "2026-11-20T21:42:18.041839Z"
+          "retrieved_at": "2026-11-20T21:48:32.053424Z",
+          "evidence_id": "184d3a74b031025cb4a2343f",
+          "document_date": "2022-01-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -1579,7 +3157,15 @@
           "finding": "Förderkatalog-Treffer 01N121139G für 'kiutra GmbH' (Konfidenz 0.7)",
           "field": "match_confidence",
           "source_date": "2022-01-01",
-          "retrieved_at": "2026-11-20T21:42:18.041845Z"
+          "retrieved_at": "2026-11-20T21:48:32.053440Z",
+          "evidence_id": "641e3831124c37dcab6fe38a",
+          "document_date": "2022-01-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback CDX",
@@ -1587,7 +3173,15 @@
           "finding": "Erste Wayback-Aufnahme: 2019-03-04",
           "field": "first_web_capture",
           "source_date": "2019-03-04",
-          "retrieved_at": "2026-11-20T21:42:18.041942Z"
+          "retrieved_at": "2026-11-20T21:48:32.053585Z",
+          "evidence_id": "8154a888aa23c2652bb13158",
+          "document_date": "2019-03-04",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback CDX",
@@ -1595,7 +3189,15 @@
           "finding": "Früheste archivierte Crunchbase-Profilaufnahme: 2019-03-11",
           "field": "first_db_date",
           "source_date": "2019-03-11",
-          "retrieved_at": "2026-11-20T21:42:18.042064Z"
+          "retrieved_at": "2026-11-20T21:48:32.053729Z",
+          "evidence_id": "55f7d6a191acda8a59c598cf",
+          "document_date": "2019-03-11",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback CDX",
@@ -1603,7 +3205,15 @@
           "finding": "Crunchbase-Profil im Webarchiv (Aufnahme 2019-03-11)",
           "field": "in_databases",
           "source_date": "2019-03-11",
-          "retrieved_at": "2026-11-20T21:42:18.042069Z"
+          "retrieved_at": "2026-11-20T21:48:32.053740Z",
+          "evidence_id": "2712540f97d5441701f4b102",
+          "document_date": "2019-03-11",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback CDX",
@@ -1611,7 +3221,15 @@
           "finding": "Dealroom-Profil im Webarchiv (Aufnahme 2026-07-11)",
           "field": "in_databases",
           "source_date": "2026-07-11",
-          "retrieved_at": "2026-11-20T21:42:18.042073Z"
+          "retrieved_at": "2026-11-20T21:48:32.053749Z",
+          "evidence_id": "f2ae9e523bfd13f6ac6ae6d5",
+          "document_date": "2026-07-11",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1619,7 +3237,15 @@
           "finding": "Entrepreneurship Award für digitale Therapie-Programme",
           "field": "idw",
           "source_date": "2022-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.054153Z"
+          "retrieved_at": "2026-11-20T21:48:32.067765Z",
+          "evidence_id": "edae3efbaf1231f351af4bb6",
+          "document_date": "2022-07-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1627,7 +3253,15 @@
           "finding": "Vier Wissenschaftler vom Lehrstuhl für Topologie korrelierter Systeme haben Kiutra 2018 gegründet.",
           "field": "founding_statement",
           "source_date": "2022-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.055954Z"
+          "retrieved_at": "2026-11-20T21:48:32.069181Z",
+          "evidence_id": "0e747947961ce8137a8ecec6",
+          "document_date": "2022-07-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1635,7 +3269,15 @@
           "finding": "Vier Wissenschaftler vom Lehrstuhl für Topologie korrelierter Systeme haben Kiutra 2018 gegründet.",
           "field": "founding_year_mention",
           "source_date": "2022-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.057109Z"
+          "retrieved_at": "2026-11-20T21:48:32.070349Z",
+          "evidence_id": "f0d3e98be6b8ffd73cf5f9b6",
+          "document_date": "2022-07-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1643,7 +3285,15 @@
           "finding": "OpenAlex: Alexander Regnat, Technical University of Munich, 13 Arbeiten, 2 im Feld Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.057401Z"
+          "retrieved_at": "2026-11-20T21:48:32.070662Z",
+          "evidence_id": "761fdbb2882cecf185566ee0",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1651,7 +3301,15 @@
           "finding": "2 von 13 Arbeiten passen zu: Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.057408Z"
+          "retrieved_at": "2026-11-20T21:48:32.070680Z",
+          "evidence_id": "bc533cd0c5330b05ba2af289",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1659,7 +3317,15 @@
           "finding": "OpenAlex: Tomek Schulz, Johannes Gutenberg University Mainz, 18 Arbeiten, 0 im Feld Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.057620Z"
+          "retrieved_at": "2026-11-20T21:48:32.070887Z",
+          "evidence_id": "d102163a776db4974a873a5f",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1667,7 +3333,15 @@
           "finding": "0 von 18 Arbeiten passen zu: Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.057624Z"
+          "retrieved_at": "2026-11-20T21:48:32.070898Z",
+          "evidence_id": "b75eca78aa47c0210486da34",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1675,7 +3349,15 @@
           "finding": "OpenAlex: Jan Spallek, Technical University of Munich, 5 Arbeiten, 1 im Feld Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.057779Z"
+          "retrieved_at": "2026-11-20T21:48:32.071062Z",
+          "evidence_id": "ede06a9f0907b749979c4c8b",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "OpenAlex",
@@ -1683,7 +3365,47 @@
           "finding": "1 von 5 Arbeiten passen zu: Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung",
           "field": "founder_profiles",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.057783Z"
+          "retrieved_at": "2026-11-20T21:48:32.071072Z",
+          "evidence_id": "529b950e98140b5fe5809e58",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "Website",
+          "url": "https://kiutra.com/legal-notice",
+          "finding": "Standort laut Sourcing: München",
+          "field": "company.reported_location",
+          "source_date": null,
+          "retrieved_at": "2026-11-20T21:48:32.071099Z",
+          "evidence_id": "052aac1423e678b0583d6e3c",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
+        },
+        {
+          "source": "wayback",
+          "url": "https://web.archive.org/web/20190304143530/http://kiutra.com",
+          "finding": "Erste Archivaufnahme der Website kiutra.com",
+          "field": "discovery_signals",
+          "source_date": "2019-03-04",
+          "retrieved_at": "2026-11-20T21:48:32.071122Z",
+          "evidence_id": "cd09b35118a411f2d024f34e",
+          "document_date": "2019-03-04",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "wayback",
@@ -1691,7 +3413,15 @@
           "finding": "Erste Archivaufnahme der Website kiutra.com",
           "field": "first_signal_date",
           "source_date": "2019-03-04",
-          "retrieved_at": "2026-11-20T21:42:18.057799Z"
+          "retrieved_at": "2026-11-20T21:48:32.071134Z",
+          "evidence_id": "1bbdb8cd51cf8cb9cf76b11c",
+          "document_date": "2019-03-04",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1699,7 +3429,15 @@
           "finding": "Technology: Magnetic cooling, and the research pushing it further.",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.060749Z"
+          "retrieved_at": "2026-11-20T21:48:32.075274Z",
+          "evidence_id": "a0097480117ffc31770cb1a0",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1707,7 +3445,15 @@
           "finding": "Technology: Technology and research",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.060823Z"
+          "retrieved_at": "2026-11-20T21:48:32.075434Z",
+          "evidence_id": "fadb4cf31be2a9b4403cf019",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1715,7 +3461,15 @@
           "finding": "Technology: Projects Knowledge base",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.063643Z"
+          "retrieved_at": "2026-11-20T21:48:32.081572Z",
+          "evidence_id": "46dcf01d105b459c5791eda0",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1723,7 +3477,15 @@
           "finding": "Technology: Magnetic cooling, and the research pushing it further.",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.064749Z"
+          "retrieved_at": "2026-11-20T21:48:32.083197Z",
+          "evidence_id": "48bd406d8e14f2f4265f9dda",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1731,7 +3493,15 @@
           "finding": "Technology: Technology and research",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.064823Z"
+          "retrieved_at": "2026-11-20T21:48:32.083337Z",
+          "evidence_id": "b410db4083f1d10efbfbc8d3",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1739,7 +3509,15 @@
           "finding": "Technology: Go deeper into how ADR and cADR actually work — the physics behind cryogen-free cooling.",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.065647Z"
+          "retrieved_at": "2026-11-20T21:48:32.085069Z",
+          "evidence_id": "1a32d3448789d4c2f6de3a74",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1747,7 +3525,15 @@
           "finding": "Technology: Projects Knowledge base",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.067990Z"
+          "retrieved_at": "2026-11-20T21:48:32.090072Z",
+          "evidence_id": "e3d3c4df1ca185911247ed02",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Fundquelle",
@@ -1755,7 +3541,15 @@
           "finding": "Technology: Magnetic cooling, and the research pushing it further.",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.068803Z"
+          "retrieved_at": "2026-11-20T21:48:32.091639Z",
+          "evidence_id": "385a572bbd00c60a6bc6e32d",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Fundquelle",
@@ -1763,7 +3557,15 @@
           "finding": "Technology: Technology and research",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.068868Z"
+          "retrieved_at": "2026-11-20T21:48:32.091779Z",
+          "evidence_id": "d8b3d9e7d4a8e43877a53d46",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Fundquelle",
@@ -1771,7 +3573,15 @@
           "finding": "Technology: Projects Knowledge base",
           "field": "technology",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.070759Z"
+          "retrieved_at": "2026-11-20T21:48:32.095855Z",
+          "evidence_id": "60309f302432916e250fb742",
+          "document_date": null,
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -1779,7 +3589,15 @@
           "finding": "Thema: Verbundprojekt: Munich Quantum Valley Quantencomputer Demonstratoren - Supraleitende Qubits (MUNIQC-SC) - Teilvorhaben: Schnellcharakterisierung von kryoelektronischen Komponenten für Supraleiter-basierte Quantenprozessoren; Förderempfänger: kiutra GmbH; Ausführende Stelle: kiutra GmbH; Laufzeit: 01.01.2022 bis 31.12.2026; Summe: 1.330.140 €; Leistungsplansystematik: Quantentechnologien: Quantencomputing und -simulation",
           "field": "first_signal_date",
           "source_date": "2022-01-01",
-          "retrieved_at": "2026-11-20T21:42:18.073976Z"
+          "retrieved_at": "2026-11-20T21:48:32.101822Z",
+          "evidence_id": "1f5e29aefaec88cabad3ab61",
+          "document_date": "2022-01-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -1787,7 +3605,15 @@
           "finding": "Thema: Verbundprojekt: Green Advanced Refrigerants: Light-element oxides & intermetallics for Quantum cooling (GarliQ) - Teilvorhaben: Mechanisch-thermische Kopplung und Systemintegration; Förderempfänger: kiutra GmbH; Ausführende Stelle: kiutra GmbH; Laufzeit: 01.07.2026 bis 30.06.2029; Summe: 563.595 €; Leistungsplansystematik: Quantentechnologien: applikationsübergreifende Technologiefeldentwicklung",
           "field": "first_signal_date",
           "source_date": "2026-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.074017Z"
+          "retrieved_at": "2026-11-20T21:48:32.101890Z",
+          "evidence_id": "6c1591f4eb369a6fbfa1f78f",
+          "document_date": "2026-07-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Förderkatalog",
@@ -1795,7 +3621,15 @@
           "finding": "Thema: Verbundprojekt: Materials in Quantum Computing (MATQu) - Teilvorhaben: Tieftemperaturtechnik zum Schnelltesten supraleitender Schaltkreise; Förderempfänger: kiutra GmbH; Ausführende Stelle: kiutra GmbH; Laufzeit: 01.09.2021 bis 31.05.2024; Summe: 227.291 €; Leistungsplansystematik: Quantentechnologien: Quantencomputing und -simulation",
           "field": "first_signal_date",
           "source_date": "2021-09-01",
-          "retrieved_at": "2026-11-20T21:42:18.074048Z"
+          "retrieved_at": "2026-11-20T21:48:32.101955Z",
+          "evidence_id": "ccd29c04cea4cff0371bc258",
+          "document_date": "2021-09-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Wayback",
@@ -1803,7 +3637,15 @@
           "finding": "Erste Archivaufnahme der Website",
           "field": "first_signal_date",
           "source_date": "2019-03-04",
-          "retrieved_at": "2026-11-20T21:42:18.074077Z"
+          "retrieved_at": "2026-11-20T21:48:32.102016Z",
+          "evidence_id": "b65e36579f2076ea425864e4",
+          "document_date": "2019-03-04",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1811,7 +3653,15 @@
           "finding": "Entrepreneurship Award für digitale Therapie-Programme\nEine App für die Behandlung chronischer Krankheiten, ein Bauroboter und eine Kühltechnologie für Quantentechnologien: Mit diesen Produkten sind die Start-ups Kaia Health Software, KEWAZO und Kiutra erfolgreich. Gestern waren sie für den TUM Presidential Entrepreneurship Award nominiert – ausgezeichnet wurde Kaia Health. Zuvor diskutierten beim Entrepreneurship Day Gäste der EuroTech Universities Alliance über das europäische Ökosystem.\nWie Start-ups europaweit Erfolg haben können, ob das israelische Ökosystem ein Vorbild ist und wie Europa eine technologische Souveränität erreichen kann – drei von zahlreichen Fragen, über die Gäste aus Wissenschaft und Wirtschaft gestern beim TUM Entrepreneurship Day diskutierten. „Joining forces to boost the European Innovation Ecosystem” war das Thema der Veranstaltung, die TUM und UnternehmerTUM diesmal mit ihren Partnern der EuroTech Universities Alliance aus Frankreich, Israel, den Niederlande",
           "field": "first_signal_date",
           "source_date": "2022-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.074107Z"
+          "retrieved_at": "2026-11-20T21:48:32.102082Z",
+          "evidence_id": "e25d71c58bc06e3559098941",
+          "document_date": "2022-07-01",
+          "verification_status": "source_matched",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1819,7 +3669,15 @@
           "finding": "Millikelvin without buying a cryostat: send us a sample, or rent a system in Munich.",
           "field": "product_stage",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.114961Z"
+          "retrieved_at": "2026-11-20T21:48:32.140749Z",
+          "evidence_id": "6216c009aa9d6a9932cb57bf",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1827,7 +3685,15 @@
           "finding": "Rent a system",
           "field": "product_stage",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.114971Z"
+          "retrieved_at": "2026-11-20T21:48:32.140759Z",
+          "evidence_id": "57f565f0e99a50d07be9497d",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1835,7 +3701,15 @@
           "finding": "Our customers",
           "field": "product_stage",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.114974Z"
+          "retrieved_at": "2026-11-20T21:48:32.140766Z",
+          "evidence_id": "de1a787019c61a54194a5d96",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1843,7 +3717,15 @@
           "finding": "Millikelvin without buying a cryostat: send us a sample, or rent a system in Munich.",
           "field": "product_stage",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.114977Z"
+          "retrieved_at": "2026-11-20T21:48:32.140773Z",
+          "evidence_id": "c3ebc1043c4f2ccfe633e7b0",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1851,7 +3733,15 @@
           "finding": "Rent a system",
           "field": "product_stage",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.114980Z"
+          "retrieved_at": "2026-11-20T21:48:32.140780Z",
+          "evidence_id": "b63f4a15a7e92edb53e4af70",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Fundquelle",
@@ -1859,7 +3749,15 @@
           "finding": "Millikelvin without buying a cryostat: send us a sample, or rent a system in Munich.",
           "field": "product_stage",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.114983Z"
+          "retrieved_at": "2026-11-20T21:48:32.140786Z",
+          "evidence_id": "86dc25cea2379910102d9704",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Fundquelle",
@@ -1867,7 +3765,15 @@
           "finding": "Rent a system",
           "field": "product_stage",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.114986Z"
+          "retrieved_at": "2026-11-20T21:48:32.140793Z",
+          "evidence_id": "c9f2755187ad5c9568cef0aa",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1875,7 +3781,15 @@
           "finding": "The L-Type Rapid offers easy access to the kelvin and sub-kelvin range and delivers the fastest testing and characterization on the market, combining high sample throughput with ease of use.",
           "field": "product_stage_alt",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115011Z"
+          "retrieved_at": "2026-11-20T21:48:32.140803Z",
+          "evidence_id": "a2af5dba26ff1ffd06255a41",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1883,7 +3797,15 @@
           "finding": "Cooling platforms behind quantum hardware, from superconducting circuits to single-photon detectors.",
           "field": "product_type",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115056Z"
+          "retrieved_at": "2026-11-20T21:48:32.140837Z",
+          "evidence_id": "07f7e9a1fd0e993d62156c39",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1891,7 +3813,15 @@
           "finding": "Quantum technologies are rapidly expanding, and have reached a maturity where the available technology and tools in a lab make the difference. Nanofabrication facilities enable us to create complex qubits and amplifiers, which now require an increasing degree of control only accessible through an extensive (statistical) knowledge of the circuits and materials at or below 100 mK. The kiutra L-Type Rapid is a paradigm changer in this context, as it allows up to 3 test runs per day at 100 mK, with a setup compatible with the most advanced microwave characterizations and qubit measurements. Our model includes a vector magnet (1T/0.15/0.15) which enables ESR and other hybrid, spin or 2DEG devices pre-characterization. State of art measurements can also be performed at low frequencies in the same platform. We are thrilled (an envied) to have such a tool at SPEC! Show full testimonial",
           "field": "product_type",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115061Z"
+          "retrieved_at": "2026-11-20T21:48:32.140850Z",
+          "evidence_id": "381b3a3a676f4f9fb434eca8",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1899,7 +3829,15 @@
           "finding": "Cooling platforms behind quantum hardware, from superconducting circuits to single-photon detectors.",
           "field": "product_type",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115066Z"
+          "retrieved_at": "2026-11-20T21:48:32.140857Z",
+          "evidence_id": "62e0cce7b6fc29f8d1281022",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1907,7 +3845,15 @@
           "finding": "Through active research and development in cryogenics, our cooling platforms support a broad range of quantum hardware — from superconducting circuits and trapped ions for quantum computing to single-photon detectors for sensing and communication.",
           "field": "product_type",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115072Z"
+          "retrieved_at": "2026-11-20T21:48:32.140868Z",
+          "evidence_id": "28401ecfdd37f77290d833dc",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Fundquelle",
@@ -1915,7 +3861,15 @@
           "finding": "Cooling platforms behind quantum hardware, from superconducting circuits to single-photon detectors.",
           "field": "product_type",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115075Z"
+          "retrieved_at": "2026-11-20T21:48:32.140874Z",
+          "evidence_id": "7c4a7473f6f777efc2f8ede3",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1923,7 +3877,15 @@
           "finding": "Characterize scientific samples and quantum devices",
           "field": "product_type_alt",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115080Z"
+          "retrieved_at": "2026-11-20T21:48:32.140882Z",
+          "evidence_id": "c76636ec59875073b8f2eb90",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1931,7 +3893,15 @@
           "finding": "Example applications: Superconducting qubit characterization, Resonator spectroscopy, Josephson Junction characterization, I-V characteristics of CMOS devices and many more.",
           "field": "product_type_alt",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115089Z"
+          "retrieved_at": "2026-11-20T21:48:32.140889Z",
+          "evidence_id": "d2713d2829d0d8dea88aae1b",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1939,7 +3909,15 @@
           "finding": "Quantum computing has the potential to address complex challenges in areas like drug development, battery technology and climate modeling. It will also enhance sensing capabilities, supporting applications in medical imaging and enabling physically secure quantum communication.",
           "field": "product_type_alt",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115093Z"
+          "retrieved_at": "2026-11-20T21:48:32.140897Z",
+          "evidence_id": "9b223c5b8943ef8bd2390b72",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1947,7 +3925,15 @@
           "finding": "Quantum devices can already be fabricated in large quantities using state-of-the-art thin-film deposition technology. However, developing and operating these devices requires extreme environments at temperatures well below 1 K (–272 °C). Dilution refrigerators usually generate these sub-kelvin temperatures using helium-3. This method is challenging and requires experienced personnel and complex infrastructure. As a result, dilution refrigeration leads to tedious low-temperature investigations and slow feedback on device properties and quality. This slows down quantum R&D.",
           "field": "product_type_alt",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115097Z"
+          "retrieved_at": "2026-11-20T21:48:32.140908Z",
+          "evidence_id": "175c33028c92169f350e7074",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1955,7 +3941,15 @@
           "finding": "The T-Type is an optical kelvin temperature cryostat optimized for trapped-ion chips.",
           "field": "product_type_alt",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115099Z"
+          "retrieved_at": "2026-11-20T21:48:32.140914Z",
+          "evidence_id": "75fd75b6e2161bb26e136411",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1963,7 +3957,15 @@
           "finding": "Die Montage von Gerüsten ist für die Arbeiter körperlich enorm belastend und kann schnell gefährlich werden, weshalb es immer weniger Interessenten für diesen Beruf gibt. KEWAZO hat einen Roboter entwickelt, der das Material automatisiert transportiert und selbstständig seinen Weg findet. Er ist leicht installierbar und batteriebetrieben. Unternehmen können so den Fachkräftemangel ausgleichen, die Arbeitssicherheit verbessern und Montagekosten sparen. Darüber hinaus analysiert die Technologie Betriebsdaten und ermöglicht damit ein besseres Projektmanagement.",
           "field": "product_type_alt",
           "source_date": "2022-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.115105Z"
+          "retrieved_at": "2026-11-20T21:48:32.140928Z",
+          "evidence_id": "a50acd39703387d93c283089",
+          "document_date": "2022-07-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -1971,7 +3973,15 @@
           "finding": "Mit der Nutzung von quantenmechanischen Effekten werden derzeit vollkommen neue und deutlich leistungsfähigere Technologien entwickelt. Doch für den Betrieb von Quantentechnologien werden in der Regel ultratiefe Temperaturen benötigt. Kiutra hat eine magnetische Kühltechnologie erfunden, die solche Temperaturen erzeugen kann, ohne dafür wie bisherige Verfahren tiefkalt-verflüssigte Gase wie etwa das seltene und teure Helium-3 zu benötigen. Das Produkt ist auch für eine dauerhafte Anwendung und damit für den industriellen Einsatz geeignet. Außerdem bietet das Unternehmen hochautomatisierte Geräte für Schnelltests bei niedrigen Temperaturen an.",
           "field": "product_type_alt",
           "source_date": "2022-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.115108Z"
+          "retrieved_at": "2026-11-20T21:48:32.140939Z",
+          "evidence_id": "be2187b502ffe631b45210ab",
+          "document_date": "2022-07-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1979,7 +3989,15 @@
           "finding": "The T-Type combines closed-cycle 4 K cooling, metal-sealed XHV vacuum, vibration decoupling, and 360° free-beam optical access in a single platform, giving ion traps a stable, long-lifetime environment with full optical control.",
           "field": "product_type_alt",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115112Z"
+          "retrieved_at": "2026-11-20T21:48:32.140948Z",
+          "evidence_id": "da28753c48169d5183acd021",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1987,7 +4005,15 @@
           "finding": "In addition, we develop cryogenic environments for specialized use cases. This included the S-Type, a sub-kelvin platform for continuous cooling, and the S-Type Optical, a compact cryostat with free-beam access.",
           "field": "product_type_alt",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115114Z"
+          "retrieved_at": "2026-11-20T21:48:32.140955Z",
+          "evidence_id": "c6a5ba236700a1746524159b",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "Unternehmenswebsite",
@@ -1995,7 +4021,15 @@
           "finding": "Working with the L-Type Rapid cryostat has been a great experience. The fast-loading mechanism combined with the provided 48 DC contacts, allowed us to quickly check our samples down to 100 mK. Since all the API was written in Python, we could very easily create drivers to integrate the magnet and temperature controls into our measurement programs. These combined ensured a very smooth transition to incorporate the system into our day-to-day sample characterization. Show full testimonial",
           "field": "product_type_alt",
           "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.115117Z"
+          "retrieved_at": "2026-11-20T21:48:32.140964Z",
+          "evidence_id": "5e0a4a24bf0e0d75528556e3",
+          "document_date": null,
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -2003,7 +4037,15 @@
           "finding": "Eine App für die Behandlung chronischer Krankheiten, ein Bauroboter und eine Kühltechnologie für Quantentechnologien: Mit diesen Produkten sind die Start-ups Kaia Health Software, KEWAZO und Kiutra erfolgreich. Gestern waren sie für den TUM Presidential Entrepreneurship Award nominiert – ausgezeichnet wurde Kaia Health. Zuvor diskutierten beim Entrepreneurship Day Gäste der EuroTech Universities Alliance über das europäische Ökosystem.",
           "field": "product_type_alt",
           "source_date": "2022-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.115134Z"
+          "retrieved_at": "2026-11-20T21:48:32.140975Z",
+          "evidence_id": "4e696ab755d5cbc5bae50ded",
+          "document_date": "2022-07-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -2011,7 +4053,15 @@
           "finding": "Preisträger: Kaia Health Software",
           "field": "product_type_alt",
           "source_date": "2022-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.115137Z"
+          "retrieved_at": "2026-11-20T21:48:32.140983Z",
+          "evidence_id": "b43adb03d4796c3d2f6ba1e5",
+          "document_date": "2022-07-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         },
         {
           "source": "idw",
@@ -2019,41 +4069,145 @@
           "finding": "Bei vielen chronischen Krankheiten ist es wichtig, dass die Betroffenen regelmäßig Bewegungs- oder Atemübungen machen. Nicht immer ist dabei eine Unterstützung durch Therapeutinnen und Therapeuten möglich – zu Hause aber kann es vorkommen, dass die Übungen falsch ausgeführt werden. Kaia Health hat deshalb eine App mit Therapien für verschiedene chronische Krankheiten entwickelt. Mit einer Computer-Vision-Technologie kann die App die Übungen über die Handykamera kontrollieren und Hinweise zur Verbesserung geben. Darüber hinaus können die Anwenderinnen und Anwender mit ihren Therapie- und Arztpraxen interagieren. Bislang bietet die App Therapien für Rückenschmerzen und die Lungenkrankheit COPD, weitere sollen folgen.",
           "field": "product_type_alt",
           "source_date": "2022-07-01",
-          "retrieved_at": "2026-11-20T21:42:18.115141Z"
-        },
-        {
-          "source": "Ollama-Zitat aus Unternehmenswebsite",
-          "url": "https://kiutra.com/",
-          "finding": "from first experiments to scaled-up quantum systems",
-          "field": "target_customers",
-          "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.118930Z"
-        },
-        {
-          "source": "Ollama-Zitat aus Unternehmenswebsite",
-          "url": "https://kiutra.com/",
-          "finding": "Simplified and fast cryogenics for quantum technologies",
-          "field": "solution",
-          "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.118942Z"
-        },
-        {
-          "source": "Ollama-Zitat aus Unternehmenswebsite",
-          "url": "https://kiutra.com/",
-          "finding": "building the alternative to helium-3-based cooling",
-          "field": "competition",
-          "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.118951Z"
-        },
-        {
-          "source": "Ollama-Zitat aus Unternehmenswebsite",
-          "url": "https://kiutra.com/",
-          "finding": "Millikelvin without buying a cryostat: send us a sample, or rent a system in Munich.",
-          "field": "sales",
-          "source_date": null,
-          "retrieved_at": "2026-11-20T21:42:18.118957Z"
+          "retrieved_at": "2026-11-20T21:48:32.140996Z",
+          "evidence_id": "92a953ded692e22c5189d17a",
+          "document_date": "2022-07-01",
+          "verification_status": "unverified",
+          "dimension": null,
+          "kriterium": null,
+          "aussage": null,
+          "datum": null,
+          "punkte": null
         }
       ],
+      "context_v2": {
+        "company": {
+          "founding_date": null,
+          "founding_date_status": "unknown",
+          "headquarters": null,
+          "reported_location": {
+            "value": "München",
+            "evidence_ids": [
+              "052aac1423e678b0583d6e3c"
+            ],
+            "origin": "source_statement"
+          },
+          "germany_evidence_ids": [
+            "76edbdfbb382269e5a3519ab"
+          ],
+          "company_status": null
+        },
+        "founders": [
+          {
+            "name": "Alexander Regnat",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          },
+          {
+            "name": "Tomek Schulz",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          },
+          {
+            "name": "Jan Spallek",
+            "role": null,
+            "qualifications": null,
+            "previous_companies": null,
+            "founding_experience": null,
+            "customer_problem_experience": null
+          }
+        ],
+        "product": {
+          "customer_problem": null,
+          "solution": null,
+          "target_customers": null,
+          "economic_buyer": null,
+          "business_model": null,
+          "maturity": null,
+          "advantage": null,
+          "technology": null,
+          "ip": null,
+          "development_status": null,
+          "next_milestone": null
+        },
+        "traction": {
+          "paid_customers": [],
+          "customers_payment_unknown": [],
+          "paid_pilots": [],
+          "unpaid_pilots": [],
+          "pilots_payment_unknown": [],
+          "lois": [],
+          "commercial_partners": [],
+          "research_partners": [],
+          "usage": null,
+          "revenue": null,
+          "growth": null,
+          "reported_metrics": {}
+        },
+        "funding": {
+          "status": "non_vc_funded",
+          "vc_status": "unknown",
+          "status_evidence_ids": [],
+          "rounds": [],
+          "investors": [],
+          "public_grants": [],
+          "fundraising_status": null,
+          "planned_round": null,
+          "capital_need": null,
+          "use_of_funds": null,
+          "next_milestone": null,
+          "time_to_milestone": null,
+          "burn_rate": null,
+          "cash_runway": null,
+          "round_size_eur": null,
+          "asking_pre_money_eur": null,
+          "round_terms_evidence_ids": []
+        },
+        "discovery_signals": [
+          {
+            "source": "wayback",
+            "url": "https://web.archive.org/web/20190304143530/http://kiutra.com",
+            "finding": "Erste Archivaufnahme der Website kiutra.com",
+            "field": "discovery_signals",
+            "source_date": "2019-03-04",
+            "retrieved_at": "2026-11-20T21:48:32.071122Z",
+            "evidence_id": "cd09b35118a411f2d024f34e",
+            "document_date": "2019-03-04",
+            "verification_status": "source_matched",
+            "dimension": null,
+            "kriterium": null,
+            "aussage": null,
+            "datum": null,
+            "punkte": null
+          }
+        ],
+        "market_intelligence": null,
+        "research_status": {
+          "mode": "standard",
+          "market": "not_requested",
+          "gaps": [
+            "Welchen Markt adressiert ihr und wie grenzt ihr ihn ab?",
+            "Was ist der technische Ansatz und welche Nachweise gibt es?",
+            "Welche Alternativen nutzen eure Zielkunden heute?",
+            "Über welche Kanäle gewinnt ihr Kunden?",
+            "Welchen Kapitalbedarf habt ihr nach dieser Runde?",
+            "Wie groß ist die geplante Runde in Euro?",
+            "Welche Pre-Money-Bewertung fordert ihr in Euro?",
+            "Welche Investoren sind bereits beteiligt?",
+            "Wer gehört zum Gründungsteam und wer bringt welche Erfahrung mit?",
+            "Welche offenen Angaben lassen sich anhand der Originalquellen bestätigen?",
+            "Welches konkrete Kundenproblem löst ihr?",
+            "Welche Kundengruppe nutzt das Produkt?"
+          ]
+        },
+        "updated_at": "2026-11-20T21:49:02.149690Z"
+      },
       "founder_profiles": [
         {
           "name": "Alexander Regnat",
@@ -2095,23 +4249,28 @@
           "source_url": "https://openalex.org/A5024680589"
         }
       ],
-      "target_customers": "from first experiments to scaled-up quantum systems",
+      "target_customers": null,
       "customer_problem": null,
-      "solution": "Simplified and fast cryogenics for quantum technologies",
+      "solution": null,
       "market": null,
       "technology": null,
-      "competition": "building the alternative to helium-3-based cooling",
-      "sales": "Millikelvin without buying a cryostat: send us a sample, or rent a system in Munich.",
+      "competition": null,
+      "sales": null,
       "capital_need": null,
       "round_size_eur": null,
       "asking_pre_money_eur": null,
       "research_questions": [
         "Welchen Markt adressiert ihr und wie grenzt ihr ihn ab?",
         "Was ist der technische Ansatz und welche Nachweise gibt es?",
+        "Welche Alternativen nutzen eure Zielkunden heute?",
+        "Über welche Kanäle gewinnt ihr Kunden?",
         "Wie groß ist die geplante Runde in Euro?",
         "Welche Pre-Money-Bewertung fordert ihr in Euro?",
         "Welche Investoren sind bereits beteiligt?",
         "Wer gehört zum Gründungsteam und wer bringt welche Erfahrung mit?",
+        "Welche offenen Angaben lassen sich anhand der Originalquellen bestätigen?",
+        "Welches konkrete Kundenproblem löst ihr?",
+        "Welche Kundengruppe nutzt das Produkt?",
         "Gibt es Schutzrechte oder Patentanmeldungen?",
         "Welche Piloten, Design-Partner oder Absichtserklärungen gibt es?"
       ],
@@ -2180,7 +4339,8 @@
         "author"
       ],
       "enrichment_errors": [
-        "ollama: Zitat belegt den Wert nicht (business_model: b2b2c)"
+        "ollama: Zitat belegt den Wert nicht (business_model: b2b2c)",
+        "ollama: TimeoutError"
       ],
       "funding_stage": null,
       "founded_on": null,
