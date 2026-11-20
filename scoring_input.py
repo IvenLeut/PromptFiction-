@@ -189,10 +189,10 @@ class _Candidates:
 def _collect(lead, as_of):
     candidates = _Candidates(lead.id)
     source = lead.country_evidence
+    documented = (source.document_date or source.source_date) if source else None
     if (lead.country == "DE" and source and source.verification_status != "assumption"
-            and not (as_of and source.document_date and source.document_date > as_of)):
-        reference = candidates.add_evidence(source.url, source.finding, document_date=source.document_date,
-                                            kind="upstream_field")
+            and not (as_of and documented and documented > as_of)):
+        reference = candidates.add_evidence(source.url, source.finding, document_date=documented, kind="upstream_field")
         candidates.values["country"].append(("DE", reference))
     if lead.has_vc is not None:
         reference = candidates.add_evidence(lead.source_url, f"has_vc = {str(lead.has_vc).lower()}",
@@ -245,6 +245,14 @@ def _parse_line(line, as_of):
             year = int(match[1])
             if not as_of or year <= as_of.year:
                 yield (metric, year), _metric_value(metric, match[2])
+
+
+def admission_issue(scoring: ScoringInput) -> str | None:
+    if scoring.country.status != "usable":
+        return "Kein nutzbarer Deutschland-Beleg am Stichtag."
+    if scoring.vc_status.value == "confirmed" or scoring.vc_status.status == "conflicting":
+        return "VC-Finanzierung gefunden oder widersprüchlich gemeldet."
+    return None
 
 
 def build_scoring_input(lead: EnrichedLead, *, as_of: date | None = None) -> ScoringInput:

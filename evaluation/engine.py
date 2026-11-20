@@ -53,6 +53,14 @@ def to_dossier(lead: EnrichedLead, cfg: dict, *, as_of: date | None = None) -> d
     for e in lead.evidence:
         if e.field and available(e) and (lead.is_demo or e.verification_status != "assumption"):
             by_field.setdefault(e.field, e)
+
+    def available_on(url, fields, anchor=None):
+        entries = [item for item in lead.evidence if item.url == url and item.field in fields]
+        if anchor:
+            specific = [item for item in entries if anchor.casefold() in item.finding.casefold()]
+            entries = specific or entries
+        return not entries or any(available(item) and (lead.is_demo or item.verification_status != "assumption")
+                                  for item in entries)
     quelle = str(lead.source_url)
 
     def src(*fields):
@@ -92,6 +100,8 @@ def to_dossier(lead: EnrichedLead, cfg: dict, *, as_of: date | None = None) -> d
 
     team = []
     for p in lead.founder_profiles:
+        if p.source_url and not available_on(p.source_url, {"founder_profiles"}, p.name):
+            continue
         url = str(p.source_url) if p.source_url else src("founder_profiles") or quelle
         team.append({"name": p.name, "rolle": p.role or "Gründer", "institut": p.institution, "quelle": url,
                      "openalex": str(p.openalex_url) if p.openalex_url else None, "papers_im_feld": p.works_in_field,
@@ -100,12 +110,14 @@ def to_dossier(lead: EnrichedLead, cfg: dict, *, as_of: date | None = None) -> d
         if name not in {t["name"] for t in team}:
             team.append({"name": name, "rolle": "Gründer", "quelle": quelle})
 
-    partner = [{"name": x.name, "typ": x.kind, "quelle": str(x.url)} for x in lead.partners]
+    partner = [{"name": x.name, "typ": x.kind, "quelle": str(x.url)} for x in lead.partners
+               if available_on(x.url, {"partners"}, x.quote or x.name)]
     if lead.customer_count and src("customer_count"):
         partner.append({"name": "%d Kunden" % lead.customer_count, "typ": "kunde", "quelle": src("customer_count")})
     ip = None
-    if lead.patents:
-        best = max(lead.patents, key=lambda x: x.status == "patent_erteilt")
+    patents = [item for item in lead.patents if available_on(item.url, {"patents", "ip_status"}, item.quote or item.title)]
+    if patents:
+        best = max(patents, key=lambda x: x.status == "patent_erteilt")
         ip = {"wert": best.status, "quelle": str(best.url)}
     elif lead.ip_status and src("ip_status"):
         ip = {"wert": lead.ip_status, "quelle": src("ip_status")}
@@ -145,7 +157,8 @@ def to_dossier(lead: EnrichedLead, cfg: dict, *, as_of: date | None = None) -> d
         "partner": partner,
         "wettbewerber": [{"name": c, "quelle": src("competitors")} for c in lead.competitors if src("competitors")],
         "foerderung": [{"programm": g.programme, "summe_eur": g.amount_eur, "start": g.start.isoformat() if g.start else None,
-                        "ende": g.end.isoformat() if g.end else None, "quelle": str(g.url)} for g in lead.grants],
+                        "ende": g.end.isoformat() if g.end else None, "quelle": str(g.url)} for g in lead.grants
+                       if available_on(g.url, {"grants"}, g.reference)],
         "funding_meldung": funding,
         "in_databases": lead.in_databases if src("in_databases") or lead.in_databases is None else None,
         "in_databases_quelle": src("in_databases"),

@@ -7,7 +7,7 @@ from functools import partial
 from models import (
     ContextResult, EnrichedLead, EvaluatedLead, EvaluationScores, PipelineIssue, RawLead, ResearchResult, SearchCriteria,
 )
-from scoring_input import build_scoring_input
+from scoring_input import admission_issue, build_scoring_input
 
 logger = logging.getLogger(__name__)
 
@@ -94,18 +94,9 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
             else:
                 cutoff = lead.scoring_input.as_of if lead.scoring_input else None
                 scoring = build_scoring_input(lead, as_of=cutoff or lead.screening_as_of or date.today())
-                if scoring.country.status != "usable":
-                    result.issues.append(PipelineIssue(
-                        lead_id=lead.id, stage="evaluation", message="Kein nutzbarer Deutschland-Beleg am Stichtag.",
-                    ))
+                if reason := admission_issue(scoring):
+                    result.issues.append(PipelineIssue(lead_id=lead.id, stage="evaluation", message=reason))
                     continue
-                vc = scoring.vc_status
-                if vc.value == "confirmed" or vc.status == "conflicting":
-                    result.issues.append(PipelineIssue(lead_id=lead.id, stage="evaluation",
-                                                       message="VC-Finanzierung gefunden oder widersprüchlich gemeldet."))
-                    continue
-                # An unknown VC status ("missing"/"ambiguous") is the normal case for pre-founding research
-                # projects. Such leads are scored; the open question travels in research_questions/open_questions.
                 param = inspect.signature(evaluator).parameters.get("lead")
                 takes_lead = param is not None and param.kind is inspect.Parameter.KEYWORD_ONLY
                 evaluator_input = scoring.model_copy(deep=True)

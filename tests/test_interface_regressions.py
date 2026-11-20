@@ -166,3 +166,41 @@ def test_market_uses_identical_floor_and_quotes_keep_same_url_snapshots():
     old, new = [SourceSignal(source="Firma", type="press", url=URL, evidence=text) for text in ("Altes Zitat", "Neues Zitat")]
     extractor = cached_quotes(lambda name, items, fields: [(fields[0], "Altes Zitat", items[0])], None)
     assert extractor("Testwerk", [old, new], ("solution",)) == [("solution", "Altes Zitat", old)]
+
+
+def test_future_lookup_grants_and_legacy_dated_facts_are_excluded():
+    from models import Grant
+
+    initial = offline(lead(), TODAY)
+    bad_doc = Evidence(source="Förderkatalog", url=f"{URL}grant-a", field="grants",
+                       finding="2027 veröffentlichter Förderbeleg", document_date=date(2027, 1, 5))
+    variants = [
+        Grant(programme="ZIM", amount_eur=500_000, start=date(2027, 1, 1), url=f"{URL}grant-b"),
+        Grant(programme="ZIM", amount_eur=500_000, start=date(2026, 1, 1), url=bad_doc.url),
+    ]
+    expected = evaluate(initial)
+    actual = evaluate(initial.model_copy(update={"grants": variants, "evidence": [*initial.evidence, bad_doc]}))
+    assert actual.risk_score == expected.risk_score
+
+    from tests.test_scoring import basis
+    old = score_dossier(basis(), stichtag=TODAY)
+    future = score_dossier(basis(
+        funding_meldung={"wert": True, "quelle": URL, "datum": "2027-01-05"},
+        foerderung=[{"programm": "ZIM", "summe_eur": 500_000, "start": "2027-01-01", "quelle": URL}],
+    ), stichtag=TODAY)
+    assert future["gesamt_score"] == old["gesamt_score"] and future["stage"] == old["stage"]
+
+
+def test_typed_scoring_cli_and_pipeline_hold_confirmed_vc_consistently(tmp_path):
+    from models import ContextResult
+
+    enriched = offline(lead(has_vc=True), TODAY)
+    live = evaluate_context([enriched], use_mock=False)
+    assert not live.leads and live.issues[0].stage == "evaluation"
+    report = tmp_path / "context.json"
+    report.write_text(ContextResult(leads=[enriched]).model_dump_json())
+    output = tmp_path / "scores"
+    assert score_cli([str(report), "--out", str(output)]) == 0
+    row, = json.loads((output / "scores.json").read_text())
+    assert row["status"] == "zurueck_an_sourcing" and row["gesamt_score"] is None
+    assert row["ausschluss_grund"] == live.issues[0].message
