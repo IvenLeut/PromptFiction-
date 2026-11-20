@@ -111,3 +111,15 @@ def test_visualizations_match_data():
     comparison = comparison_figure(leads)
     assert list(comparison.data[0].x) == [x.company_score for x in reversed(leads)]
     assert list(comparison.data[2].x) == [x.risk_score for x in reversed(leads)]
+
+
+def test_industrial_demo_renders_market_and_sources():
+    from models import Industry
+
+    app = start_app(Industry.INDUSTRIAL)
+    app.query_params["startup"] = "industrial-16"
+    app.run()
+    assert not app.exception
+    assert "Marktrecherche" in [tab.label for tab in app.tabs]
+    assert {"TAM", "SAM", "SOM"} <= {metric.label for metric in app.metric}
+    assert any("Eurostat SBS" in item.value for item in app.markdown)

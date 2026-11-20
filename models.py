@@ -4,11 +4,9 @@ from datetime import date as Date
 from datetime import datetime, timezone
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl
+from pydantic import Field, HttpUrl
 
-
-class Contract(BaseModel):
-    model_config = ConfigDict(extra="forbid", validate_assignment=True)
+from research_models import ContextV2, Contract, Evidence
 
 
 class Industry(str, Enum):
@@ -23,15 +21,6 @@ class SearchCriteria(Contract):
     industry: Industry
     country: Literal["DE"] = "DE"
     limit: int = Field(default=30, ge=1, le=200)
-
-
-class Evidence(Contract):
-    source: str = Field(min_length=1)
-    url: HttpUrl
-    finding: str = Field(min_length=1)
-    field: str | None = None
-    source_date: Date | None = None
-    retrieved_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 class SourceSignal(Contract):
@@ -73,6 +62,7 @@ class RawLead(Contract):
 
 class EnrichedLead(RawLead):
     evidence: list[Evidence] = Field(default_factory=list)
+    context_v2: ContextV2 | None = None
     founder_profiles: list[FounderProfile] = Field(default_factory=list)
     target_customers: str | None = None
     customer_problem: str | None = None

@@ -1,0 +1,2342 @@
+{
+  "$defs": {
+    "CapitalRequirements": {
+      "additionalProperties": false,
+      "properties": {
+        "planned_round": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "capital_need": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "use_of_funds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "next_milestone": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "time_to_milestone": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "burn_rate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "cash_runway": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "investment_need": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "CapitalRequirements",
+      "type": "object"
+    },
+    "Claim": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "minLength": 1,
+          "title": "Value",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "origin": {
+          "default": "source_statement",
+          "enum": [
+            "source_statement",
+            "model_selected_quote",
+            "analyst_interpretation"
+          ],
+          "title": "Origin",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "evidence_ids"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "CompanyResearch": {
+      "additionalProperties": false,
+      "properties": {
+        "founding_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "founding_date_status": {
+          "default": "unknown",
+          "enum": [
+            "documented",
+            "reported",
+            "conflicting",
+            "unknown"
+          ],
+          "title": "Founding Date Status",
+          "type": "string"
+        },
+        "headquarters": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reported_location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "germany_evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Germany Evidence Ids",
+          "type": "array"
+        },
+        "company_status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "CompanyResearch",
+      "type": "object"
+    },
+    "ComparableTransaction": {
+      "additionalProperties": false,
+      "properties": {
+        "company": {
+          "title": "Company",
+          "type": "string"
+        },
+        "date": {
+          "format": "date",
+          "title": "Date",
+          "type": "string"
+        },
+        "sector": {
+          "title": "Sector",
+          "type": "string"
+        },
+        "transaction_type": {
+          "enum": [
+            "pre_seed",
+            "seed",
+            "other_funding",
+            "acquisition",
+            "exit",
+            "portfolio_reference"
+          ],
+          "title": "Transaction Type",
+          "type": "string"
+        },
+        "transaction_value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "company_valuation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "enterprise_value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "revenue": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ebitda": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ev_revenue": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ev_ebitda": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "original_source": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Original Source",
+          "type": "string"
+        },
+        "comparability_reason": {
+          "minLength": 1,
+          "title": "Comparability Reason",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "company",
+        "date",
+        "sector",
+        "transaction_type",
+        "original_source",
+        "comparability_reason",
+        "evidence_ids"
+      ],
+      "title": "ComparableTransaction",
+      "type": "object"
+    },
+    "Competitor": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "website": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Website",
+          "type": "string"
+        },
+        "product": {
+          "title": "Product",
+          "type": "string"
+        },
+        "target_customers": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Customers"
+        },
+        "segment": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Segment"
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Geography"
+        },
+        "development_stage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Development Stage"
+        },
+        "differentiation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Differentiation"
+        },
+        "known_funding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "selection_reason": {
+          "minLength": 1,
+          "title": "Selection Reason",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "website",
+        "product",
+        "selection_reason",
+        "evidence_ids"
+      ],
+      "title": "Competitor",
+      "type": "object"
+    },
+    "ContextV2": {
+      "additionalProperties": false,
+      "properties": {
+        "company": {
+          "$ref": "#/$defs/CompanyResearch"
+        },
+        "founders": {
+          "items": {
+            "$ref": "#/$defs/FounderResearch"
+          },
+          "title": "Founders",
+          "type": "array"
+        },
+        "product": {
+          "$ref": "#/$defs/ProductResearch"
+        },
+        "traction": {
+          "$ref": "#/$defs/TractionResearch"
+        },
+        "funding": {
+          "$ref": "#/$defs/FundingResearch"
+        },
+        "discovery_signals": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Discovery Signals",
+          "type": "array"
+        },
+        "market_intelligence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketIntelligence"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "research_status": {
+          "$ref": "#/$defs/ResearchStatus"
+        },
+        "updated_at": {
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "research_status"
+      ],
+      "title": "ContextV2",
+      "type": "object"
+    },
+    "EnrichedLead": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "industry": {
+          "$ref": "#/$defs/Industry"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Country"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "source_url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "source_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Name"
+        },
+        "country_evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Evidence"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "is_demo": {
+          "default": false,
+          "title": "Is Demo",
+          "type": "boolean"
+        },
+        "website": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Website"
+        },
+        "founders": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Founders",
+          "type": "array"
+        },
+        "contact_email": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contact Email"
+        },
+        "founding_year": {
+          "anyOf": [
+            {
+              "maximum": 2100,
+              "minimum": 1800,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Year"
+        },
+        "founding_month": {
+          "anyOf": [
+            {
+              "maximum": 12,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Month"
+        },
+        "has_vc": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Has Vc"
+        },
+        "signals": {
+          "items": {
+            "$ref": "#/$defs/SourceSignal"
+          },
+          "title": "Signals",
+          "type": "array"
+        },
+        "prioritization_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prioritization Reason"
+        },
+        "htgf_sector": {
+          "anyOf": [
+            {
+              "enum": [
+                "digital_tech",
+                "industrial_deep_tech",
+                "climate_tech",
+                "life_sciences",
+                "chemie_materialien"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Htgf Sector"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "context_v2": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ContextV2"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "founder_profiles": {
+          "items": {
+            "$ref": "#/$defs/FounderProfile"
+          },
+          "title": "Founder Profiles",
+          "type": "array"
+        },
+        "target_customers": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Customers"
+        },
+        "customer_problem": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Customer Problem"
+        },
+        "solution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Solution"
+        },
+        "market": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Market"
+        },
+        "technology": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Technology"
+        },
+        "competition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Competition"
+        },
+        "sales": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sales"
+        },
+        "capital_need": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capital Need"
+        },
+        "round_size_eur": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Round Size Eur"
+        },
+        "asking_pre_money_eur": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Asking Pre Money Eur"
+        },
+        "research_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Research Questions",
+          "type": "array"
+        },
+        "funding_status": {
+          "default": "unknown",
+          "enum": [
+            "vc_backed",
+            "non_vc_funded",
+            "unfunded",
+            "funded",
+            "conflicting",
+            "unknown"
+          ],
+          "title": "Funding Status",
+          "type": "string"
+        },
+        "vc_status": {
+          "default": "unknown",
+          "enum": [
+            "confirmed",
+            "reported_none",
+            "conflicting",
+            "unknown"
+          ],
+          "title": "Vc Status",
+          "type": "string"
+        },
+        "first_signal_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Signal Date"
+        },
+        "funding_stage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Funding Stage"
+        },
+        "founded_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founded On"
+        },
+        "team_size": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Size"
+        },
+        "funding_total_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Funding Total Eur"
+        },
+        "last_funding_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Funding On"
+        },
+        "product_stage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Stage"
+        },
+        "customer_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Customer Count"
+        },
+        "annual_revenue_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Annual Revenue Eur"
+        },
+        "traction_notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Traction Notes"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "industry",
+        "source_url"
+      ],
+      "title": "EnrichedLead",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "finding": {
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field"
+        },
+        "source_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Date"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "evidence_id": {
+          "default": "",
+          "minLength": 1,
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "document_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Document Date"
+        },
+        "verification_status": {
+          "default": "unverified",
+          "enum": [
+            "unverified",
+            "source_matched",
+            "source_reviewed",
+            "assumption"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "dimension": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dimension"
+        },
+        "kriterium": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Kriterium"
+        },
+        "aussage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Aussage"
+        },
+        "datum": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Datum"
+        },
+        "punkte": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Punkte"
+        }
+      },
+      "required": [
+        "source",
+        "url",
+        "finding"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FounderProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        },
+        "qualifications": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Qualifications"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "FounderProfile",
+      "type": "object"
+    },
+    "FounderResearch": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "qualifications": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "previous_companies": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "founding_experience": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "customer_problem_experience": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "FounderResearch",
+      "type": "object"
+    },
+    "FundingResearch": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "unknown",
+          "enum": [
+            "vc_backed",
+            "non_vc_funded",
+            "unfunded",
+            "funded",
+            "conflicting",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "vc_status": {
+          "default": "unknown",
+          "enum": [
+            "confirmed",
+            "reported_none",
+            "conflicting",
+            "unknown"
+          ],
+          "title": "Vc Status",
+          "type": "string"
+        },
+        "status_evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Status Evidence Ids",
+          "type": "array"
+        },
+        "rounds": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Rounds",
+          "type": "array"
+        },
+        "investors": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Investors",
+          "type": "array"
+        },
+        "public_grants": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Public Grants",
+          "type": "array"
+        },
+        "fundraising_status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "planned_round": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "capital_need": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "use_of_funds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "next_milestone": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "time_to_milestone": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "burn_rate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "cash_runway": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "round_size_eur": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Round Size Eur"
+        },
+        "asking_pre_money_eur": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Asking Pre Money Eur"
+        },
+        "round_terms_evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Round Terms Evidence Ids",
+          "type": "array"
+        }
+      },
+      "title": "FundingResearch",
+      "type": "object"
+    },
+    "Industry": {
+      "enum": [
+        "AI / Software",
+        "ClimateTech",
+        "HealthTech",
+        "FinTech",
+        "Industrial / DeepTech"
+      ],
+      "title": "Industry",
+      "type": "string"
+    },
+    "MarketIntelligence": {
+      "additionalProperties": false,
+      "properties": {
+        "market_definition": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "target_segment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "target_geography": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "tam": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sam": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "som": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sizing_inputs": {
+          "additionalProperties": {
+            "$ref": "#/$defs/MarketMeasure"
+          },
+          "title": "Sizing Inputs",
+          "type": "object"
+        },
+        "historical_growth": {
+          "items": {
+            "$ref": "#/$defs/MarketSeries"
+          },
+          "title": "Historical Growth",
+          "type": "array"
+        },
+        "forecast_growth": {
+          "items": {
+            "$ref": "#/$defs/MarketSeries"
+          },
+          "title": "Forecast Growth",
+          "type": "array"
+        },
+        "growth_drivers": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Growth Drivers",
+          "type": "array"
+        },
+        "growth_factors": {
+          "additionalProperties": {
+            "items": {
+              "$ref": "#/$defs/Claim"
+            },
+            "type": "array"
+          },
+          "propertyNames": {
+            "enum": [
+              "technological",
+              "regulatory",
+              "commercial"
+            ]
+          },
+          "title": "Growth Factors",
+          "type": "object"
+        },
+        "market_risks": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Market Risks",
+          "type": "array"
+        },
+        "competitors": {
+          "items": {
+            "$ref": "#/$defs/Competitor"
+          },
+          "maxItems": 5,
+          "title": "Competitors",
+          "type": "array"
+        },
+        "comparison_dimensions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Comparison Dimensions",
+          "type": "array"
+        },
+        "comparable_transactions": {
+          "items": {
+            "$ref": "#/$defs/ComparableTransaction"
+          },
+          "title": "Comparable Transactions",
+          "type": "array"
+        },
+        "capital_requirements": {
+          "$ref": "#/$defs/CapitalRequirements"
+        },
+        "sector_metrics": {
+          "$ref": "#/$defs/SectorMetrics"
+        },
+        "research_gaps": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Research Gaps",
+          "type": "array"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 50,
+          "title": "Sources",
+          "type": "array"
+        }
+      },
+      "title": "MarketIntelligence",
+      "type": "object"
+    },
+    "MarketMeasure": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Currency"
+        },
+        "geography": {
+          "minLength": 1,
+          "title": "Geography",
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "methodology": {
+          "minLength": 1,
+          "title": "Methodology",
+          "type": "string"
+        },
+        "data_type": {
+          "enum": [
+            "observed",
+            "estimate",
+            "forecast",
+            "assumption"
+          ],
+          "title": "Data Type",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "value",
+        "unit",
+        "currency",
+        "geography",
+        "period",
+        "methodology",
+        "data_type",
+        "evidence_ids"
+      ],
+      "title": "MarketMeasure",
+      "type": "object"
+    },
+    "MarketSeries": {
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "minLength": 1,
+          "title": "Metric",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/MarketMeasure"
+          },
+          "minItems": 1,
+          "title": "Points",
+          "type": "array"
+        },
+        "cagr": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "metric",
+        "points"
+      ],
+      "title": "MarketSeries",
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "start_year": {
+          "maximum": 2200,
+          "minimum": 1800,
+          "title": "Start Year",
+          "type": "integer"
+        },
+        "end_year": {
+          "maximum": 2200,
+          "minimum": 1800,
+          "title": "End Year",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start_year",
+        "end_year"
+      ],
+      "title": "Period",
+      "type": "object"
+    },
+    "PipelineIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "lead_id": {
+          "title": "Lead Id",
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "context",
+            "evaluation"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lead_id",
+        "stage",
+        "message"
+      ],
+      "title": "PipelineIssue",
+      "type": "object"
+    },
+    "ProductResearch": {
+      "additionalProperties": false,
+      "properties": {
+        "customer_problem": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "solution": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "target_customers": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "economic_buyer": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "business_model": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "maturity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "advantage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "technology": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ip": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "development_status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "next_milestone": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "ProductResearch",
+      "type": "object"
+    },
+    "ReadinessLevel": {
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "maximum": 9,
+          "minimum": 1,
+          "title": "Level",
+          "type": "integer"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "origin": {
+          "enum": [
+            "reported",
+            "analyst_interpretation"
+          ],
+          "title": "Origin",
+          "type": "string"
+        }
+      },
+      "required": [
+        "level",
+        "rationale",
+        "evidence_ids",
+        "origin"
+      ],
+      "title": "ReadinessLevel",
+      "type": "object"
+    },
+    "ResearchStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "light",
+            "standard",
+            "targeted"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "market": {
+          "default": "not_requested",
+          "enum": [
+            "not_requested",
+            "partial",
+            "complete"
+          ],
+          "title": "Market",
+          "type": "string"
+        },
+        "gaps": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Gaps",
+          "type": "array"
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "title": "ResearchStatus",
+      "type": "object"
+    },
+    "SectorMetrics": {
+      "additionalProperties": false,
+      "properties": {
+        "arr": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "growth": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "retention": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "customer_base": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "unit_economics": {
+          "additionalProperties": {
+            "$ref": "#/$defs/MarketMeasure"
+          },
+          "title": "Unit Economics",
+          "type": "object"
+        },
+        "manufacturing_cost": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "technology_readiness": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReadinessLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "market_certainty": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReadinessLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "patents": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "technical_milestone": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "pilot_projects": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Pilot Projects",
+          "type": "array"
+        },
+        "scale_up_risks": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "research_phase": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "regulatory_path": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "clinical_milestone": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "capital_to_catalyst": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "SectorMetrics",
+      "type": "object"
+    },
+    "SourceSignal": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "type": {
+          "minLength": 1,
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Date"
+        },
+        "evidence": {
+          "minLength": 1,
+          "title": "Evidence",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "type",
+        "url",
+        "evidence"
+      ],
+      "title": "SourceSignal",
+      "type": "object"
+    },
+    "TractionResearch": {
+      "additionalProperties": false,
+      "properties": {
+        "paid_customers": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Paid Customers",
+          "type": "array"
+        },
+        "customers_payment_unknown": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Customers Payment Unknown",
+          "type": "array"
+        },
+        "paid_pilots": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Paid Pilots",
+          "type": "array"
+        },
+        "unpaid_pilots": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Unpaid Pilots",
+          "type": "array"
+        },
+        "pilots_payment_unknown": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Pilots Payment Unknown",
+          "type": "array"
+        },
+        "lois": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Lois",
+          "type": "array"
+        },
+        "commercial_partners": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Commercial Partners",
+          "type": "array"
+        },
+        "research_partners": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Research Partners",
+          "type": "array"
+        },
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "revenue": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "growth": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Claim"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reported_metrics": {
+          "additionalProperties": {
+            "items": {
+              "$ref": "#/$defs/MarketMeasure"
+            },
+            "type": "array"
+          },
+          "title": "Reported Metrics",
+          "type": "object"
+        }
+      },
+      "title": "TractionResearch",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "leads": {
+      "items": {
+        "$ref": "#/$defs/EnrichedLead"
+      },
+      "title": "Leads",
+      "type": "array"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/PipelineIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    }
+  },
+  "title": "ContextResult",
+  "type": "object"
+}
