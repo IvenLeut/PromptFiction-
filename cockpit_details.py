@@ -11,6 +11,8 @@ from cockpit_research import competition, funding, market, sector_research
 from cockpit_service import email_draft
 from cockpit_style import brief_grid, fact_rows, kpis
 from cockpit_visuals import score_profile, evidence_coverage
+from cockpit_context import context_for, market_for, claim_text, measure_label, present
+from cockpit_research_v2 import fields as research_fields, traction as research_traction, sources_note
 
 
 def text(value, fallback="Not researched"):
@@ -87,10 +89,8 @@ def activity_editor(lead, saved):
 def brief(lead, saved):
     d = lead.data
     fit = fund_fit(lead)[0]
-    kpis([("Quality / 100", score(lead.scores["Quality"]), "Reported composite score"),
-          ("HTGF fit", {"Potential Fit": "Potential", "Review Required": "Review", "Likely Out of Scope": "Out of scope"}[fit], "Criterion details under Capital & fit"),
-          ("Evidence confidence", score(lead.confidence, True), f"{len(lead.sources)} distinct source URLs"),
-          ("Risk / 100", score(lead.scores["Risk"]), "Higher means more risk")])
+    operational_kpis(lead)
+    st.caption(f"Quality {score(lead.scores['Quality'])}/100 · Risk {score(lead.scores['Risk'])}/100 · Evidence confidence {score(lead.confidence, True)} · {fit}")
     left, right = st.columns([2, 1], gap="medium")
     with left, st.container(border=True, key="card-brief"):
         st.subheader("Investment brief")
@@ -111,6 +111,23 @@ def brief(lead, saved):
             with st.expander(f"Scoring caveats ({len(lead.warnings)})"):
                 for warning in lead.warnings:
                     st.caption(warning)
+        with st.expander("Supporting assessment"):
+            fact_rows({"Investment rationale": d.get("investment_thesis"), "Score drivers": d.get("score_drivers"),
+                       "Strengths": d.get("strengths"), "Risks": d.get("risks"),
+                       "Timing rationale": d.get("why_contact_now"), "Earliness score": d.get("earliness_score"),
+                       "Company score": d.get("company_score"), "Technology score": d.get("technology_score"),
+                       "Fund-fit score": d.get("fund_fit_score"), "Stage reasoning": d.get("stage_reasoning"),
+                       "Fund-fit rationale": d.get("fund_fit_rationale"), "Team rationale": d.get("team_rationale"),
+                       "Earliness rationale": d.get("earliness_rationale")})
+            for key, label in (("key_strengths", "Strength"), ("key_risks", "Risk")):
+                for argument in items(d.get(key)):
+                    if isinstance(argument, dict):
+                        st.write(f"**{label}:** {argument.get('statement', '')}")
+                        st.caption(argument.get("rationale", ""))
+                    else:
+                        st.write(f"**{label}:** {argument}")
+            if d.get("score_rationales"):
+                fact_rows({k.replace("_", " ").title(): v for k, v in d["score_rationales"].items()})
     with right, st.container(border=True, key="card-next"):
         st.subheader("Decision & next step")
         st.markdown(f'<div class="decision-callout"><b>{"SAVED ACTION" if saved.get("next_action") else "SUGGESTED RESEARCH"}</b><p>{escape(saved.get("next_action") or suggested_action(lead))}</p></div>', unsafe_allow_html=True)
@@ -139,8 +156,28 @@ def brief(lead, saved):
         st.caption("Counts evidence records, not independent confirmations. A URL alone is not verification.")
 
 
-def business(lead):
+def operational_kpis(lead):
     d = lead.data
+    measures = d.get("_operating_measures") or {}
+    revenue = measures.get("annual_revenue_eur")
+    revenue_note = f"Reported annual revenue · {revenue['period']['end_year']}" if revenue else "Reported annual figure · period unavailable"
+    values = [("Annual revenue", "annual_revenue_eur", True, revenue_note),
+              ("Customers", "customer_count", False, "Reported customer count"),
+              ("Capital raised", "funding_total_eur", True, "Total reported funding"),
+              ("Team size", "team_size", False, "Reported people")]
+    conflicts = {row["Field"] for row in d.get("_research_conflicts", [])}
+    available = [(label, f"€{d[key]:,.0f}" if currency else str(d[key]),
+                  note + (" · Review differing values" if key.replace("_", " ").title() in conflicts else ""))
+                 for label, key, currency, note in values if isinstance(d.get(key), (int, float))]
+    if available:
+        kpis(available)
+        sources_note(lead, measures.values())
+        if d.get("annual_revenue_eur") is not None and not revenue:
+            st.caption("Revenue reference period not supplied. Annual revenue is not necessarily recurring revenue.")
+
+
+def business(lead):
+    d, context = lead.data, context_for(lead)
     a, b, c = st.tabs(["Business & product", "Founders & team", "Traction & milestones"])
     with a:
         left, right = st.columns([1.4, 1])
@@ -148,19 +185,43 @@ def business(lead):
             st.subheader("Business model")
             if url(d.get("website")):
                 st.link_button("Company website", url(d["website"]))
-            fact_rows({"Customer problem": d.get("problem_statement") or d.get("customer_problem"),
-                       "Product": d.get("product_mechanics") or d.get("solution") or d.get("produktbeschreibung"),
-                       "Target customers": d.get("target_customers"), "Business model": d.get("business_model"),
-                       "Advantage": d.get("differentiation") or d.get("technology_advantage")})
+            product = context.get("product") or {}
+            labels = {"customer_problem": "Customer problem", "solution": "Product & solution", "target_customers": "Target customers",
+                      "economic_buyer": "Economic buyer", "business_model": "Business model", "advantage": "Advantage",
+                      "technology": "Technology", "ip": "IP / patents", "maturity": "Product maturity",
+                      "development_status": "Development status", "next_milestone": "Next milestone"}
+            research_fields(lead, product, labels)
+            fallback = {"customer_problem": d.get("problem_statement") or d.get("customer_problem"),
+                        "solution": d.get("product_mechanics") or d.get("solution") or d.get("produktbeschreibung") or d.get("value_proposition"),
+                        "target_customers": d.get("target_customers"), "business_model": d.get("business_model"),
+                        "economic_buyer": d.get("economic_buyer"), "advantage": d.get("differentiation"),
+                        "technology": d.get("technology_advantage") or d.get("technology"), "ip": d.get("ip"),
+                        "maturity": d.get("product_stage"), "development_status": d.get("development_status"), "next_milestone": d.get("next_milestone")}
+            additional = {labels[k]: v for k, v in fallback.items() if present(v) and not present(product.get(k))}
+            if additional:
+                fact_rows(additional)
         with right, st.container(border=True):
+            st.subheader("Company profile")
+            research_fields(lead, context.get("company") or {}, {"headquarters": "Headquarters", "reported_location": "Reported location", "founding_date": "Founding date", "company_status": "Company status"})
+            fact_rows({"Sector": lead.sector, "Location": d.get("location"), "Founded": d.get("founded_on"),
+                       "Founding date basis": d.get("founding_date_status"), "Team size": d.get("team_size"), "Stage": lead.stage})
             sector_research(lead)
     with b:
+        fact_rows({"Team size": d.get("team_size")})
         profiles = d.get("founder_profiles") or []
+        researched = {p["name"]: p for p in context.get("founders", [])}
         if profiles:
-            for profile in profiles:
-                with st.container(border=True):
+            columns = st.columns(2)
+            for index, profile in enumerate(profiles):
+                with columns[index % 2], st.container(border=True):
                     st.subheader(profile.get("name", "Founder"))
-                    fact_rows({k.replace("_", " ").title(): v for k, v in profile.items() if k not in {"name", "evidence"}})
+                    details = researched.get(profile.get("name"), {})
+                    research_fields(lead, details, {"role": "Role", "qualifications": "Qualifications", "previous_companies": "Previous companies", "founding_experience": "Founding experience", "customer_problem_experience": "Problem expertise"})
+                    remaining = {k.replace("_", " ").title(): v for k, v in profile.items() if k not in {"name", "evidence"} and present(v) and not present(details.get(k))}
+                    if remaining:
+                        fact_rows(remaining)
+                    if not remaining and not any(present(v) for k, v in details.items() if k != "name"):
+                        st.caption("Name supplied. Role and experience remain to be researched.")
                     for evidence in profile.get("evidence", []):
                         if url(evidence.get("url")):
                             st.link_button(evidence.get("source") or "Founder source", url(evidence["url"]))
@@ -168,14 +229,16 @@ def business(lead):
             fact_rows({"Founders": d.get("founders"), "Team size": d.get("team_size")})
             st.caption("Next step: verify roles, relevant experience and founder-market fit.")
     with c:
+        operational_kpis(lead)
+        research_traction(lead)
         fact_rows({"Product maturity": d.get("product_stage") or d.get("product_maturity"), "Customers": d.get("customer_count"),
                    "Revenue (EUR)": d.get("annual_revenue_eur"), "Pilots / partners": d.get("traction_notes"),
                    "Sales": d.get("sales"), "Next milestone": d.get("next_milestone")})
         evidence = d.get("traction_evidence") or []
         if evidence:
             st.dataframe(evidence, hide_index=True, width="stretch", column_config={"url": st.column_config.LinkColumn("Source")})
-        else:
-            st.caption("No structured traction evidence supplied. Validate pilots, contracts and recurring revenue directly.")
+        if not evidence and not any(present(v) for v in (context.get("traction") or {}).values()):
+            st.caption("Customer payment status and recurring revenue need direct verification.")
 
 
 def evidence_view(lead):
@@ -185,7 +248,8 @@ def evidence_view(lead):
         category = st.multiselect("Evidence category", ["Team", "Market", "Risk", "Stage", "Other"], key=lead.namespace+lead.id+"categories")
         rows = [e for e in lead.evidence if not category or e["category"] in category]
         if rows:
-            st.dataframe(rows, hide_index=True, width="stretch", column_order=["category", "criterion", "statement", "url", "date", "points", "verification"],
+            st.caption(f"{len(rows)} evidence records · {len(lead.sources)} distinct source URLs")
+            st.dataframe(rows, hide_index=True, width="stretch", column_order=["category", "criterion", "statement", "url", "source", "date", "points", "verification", "evidence_id"],
                          column_config={"url": st.column_config.LinkColumn("Source"), "statement": st.column_config.TextColumn(width=400)})
         else:
             st.caption("No evidence records in this selection.")
@@ -253,6 +317,12 @@ def company(lead, decisions):
         st.caption("DEMO · fictional company and sources")
     if lead.excluded:
         st.warning("Sourcing exclusion: " + text(d.get("ausschluss_grund") or d.get("hard_exclusions") or d.get("noise_class")))
+    if d.get("founding_date_status") == "conflicting":
+        st.warning("Conflicting founding dates in the supplied sources. Company age remains unassessed until resolved.")
+    if d.get("_research_conflicts"):
+        with st.expander("Different values in the supplied records · review required"):
+            st.caption("The original summary values are retained. The detailed research is shown alongside them; reconcile dates and definitions before relying on either value.")
+            st.dataframe(d["_research_conflicts"], hide_index=True, width="stretch")
     tabs = st.tabs(["Investment brief", "Company & team", "Market & competition", "Capital & fit", "Evidence & activity"])
     with tabs[0]:
         brief(lead, saved)

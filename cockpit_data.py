@@ -10,6 +10,7 @@ import json
 import math
 from pathlib import Path
 from urllib.parse import urlsplit
+from cockpit_context import project_context, source_records
 
 CONFIG = json.loads((Path(__file__).parent / "config/htgf.v1.json").read_text(encoding="utf-8"))
 SECTORS = {"digital_tech": "Digital Tech", "AI / Software": "Digital Tech", "FinTech": "Digital Tech",
@@ -90,10 +91,10 @@ def adapt(record):
     data = dict(record)
     for extension in ("context_v2", "evaluation_v2"):
         if isinstance(record.get(extension), dict):
-            previous_evidence = data.get("evidence") or []
-            data.update(record[extension])
-            if extension == "evaluation_v2" and isinstance(record[extension].get("evidence"), list):
-                data["evidence"] = previous_evidence + [e for e in record[extension]["evidence"] if e not in previous_evidence]
+            if extension == "context_v2":
+                project_context(data, record[extension])
+            else:
+                data.update(record[extension])
             for canonical, legacy_key in {"overall_score": "gesamt_score", "market_potential_score": "marktpotenzial_score", "risk_score": "risiko_score",
                                           "investment_thesis": "investmenthypothese", "why_contact_now": "why_now"}.items():
                 if canonical in record[extension]:
@@ -113,19 +114,21 @@ def adapt(record):
     identity = str(data.get("lead_id") or data.get("id") or sha256(
         (name.casefold() + "|" + str(data.get("website") or "")).encode()).hexdigest()[:20])
     evidence = []
-    for entry in items(data.get("evidence")):
+    for entry in source_records(record):
         if not isinstance(entry, dict):
             continue
         source = url(entry.get("url") or entry.get("quelle"))
-        dimension = entry.get("dimension") or entry.get("field") or "other"
+        dimension = str(entry.get("dimension") or entry.get("field") or "other").lower()
         category = {"team": "Team", "marktpotenzial": "Market", "risiko": "Risk", "stage": "Stage"}.get(dimension, "Other")
         if category == "Other":
             category = next((label for word, label in (("founder", "Team"), ("market", "Market"), ("risk", "Risk"), ("stage", "Stage")) if word in dimension), "Other")
-        evidence.append({"category": category, "criterion": entry.get("kriterium") or entry.get("field") or dimension,
+        evidence.append({"evidence_id": entry.get("evidence_id"), "source": entry.get("source"),
+                         "category": category, "criterion": entry.get("kriterium") or entry.get("field") or dimension,
                          "statement": entry.get("aussage") or entry.get("finding") or "",
-                         "url": source, "date": entry.get("datum") or entry.get("published_on") or entry.get("source_date"),
+                         "url": source, "date": entry.get("document_date") or entry.get("datum") or entry.get("published_on") or entry.get("source_date"),
                          "retrieved_at": entry.get("retrieved_at"), "points": number(entry.get("punkte"), 100),
-                         "verification": "Demo source" if is_example(source) else "Source supplied; not independently verified" if source else "No source / unassessed"})
+                         "verification": "Demo / assumption" if is_example(source) or entry.get("verification_status") == "assumption" else
+                         {"source_reviewed": "Reviewed by source pipeline", "source_matched": "Matched by source pipeline"}.get(entry.get("verification_status"), "Source supplied; unverified") if source else "No source / unassessed"})
     scores = {}
     warnings = []
     subvalues = data.get("teilwerte") or {}
@@ -158,7 +161,8 @@ def adapt(record):
     data["investment_thesis"] = data.get("investmenthypothese") or data.get("investment_thesis")
     data["why_contact_now"] = data.get("why_now") or data.get("why_contact_now")
     data["founders"] = data.get("founders") or [x.strip() for x in (data.get("name_gruender") or "").split(";") if x.strip()]
-    data["open_questions"] = data.get("offene_punkte") or data.get("open_questions") or data.get("research_questions") or []
+    context = record.get("context_v2") or {}
+    data["open_questions"] = list(dict.fromkeys(str(q) for values in (data.get("offene_punkte"), data.get("open_questions"), data.get("research_questions"), (context.get("research_status") or {}).get("gaps"), research.get("research_gaps")) for q in items(values)))
     return Lead(identity, name, SECTORS.get(data.get("branche") or data.get("htgf_sector") or data.get("industry"), data.get("industry") or "Not assessed"),
                 STAGES.get(data.get("stage"), data.get("stage_classification") or data.get("stage") or "Not assessed"),
                 data, record, evidence, scores, confidence, demo, warnings)
@@ -194,7 +198,9 @@ def fund_fit(lead, today=None):
     age_status, age_reason = "Unknown", "Confirmed incorporation date missing"
     try:
         exact = date.fromisoformat(str(d.get("founded_on"))) if d.get("founded_on") else None
-        if d.get("gruendung_ist_proxy"):
+        if d.get("founding_date_status") == "conflicting":
+            age_reason = "Conflicting incorporation evidence; resolve before assessing company age"
+        elif d.get("gruendung_ist_proxy"):
             age_reason = "Grant start is a proxy, not confirmed incorporation"
         elif exact or year:
             month = d.get("gruendungsmonat") or d.get("founding_month")

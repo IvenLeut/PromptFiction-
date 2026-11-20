@@ -1,7 +1,9 @@
 """Deterministic, fully fictional step-3 output for dashboard development."""
 from datetime import datetime, timezone
 
-from models import EvaluatedLead, EnrichedLead, RawLead, Evidence, Industry, ResearchResult
+from context.demo_market import demo_market
+from context.engine import enrich
+from models import EvaluatedLead, EnrichedLead, RawLead, Evidence, Industry, ResearchResult, SourceSignal
 
 PROFILES = [
     (Industry.AI, "Dokumentenprüfung für industrielle Lieferketten", "kürzere Prüfzeiten", "Zugang zu kundeneigenen Trainingsdaten"),
@@ -94,7 +96,27 @@ def _fixture(lead):
 def demo_enrich(lead):
     fixture = _fixture(lead)
     extra = set(EnrichedLead.model_fields) - set(RawLead.model_fields)
-    return EnrichedLead(**lead.model_dump(), **fixture.model_dump(include=extra))
+    fields = fixture.model_dump(include=extra)
+    sample = lead
+    if lead.id == "industrial-16":
+        sample = lead.model_copy(update={"signals": [SourceSignal(
+            source="FounderRadar · fiktive Unternehmensangaben", type="demo", url=lead.source_url,
+            evidence=(
+                f"{lead.founders[0]} – Rolle: CTO\n"
+                f"{lead.founders[0]} – Hintergrund: Industrielle Zustandsüberwachung\n"
+                f"{lead.founders[1]} – Rolle: CEO\n"
+                "Problem: Ungeplante Stillstände in Fertigungsanlagen\n"
+                "Lösung: Sensorik für vorausschauende Wartung\n"
+                "Zielkunden: Fertigungsunternehmen\nWirtschaftlicher Käufer: Werksleitung\n"
+                "Produktreife: Am Markt\nTechnologie: Drahtlose Schwingungssensorik\n"
+                "Nächster Produktmeilenstein: Anbindung älterer Anlagen"
+            ),
+        )]})
+    researched = enrich(sample, light=True)
+    fields["context_v2"] = researched.context_v2
+    fields["evidence"] = [*fixture.evidence, *researched.evidence]
+    enriched = EnrichedLead(**lead.model_dump(), **fields)
+    return demo_market(enriched) if lead.id == "industrial-16" else enriched
 
 
 def demo_evaluate(lead):

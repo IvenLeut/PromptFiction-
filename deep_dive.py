@@ -9,6 +9,7 @@ from analyst_store import DECISIONS, save_decision
 from scorecard import render_scorecard
 from screening import screening_status, source_label
 from ui_theme import fact, heading
+from market_view import render_company_research, render_market
 
 
 def source_card(evidence, label="Originalquelle öffnen"):
@@ -214,5 +215,20 @@ def render_deep_dive(lead, back, contact_url, value, *, namespace="demo", decisi
                 st.error("Speichern fehlgeschlagen. Bitte Datenbankzugriff prüfen.")
             else:
                 st.success("Entscheidung und Notizen dauerhaft gespeichert.")
+    if lead.context_v2:
+        with st.expander("Strukturierte Unternehmens- und Marktrecherche"):
+            company_tab, market_tab = st.tabs(["Unternehmensrecherche", "Marktrecherche"])
+            with company_tab:
+                render_company_research(lead.context_v2)
+            with market_tab:
+                if lead.context_v2.market_intelligence:
+                    from cockpit_data import adapt
+                    from cockpit_research_v2 import native_market, native_competition, transactions
+                    adapted = adapt(lead.model_dump(mode="json"))
+                    native_market(adapted)
+                    native_competition(adapted)
+                    transactions(adapted)
+                else:
+                    st.caption("Noch keine strukturierte Marktrecherche vorhanden.")
     st.download_button("Startup-Dossier exportieren", lead.model_dump_json(indent=2),
                        file_name=f"{lead.id}.json", mime="application/json")

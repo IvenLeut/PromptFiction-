@@ -15,7 +15,10 @@ Firmen pro Branche. Die zehn Scoring-Beispiele bleiben Adapter-/Regressionstests
 Die ursprüngliche Anwendung bleibt mit `streamlit run app.py` als Fallback erhalten.
 
 - **Overview:** priorisierte Review-Liste, Qualität/Confidence-Streudiagramm,
-  Entwicklungsphasen und nächste Aktionen in einem kompakten Raster.
+  Entwicklungsphasen und nächste Aktionen in einem kompakten Raster. Links stehen
+  Pipeline und Research-Abdeckung, mittig die Prüfliste, rechts Firmenfokus und
+  nächste Aktion. Darunter folgt die breite Analysefläche. Warme helle Flächen,
+  schwarze Schrift und Akzente in Pfirsich, Rosé, Hellgelb und Cyan.
 - **Dealflow:** Suche und Filter; eigene Ansichten für Pending Review, Watchlist,
   Entscheidungen und ausgeschlossene Leads; direkter Profileinstieg und JSON-Export.
 - **Company Deep Dive:** Investment brief, Company & team, Market & competition,
@@ -61,6 +64,7 @@ Neustarts. SQLite ist für den Hackathon gedacht, ohne Mehrbenutzer-Login.
 | `cockpit_style.py` / `cockpit_visuals.py` | Kompaktes Layout und datenbasierte Charts |
 | `cockpit_data.py` | Normalisiertes Lead-Modell, Legacy/v2-Adapter, HTGF-Heuristik, Szenariomathematik |
 | `cockpit_research.py` | Marktcharts, Competition, Funding, sektorbezogene Ansichten |
+| `cockpit_context.py` / `cockpit_research_v2.py` | Strukturierte Recherche, Claims und Quellen, datentreue Zeitreihen und Marktmodelle |
 | `config/htgf.v1.json` | Versionierte Kriterien mit Quelle, Prüfdatum und Mandatsabgrenzung |
 | `analyst_store.py` | SQLite; Aufgaben, Kontaktstatus und transaktionale Änderungshistorie |
 | `tests/test_cockpit.py` / `tests/test_workspace.py` | Scoring-Fixtures, Adapter, Charts, Mathematik, Navigation und Persistenz |
@@ -94,7 +98,25 @@ Die Heuristik gilt für Erstinvestitionen und ist keine offizielle HTGF-Bewertun
 
 ### Research-Vertrag
 
-Optionale Felder auf Lead-Ebene oder unter context_v2:
+Der native Vertrag in `research_models.py` umfasst unter `context_v2` Unternehmen,
+Gründer, Produkt, Traction, Finanzierung und `market_intelligence`. Claims behalten
+ihre Evidence-IDs und ihren Ursprung; numerische Marktangaben zusätzlich Einheit,
+Währung, Region, Zeitraum, Methodik und Datentyp. Das Cockpit zeigt die Angaben
+in den jeweiligen Untertabs mit Quellenlinks. Vorhandene flache Felder bleiben
+erhalten; unbekannte Werte werden nicht mit null aufgefüllt.
+
+Im Demo-Bestand gibt es **150 Unternehmen in fünf Branchen**, jeweils 30 pro Lauf.
+`industrial-16` enthält zusätzlich ein Marktdossier: Eurostat-Unternehmensbestand
+2021–2023, ein daraus berechnetes TAM/SAM/SOM-Szenario, drei Wettbewerber und eine
+Vergleichsfinanzierung. Das Unternehmen selbst bleibt fiktiv. Modellannahmen und
+öffentliche Referenzquellen werden getrennt gekennzeichnet; eine Finanzierungsrunde
+ist keine Unternehmensbewertung und eine Unternehmensanzahl keine Umsatzzeitreihe.
+
+Die Oberfläche verwendet auch die bereits vorhandenen operativen Felder: Umsatz,
+Kundenzahl, Teamgröße, Finanzierungsvolumen und -phase, Produktstatus, Traction-Notizen,
+Gründerprofile, Discovery-Signale und ausführliche Bewertungsbegründungen.
+
+Zusätzlich unterstützte Legacy-Felder auf Lead-Ebene oder in flachem `context_v2`:
 
 - `market_intelligence`: definition, geography, year, methodology, sizing,
   growth_series, drivers, uncertainties, growth, maturity, competition_intensity,
@@ -118,10 +140,10 @@ Optionale Felder auf Lead-Ebene oder unter context_v2:
   regulatory_pathway, patent_protection, next_catalyst für Life Sciences/Chemistry.
 
 Noch kein dedizierter Market-Research-Endpunkt: kein vorgetäuschter Generate-Button.
-Die vorhandene Kontext-CLI bleibt zusätzlich separat nutzbar (siehe unten). Marktcharts und
-Wettbewerbspositionierung sind implementiert, aber die aktuellen Beispieldaten liefern
-noch keine ausreichend strukturierten Eingaben dafür. Es gibt keine erfundenen
-Finanzierungen, Marktgrößen, Zeitreihen, Exitbewertungen oder Empfehlungen.
+Die Kontext-CLI unterstützt gezielte Marktrecherche über `--lead`, `--market-input`
+und `--market-source` (siehe unten). Das Cockpit zeigt deren strukturierten Output
+automatisch. Außerhalb des genannten Demo-Marktdossiers fehlen überwiegend
+quantitative Marktdaten; diese Lücken werden nicht mit erfundenen Zahlen gefüllt.
 
 Prüfung:
 
@@ -135,8 +157,9 @@ Prüfung:
 Ein zusammenhängender Ablauf für VC-Screening: **Kategorie auswählen → Analyse
 starten → visualisierte Ergebnisse → Startup-Deep-Dive**.
 
-Die aktuelle Version arbeitet vollständig mit fiktiven Daten. Pro Kategorie stehen
-30 Demo-Startups zur Verfügung. Keine echten Kontakte, Registerfunde oder Investmentempfehlungen.
+Die Oberfläche zeigt pro Kategorie 30 fiktive Startups. Im Bereich Industrial / DeepTech
+enthält `industrial-16` zusätzlich echte öffentliche Marktquellen und ein ausgewiesenes
+Szenario zur Marktgröße. Schritt 2 lässt sich separat mit echten Leads ausführen.
 
 ## Start
 
@@ -225,10 +248,13 @@ Schritt 2 lässt sich mit einer bestehenden Liste separat ausführen.
 python -m context shortlist.json dossiers.json
 python -m context shortlist.json dossiers.json --ollama-model qwen3.5:4b
 python -m context shortlist.json dossiers.json --offline --limit 10
+python -m context longlist.json dossiers.json --light
 ~~~
 
 Die Eingabe ist ein priorisiertes JSON-Array mit RawLead-Objekten inklusive
-Deutschland-Beleg. Die CLI vertieft standardmäßig die ersten fünf Leads.
+Deutschland-Beleg. Die CLI vertieft standardmäßig die ersten fünf Leads. Im Light-Modus
+verarbeitet sie die gesamte Liste anhand der mitgelieferten Signale. `--lead ID` wählt
+einen einzelnen Lead aus.
 Sourcing kann `htgf_sector` und `prioritization_reason` mitgeben. Der optionale
 HTGF-Sektor verwendet die fünf Track-Kategorien, während `industry` die
 bestehende Produktkategorie bleibt.
@@ -259,6 +285,55 @@ unbekannter Art. `vc_status` bleibt ohne ausdrückliche Angabe `unknown`. Ein po
 VC-Signal bei anderslautender Sourcing-Angabe führt zu `conflicting`. Die Live-Pipeline
 hält bestätigte, widersprüchliche und unbekannte VC-Fälle vor dem Scoring zurück
 und meldet den Grund in `issues`. Die Dossiers bleiben im Schritt-2-Export sichtbar.
+
+### Strukturierte Dossiers für Station 4
+
+`context_v2` ergänzt die vorhandenen Felder um `company`, `founders`, `product`,
+`traction`, `funding`, `discovery_signals`, `market_intelligence`, `research_status`
+und `updated_at`. Aussagen referenzieren Belege über `evidence_ids`. Ein Beleg enthält
+Abruf- und optional Dokumentdatum. `source_matched` bedeutet, dass der Extraktor
+die Aussage im Quellenausschnitt gefunden hat. `source_reviewed` kennzeichnet
+begutachtete Quellen, `assumption` gekennzeichnete Annahmen und `unverified`
+übernommene, ungeprüfte Angaben. Das Feld `origin` unterscheidet Quellenaussagen,
+vom Modell ausgewählte Zitate und Interpretation. Bestehende Exporte lassen sich
+weiterhin validieren.
+
+Traction unterscheidet zahlende Kunden, Kunden mit offenem Zahlstatus, bezahlte und
+unbezahlte Piloten, LOIs, kommerzielle Partner und Forschungspartner. Öffentliche
+Förderung hat einen eigenen Abschnitt. Ein angegebener Förderantrag verändert den
+VC-Status nicht.
+
+### Gezielte Marktrecherche
+
+~~~powershell
+python -m context shortlist.json dossier.json --lead <ID> --market-input marktquellen.json
+python -m context shortlist.json dossier.json --lead <ID> --market-source <URL>
+~~~
+
+`--market-input` erwartet ein Objekt gemäß `examples/market-input-schema.json` mit
+strukturierten Marktwerten und Belegen. `--market-source` kann bis zu sechs öffentliche
+HTML-Seiten lesen und erkennbare qualitative Angaben übernehmen. Beide Optionen sind
+kombinierbar. Der Abruf verwendet einen Cache von bis zu 64 Seiten in 15-Minuten-Fenstern.
+Für amtliche Statistiken, Wettbewerber und Transaktionen können geprüfte Eingaben mit
+Originalquelle übergeben werden. Der Workflow sucht keine zusätzlichen Quellen im
+offenen Web und setzt keinen Zugang zu kostenpflichtigen Datenbanken voraus.
+
+Für Bottom-up-Berechnungen enthält `sizing_inputs` die Teilwerte
+`addressable_companies` (Unternehmen), `annual_revenue_per_company`
+(pro Unternehmen und Jahr), `serviceable_share` (Anteil 0–1) und
+`delivery_capacity` (Unternehmen). Alle Werte eines Szenarios verwenden dieselbe
+Geografie und Periode. Der SOM nutzt die kleinere Anzahl aus Kapazität und SAM.
+Fehlende Marktwerte bleiben offen. Zeitreihen führen beobachtete Werte getrennt
+von Prognosen und Annahmen. CAGR setzt vergleichbare Jahreswerte voraus.
+Transaktionsmultiples erfordern explizit veröffentlichten Enterprise Value und
+eine positive, vergleichbare Jahreskennzahl. Die HTGF-Matrix erhält TRL und eine
+begründete Marktsicherheit, wenn diese strukturiert und mit Belegen vorliegen.
+
+Im Deep Dive von `industrial-16` zeigt der Tab **Marktrecherche** die Eurostat-Reihe
+zur Unternehmensbasis, das TAM-/SAM-/SOM-Szenario, drei Wettbewerber und eine
+veröffentlichte HTGF-Referenzrunde. Die Grundgesamtheit bildet eine Obergrenze,
+der Preis und die Reichweite sind Annahmen. Eine belastbare Marktumsatzreihe und
+eine Prognose stehen für dieses Beispiel offen.
 
 ### Übergabe für Scorecard und VC Method
 

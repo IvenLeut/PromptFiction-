@@ -4,6 +4,8 @@ import streamlit as st
 
 from cockpit_data import items, known, number, url, investment_scenario
 from cockpit_style import fact_rows
+from cockpit_context import market_for
+from cockpit_research_v2 import native_market, native_competition, capital, transactions, sector_metrics
 
 
 def facts(values):
@@ -31,6 +33,9 @@ def comparable_series(rows):
 
 
 def market(lead):
+    if any(key in market_for(lead) for key in ("tam", "historical_growth", "market_definition")):
+        native_market(lead)
+        return
     st.subheader("Market Intelligence")
     st.caption("Market definition, addressable opportunity and growth drivers")
     d = lead.data
@@ -62,7 +67,7 @@ def market(lead):
             and len({r["unit"] for r in valid}) == 1 and all(research.get(k) for k in ("definition", "geography", "year", "methodology"))
             and dict((r["label"], r["value"]) for r in valid)["TAM"] >= dict((r["label"], r["value"]) for r in valid)["SAM"] >= dict((r["label"], r["value"]) for r in valid)["SOM"]):
         fig = go.Figure(go.Bar(x=[r["value"] for r in valid], y=[r["label"] for r in valid],
-                               orientation="h", marker_color=["#24384b", "#637f91", "#ee795b"], name="Market size"))
+                               orientation="h", marker_color=["#393630", "#bcbda1", "#e8b79f"], name="Market size"))
         fig.update_layout(height=250, xaxis_title=valid[0]["unit"], yaxis_title="Market scope", margin=dict(l=0, r=20, t=10, b=20))
         st.plotly_chart(fig, width="stretch")
         source_links(valid)
@@ -71,7 +76,7 @@ def market(lead):
     series = comparable_series(research.get("growth_series") or [])
     if series:
         fig = go.Figure()
-        for kind, color, dash in (("Historical", "#24384b", "solid"), ("Forecast", "#ee795b", "dash")):
+        for kind, color, dash in (("Historical", "#393630", "solid"), ("Forecast", "#e8b79f", "dash")):
             rows = [r for r in series if r["kind"] == kind]
             if rows:
                 fig.add_trace(go.Scatter(x=[r["year"] for r in rows], y=[r["value"] for r in rows],
@@ -99,7 +104,8 @@ def market(lead):
 def competition(lead):
     st.subheader("Competitive Landscape")
     d = lead.data
-    competitors = items(d.get("competitors"))
+    native = native_competition(lead)
+    competitors = [] if native else items(d.get("competitors"))
     rows = [{"Company": c} if isinstance(c, str) else {
         label: c.get(key) for label, key in (("Company", "name"), ("Product", "product"), ("Customer segment", "customer_segment"),
         ("Geography", "geography"), ("Stage", "stage"), ("Differentiation", "differentiation"), ("Funding", "funding"), ("Source", "source"))}
@@ -109,7 +115,7 @@ def competition(lead):
             if "Source" in row:
                 row["Source"] = url(row["Source"])
         st.dataframe(rows, hide_index=True, width="stretch", column_config={"Source": st.column_config.LinkColumn()})
-    else:
+    elif not native:
         st.info("No structured competitor comparison supplied.")
     facts({"Research": d.get("competition"), "Differentiation": d.get("differentiation"),
            "Technology": d.get("technology_advantage") or d.get("technology"), "IP / patents": d.get("ip"),
@@ -120,7 +126,7 @@ def competition(lead):
             and all(isinstance(p, dict) and url(p.get("source")) and number(p.get("x")) is not None and number(p.get("y")) is not None for p in points)):
         fig = go.Figure(go.Scatter(x=[p["x"] for p in points], y=[p["y"] for p in points],
                                   mode="markers+text", text=[p.get("name", "") for p in points], textposition="top center",
-                                  marker=dict(size=13, color="#ee795b")))
+                                  marker=dict(size=13, color="#e8b79f")))
         fig.update_layout(xaxis_title=matrix["x_label"], yaxis_title=matrix["y_label"], height=330)
         st.plotly_chart(fig, width="stretch")
         st.caption(matrix["rationale"])
@@ -132,23 +138,27 @@ def competition(lead):
 def funding(lead):
     st.subheader("Funding & Valuation")
     d = lead.data
-    facts({"Funding status": d.get("funding_status") or d.get("funding_stage"), "Raised (EUR)": d.get("funding_total_eur"),
+    facts({"Funding status": d.get("funding_status") if known(d.get("funding_status")) else d.get("funding_stage"), "Funding stage": d.get("funding_stage"), "Raised (EUR)": d.get("funding_total_eur"),
            "Investors": d.get("investors"), "Grants": d.get("grants"), "Capital need": d.get("capital_need"),
-           "Round size (EUR)": d.get("round_size_eur"), "Next milestone": d.get("next_milestone")})
+           "Round size (EUR)": d.get("round_size_eur"), "Asking pre-money (EUR)": d.get("asking_pre_money_eur"),
+           "Last financing": d.get("last_funding_on"), "Next milestone": d.get("next_milestone")})
+    capital(lead)
     if d.get("funding_events"):
         st.dataframe(d["funding_events"], hide_index=True, width="stretch")
     st.markdown("#### Investment scenario")
     st.caption("Editable analyst assumptions in EUR. Illustrative defaults are not company valuations or investment recommendations.")
     a, b, c, e = st.columns(4)
     key = lead.namespace + lead.id
-    investment = a.number_input("Investment amount (EUR)", min_value=1.0, value=800000.0, step=100000.0, key=key+"invest")
-    pre = b.number_input("Pre-money valuation (EUR)", min_value=0.0, value=3200000.0, step=100000.0, key=key+"pre")
+    investment = a.number_input("Investment amount (EUR)", min_value=1.0, value=float(d.get("round_size_eur") or 800000.0), step=100000.0, key=key+"invest")
+    pre = b.number_input("Pre-money valuation (EUR)", min_value=0.0, value=float(d["asking_pre_money_eur"] if d.get("asking_pre_money_eur") is not None else 3200000.0), step=100000.0, key=key+"pre")
     dilution = c.number_input("Future dilution (%)", min_value=0.0, max_value=100.0, value=20.0, key=key+"dilution")
     exit_value = e.number_input("Exit equity value (EUR)", min_value=0.0, value=20000000.0, step=1000000.0, key=key+"exit")
     result = investment_scenario(investment, pre, dilution / 100, exit_value)
     for col, (label, value) in zip(st.columns(5), result.items()):
         col.metric(label, f"{value:.1%}" if "ownership" in label.lower() else f"{value:.2f}×" if label == "MOIC" else f"€{value:,.0f}")
     st.caption("Exit equity value = proceeds available to all equity holders after net debt. Pro rata ordinary equity model; preferences, different share classes, fees, taxes and further rounds can change actual proceeds. Not a full cap table.")
+    if transactions(lead):
+        return
     st.markdown("#### Comparable transactions")
     comps = []
     for row in items(d.get("comparable_transactions")):
@@ -170,6 +180,8 @@ def funding(lead):
 def sector_research(lead):
     d = lead.data
     st.markdown("#### Sector-specific diligence")
+    if sector_metrics(lead):
+        return
     research = d.get("sector_research") or {}
     if not isinstance(research, dict):
         research = {}
@@ -187,7 +199,7 @@ def sector_research(lead):
             st.caption("Analyst assumptions only; not a sourced company rating or an official HTGF classification. Axes: 1 = concept, 5 = validated, 9 = scaled.")
             tech = st.slider("Technology readiness", 1, 9, 1, key=lead.id+"trl")
             market_value = st.slider("Market readiness", 1, 9, 1, key=lead.id+"mrl")
-            fig = go.Figure(go.Scatter(x=[tech], y=[market_value], mode="markers", name="Analyst scenario", marker=dict(size=18, color="#ee795b")))
+            fig = go.Figure(go.Scatter(x=[tech], y=[market_value], mode="markers", name="Analyst scenario", marker=dict(size=18, color="#e8b79f")))
             fig.update_layout(height=300, xaxis=dict(title="Technology readiness (analyst)", range=[.5, 9.5], dtick=1),
                               yaxis=dict(title="Market readiness (analyst)", range=[.5, 9.5], dtick=1))
             st.plotly_chart(fig, width="stretch")

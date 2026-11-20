@@ -9,9 +9,10 @@ import streamlit as st
 
 from analyst_store import DECISIONS, load_decisions
 from cockpit_data import fund_fit
-from cockpit_details import company
-from cockpit_service import start_analysis, load_workspace
-from cockpit_style import theme, kpis
+from cockpit_details import company, suggested_action
+from cockpit_service import start_analysis, load_workspace, email_draft
+from cockpit_style import theme, kpis, fact_rows
+from cockpit_context import market_for
 from cockpit_visuals import pipeline_scatter, stage_bars
 from models import Industry
 
@@ -124,32 +125,56 @@ def overview(leads, decisions):
     count_overdue = sum(overdue(s) for _, s in task_rows)
     shortcut.button(f"Review overdue ({count_overdue})", disabled=not count_overdue, on_click=open_overdue, width="stretch")
     pending = [l for l in leads if status(l, decisions) == "Pending Review" and not l.excluded]
-    kpis([("Companies", len(leads), "Current sector analysis"),
-          ("Awaiting review", len(pending), "Within sourcing scope"),
-          ("Contact candidates", sum(status(l, decisions) == "Contact" for l in leads), "Saved analyst decisions"),
-          ("Overdue actions", sum(overdue(s) for _, s in task_rows), "Open tasks past their due date")])
-    left, right = st.columns([1.5, 1], gap="medium")
-    prioritized = sorted(pending, key=lambda l: -(l.scores["Quality"] if l.scores["Quality"] is not None else -1))[:6]
-    with left, st.container(border=True, key="card-queue"):
+    prioritized = sorted(pending, key=lambda l: (not overdue(decisions.get((l.namespace, l.id), {})), -(l.scores["Quality"] if l.scores["Quality"] is not None else -1)))[:5]
+    left, middle, right = st.columns([.85, 1.55, 1.1], gap="medium")
+    with left:
+        with st.container(border=True, key="card-snapshot"):
+            st.subheader("Pipeline snapshot")
+            st.markdown(f'<div class="snapshot-number">{len(leads)}</div><div class="source-line">Companies in this analysis</div>' + ''.join(
+                f'<div class="snapshot-stat"><span>{label}</span><strong>{value}</strong></div>' for label, value in [
+                    ("Awaiting review", len(pending)), ("Contact decisions", sum(status(l, decisions) == "Contact" for l in leads)),
+                    ("Open actions", sum(s.get("task_status", "Open") == "Open" for _, s in task_rows))]), unsafe_allow_html=True)
+        with st.container(border=True, key="card-research"):
+            st.subheader("Research coverage")
+            fact_rows({"With sources": f"{sum(bool(l.sources) for l in leads)} / {len(leads)}", "Market dossiers": f"{sum(bool(market_for(l)) for l in leads)} / {len(leads)}"})
+            st.caption("Available records, not independently verified facts.")
+    with middle, st.container(border=True, key="card-queue"):
         st.subheader("Review queue")
-        st.caption("Highest reported quality first · select a row to investigate")
+        st.caption("Overdue first, then reported quality · select a company")
         if prioritized:
-            table(prioritized, decisions, "priority", height=252, compact=True)
-            company_picker(prioritized, "priority-pick")
+            table(prioritized, decisions, "priority", height=216, compact=True)
+            st.markdown("**Review priorities**")
+            for lead in prioritized[:2]:
+                saved = decisions.get((lead.namespace, lead.id), {})
+                st.caption(lead.name + " · " + (saved.get("next_action") or suggested_action(lead)))
         else:
             st.info("No companies awaiting review in sourcing scope.")
             st.button("Browse all companies", on_click=navigate, args=("Dealflow",))
-    with right, st.container(border=True, key="card-quality"):
+    with right, st.container(border=True, key="card-focus"):
+        st.subheader("Company in focus")
+        selected = st.selectbox("Open company", prioritized or leads, format_func=lambda x: x.name, key="priority-pick", label_visibility="collapsed")
+        st.caption(selected.data.get("value_proposition") or selected.stage)
+        detail = selected.data
+        fact_rows({"Stage": selected.stage, "Customers": detail.get("customer_count"), "Team": detail.get("team_size"),
+                   "Raised": f"€{detail['funding_total_eur']:,.0f}" if detail.get("funding_total_eur") is not None else None})
+        saved = decisions.get((selected.namespace, selected.id), {})
+        st.markdown("**Next step**")
+        st.caption(saved.get("next_action") or suggested_action(selected))
+        st.button("Open deep dive", on_click=open_company, args=(selected.id,), key="priority-pickopen", width="stretch", type="primary")
+        draft = email_draft(selected)
+        if draft:
+            st.link_button("Open email draft", draft, width="stretch")
+    left, right = st.columns([2.1, 1], gap="medium")
+    with left, st.container(border=True, key="card-quality"):
         st.subheader("Quality & evidence")
         st.caption("Each point is a company · grey = excluded by sourcing")
         st.plotly_chart(pipeline_scatter(leads), width="stretch", config={"displayModeBar": False})
         plotted = sum(l.scores["Quality"] is not None and l.confidence is not None for l in leads)
         st.caption(f"{plotted}/{len(leads)} with both measures. Confidence is supplied by scoring.")
-    left, right = st.columns([1, 1.5], gap="medium")
-    with left, st.container(border=True, key="card-stages"):
+    with right, st.container(border=True, key="card-stages"):
         st.subheader("Stage distribution")
         st.plotly_chart(stage_bars(leads), width="stretch", config={"displayModeBar": False})
-    with right, st.container(border=True, key="card-actions"):
+    with st.container(border=True, key="card-actions"):
         st.subheader("Next actions")
         active = sorted([(l, s) for l, s in task_rows if s.get("task_status", "Open") == "Open"], key=lambda p: p[1].get("due_date") or "9999")[:4]
         if active:
