@@ -50,7 +50,7 @@ Alle Gewichte und Punktetabellen stehen in `scoring/scoring_config.yaml`. Die Da
 | `pre_gruendung` | keine Kapitalgesellschaft belegt. Das gilt auch, wenn die Angabe fehlt, nicht mit GmbH, gGmbH, UG, AG oder SE endet (z. B. GbR, e.V., "AG Müller") oder eine Verneinung bzw. einen Plan enthält ("noch keine GmbH", "GmbH geplant") |
 | `in_gruendung` | GmbH, gGmbH, UG, AG oder SE mit "i.G.", "i.Gr." oder "in Gründung" |
 | `seed` | GmbH, gGmbH, UG, AG oder SE und belegter Reifegrad `pilot` oder `erste_kunden` |
-| `pre_seed` | GmbH, gGmbH, UG, AG oder SE sonst |
+| `pre_seed` | GmbH, gGmbH, UG, AG oder SE sonst; oder belegtes Gründungsdatum ohne belegte Rechtsform |
 
 ## Noise-Klasse
 
@@ -103,8 +103,8 @@ Faktoren und Ausgangsgewichte stammen aus Scorecard (Bill Payne), Berkus und Ris
 ## Offen
 
 - Die Gewichte sind nicht kalibriert. Dafür fehlen noch 10 von Hand bewertete Leads.
-- Getestet ist nur mit erfundenen Dummy-Leads. Echte Leads aus dem Sourcing gab es noch nicht.
-- `EnrichedLead` kennt weder Papers, Förderung, Rechtsform, IP noch Marktvolumen. Über den Dashboard-Weg bleiben diese Kriterien neutral, und `Seed` ist dort nicht erreichbar. Mit den Demo-Leads entstehen deshalb nur drei verschiedene Gesamtscores (50,0 / 52,4 / 54,2). Das ändert sich erst, wenn `models.py` diese Felder bekommt.
+- Seit dem 20.11.2026 liefert der Kontext-Schritt Rechtsform, Förderung, Papers je Gründer, IP, Partner und Produkttyp mit Quellen (`context/ENRICHMENT.md`); `evaluation/engine.py` reicht sie durch. Die **Demo-Leads** des Dashboards haben diese Felder nicht und landen weiter bei drei Gesamtscores (50,0 / 52,4 / 54,2); echte Leads siehe `examples/context/scores/`.
+- Die Textklassifikation (Reifegrad, Produkttyp, Regulatorik, Partner) ist die schwächste Quelle: im ersten Faktencheck waren rund zwei Drittel ihrer Werte falsch oder schwach belegt, vor allem durch Pressemeldungen über andere Firmen. Harte Quellen (Impressum, Förderkatalog, Wayback, OpenAlex) stimmten in über 90 % der Fälle.
 - Der Dashboard-Weg übersetzt `product_stage` und `funding_stage` nur bei exakter Übereinstimmung mit einer festen Liste (siehe `evaluation/engine.py`) und nur mit passendem Evidence-Eintrag.
 - Ein Sprachmodell für weiche Kriterien ist nicht eingebaut.
 - Der SQLite-Lader übernimmt eine Fördersumme nur, wenn im Signaltext genau ein Betrag in deutscher Schreibweise steht ("650.000 EUR"). Sonst bleibt die Summe leer. Als Deutschland-Beleg nimmt er den Textausschnitt eines Förderkatalog- oder Impressum-Signals, ohne den Inhalt zu prüfen.

@@ -1,0 +1,124 @@
+[
+  {
+    "id": "spinmagic",
+    "name": "SpinMagIC",
+    "description": "EXIST-Forschungstransfer der Universität Stuttgart: miniaturisierte Elektronenspinresonanz-Sensorik (ESR) auf Chipbasis für Materialanalyse und Qualitätskontrolle.",
+    "industry": "Industrial / DeepTech",
+    "htgf_sector": "industrial_deep_tech",
+    "country": "DE",
+    "location": "Stuttgart",
+    "source_url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+    "source_name": "Förderkatalog",
+    "country_evidence": {
+      "source": "Förderkatalog",
+      "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+      "finding": "Ausführende Stelle: Universität Stuttgart"
+    },
+    "founders": [
+      "Belal Alnajjar",
+      "Anh Chu",
+      "Michele Segantini",
+      "Jakob Fitschen"
+    ],
+    "signals": [
+      {
+        "source": "foekat",
+        "type": "exist_projekt",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
+        "date": "2024-09-01",
+        "evidence": "FKZ 03EFBW0275 SpinMagIC, Universität Stuttgart, 01.09.2024 bis 30.09.2026"
+      }
+    ]
+  },
+  {
+    "id": "hochquant",
+    "name": "HoCHQuant",
+    "description": "EXIST-Forschungstransfer der BTU Cottbus-Senftenberg: Herstellung hochreiner Materialien in Quantenqualität (quantum grade materials) für Quantentechnologien.",
+    "industry": "Industrial / DeepTech",
+    "htgf_sector": "chemie_materialien",
+    "country": "DE",
+    "location": "Cottbus",
+    "source_url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+    "source_name": "Förderkatalog",
+    "country_evidence": {
+      "source": "Förderkatalog",
+      "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+      "finding": "Ausführende Stelle: BTU Cottbus-Senftenberg"
+    },
+    "founders": [
+      "Owen C. Ernst"
+    ],
+    "signals": [
+      {
+        "source": "foekat",
+        "type": "exist_projekt",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+        "date": "2024-06-01",
+        "evidence": "FKZ 03EFBB0063 HoCHQuant, BTU Cottbus-Senftenberg, 01.06.2024 bis 30.09.2026"
+      }
+    ]
+  },
+  {
+    "id": "siderogain",
+    "name": "Siderogain",
+    "description": "Ausgründung aus dem Helmholtz-Zentrum Dresden-Rossendorf: biotechnologische Rückgewinnung von Gallium und Germanium aus Industrieabwässern mit Siderophoren.",
+    "industry": "ClimateTech",
+    "htgf_sector": "chemie_materialien",
+    "country": "DE",
+    "location": "Freiberg",
+    "website": "https://siderogain.de",
+    "source_url": "https://idw-online.de/de/news876491",
+    "source_name": "idw",
+    "country_evidence": {
+      "source": "idw",
+      "url": "https://idw-online.de/de/news876491",
+      "finding": "Helmholtz-Institut Freiberg für Ressourcentechnologie"
+    },
+    "founders": [
+      "Rohan Jain",
+      "Aratrika Ghosh",
+      "Peter Boelens",
+      "Jonathan Engelhardt"
+    ],
+    "signals": [
+      {
+        "source": "idw",
+        "type": "idw",
+        "url": "https://idw-online.de/de/news876491",
+        "date": "2026-08-28",
+        "evidence": "Siderogain gegründet; EXIST-Forschungstransfer; patentierte Technologie; Pilotanlage mit Freiberger Compound Materials GmbH"
+      }
+    ]
+  },
+  {
+    "id": "kiutra",
+    "name": "kiutra GmbH",
+    "description": "Kryogene Kühlsysteme auf Basis magnetischer Kühlung für Quantentechnologie und Forschung, ohne Helium-3.",
+    "industry": "Industrial / DeepTech",
+    "htgf_sector": "industrial_deep_tech",
+    "country": "DE",
+    "location": "München",
+    "website": "https://kiutra.com",
+    "source_url": "https://kiutra.com/legal-notice",
+    "source_name": "Website",
+    "country_evidence": {
+      "source": "Impressum",
+      "url": "https://kiutra.com/legal-notice",
+      "finding": "kiutra GmbH, München, HRB 242819"
+    },
+    "founders": [
+      "Alexander Regnat",
+      "Tomek Schulz",
+      "Jan Spallek"
+    ],
+    "signals": [
+      {
+        "source": "wayback",
+        "type": "wayback",
+        "url": "https://web.archive.org/web/20190304143530/http://kiutra.com",
+        "date": "2019-03-04",
+        "evidence": "Erste Archivaufnahme der Website kiutra.com"
+      }
+    ]
+  }
+]

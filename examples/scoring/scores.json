@@ -601,7 +601,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "2 unabhängige Quellen",
+        "aussage": "Dünne Datenlage: 2 unabhängige Quellen",
         "url": "https://example.com/foerderkatalog/03EFDUMMY2",
         "datum": "2025-04-01",
         "punkte": 50.0
@@ -726,7 +726,7 @@
     "stage": "pre_gruendung",
     "produktbeschreibung": "Projekt zur Speicherung von Prozesswärme in Salzschmelzen.",
     "value_proposition": "Projekt zur Speicherung von Prozesswärme in Salzschmelzen.",
-    "investmenthypothese": "Datenlage zu dünn für eine Hypothese (Confidence 0.03). Hauptrisiko: Nur eine unabhängige Quelle.",
+    "investmenthypothese": "Datenlage zu dünn für eine Hypothese (Confidence 0.03). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle.",
     "why_now": "Noch vor der Gründung; jüngstes Signal vor 10 Monaten",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
@@ -840,7 +840,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "Nur eine unabhängige Quelle",
+        "aussage": "Dünne Datenlage: nur eine unabhängige Quelle",
         "url": "https://example.com/foerderkatalog/03EGDUMMY4",
         "datum": "2026-01-01",
         "punkte": 80.0
@@ -973,7 +973,7 @@
     "stage": "pre_seed",
     "produktbeschreibung": "Luftschloss will den Weltmarkt für Quantenbatterien anführen.",
     "value_proposition": "Luftschloss will den Weltmarkt für Quantenbatterien anführen.",
-    "investmenthypothese": "Datenlage zu dünn für eine Hypothese (Confidence 0.01). Hauptrisiko: Nur eine unabhängige Quelle; Zuordnung Projekt→Firma laut Sourcing unsicher (0.40).",
+    "investmenthypothese": "Datenlage zu dünn für eine Hypothese (Confidence 0.01). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle; Zuordnung Projekt→Firma laut Sourcing unsicher (0.40).",
     "why_now": "Gegründet, Pre-Seed; jüngstes Signal vor 2 Monaten",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
@@ -1087,7 +1087,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "Nur eine unabhängige Quelle; Zuordnung Projekt→Firma laut Sourcing unsicher (0.40)",
+        "aussage": "Dünne Datenlage: nur eine unabhängige Quelle; Zuordnung Projekt→Firma laut Sourcing unsicher (0.40)",
         "url": "https://example.org/luftschloss",
         "datum": "2026-09-01",
         "punkte": 90.0
@@ -1334,7 +1334,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "Nur eine unabhängige Quelle",
+        "aussage": "Dünne Datenlage: nur eine unabhängige Quelle",
         "url": "https://example.org/pixelfreunde/impressum",
         "datum": "2026-05-01",
         "punkte": 80.0
@@ -1588,7 +1588,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "2 unabhängige Quellen",
+        "aussage": "Dünne Datenlage: 2 unabhängige Quellen",
         "url": "https://example.org/scalebatt/impressum",
         "datum": "2025-03-01",
         "punkte": 50.0
@@ -1838,7 +1838,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "Nur eine unabhängige Quelle",
+        "aussage": "Dünne Datenlage: nur eine unabhängige Quelle",
         "url": "https://example.org/github/wetterbot",
         "datum": "2026-08-01",
         "punkte": 80.0
@@ -2092,7 +2092,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "Nur eine unabhängige Quelle",
+        "aussage": "Dünne Datenlage: nur eine unabhängige Quelle",
         "url": "https://example.org/altgarde/impressum",
         "datum": "2026-04-01",
         "punkte": 80.0

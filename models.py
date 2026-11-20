@@ -46,6 +46,40 @@ class FounderProfile(Contract):
     name: str = Field(min_length=1)
     role: str | None = None
     qualifications: str | None = None
+    # Enrichment (context step). Each value is backed by its own URL; None = not found, never guessed.
+    institution: str | None = None
+    background: Literal["tech", "business", "beides"] | None = None
+    prior_experience: list[Literal["fruehere_gruendung", "industrie"]] = Field(default_factory=list)
+    openalex_url: HttpUrl | None = None
+    works_total: int | None = Field(default=None, ge=0)
+    works_in_field: int | None = Field(default=None, ge=0)
+    match_confidence: float | None = Field(default=None, ge=0, le=1)
+    source_url: HttpUrl | None = None
+
+
+class Grant(Contract):
+    """Public funding (e.g. EXIST) with its catalogue URL."""
+    programme: str = Field(min_length=1)
+    reference: str | None = None  # Förderkennzeichen
+    recipient: str | None = None
+    amount_eur: int | None = Field(default=None, ge=0)
+    start: Date | None = None
+    end: Date | None = None
+    url: HttpUrl
+
+
+class Partner(Contract):
+    name: str = Field(min_length=1)
+    kind: Literal["kunde", "pilot", "loi", "design_partner", "forschungspartner"]
+    quote: str | None = None
+    url: HttpUrl
+
+
+class Patent(Contract):
+    status: Literal["patent_angemeldet", "patent_erteilt"]
+    title: str | None = None
+    quote: str | None = None
+    url: HttpUrl
 
 
 class RawLead(Contract):
@@ -88,12 +122,37 @@ class EnrichedLead(RawLead):
     funding_status: Literal["vc_backed", "non_vc_funded", "unfunded", "funded", "conflicting", "unknown"] = "unknown"
     vc_status: Literal["confirmed", "reported_none", "conflicting", "unknown"] = "unknown"
     first_signal_date: Date | None = None
+    # Scoring inputs (context step, 2026-11-20). Every scalar below has an Evidence entry with the same
+    # `field` name carrying the source URL; list items carry their own URL. None/empty = not found.
+    imprint_url: HttpUrl | None = None
+    imprint_email: str | None = None                   # generic mailbox from the imprint (contact_email is a step-1 field)
+    founding_year_hint: int | None = Field(default=None, ge=1900, le=2100)  # from a sourced sentence "… 2018 gegründet"
+    legal_form: str | None = None                      # e.g. "GmbH", "UG (haftungsbeschränkt)", "keine"
+    in_formation: bool | None = None                   # "i.G." / "in Gründung"
+    managing_directors: list[str] = Field(default_factory=list)
+    register_id: str | None = None                     # e.g. "HRB 12345 B, Amtsgericht Berlin"
+    grants: list[Grant] = Field(default_factory=list)
+    partners: list[Partner] = Field(default_factory=list)
+    patents: list[Patent] = Field(default_factory=list)
+    ip_status: Literal["keine", "patent_angemeldet", "patent_erteilt"] | None = None
+    product_type: Literal["software", "plattform", "hardware", "hardware_software", "wirkstoff"] | None = None
+    regulated_market: bool | None = None
+    market_size_eur: int | None = Field(default=None, ge=0)
+    business_model: Literal["b2b", "b2c", "b2b2c"] | None = None
+    competitors: list[str] = Field(default_factory=list)
+    in_databases: bool | None = None                   # Crunchbase/Dealroom profile found
+    first_db_date: Date | None = None
+    database_urls: list[HttpUrl] = Field(default_factory=list)
+    first_web_capture: Date | None = None              # Wayback first capture of the website
+    match_confidence: float | None = Field(default=None, ge=0, le=1)  # project/person -> company match
+    enrichment_sources: list[str] = Field(default_factory=list)       # which lookups ran, e.g. ["impressum", "openalex"]
+    enrichment_errors: list[str] = Field(default_factory=list)        # lookups that failed, with reason
     funding_stage: str | None = None
     founded_on: Date | None = None
     team_size: int | None = Field(default=None, ge=0)
     funding_total_eur: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     last_funding_on: Date | None = None
-    product_stage: str | None = None
+    product_stage: str | None = None  # free text in demo fixtures; the context step emits the scoring enum (idee … am_markt)
     customer_count: int | None = Field(default=None, ge=0)
     annual_revenue_eur: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     traction_notes: str | None = None

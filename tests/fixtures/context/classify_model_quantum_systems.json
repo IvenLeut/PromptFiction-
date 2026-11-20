@@ -1,0 +1,48 @@
+{
+ "company": "Quantum Systems",
+ "model": "qwen3.5:4b",
+ "recorded": "2026-11-20",
+ "latency_s": 4.2,
+ "signals": [
+  {
+   "source": "Unternehmenswebsite",
+   "type": "website",
+   "url": "https://quantum-systems.com/",
+   "date": null,
+   "evidence": "The Future is Unmanned - Quantum Systems Skip to content\nDiscover our aerial platforms, and reconnaissance technologies built for reliable operations in demanding environments.\nExplore our autonomous ground systems and robotic platforms designed to support mobility, surveillance, and mission operations on land.\nLearn about our emerging maritime systems, including unmanned surface and underwater platforms designed for surveillance and mission support.\nExplore our counter-UAS capabilities designed to detect, track, and mitigate aerial threats in complex operational environments.\nMOSAIC UXS Close MOSAIC UXS Open MOSAIC UXS\nThe software backbone that connects all our autonomous systems across domains, enabling integrated operations, data fusion, and mission control.\nQuantum Systems develops advanced autonomous systems for defense and security operations across multiple domains, powered by integrated software and AI.\nQuantum Systems Japan: New Subsidiary and Tokyo Office\nForward Edge 26: Integrated Multi-Domain Operations\nQuantum Frontline Industries secures 2027 follow-on contract for Linza and Zoom drone production for Ukraine\nMerz announces interceptor-drone package produced by Quantum Systems during Ukraine visit\nQuantum Systems launches Maritime domain, introducing Seavex and Subvex\nQuantum Systems launches MOSAIC UXS: Multi-Domain Command and Control Platform for Unmanned Systems\nTalk to our team about your requirements or explore opportunities to join Quantum\nQuantum-Systems GmbH © All rights reserved"
+  },
+  {
+   "source": "Unternehmenswebsite",
+   "type": "website",
+   "url": "https://quantum-systems.com/about-us/",
+   "date": null,
+   "evidence": "Discover our aerial platforms, and reconnaissance technologies built for reliable operations in demanding environments.\nExplore our autonomous ground systems and robotic platforms designed to support mobility, surveillance, and mission operations on land.\nLearn about our emerging maritime systems, including unmanned surface and underwater platforms designed for surveillance and mission support.\nExplore our counter-UAS capabilities designed to detect, track, and mitigate aerial threats in complex operational environments.\nMOSAIC UXS Close MOSAIC UXS Open MOSAIC UXS\nThe software backbone that connects all our autonomous systems across domains, enabling integrated operations, data fusion, and mission control.\nQuantum Systems develops advanced autonomous systems for defense and security operations across multiple domains, powered by integrated software and AI.\nQuantum Systems a Air Land Maritime Multi Domain Neo-Prime\nQuantum Systems is a European defence neo-prime developing autonomous systems for defence, security and civil resilience. We bring hardware, software and AI together\nacross air, land and sea – helping democracies and their allies turn technological advantage into operational capability.\nWe do this in 5 points that define who we are as Quantum Systems.\nChanging how defence capability is built\nWe challenge established development cycles by connecting operational experience directly with engineering. Our teams turn real-world requirements into autonomous capabilities that can be improved, integrated and delivered at scale.\nOur purpose is to strengthen the ability of democracies and their allies to protect their people and\nOur technology combines unmanned platforms and sensors with software, AI and mission integration. That depth allows us to develop the physical system and the intelligence that makes it useful together. Operational feedback informs improvements across the technology stack, while open integration connects our capabilities with partner systems.\nHARDWARE – Unmanned platforms and sensors\nSoftware– Mission management and system integration\nAI – Autonomy, data interpretation and decision support\nWe bring unmanned systems across domains into a connected operational network. MOSAIC UXS provides the software backbone, integrating platforms,\nsensors and partner technologies so customers can build capability around their mission.\nExtend mission awareness with unmanned aerial systems and airborne sensing, connecting intelligence from above to the wider operational picture.\nBring unmanned systems and autonomy to ground operations, connecting mobile platforms and sensors to support the mission across complex terrain.\nConnect unmanned systems above and below the surface, bringing maritime sensing and autonomous capabilities into the wider operational network.\nTHE SOFTWARE BACKBONE Connect platforms, sensors and operators across domains through a shared software backbone, bringing distributed information into one operational picture.\nConnect compatible sensors, effectors and command systems through MOSAIC UXS to counter unmanned aircraft threats, with operators retaining control"
+  },
+  {
+   "source": "Unternehmenswebsite",
+   "type": "website",
+   "url": "https://quantum-systems.com/news/",
+   "date": null,
+   "evidence": "Discover our aerial platforms, and reconnaissance technologies built for reliable operations in demanding environments.\nExplore our autonomous ground systems and robotic platforms designed to support mobility, surveillance, and mission operations on land.\nLearn about our emerging maritime systems, including unmanned surface and underwater platforms designed for surveillance and mission support.\nExplore our counter-UAS capabilities designed to detect, track, and mitigate aerial threats in complex operational environments.\nMOSAIC UXS Close MOSAIC UXS Open MOSAIC UXS\nThe software backbone that connects all our autonomous systems across domains, enabling integrated operations, data fusion, and mission control.\nQuantum Systems develops advanced autonomous systems for defense and security operations across multiple domains, powered by integrated software and AI.\nDiscover the latest company news, partnerships, and announcements.\nAir Company & Growth Contracts & Deployments Counter-UAS Land Maritime MOSAIC & AI Partnerships & Ecosystem All\nDrone support in Ukraine: Partners commit more than €10m\nQuantum Systems Japan: New Subsidiary and Tokyo Office\nForward Edge 26: Integrated Multi-Domain Operations\nQuantum Frontline Industries secures 2027 follow-on contract for Linza and Zoom drone production for Ukraine\nMerz announces interceptor-drone package produced by Quantum Systems during Ukraine visit\nQuantum Systems launches Maritime domain, introducing Seavex and Subvex\nQuantum Systems and XTEND Partner on Autonomous Mission Software\nQuantum Systems Expands U.S. Footprint with New Huntsville R&D Office\nQuantum-Systems GmbH © All rights reserved"
+  }
+ ],
+ "fields_sent": [
+  "regulated_market",
+  "ip_status",
+  "business_model"
+ ],
+ "answer": {
+  "regulated_market": {
+   "wert": "unbekannt",
+   "zitat": ""
+  },
+  "ip_status": {
+   "wert": "unbekannt",
+   "zitat": ""
+  },
+  "business_model": {
+   "wert": "unbekannt",
+   "zitat": ""
+  }
+ }
+}

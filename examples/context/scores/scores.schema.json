@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "scores",
+  "description": "Eine Zeile pro Unternehmen. Alle Scores 0-100. risiko_score: 100 = hohes Risiko. Alle anderen Scores: 100 = gut.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "lead_id", "name_gruender", "email", "name_unternehmen", "website", "branche", "gruendungsjahr", "gruendungsmonat",
+      "gruendung_ist_proxy", "risiko_score", "marktpotenzial_score", "team_score", "gesamt_score", "confidence", "stage",
+      "produktbeschreibung", "value_proposition", "investmenthypothese", "why_now", "noise_class", "noise_quelle", "status",
+      "ausschluss_grund", "evidence", "teilwerte", "offene_punkte", "first_signal_date", "earliness_delta_monate",
+      "in_databases", "source_url", "dim3_name", "scoring_version", "stichtag"
+    ],
+    "properties": {
+      "lead_id": {"type": "string", "minLength": 1},
+      "name_gruender": {"type": "string", "description": "mehrere mit ; getrennt"},
+      "email": {"type": "string", "description": "nur generisches Firmenpostfach, sonst leer"},
+      "name_unternehmen": {"type": "string"},
+      "website": {"type": "string", "pattern": "^(https?://\\S+)?$"},
+      "branche": {"enum": ["digital_tech", "industrial_deep_tech", "climate_tech", "life_sciences", "chemie_materialien", null]},
+      "gruendungsjahr": {"type": ["integer", "null"], "minimum": 1800, "maximum": 2100},
+      "gruendungsmonat": {"type": ["integer", "null"], "minimum": 1, "maximum": 12},
+      "gruendung_ist_proxy": {"type": "boolean", "description": "true = EXIST-Start statt echtem Gründungsdatum"},
+      "risiko_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100, "description": "100 = hohes Risiko"},
+      "marktpotenzial_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+      "team_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100, "description": "dritte Achse; ihr Anzeigename steht in dim3_name"},
+      "gesamt_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+      "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+      "stage": {"enum": ["pre_gruendung", "in_gruendung", "pre_seed", "seed", "zu_spaet", null]},
+      "produktbeschreibung": {"type": "string", "maxLength": 300},
+      "value_proposition": {"type": "string", "maxLength": 200},
+      "investmenthypothese": {"type": "string", "maxLength": 400},
+      "why_now": {"type": "string"},
+      "noise_class": {"enum": ["vc_potenzial", "hobby", "agentur", "studi_projekt", "beratung", "bereits_finanziert", null]},
+      "noise_quelle": {"enum": ["sourcing", "heuristik", null]},
+      "status": {"enum": ["bewertet", "zurueck_an_sourcing"], "description": "zurueck_an_sourcing = Pflichtangaben fehlen, Scores sind null"},
+      "ausschluss_grund": {"type": "string"},
+      "evidence": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["dimension", "kriterium", "aussage", "url", "datum", "punkte"],
+          "properties": {
+            "dimension": {"enum": ["team", "marktpotenzial", "risiko", "stage", "noise"]},
+            "kriterium": {"type": "string"},
+            "aussage": {"type": "string", "minLength": 1},
+            "url": {"type": ["string", "null"], "pattern": "^https?://"},
+            "datum": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+            "punkte": {"type": ["number", "null"], "minimum": 0, "maximum": 100}
+          }
+        }
+      },
+      "teilwerte": {"type": "object"},
+      "offene_punkte": {"type": "array", "items": {"type": "string"}},
+      "first_signal_date": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+      "earliness_delta_monate": {"type": ["integer", "null"]},
+      "in_databases": {"type": ["boolean", "null"]},
+      "source_url": {"type": ["string", "null"], "pattern": "^https?://"},
+      "dim3_name": {"type": "string"},
+      "scoring_version": {"type": "string"},
+      "stichtag": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+    },
+    "allOf": [
+      {
+        "if": {"properties": {"status": {"const": "bewertet"}}},
+        "then": {"properties": {
+          "risiko_score": {"type": "number"}, "marktpotenzial_score": {"type": "number"}, "team_score": {"type": "number"},
+          "gesamt_score": {"type": "number"}, "stage": {"type": "string"}, "noise_class": {"type": "string"}
+        }}
+      }
+    ]
+  }
+}

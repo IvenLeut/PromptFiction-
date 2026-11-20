@@ -1,0 +1,43 @@
+{
+ "website": "https://www.celonis.com/",
+ "name": "Celonis SE",
+ "responses": {
+  "https://web.archive.org/cdx/search/cdx?url=celonis.com&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [
+   [
+    "timestamp",
+    "original",
+    "statuscode"
+   ],
+   [
+    "20160904114846",
+    "http://www.celonis.com:80/",
+    "200"
+   ]
+  ],
+  "https://web.archive.org/cdx/search/cdx?url=crunchbase.com%2Forganization%2Fcelonis&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [
+   [
+    "timestamp",
+    "original",
+    "statuscode"
+   ],
+   [
+    "20180713111743",
+    "https://www.crunchbase.com/organization/celonis/",
+    "200"
+   ]
+  ],
+  "https://web.archive.org/cdx/search/cdx?url=app.dealroom.co%2Fcompanies%2Fcelonis&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": [
+   [
+    "timestamp",
+    "original",
+    "statuscode"
+   ],
+   [
+    "20230720162718",
+    "https://app.dealroom.co/companies/celonis",
+    "200"
+   ]
+  ],
+  "https://web.archive.org/cdx/search/cdx?url=dealroom.co%2Fcompanies%2Fcelonis&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1": []
+ }
+}

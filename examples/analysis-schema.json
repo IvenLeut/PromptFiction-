@@ -372,6 +372,272 @@
           "default": null,
           "title": "First Signal Date"
         },
+        "imprint_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Imprint Url"
+        },
+        "imprint_email": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Imprint Email"
+        },
+        "founding_year_hint": {
+          "anyOf": [
+            {
+              "maximum": 2100,
+              "minimum": 1900,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Year Hint"
+        },
+        "legal_form": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Legal Form"
+        },
+        "in_formation": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "In Formation"
+        },
+        "managing_directors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Managing Directors",
+          "type": "array"
+        },
+        "register_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Register Id"
+        },
+        "grants": {
+          "items": {
+            "$ref": "#/$defs/Grant"
+          },
+          "title": "Grants",
+          "type": "array"
+        },
+        "partners": {
+          "items": {
+            "$ref": "#/$defs/Partner"
+          },
+          "title": "Partners",
+          "type": "array"
+        },
+        "patents": {
+          "items": {
+            "$ref": "#/$defs/Patent"
+          },
+          "title": "Patents",
+          "type": "array"
+        },
+        "ip_status": {
+          "anyOf": [
+            {
+              "enum": [
+                "keine",
+                "patent_angemeldet",
+                "patent_erteilt"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ip Status"
+        },
+        "product_type": {
+          "anyOf": [
+            {
+              "enum": [
+                "software",
+                "plattform",
+                "hardware",
+                "hardware_software",
+                "wirkstoff"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Type"
+        },
+        "regulated_market": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Regulated Market"
+        },
+        "market_size_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Market Size Eur"
+        },
+        "business_model": {
+          "anyOf": [
+            {
+              "enum": [
+                "b2b",
+                "b2c",
+                "b2b2c"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Business Model"
+        },
+        "competitors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Competitors",
+          "type": "array"
+        },
+        "in_databases": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "In Databases"
+        },
+        "first_db_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Db Date"
+        },
+        "database_urls": {
+          "items": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Database Urls",
+          "type": "array"
+        },
+        "first_web_capture": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Web Capture"
+        },
+        "match_confidence": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Match Confidence"
+        },
+        "enrichment_sources": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Enrichment Sources",
+          "type": "array"
+        },
+        "enrichment_errors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Enrichment Errors",
+          "type": "array"
+        },
         "funding_stage": {
           "anyOf": [
             {
@@ -728,12 +994,209 @@
           ],
           "default": null,
           "title": "Qualifications"
+        },
+        "institution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Institution"
+        },
+        "background": {
+          "anyOf": [
+            {
+              "enum": [
+                "tech",
+                "business",
+                "beides"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Background"
+        },
+        "prior_experience": {
+          "items": {
+            "enum": [
+              "fruehere_gruendung",
+              "industrie"
+            ],
+            "type": "string"
+          },
+          "title": "Prior Experience",
+          "type": "array"
+        },
+        "openalex_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Openalex Url"
+        },
+        "works_total": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Works Total"
+        },
+        "works_in_field": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Works In Field"
+        },
+        "match_confidence": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Match Confidence"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
         }
       },
       "required": [
         "name"
       ],
       "title": "FounderProfile",
+      "type": "object"
+    },
+    "Grant": {
+      "additionalProperties": false,
+      "description": "Public funding (e.g. EXIST) with its catalogue URL.",
+      "properties": {
+        "programme": {
+          "minLength": 1,
+          "title": "Programme",
+          "type": "string"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference"
+        },
+        "recipient": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recipient"
+        },
+        "amount_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Amount Eur"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "programme",
+        "url"
+      ],
+      "title": "Grant",
       "type": "object"
     },
     "Industry": {
@@ -746,6 +1209,103 @@
       ],
       "title": "Industry",
       "type": "string"
+    },
+    "Partner": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "kunde",
+            "pilot",
+            "loi",
+            "design_partner",
+            "forschungspartner"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "url"
+      ],
+      "title": "Partner",
+      "type": "object"
+    },
+    "Patent": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "patent_angemeldet",
+            "patent_erteilt"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "url"
+      ],
+      "title": "Patent",
+      "type": "object"
     },
     "PipelineIssue": {
       "additionalProperties": false,

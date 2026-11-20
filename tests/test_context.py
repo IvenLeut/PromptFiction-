@@ -48,7 +48,7 @@ def test_context_combines_sourcing_and_website_with_evidence():
                and item.url == signal.url for item in lead.evidence)
 
 
-def test_conflicting_vc_and_unknown_status_never_reach_live_scoring():
+def test_conflicting_vc_never_reaches_live_scoring_but_unknown_does():
     signal = SourceSignal(source="Firma", type="press", url="https://example.org/press",
                           evidence="Funding status: VC-backed\nProduct stage: Prototyp\nProduct stage: MVP")
     conflict = enrich(make_lead(id="conflict", has_vc=False, signals=[signal]))
@@ -66,9 +66,10 @@ def test_conflicting_vc_and_unknown_status_never_reach_live_scoring():
     assert conflict.product_stage is None
     assert EnrichedLead.model_validate_json(conflict.model_dump_json()) == conflict
     result = evaluate_context([conflict, unknown, eligible], use_mock=False, evaluator=evaluator)
-    assert called == ["eligible"]
-    assert [lead.id for lead in result.leads] == ["eligible"]
-    assert [issue.lead_id for issue in result.issues] == ["conflict", "unknown"]
+    assert called == ["unknown", "eligible"]
+    assert [lead.id for lead in result.leads] == ["eligible", "unknown"]
+    assert [issue.lead_id for issue in result.issues] == ["conflict"]
+    assert "Welche Investoren sind bereits beteiligt?" in unknown.research_questions
 
 
 def test_html_backs_extracted_claims_and_ignores_scripts():
@@ -134,3 +135,68 @@ def test_scorecard_uses_explicit_benchmark_and_relative_scores():
     })
     assert value_lead(enrich(make_lead(has_vc=False)), assumptions).scorecard_pre_money_eur == 2_200_000
     assert value_lead(enrich(make_lead()), assumptions).scorecard_pre_money_eur is None
+
+
+# --- context.web: parked domains and the page cache --------------------------------------------------
+
+def test_parked_domain_fixture_is_rejected():
+    """Regression (Siderogain): siderogain.de serves a domain-parking page whose "Buy now" line was read as
+    product_stage=am_markt. Parked pages must not yield any text."""
+    import pytest
+    from pathlib import Path
+    from context.web import is_parked, parse_page
+    html = (Path(__file__).parent / "fixtures" / "context" / "web_parked_domain.html").read_text("utf-8")
+    with pytest.raises(ValueError, match="Geparkte Domain"):
+        parse_page(html)
+    assert is_parked(["Domain for sale", "Siderogain.de"])
+    assert is_parked(["This domain is parked free, courtesy of Sedo"])
+    assert not is_parked(["Wir bauen Sensoren.", "Jetzt kaufen", "Make the most of your data"])
+    normal = parse_page("<p>Wir bauen Sensoren.</p><p>Jetzt bestellen</p>")
+    assert normal.lines == ["Wir bauen Sensoren.", "Jetzt bestellen"]
+
+
+def test_web_fetch_memoises_pages_and_misses(tmp_path, monkeypatch):
+    import pytest
+    from context import web
+    from context.cache import Cache
+    cache = Cache(tmp_path / "c.db")
+    calls = []
+
+    def fake_fetch(url, site):
+        calls.append(url)
+        if url.endswith("/dead"):
+            raise OSError("connection refused")
+        if url.endswith("/parked"):
+            raise ValueError(web.PARKED_ERROR)
+        return url.replace("/start", "/final"), web.parse_page("<p>Hallo Welt</p><a href='/team'>Team</a>")
+
+    monkeypatch.setattr(web, "_fetch", fake_fetch)
+    final, page = web.fetch("https://example.org/start", "example.org", cache=cache)
+    assert final == "https://example.org/final" and page.lines == ["Hallo Welt", "Team"] and page.links == ["/team"]
+    again_final, again = web.fetch("https://example.org/start", "example.org", cache=cache)
+    by_final, _ = web.fetch("https://example.org/final", "example.org", cache=cache)
+    assert (again_final, again.lines, again.links) == (final, page.lines, page.links) and by_final == final
+    assert calls == ["https://example.org/start"]                       # requested and final URL both served from cache
+    with pytest.raises(OSError):
+        web.fetch("https://example.org/dead", "example.org", cache=cache)
+    with pytest.raises(ValueError, match="connection refused"):         # the miss is memoised as an error
+        web.fetch("https://example.org/dead", "example.org", cache=cache)
+    with pytest.raises(ValueError, match="Geparkte Domain"):
+        web.fetch("https://example.org/parked", "example.org", cache=cache)
+    with pytest.raises(ValueError, match="Geparkte Domain"):
+        web.fetch("https://example.org/parked", "example.org", cache=cache)
+    assert calls == ["https://example.org/start", "https://example.org/dead", "https://example.org/parked"]
+    keys = sorted(k for (k,) in cache._db().execute("SELECT key FROM cache"))
+    assert len(keys) == 4 and all(k.startswith("web:") and len(k) == 44 for k in keys)
+    # without a cache every call goes to the network, and the signature without cache still works
+    monkeypatch.setattr(web, "_fetch", lambda url, site: (url, web.parse_page("<p>Seite</p>")))
+    assert web.fetch("https://example.org/", "example.org")[1].lines == ["Seite"]
+    assert [s.evidence for s in web.company_pages("https://example.org/", cache=cache)] == ["Seite"]
+    assert web.original_page("https://example.org/x", cache=cache).evidence == "Seite"
+
+
+def test_company_pages_yield_nothing_for_a_parked_site(monkeypatch):
+    from context import web
+    monkeypatch.setattr(web, "_fetch", lambda url, site: (_ for _ in ()).throw(ValueError(web.PARKED_ERROR)))
+    assert list(web.company_pages("https://parked.example.org/")) == []
+    assert web.original_page("https://parked.example.org/") is None

@@ -1,0 +1,117 @@
+{
+ "authors": {
+  "meta": {
+   "count": 1
+  },
+  "results": [
+   {
+    "id": "https://openalex.org/A5002131026",
+    "display_name": "Antje Boëtius",
+    "works_count": 916,
+    "cited_by_count": 36572,
+    "summary_stats": {
+     "h_index": 93
+    },
+    "last_known_institutions": [
+     {
+      "id": "https://openalex.org/I127251866",
+      "display_name": "Alfred-Wegener-Institut Helmholtz-Zentrum für Polar- und Meeresforschung",
+      "country_code": "DE"
+     },
+     {
+      "id": "https://openalex.org/I1319261023",
+      "display_name": "Monterey Bay Aquarium Research Institute",
+      "country_code": "US"
+     },
+     {
+      "id": "https://openalex.org/I180437899",
+      "display_name": "University of Bremen",
+      "country_code": "DE"
+     },
+     {
+      "id": "https://openalex.org/I4210103014",
+      "display_name": "Max Planck Institute for Marine Microbiology",
+      "country_code": "DE"
+     }
+    ],
+    "affiliations": [
+     {
+      "institution": {
+       "id": "https://openalex.org/I122411786",
+       "display_name": "California Institute of Technology",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I127251866",
+       "display_name": "Alfred-Wegener-Institut Helmholtz-Zentrum für Polar- und Meeresforschung",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1305996414",
+       "display_name": "Helmholtz Association of German Research Centres",
+       "country_code": "DE"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I130769515",
+       "display_name": "Pennsylvania State University",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I1319261023",
+       "display_name": "Monterey Bay Aquarium Research Institute",
+       "country_code": "US"
+      }
+     },
+     {
+      "institution": {
+       "id": "https://openalex.org/I149899117",
+       "display_name": "Max Planck Society",
+       "country_code": "DE"
+      }
+     }
+    ],
+    "topics": [
+     {
+      "display_name": "Methane Hydrates and Related Phenomena",
+      "count": 531
+     },
+     {
+      "display_name": "Marine Biology and Ecology Research",
+      "count": 342
+     },
+     {
+      "display_name": "Microbial Community Ecology and Physiology",
+      "count": 314
+     }
+    ]
+   }
+  ]
+ },
+ "urls": [
+  "https://api.openalex.org/authors?search=Antje+Boetius&per-page=10&select=id%2Cdisplay_name%2Cworks_count%2Ccited_by_count%2Csummary_stats%2Clast_known_institutions%2Caffiliations%2Ctopics",
+  "https://api.openalex.org/works?filter=authorships.author.id%3AA5002131026&search=methane+OR+deep+sea&per-page=1&select=id"
+ ],
+ "works": {
+  "meta": {
+   "count": 368
+  },
+  "results": []
+ },
+ "works_url": "https://api.openalex.org/works?filter=authorships.author.id%3AA5002131026&search=methane+OR+deep+sea&per-page=1&select=id",
+ "case": {
+  "name": "Antje Boetius",
+  "institution": "Alfred-Wegener-Institut",
+  "field_terms": [
+   "methane",
+   "deep sea"
+  ]
+ }
+}

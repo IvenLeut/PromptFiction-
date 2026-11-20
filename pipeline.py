@@ -49,9 +49,9 @@ def collect_context(leads: Sequence[RawLead], *, use_mock: bool = True,
         if use_mock:
             from mock_data import enrich as enricher
         else:
-            from context.engine import enrich
+            from context.engine import default_lookups, enrich
             from context.web import original_page
-            enricher = partial(enrich, load_original=original_page)
+            enricher = partial(enrich, load_original=original_page, lookups=default_lookups())
     result = ContextResult()
     for lead in leads:
         try:
@@ -83,12 +83,8 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
                     message="VC-Finanzierung gefunden oder widersprüchlich gemeldet.",
                 ))
                 continue
-            if lead.vc_status == "unknown" and lead.has_vc is None:
-                result.issues.append(PipelineIssue(
-                    lead_id=lead.id, stage="evaluation",
-                    message="VC-Status unbekannt. Vor der Bewertung prüfen.",
-                ))
-                continue
+            # vc_status "unknown" is the normal case for pre-founding research projects; the lead is
+            # scored and the open question travels with it (research_questions / open_questions).
         try:
             evaluated = EvaluatedLead.model_validate(evaluator(lead))
             _preserve(lead, evaluated)

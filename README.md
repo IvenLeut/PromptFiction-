@@ -125,8 +125,33 @@ Profilangaben bleiben die Werte leer und die konkurrierenden Belege erhalten.
 `funding_status` erfasst auch Eigenfinanzierung, Förderung oder eine Finanzierung
 unbekannter Art. `vc_status` bleibt ohne ausdrückliche Angabe `unknown`. Ein positives
 VC-Signal bei anderslautender Sourcing-Angabe führt zu `conflicting`. Die Live-Pipeline
-hält bestätigte, widersprüchliche und unbekannte VC-Fälle vor dem Scoring zurück
-und meldet den Grund in `issues`. Die Dossiers bleiben im Schritt-2-Export sichtbar.
+hält bestätigte und widersprüchliche VC-Fälle vor dem Scoring zurück und meldet den
+Grund in `issues`. `unknown` ist bei Forschungsprojekten der Normalfall; solche Leads
+werden bewertet und tragen die Frage nach den Investoren in `research_questions` mit.
+Liegt eine Bundesförderung vor und kein VC-Signal, wird `funding_status` zu `non_vc_funded`.
+
+### Live-Abfragen für das Scoring (Stand 20.11.2026)
+
+Ohne `--offline`/`--no-lookups` fragt Schritt 2 je Lead feste öffentliche Quellen ab
+und schreibt jedes Ergebnis mit eigener Quell-URL ins Dossier (Details und Grenzen in
+`context/ENRICHMENT.md`):
+
+| Quelle | Modul | Felder |
+| --- | --- | --- |
+| Impressum der Website | `context/imprint.py` | `imprint_url`, `legal_form`, `in_formation`, `managing_directors`, `register_id`, `imprint_email` |
+| Förderkatalog des Bundes | `context/foekat.py` | `grants` (Programm, FKZ, Summe, Laufzeit), `match_confidence` |
+| OpenAlex | `context/openalex.py` | je Gründer `institution`, `openalex_url`, `works_total`, `works_in_field`, `match_confidence` |
+| Wayback CDX | `context/wayback.py` | `first_web_capture`, `in_databases`, `first_db_date`, `database_urls` |
+| idw-online | `context/idw.py` | datierte Pressemeldungen als Signale, `founding_year_hint` |
+| Texte (Regeln, optional Ollama) | `context/classify.py` | `product_stage`, `product_type`, `regulated_market`, `ip_status`/`patents`, `partners`, `business_model`, `market_size_eur`, `competitors` |
+| Google Patents (nur mit `--patents`) | `context/patents.py` | `patents`, `ip_status` |
+
+Alle Abrufe und Modellantworten laufen durch `.cache/context.db` (`--cache off` schaltet
+ihn ab), damit ein zweiter Lauf dieselben Werte liefert; bei Modell-Timeouts kann ein
+Zitatfeld im zweiten Lauf trotzdem fehlen. Was keine Quelle hat, bleibt `None` und geht im
+Scoring neutral ein. `enrichment_sources` und `enrichment_errors` zeigen je Lead, welche
+Abfragen liefen. Beispiel: `examples/context/real_leads.json` → `real_dossiers.json`
+(vier echte Vorhaben, ca. 50 s je Lead inklusive Modell) → `examples/context/scores/`.
 
 ### Übergabe für Scorecard und VC Method
 
@@ -181,8 +206,8 @@ ihres Prozessschritts. Die Demo durchläuft dieselben Pipeline-Funktionen wie di
 spätere Live-Integration. Die UI verwendet aktuell `use_mock=True`.
 
 `run_pipeline(criteria, use_mock=False)` verbindet die drei Live-Module.
-Sourcing und Bewertung sind weiterhin Platzhalter. Provider, Enricher und Evaluator
-lassen sich für Tests einzeln injizieren.
+Sourcing ist weiterhin ein Platzhalter; Kontext und Bewertung laufen live (Bewertung:
+`scoring/SCORING.md`). Provider, Enricher und Evaluator lassen sich für Tests einzeln injizieren.
 Fehler einzelner Kontext-/Bewertungsaufrufe verhindern nicht die restliche Verarbeitung.
 Ein Totalausfall im Sourcing wird an die Oberfläche gemeldet.
 
