@@ -87,11 +87,12 @@ def test_cli_reads_both_context_formats_with_the_same_lead_and_cutoff(tmp_path):
     assert row["lead_id"] == "a" and row["stichtag"] == TODAY.isoformat()
 
 
-def test_wrong_subject_and_future_funding_cannot_change_scoring():
+@pytest.mark.parametrize("prefix", ["", "  ", "\t"])
+def test_wrong_subject_and_future_funding_cannot_change_scoring(prefix):
     initial = lead()
     misleading = [
         SourceSignal(source="Presse", type="press", url="https://magazin.example/", date=date(2026, 4, 1),
-                     evidence="Unternehmen: Fremd GmbH\nFinanzierungsstatus: VC-finanziert"),
+                     evidence=f"{prefix}Unternehmen: Fremd GmbH\nFinanzierungsstatus: VC-finanziert"),
         SourceSignal(source="Firma", type="press", url=URL, date=date(2090, 4, 1),
                      evidence="Finanzierungsstatus: VC-finanziert"),
     ]
