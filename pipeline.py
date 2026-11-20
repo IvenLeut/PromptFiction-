@@ -1,6 +1,7 @@
 """Processing steps 1-3. Step 4 visualizes their output in app.py."""
 import logging
 from collections.abc import Callable, Sequence
+from functools import partial
 from models import ContextResult, EnrichedLead, EvaluatedLead, PipelineIssue, RawLead, ResearchResult, SearchCriteria
 
 logger = logging.getLogger(__name__)
@@ -48,7 +49,9 @@ def collect_context(leads: Sequence[RawLead], *, use_mock: bool = True,
         if use_mock:
             from mock_data import enrich as enricher
         else:
-            from context.engine import enrich as enricher
+            from context.engine import enrich
+            from context.web import original_page
+            enricher = partial(enrich, load_original=original_page)
     result = ContextResult()
     for lead in leads:
         try:
@@ -73,6 +76,19 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
             from evaluation.engine import evaluate as evaluator
     result = ResearchResult()
     for lead in leads:
+        if not use_mock:
+            if lead.has_vc is True or lead.vc_status in {"confirmed", "conflicting"}:
+                result.issues.append(PipelineIssue(
+                    lead_id=lead.id, stage="evaluation",
+                    message="VC-Finanzierung gefunden oder widersprüchlich gemeldet.",
+                ))
+                continue
+            if lead.vc_status == "unknown" and lead.has_vc is None:
+                result.issues.append(PipelineIssue(
+                    lead_id=lead.id, stage="evaluation",
+                    message="VC-Status unbekannt. Vor der Bewertung prüfen.",
+                ))
+                continue
         try:
             evaluated = EvaluatedLead.model_validate(evaluator(lead))
             _preserve(lead, evaluated)
