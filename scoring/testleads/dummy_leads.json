@@ -1,0 +1,186 @@
+[
+  {
+    "_hinweis": "FIKTIV. Alle Dossiers in dieser Datei sind erfundene Testdaten auf example-Domains, keine echten Unternehmen.",
+    "lead_id": "dummy-software",
+    "name_unternehmen": {"wert": "Kontraktwerk (Dummy)", "quelle": "https://example.org/kontraktwerk/impressum", "datum": "2026-06-10"},
+    "beschreibung_rohtext": {"wert": "Kontraktwerk prüft Lieferverträge im Maschinenbau automatisch auf Haftungsrisiken. Einkäufer laden Verträge hoch und erhalten in Minuten eine Liste kritischer Klauseln. Zwei Mittelständler testen die Software im Pilotbetrieb.", "quelle": "https://example.org/kontraktwerk"},
+    "deutschland_beleg": {"wert": "Impressum: Musterstraße 1, 80333 München", "quelle": "https://example.org/kontraktwerk/impressum", "datum": "2026-06-10"},
+    "website": "https://example.org/kontraktwerk",
+    "email": {"wert": "info@example.org", "quelle": "https://example.org/kontraktwerk/impressum"},
+    "branche": "digital_tech",
+    "rechtsform": {"wert": "UG (haftungsbeschränkt) i.G.", "quelle": "https://example.org/kontraktwerk/impressum"},
+    "team": [
+      {"name": "Dummy Gründerin A", "rolle": "Geschäftsführerin", "hintergrund": "tech", "papers_im_feld": 4, "openalex": "https://example.net/openalex/A1", "vorerfahrung": ["industrie"]},
+      {"name": "Dummy Gründer B", "rolle": "Gründer", "hintergrund": "business", "quelle": "https://example.org/kontraktwerk/team", "vorerfahrung": ["fruehere_gruendung"]}
+    ],
+    "reifegrad": {"wert": "pilot", "quelle": "https://example.org/kontraktwerk", "zitat": "Zwei Mittelständler testen die Software im Pilotbetrieb."},
+    "produkt_typ": {"wert": "software", "quelle": "https://example.org/kontraktwerk"},
+    "markt": {"zielkunde": {"wert": "Einkauf im Maschinenbau", "quelle": "https://example.org/kontraktwerk"}, "modell": {"wert": "b2b", "quelle": "https://example.org/kontraktwerk"}, "volumen_eur": {"wert": 1400000000, "quelle": "https://example.com/marktstudie-vertragssoftware"}},
+    "partner": [
+      {"name": "Dummy Maschinenbau 1", "typ": "pilot", "quelle": "https://example.org/kontraktwerk/referenzen"},
+      {"name": "Dummy Maschinenbau 2", "typ": "pilot", "quelle": "https://example.org/kontraktwerk/referenzen"}
+    ],
+    "wettbewerber": [{"name": "Dummy Wettbewerber X", "quelle": "https://example.com/marktstudie-vertragssoftware"}],
+    "ip": {"wert": "keine", "quelle": "https://example.org/kontraktwerk/faq"},
+    "foerderung": [{"programm": "EXIST-Gründungsstipendium", "summe_eur": 140000, "start": "2025-10-01", "ende": "2026-09-30", "quelle": "https://example.com/foerderkatalog/03EGDUMMY1"}],
+    "in_databases": false,
+    "match_confidence": 0.95,
+    "signals": [
+      {"typ": "exist_projekt", "url": "https://example.com/foerderkatalog/03EGDUMMY1", "datum": "2025-10-01", "zitat": "EXIST-Gründungsstipendium Kontraktwerk, TU Dummy"},
+      {"typ": "impressum", "url": "https://example.org/kontraktwerk/impressum", "datum": "2026-06-10", "zitat": "Kontraktwerk UG (haftungsbeschränkt) i.G."},
+      {"typ": "openalex", "url": "https://example.net/openalex/A1", "datum": "2025-03-15", "zitat": "4 Arbeiten zu Vertragsanalyse"}
+    ],
+    "source_url": "https://example.com/foerderkatalog/03EGDUMMY1"
+  },
+  {
+    "lead_id": "dummy-deeptech",
+    "name_unternehmen": {"wert": "FerroSense (Dummy)", "quelle": "https://example.com/foerderkatalog/03EFDUMMY2", "datum": "2025-04-01"},
+    "beschreibung_rohtext": {"wert": "FerroSense entwickelt einen magnetischen Sensor, der Risse in Stahlträgern ohne Demontage erkennt. Ein Laborprototyp misst an Probekörpern. Zielkunden sind Betreiber von Brücken und Industriehallen.", "quelle": "https://example.com/foerderkatalog/03EFDUMMY2"},
+    "deutschland_beleg": {"wert": "Ausführende Stelle: Dummy-Universität Aachen", "quelle": "https://example.com/foerderkatalog/03EFDUMMY2", "datum": "2025-04-01"},
+    "website": null,
+    "branche": "industrial_deep_tech",
+    "rechtsform": null,
+    "team": [
+      {"name": "Dummy Forscher C", "rolle": "Projektleitung", "hintergrund": "tech", "institut": "Dummy-Universität Aachen", "papers_im_feld": 14, "openalex": "https://example.net/openalex/C1"},
+      {"name": "Dummy Forscherin D", "rolle": "Mitglied", "hintergrund": "tech", "institut": "Dummy-Universität Aachen", "papers_im_feld": 6, "openalex": "https://example.net/openalex/D1"}
+    ],
+    "reifegrad": {"wert": "labor_prototyp", "quelle": "https://example.com/foerderkatalog/03EFDUMMY2", "zitat": "Ein Laborprototyp misst an Probekörpern."},
+    "produkt_typ": {"wert": "hardware_software"},
+    "markt": {"zielkunde": {"wert": "Betreiber von Brücken und Industriehallen", "quelle": "https://example.com/foerderkatalog/03EFDUMMY2"}, "modell": "b2b"},
+    "partner": [{"name": "Dummy Brückenbetreiber", "typ": "loi", "quelle": "https://example.org/idw/news-dummy-2"}],
+    "ip": {"wert": "patent_angemeldet", "quelle": "https://example.org/idw/news-dummy-2"},
+    "foerderung": [{"programm": "EXIST-Forschungstransfer", "summe_eur": 780000, "start": "2025-04-01", "ende": "2026-12-31", "quelle": "https://example.com/foerderkatalog/03EFDUMMY2"}],
+    "in_databases": false,
+    "match_confidence": 0.8,
+    "signals": [
+      {"typ": "exist_projekt", "url": "https://example.com/foerderkatalog/03EFDUMMY2", "datum": "2025-04-01", "zitat": "EXIST-Forschungstransfer FerroSense"},
+      {"typ": "idw", "url": "https://example.org/idw/news-dummy-2", "datum": "2026-02-12", "zitat": "Ausgründung in Vorbereitung, Patent angemeldet, Absichtserklärung eines Brückenbetreibers"}
+    ],
+    "source_url": "https://example.com/foerderkatalog/03EFDUMMY2"
+  },
+  {
+    "lead_id": "dummy-lifesciences",
+    "name_unternehmen": {"wert": "OsteoPrint (Dummy)", "quelle": "https://example.org/osteoprint/impressum", "datum": "2026-03-01"},
+    "beschreibung_rohtext": {"wert": "OsteoPrint druckt patientenspezifische Knochenimplantate aus resorbierbarem Material. Chirurgen bestellen das Implantat auf Basis von CT-Daten. Die Zulassung als Medizinprodukt steht noch aus.", "quelle": "https://example.org/osteoprint"},
+    "deutschland_beleg": {"wert": "Impressum: OsteoPrint GmbH, Dummyweg 5, 10115 Berlin", "quelle": "https://example.org/osteoprint/impressum", "datum": "2026-03-01"},
+    "website": "https://example.org/osteoprint",
+    "email": {"wert": "vorname.nachname@example.org", "quelle": "https://example.org/osteoprint/team"},
+    "branche": "life_sciences",
+    "rechtsform": {"wert": "GmbH", "quelle": "https://example.org/osteoprint/impressum"},
+    "gruendungsdatum": {"wert": "2026-01-15", "quelle": "https://example.org/osteoprint/impressum"},
+    "team": [
+      {"name": "Dummy Ärztin E", "rolle": "Geschäftsführerin", "hintergrund": "tech", "institut": "Dummy-Klinikum Berlin", "papers_im_feld": 11, "openalex": "https://example.net/openalex/E1"},
+      {"name": "Dummy Ingenieur F", "rolle": "CTO", "hintergrund": "tech", "papers_im_feld": 2, "openalex": "https://example.net/openalex/F1"},
+      {"name": "Dummy Kauffrau G", "rolle": "Gründerin", "hintergrund": "business", "quelle": "https://example.org/osteoprint/team", "vorerfahrung": ["industrie"]}
+    ],
+    "reifegrad": {"wert": "prototyp", "quelle": "https://example.org/osteoprint"},
+    "produkt_typ": {"wert": "hardware", "quelle": "https://example.org/osteoprint"},
+    "regulierter_markt": {"wert": true, "quelle": "https://example.org/osteoprint"},
+    "markt": {"zielkunde": {"wert": "Unfallchirurgie in Kliniken", "quelle": "https://example.org/osteoprint"}, "modell": {"wert": "b2b", "quelle": "https://example.org/osteoprint"}, "volumen_eur": {"wert": 600000000, "quelle": "https://example.com/marktstudie-implantate"}},
+    "partner": [{"name": "Dummy-Klinikum Berlin", "typ": "forschungspartner", "quelle": "https://example.org/osteoprint/partner"}],
+    "ip": {"wert": "patent_erteilt", "quelle": "https://example.com/patent/DUMMY-EP-1"},
+    "foerderung": [{"programm": "EXIST-Forschungstransfer", "summe_eur": 900000, "start": "2024-07-01", "ende": "2026-06-30", "quelle": "https://example.com/foerderkatalog/03EFDUMMY3"}],
+    "in_databases": false,
+    "signals": [
+      {"typ": "exist_projekt", "url": "https://example.com/foerderkatalog/03EFDUMMY3", "datum": "2024-07-01", "zitat": "EXIST-Forschungstransfer OsteoPrint"},
+      {"typ": "impressum", "url": "https://example.org/osteoprint/impressum", "datum": "2026-03-01", "zitat": "OsteoPrint GmbH"},
+      {"typ": "openalex", "url": "https://example.net/openalex/E1", "datum": "2024-11-20", "zitat": "11 Arbeiten zu resorbierbaren Implantaten"}
+    ],
+    "source_url": "https://example.com/foerderkatalog/03EFDUMMY3"
+  },
+  {
+    "lead_id": "dummy-nur-pflicht",
+    "name_unternehmen": "NurPflicht (Dummy)",
+    "beschreibung_rohtext": {"wert": "Projekt zur Speicherung von Prozesswärme in Salzschmelzen.", "quelle": "https://example.com/foerderkatalog/03EGDUMMY4"},
+    "deutschland_beleg": {"wert": "Ausführende Stelle: Dummy-Hochschule Dresden", "quelle": "https://example.com/foerderkatalog/03EGDUMMY4"},
+    "branche": "climate_tech",
+    "signals": [{"typ": "exist_projekt", "url": "https://example.com/foerderkatalog/03EGDUMMY4", "datum": "2026-01-01", "zitat": "EXIST-Gründungsstipendium NurPflicht"}]
+  },
+  {
+    "lead_id": "dummy-agentur",
+    "name_unternehmen": {"wert": "PixelFreunde (Dummy)", "quelle": "https://example.org/pixelfreunde"},
+    "beschreibung_rohtext": {"wert": "Wir sind eine Agentur für Webdesign und digitale Markenauftritte.", "quelle": "https://example.org/pixelfreunde"},
+    "deutschland_beleg": {"wert": "Impressum: Köln", "quelle": "https://example.org/pixelfreunde/impressum"},
+    "website": "https://example.org/pixelfreunde",
+    "website_text": {"wert": "Unsere Leistungen · Referenzen · Unsere Kunden · Agentur für Webdesign", "quelle": "https://example.org/pixelfreunde"},
+    "branche": "digital_tech",
+    "rechtsform": {"wert": "GmbH", "quelle": "https://example.org/pixelfreunde/impressum"},
+    "team": [{"name": "Dummy Inhaber H", "rolle": "Geschäftsführer", "quelle": "https://example.org/pixelfreunde/impressum"}],
+    "signals": [{"typ": "impressum", "url": "https://example.org/pixelfreunde/impressum", "datum": "2026-05-01", "zitat": "PixelFreunde GmbH"}]
+  },
+  {
+    "lead_id": "dummy-finanziert",
+    "name_unternehmen": {"wert": "ScaleBatt (Dummy)", "quelle": "https://example.org/scalebatt"},
+    "beschreibung_rohtext": {"wert": "ScaleBatt baut Batteriespeicher für Gewerbebetriebe und hat eine Finanzierungsrunde abgeschlossen.", "quelle": "https://example.org/scalebatt"},
+    "deutschland_beleg": {"wert": "Impressum: Hamburg", "quelle": "https://example.org/scalebatt/impressum"},
+    "website": "https://example.org/scalebatt",
+    "branche": "climate_tech",
+    "rechtsform": {"wert": "GmbH", "quelle": "https://example.org/scalebatt/impressum"},
+    "gruendungsdatum": {"wert": "2025-02-01", "quelle": "https://example.org/scalebatt/impressum"},
+    "funding_meldung": {"wert": true, "quelle": "https://example.com/presse/scalebatt-runde"},
+    "in_databases": true,
+    "first_db_date": "2025-09-01",
+    "team": [
+      {"name": "Dummy Gründer I", "rolle": "CEO", "hintergrund": "business", "quelle": "https://example.org/scalebatt/team", "vorerfahrung": ["fruehere_gruendung"]},
+      {"name": "Dummy Gründerin J", "rolle": "CTO", "hintergrund": "tech", "quelle": "https://example.org/scalebatt/team"}
+    ],
+    "reifegrad": {"wert": "erste_kunden", "quelle": "https://example.org/scalebatt"},
+    "produkt_typ": {"wert": "hardware", "quelle": "https://example.org/scalebatt"},
+    "partner": [{"name": "Dummy Gewerbekunde", "typ": "kunde", "quelle": "https://example.org/scalebatt/kunden"}],
+    "signals": [
+      {"typ": "impressum", "url": "https://example.org/scalebatt/impressum", "datum": "2025-03-01", "zitat": "ScaleBatt GmbH"},
+      {"typ": "db_profil", "url": "https://example.com/presse/scalebatt-runde", "datum": "2025-09-01", "zitat": "Finanzierungsrunde gemeldet"}
+    ]
+  },
+  {
+    "lead_id": "dummy-ohne-beleg",
+    "name_unternehmen": "OhneBeleg (Dummy)",
+    "beschreibung_rohtext": "",
+    "deutschland_beleg": null,
+    "signals": []
+  },
+  {
+    "lead_id": "dummy-solo-hobby",
+    "name_unternehmen": {"wert": "WetterBot (Dummy)", "quelle": "https://example.org/github/wetterbot"},
+    "beschreibung_rohtext": {"wert": "Ein Bot, der lokale Wetterdaten in einen Chat postet.", "quelle": "https://example.org/github/wetterbot"},
+    "deutschland_beleg": {"wert": "GitHub-Profil: Leipzig, Germany", "quelle": "https://example.org/github/wetterbot"},
+    "branche": "digital_tech",
+    "rechtsform": {"wert": "keine", "quelle": "https://example.org/github/wetterbot"},
+    "team": [{"name": "Dummy Entwickler K", "rolle": "Maintainer", "quelle": "https://example.org/github/wetterbot"}],
+    "signals": [{"typ": "github", "url": "https://example.org/github/wetterbot", "datum": "2026-08-01", "zitat": "Repository angelegt"}]
+  },
+  {
+    "lead_id": "dummy-zu-alt",
+    "name_unternehmen": {"wert": "AltGarde (Dummy)", "quelle": "https://example.org/altgarde/impressum"},
+    "beschreibung_rohtext": {"wert": "AltGarde entwickelt Beschichtungen gegen Korrosion für Offshore-Anlagen.", "quelle": "https://example.org/altgarde"},
+    "deutschland_beleg": {"wert": "Impressum: Rostock", "quelle": "https://example.org/altgarde/impressum"},
+    "branche": "Chemie/Material",
+    "rechtsform": {"wert": "GmbH", "quelle": "https://example.org/altgarde/impressum"},
+    "gruendungsdatum": {"wert": "2021-03-01", "quelle": "https://example.org/altgarde/impressum"},
+    "team": [
+      {"name": "Dummy Chemikerin L", "rolle": "Geschäftsführerin", "hintergrund": "tech", "quelle": "https://example.org/altgarde/impressum"},
+      {"name": "Dummy Chemiker M", "rolle": "Geschäftsführer", "hintergrund": "tech", "quelle": "https://example.org/altgarde/impressum"}
+    ],
+    "reifegrad": {"wert": "pilot", "quelle": "https://example.org/altgarde"},
+    "signals": [{"typ": "impressum", "url": "https://example.org/altgarde/impressum", "datum": "2026-04-01", "zitat": "AltGarde GmbH"}]
+  },
+  {
+    "lead_id": "dummy-unbelegte-behauptungen",
+    "name_unternehmen": {"wert": "Luftschloss (Dummy)", "quelle": "https://example.org/luftschloss"},
+    "beschreibung_rohtext": {"wert": "Luftschloss will den Weltmarkt für Quantenbatterien anführen.", "quelle": "https://example.org/luftschloss"},
+    "deutschland_beleg": {"wert": "Impressum: Stuttgart", "quelle": "https://example.org/luftschloss/impressum"},
+    "branche": "industrial_deep_tech",
+    "rechtsform": {"wert": "UG", "quelle": "https://example.org/luftschloss/impressum"},
+    "team": [
+      {"name": "Dummy Visionär N", "rolle": "CEO", "hintergrund": "business", "papers_im_feld": 40, "vorerfahrung": ["fruehere_gruendung"]},
+      {"name": "Dummy Visionärin O", "rolle": "CTO", "hintergrund": "tech", "papers_im_feld": 25}
+    ],
+    "reifegrad": "erste_kunden",
+    "ip": "patent_erteilt",
+    "markt": {"volumen_eur": 90000000000},
+    "partner": [{"name": "Angeblicher Großkunde", "typ": "kunde"}],
+    "foerderung": [{"programm": "Angebliche Förderung", "summe_eur": 5000000}],
+    "match_confidence": 0.4,
+    "signals": [{"typ": "website", "url": "https://example.org/luftschloss", "datum": "2026-09-01", "zitat": "Luftschloss will den Weltmarkt für Quantenbatterien anführen."}]
+  }
+]

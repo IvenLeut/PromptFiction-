@@ -1,0 +1,90 @@
+# Bewertungsalgorithmus – alle Gewichte, Punktetabellen und Schwellen.
+# Basis: Scorecard (Bill Payne), Berkus und Risk Factor Summation aus
+# github.com/simonmak-ascent/startup-valuation (MIT), umgebaut auf belegte Regelstufen statt freier Schätzwerte.
+version: "1.0"
+
+# Dritte Achse: Der Spaltenname bleibt team_score. dim3_name ist nur der Anzeigename und steht in jeder Zeile.
+dim3_name: Team
+
+# gesamt = team*g1 + marktpotenzial*g2 + (100 - risiko)*g3   (Summe muss 1.0 sein)
+gewichte:
+  team: 0.35
+  marktpotenzial: 0.35
+  risiko_invers: 0.30
+
+neutral: 50                    # Wert eines Kriteriums ohne Beleg
+ausschluss_max_gesamt: 20      # Deckel bei hartem Ausschluss
+htgf_max_alter_monate: 36      # HTGF: Unternehmen höchstens 3 Jahre alt
+exist_max_laufzeit_monate: 36  # angenommene Laufzeit einer EXIST-Förderung ohne Enddatum
+exist_nachlauf_monate: 12      # so lange nach dem Ende zählt EXIST noch als Vollzeit-Signal
+zu_spaet_wenn_in_databases: false   # true = schon ein Crunchbase/Dealroom-Profil gilt als "zu spät"
+confidence_ohne_pflichtfelder: 0.1
+
+# Erlaubte generische Postfächer (DSGVO: keine persönlichen Adressen)
+email_erlaubte_postfaecher: [info, kontakt, contact, hello, hallo, hi, team, office, mail, post, founders, gruender, presse, press, invest, investor, ir]
+
+# Nur für den Dashboard-Weg (evaluation/engine.py): ab dieser belegten Finanzierungssumme gilt ein Lead als zu spät.
+adapter_zu_spaet_ab_funding_eur: 3000000
+
+# Ganze Wörter im belegten Website-Text. Ab min_treffer verschiedenen Wörtern gilt der Lead als Agentur bzw. Beratung.
+noise_agentur_woerter: [leistungen, referenzen, agentur, beratung, consulting, dienstleistungen, webdesign]
+noise_beratung_woerter: [beratung, consulting]
+noise_agentur_min_treffer: 2
+
+texte:
+  staerke_ab: 0.7              # Team-/Marktkriterium ab diesem Wert gilt in der Hypothese als Stärke
+  risiko_ab: 0.5               # Risikokriterium ab diesem Wert kann Hauptrisiko sein
+  hypothese_min_confidence: 0.3
+  foerderende_in_monaten: 12   # why_now nennt ein Förderende, wenn es so nah ist
+
+# Jedes Kriterium liefert 0..1. Bei team/marktpotenzial ist 1 = gut, bei risiko ist 1 = hohes Risiko.
+kriterien:
+  team:
+    forscher_match:            # Scorecard "Team" / Berkus "quality team": Papers im Produktfeld
+      gewicht: 0.35
+      stufen: [[10, 1.0], [3, 0.8], [1, 0.5], [0, 0.2]]     # [ab Anzahl Papers, Wert]
+    komplementaer:             # ≥ 2 Gründer mit Tech + Business
+      gewicht: 0.25
+      werte: {solo: 0.2, mehrere_ohne_business: 0.5, mehrere_mix_unbekannt: 0.6, mehrere_mit_mix: 1.0}
+    vollzeit:                  # EXIST-Stipendium oder belegtes Vollzeit-Signal
+      gewicht: 0.20
+      werte: {ja: 1.0, nein: 0.2}
+    vorerfahrung:              # RFS "Management": frühere Gründung / Industrie
+      gewicht: 0.20
+      werte: {fruehere_gruendung: 1.0, industrie: 0.7, keine: 0.3}
+  marktpotenzial:
+    marktvolumen:              # Scorecard "Market": belegtes Marktvolumen in EUR
+      gewicht: 0.30
+      stufen: [[1000000000, 0.9], [100000000, 0.65], [0, 0.35]]
+    traktion:                  # Scorecard "Marketing" / Berkus "strategic relationships"
+      gewicht: 0.30
+      werte: {kunde: 1.0, pilot: 0.85, loi: 0.7, design_partner: 0.7, forschungspartner: 0.5}
+      bonus_ab_zwei: 0.1
+    skalierbarkeit:            # Scorecard "Product": Software skaliert leichter als Hardware
+      gewicht: 0.20
+      werte: {software: 1.0, plattform: 0.9, hardware_software: 0.6, hardware: 0.4, wirkstoff: 0.4}
+    zielkunde:                 # Zielkunde und Geschäftsmodell (B2B/B2C) benannt
+      gewicht: 0.10
+      werte: {beides: 1.0, eines: 0.6}
+    wettbewerb:                # Scorecard "Competition"
+      gewicht: 0.10
+      werte: {wenige: 0.7, viele: 0.4}
+      viele_ab: 4
+  risiko:
+    tech_reife:                # RFS "Stage"/"Technology", ordinal wie TRL-Bänder
+      gewicht: 0.40
+      werte: {idee: 0.95, paper: 0.85, labor_prototyp: 0.65, prototyp: 0.5, pilot: 0.3, erste_kunden: 0.15}
+    regulatorik:               # RFS "Legislation"
+      gewicht: 0.20
+      werte: {reguliert: 0.85, nicht_reguliert: 0.2}
+    ip:                        # RFS "Litigation"/Schutzrechte
+      gewicht: 0.15
+      werte: {patent_erteilt: 0.15, patent_angemeldet: 0.35, keine: 0.7}
+    finanzierung:              # RFS "Funding": bisherige Förderung bis zum nächsten Meilenstein
+      gewicht: 0.15
+      stufen: [[500000, 0.25], [100000, 0.45], [1, 0.6], [0, 0.85]]
+    datenlage:                 # Unsicherheit: Zahl unabhängiger Quellen (Domains)
+      gewicht: 0.10
+      stufen: [[3, 0.2], [2, 0.5], [0, 0.8]]
+      match_confidence_min: 0.5
+      wert_bei_unsicherem_match: 0.9
