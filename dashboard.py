@@ -1,18 +1,62 @@
 """Step 4: presentation only; scores are supplied by step 3."""
+import re
+from hashlib import sha256
 from urllib.parse import quote
 
 import plotly.graph_objects as go
 import streamlit as st
 
-from models import EvaluatedLead, ResearchResult
+from charts import comparison_figure, stage_figure
+from models import AnalysisRun, EvaluatedLead, ResearchResult
+from pipeline import lead_priority, ranking_key
+from ui_theme import (
+    FONT, GRID, INK, MUTED, ORANGE, PANEL, RISK_HIGH, RISK_LOW, SCORE_MAX, TABLE_MAX_HEIGHT, TABLE_ROW_HEIGHT,
+    TOP_N_OPTIONS, WHITE, ZERO_LINE, heading, summary_kpis,
+)
+
+ALL_INDUSTRIES = "Alle Branchen"
+UNCLASSIFIED = "nicht klassifiziert"
+_SOURCE_SUFFIX = re.compile(r"\s*\(Quelle:\s*(https?://[^\s)]+)\)\s*$")
 
 
-def shortlist(leads, industry="Alle Branchen", top_n=10):
-    candidates = [x for x in leads if industry == "Alle Branchen" or x.industry.value == industry]
-    return sorted(candidates, key=lambda x: (x.overall_score is None, -(x.overall_score or 0), x.id))[:top_n]
+def shortlist(leads: list[EvaluatedLead], industry: str = ALL_INDUSTRIES, top_n: int = 10) -> list[EvaluatedLead]:
+    """Best ``top_n`` leads by score; ties are broken by the step-1 priority (``ranking_key``)."""
+    candidates = [lead for lead in leads if industry == ALL_INDUSTRIES or lead.industry.value == industry]
+    return sorted(candidates, key=ranking_key)[:top_n]
+
+
+def is_industry_unclassified(lead: EvaluatedLead) -> bool:
+    """Step 1 marks a programme-default industry with the hint ``industry_unclassified``."""
+    if lead.signals:
+        for line in lead.signals[0].evidence.splitlines():
+            if line.startswith("Hinweise:") and "industry_unclassified" in line:
+                return True
+    return "Branche nicht klassifiziert" in (lead.prioritization_reason or "")
+
+
+def industry_label(lead: EvaluatedLead) -> str:
+    """Industry as shown in every view; "nicht klassifiziert" for programme defaults."""
+    return UNCLASSIFIED if is_industry_unclassified(lead) else lead.industry.value
+
+
+def priority_line(lead: EvaluatedLead) -> str | None:
+    """"Priorität 90 – EXIST-Forschungstransfer; …" from the step-1 reason, or None."""
+    reason = (lead.prioritization_reason or "").strip()
+    if not reason:
+        return None
+    priority = lead_priority(lead)
+    if not priority or ":" not in reason:
+        return reason
+    return f"Priorität {priority} – {reason.split(':', 1)[1].strip()}"
+
+
+def source_link_markdown(text: str) -> str:
+    """Render a trailing "(Quelle: URL)" as a Markdown link."""
+    return _SOURCE_SUFFIX.sub(lambda m: f" ([Quelle]({m[1]}))", text)
 
 
 def contact_url(lead: EvaluatedLead) -> str | None:
+    """Mailto draft to the founders; None without an e-mail address."""
     if not lead.contact_email:
         return None
     subject = quote(f"Austausch zu {lead.name}", safe="")
@@ -21,27 +65,28 @@ def contact_url(lead: EvaluatedLead) -> str | None:
     return f"mailto:{quote(lead.contact_email, safe='@')}?subject={subject}&body={body}"
 
 
-def build_figure(leads, selected_id=None):
-    complete = [x for x in leads if all(v is not None for v in
-                (x.risk_score, x.company_score, x.market_potential_score))]
+def build_figure(leads: list[EvaluatedLead], selected_id: str | None = None) -> tuple[go.Figure, int]:
+    """3D map of risk, company score and market potential; returns the figure and the number of omitted leads."""
+    complete = [lead for lead in leads if all(score is not None for score in
+                (lead.risk_score, lead.company_score, lead.market_potential_score))]
     fig = go.Figure(go.Scatter3d(
-        x=[x.risk_score for x in complete], y=[x.company_score for x in complete],
-        z=[x.market_potential_score for x in complete], mode="markers",
-        text=[x.name for x in complete], customdata=[x.id for x in complete],
-        marker=dict(size=[11 if x.id == selected_id else 8 for x in complete],
-                    color=[x.risk_score for x in complete],
-                    colorscale=[[0, "#106049"], [.5, "#f5653f"], [1, "#aa2c20"]],
-                    cmin=0, cmax=100, opacity=.95, line=dict(color="#ffffff", width=1),
+        x=[lead.risk_score for lead in complete], y=[lead.company_score for lead in complete],
+        z=[lead.market_potential_score for lead in complete], mode="markers",
+        text=[lead.name for lead in complete], customdata=[lead.id for lead in complete],
+        marker=dict(size=[11 if lead.id == selected_id else 8 for lead in complete],
+                    color=[lead.risk_score for lead in complete],
+                    colorscale=[[0, RISK_LOW], [.5, ORANGE], [1, RISK_HIGH]],
+                    cmin=0, cmax=SCORE_MAX, opacity=.95, line=dict(color=WHITE, width=1),
                     colorbar=dict(title="Risiko", thickness=12, len=.65, outlinewidth=0,
                                   tickvals=[0, 50, 100], ticktext=["0 · gering", "50", "100 · hoch"])),
         hovertemplate="<b>%{text}</b><br>Risiko: %{x}/100<br>Unternehmen: %{y}/100<br>Marktpotenzial: %{z}/100<extra></extra>",
     ))
-    axis = dict(range=[0, 100], tickvals=[0, 25, 50, 75, 100],
-                gridcolor="#dfe3e6", backgroundcolor="#f7f8f9", showbackground=True,
-                zerolinecolor="#b8bec4", color="#626971")
+    axis = dict(range=[0, SCORE_MAX], tickvals=[0, 25, 50, 75, 100],
+                gridcolor=GRID, backgroundcolor=PANEL, showbackground=True,
+                zerolinecolor=ZERO_LINE, color=MUTED)
     fig.update_layout(height=590, margin=dict(l=0, r=30, t=0, b=0),
-        paper_bgcolor="#ffffff", font=dict(family="Arial, sans-serif", color="#221f19", size=13),
-        hoverlabel=dict(bgcolor="#221f19", font_color="#ffffff", bordercolor="#221f19"),
+        paper_bgcolor=WHITE, font=dict(family=FONT, color=INK, size=13),
+        hoverlabel=dict(bgcolor=INK, font_color=WHITE, bordercolor=INK),
         scene=dict(xaxis=dict(**axis, title="Risiko"),
                    yaxis=dict(**axis, title="Unternehmensscore"),
                    zaxis=dict(**axis, title="Marktpotenzial"),
@@ -50,17 +95,15 @@ def build_figure(leads, selected_id=None):
     return fig, len(leads) - len(complete)
 
 
-def value(item, suffix=""):
-    return "Unbekannt" if item is None else f"{item:,.0f}{suffix}".replace(",", ".")
-
-
 def back_to_overview():
+    """Leave the deep dive."""
     st.query_params.pop("startup", None)
     # A fresh table key clears the selection and prevents immediate re-entry.
     st.session_state.table_generation = st.session_state.get("table_generation", 0) + 1
 
 
-def open_selected_row(event, shown):
+def open_selected_row(event, shown: list[EvaluatedLead]) -> bool:
+    """Open the deep dive of the selected table row; True if a row was selected."""
     rows = event.selection.rows
     if rows and 0 <= rows[0] < len(shown):
         st.query_params["startup"] = shown[rows[0]].id
@@ -68,14 +111,20 @@ def open_selected_row(event, shown):
     return False
 
 
-def render_dashboard(result: ResearchResult, analysis=None):
-    from hashlib import sha256
-    from charts import stage_figure, comparison_figure
-    from deep_dive import render_deep_dive
-    from ui_theme import heading, summary_kpis
+def render_issues(result: ResearchResult):
+    """Per-lead problems of the run, collapsed."""
+    if result.issues:
+        with st.expander(f"Hinweise zum Suchlauf ({len(result.issues)})"):
+            for issue in result.issues:
+                st.warning(f"{issue.lead_id}: {issue.message}")
 
-    for issue in result.issues:
-        st.warning(f"{issue.lead_id}: {issue.message}")
+
+def render_dashboard(result: ResearchResult, analysis: AnalysisRun | None = None):
+    """Overview or, with ``?startup=<id>``, the deep dive of one lead."""
+    # deep_dive imports helpers from this module, so it is imported here, not at module level.
+    from deep_dive import render_deep_dive
+
+    render_issues(result)
     if not result.leads:
         st.info("Für diese Kategorie liegen noch keine bewerteten Startups vor. Starte eine neue Analyse.")
         return
@@ -83,29 +132,55 @@ def render_dashboard(result: ResearchResult, analysis=None):
     if requested_id:
         lead = next((x for x in result.leads if x.id == requested_id), None)
         if lead is not None:
-            render_deep_dive(lead, back_to_overview, contact_url, value)
+            render_deep_dive(lead, back_to_overview)
             return
         st.warning("Dieses Startup ist im aktuellen Suchlauf nicht vorhanden.")
         st.button("Zurück zur Übersicht", on_click=back_to_overview)
         return
+    live = bool(analysis and analysis.mode == "live")
+    shown = _render_header(result, analysis, live)
+    _render_space_and_stages(shown)
+    st.divider()
+    st.subheader("Stärken und Risiken im Direktvergleich")
+    st.caption("Die zehn bestplatzierten Startups der aktuellen Auswahl. Unternehmen und Markt: höher ist besser. Risiko: niedriger ist besser.")
+    st.plotly_chart(comparison_figure(shown), width="stretch", theme=None, key="score_comparison",
+                    config={"displayModeBar": False})
+    st.divider()
+    _render_ranking(shown)
+    if analysis:
+        st.download_button("Analyse als JSON exportieren", analysis.model_dump_json(indent=2),
+                           file_name="founder-radar-analysis.json", mime="application/json")
+    if live:
+        st.caption("Echtdaten aus dem Förderkatalog des Bundes und öffentlichen Quellen. "
+                   "Die Gewichtung ist noch keine abgestimmte Investmentmethodik.")
+    else:
+        st.caption("Fiktive Demo-Daten. Kontakte und Quellen verwenden example.org. Die Gewichtung ist noch keine abgestimmte Investmentmethodik.")
 
+
+def _render_header(result: ResearchResult, analysis: AnalysisRun | None, live: bool) -> list[EvaluatedLead]:
+    """Heading, counters, Top-N selector and KPI cards; returns the shown leads."""
     category = analysis.criteria.industry.value if analysis else "Tech-Startups"
     heading("Dein Investment-Radar", f"{category}. Potenzial im Blick.",
             "Unternehmensstärke, Marktchance und Risiko. Die wichtigsten Signale deiner ausgewählten Kategorie auf einen Blick.")
     left, right = st.columns([4, 1])
     with left:
         total = len(result.leads)
-        st.caption(f"{total} STARTUPS BEWERTET · DEUTSCHLAND · DEMO-DATEN")
+        source = "FÖRDERKATALOG-DATEN" if live else "DEMO-DATEN"
+        st.caption(f"{total} STARTUPS BEWERTET · DEUTSCHLAND · {source}")
         if analysis:
             st.caption(f"{analysis.discovered_count} entdeckt / {analysis.enriched_count} mit Kontext / {total} bewertet")
-    saved_top = st.session_state.get("portfolio_top_n", 10)
-    top_n = right.selectbox("Ranking anzeigen", [10, 20], index=[10, 20].index(saved_top),
+    saved_top = st.session_state.get("portfolio_top_n", TOP_N_OPTIONS[0])
+    top_n = right.selectbox("Ranking anzeigen", TOP_N_OPTIONS, index=TOP_N_OPTIONS.index(saved_top),
                             format_func=lambda x: f"Top {x}", key="top_filter")
     st.session_state.portfolio_top_n = top_n
     shown = shortlist(result.leads, top_n=top_n)
     summary_kpis(shown)
     st.caption(f"Kennzahlen und Visualisierungen beziehen sich auf die angezeigten Top {len(shown)}. Mittelwerte berücksichtigen nur bekannte Scores; Skala 0–100.")
+    return shown
 
+
+def _render_space_and_stages(shown: list[EvaluatedLead]):
+    """3D map, stage donut and the best-rated lead."""
     space, stages = st.columns([2.2, 1], gap="large")
     with space:
         st.subheader("Der Potenzialraum")
@@ -132,12 +207,10 @@ def render_dashboard(result: ResearchResult, analysis=None):
                 st.rerun()
         else:
             st.caption("Noch kein Gesamt-Score verfügbar.")
-    st.divider()
-    st.subheader("Stärken und Risiken im Direktvergleich")
-    st.caption("Die zehn bestplatzierten Startups der aktuellen Auswahl. Unternehmen und Markt: höher ist besser. Risiko: niedriger ist besser.")
-    st.plotly_chart(comparison_figure(shown), width="stretch", theme=None, key="score_comparison",
-                    config={"displayModeBar": False})
-    st.divider()
+
+
+def _render_ranking(shown: list[EvaluatedLead]):
+    """Selectable ranking table; a click opens the deep dive."""
     st.subheader("Deine Investment-Shortlist")
     st.caption("Klicke auf ein Unternehmen für Produkt, Investmenthypothese, Gründerkontakt und Quellen.")
     rows = [{"Rang": i, "Unternehmen": x.name, "Standort": x.location,
@@ -149,17 +222,16 @@ def render_dashboard(result: ResearchResult, analysis=None):
     config = {
         "Rang": st.column_config.NumberColumn("#", width="small", format="%d"),
         "Unternehmen": st.column_config.TextColumn("Unternehmen / Deep Dive", width="medium"),
-        "Score": st.column_config.ProgressColumn("Score", min_value=0, max_value=100, format="%.1f"),
+        "Score": st.column_config.ProgressColumn("Score", min_value=0, max_value=SCORE_MAX, format="%.1f"),
         "Unternehmensscore": st.column_config.NumberColumn("Unternehmen", format="%.0f"),
         "Marktpotenzial": st.column_config.NumberColumn("Markt", format="%.0f"),
         "Risiko": st.column_config.NumberColumn("Risiko", format="%.0f", help="Ein niedrigerer Risikoscore ist besser."),
     }
-    event = st.dataframe(rows, hide_index=True, width="stretch", height=min(740, 40 + len(rows) * 44),
-                        row_height=44, column_config=config, on_select="rerun", selection_mode="single-row", key=table_key)
+    event = st.dataframe(rows, hide_index=True, width="stretch",
+                         height=min(TABLE_MAX_HEIGHT, 40 + len(rows) * TABLE_ROW_HEIGHT),
+                         row_height=TABLE_ROW_HEIGHT, column_config=config, on_select="rerun",
+                         selection_mode="single-row", key=table_key)
     if open_selected_row(event, shown):
         st.rerun()
-    st.caption("Ranking nach dem übergebenen Gesamt-Score. Keine neue Bewertung im Dashboard; unbekannte Scores stehen zuletzt.")
-    if analysis:
-        st.download_button("Analyse als JSON exportieren", analysis.model_dump_json(indent=2),
-                           file_name="founder-radar-analysis.json", mime="application/json")
-    st.caption("Fiktive Demo-Daten. Kontakte und Quellen verwenden example.org. Die Gewichtung ist noch keine abgestimmte Investmentmethodik.")
+    st.caption("Ranking nach dem übergebenen Gesamt-Score, bei Gleichstand nach der Priorität aus Schritt 1. "
+               "Keine neue Bewertung im Dashboard; unbekannte Scores stehen zuletzt.")

@@ -13,15 +13,22 @@ import ipaddress
 import logging
 import re
 import socket
+from collections.abc import Iterable
 from functools import lru_cache
 from html.parser import HTMLParser
 from time import monotonic
 from urllib.parse import unquote, urljoin, urlsplit
 
+from context.lookup import SOURCE_ORIGINAL, SOURCE_WEBSITE
 from models import SourceSignal
 
 logger = logging.getLogger(__name__)
 MAX_BYTES = 512_000
+TIMEOUT = 4                 # seconds per company page
+MAX_REDIRECTS = 4
+MAX_PAGES = 5               # start page plus up to four linked about/team/product pages
+MEMO_WINDOW = 900           # seconds: in-process memo of a fetched page (see context/cache.py)
+USER_AGENT = "FounderRadar/1.0"
 PAGE_NAMES = {
     "about", "about-us", "company", "ueber-uns", "über-uns", "team", "founders",
     "product", "products", "produkt", "produkte", "solutions", "loesungen",
@@ -69,7 +76,8 @@ class CompanyPage(HTMLParser):
             self.parts.append(data)
 
 
-def site_key(url):
+def site_key(url: str) -> str:
+    """Host without "www.", lower-cased: the same-site guard compares these."""
     return (urlsplit(url).hostname or "").removeprefix("www.").lower()
 
 
@@ -90,6 +98,7 @@ def parse_page(html: str) -> CompanyPage:
 
 
 def cache_key(url: str) -> str:
+    """Cache key of one parsed company page (differs from context.http.cache_key on purpose: parsed, not raw)."""
     return "web:" + hashlib.sha1(url.encode("utf-8")).hexdigest()
 
 
@@ -100,7 +109,7 @@ def _page_from_entry(entry) -> CompanyPage:
     return page
 
 
-def fetch(url, site, cache=None):
+def fetch(url: str, site: str, cache=None) -> tuple[str, CompanyPage]:
     """Fetch one page of the company website; see module docstring for the cache behaviour."""
     if cache is not None:
         hit = cache.get(cache_key(url))
@@ -123,12 +132,12 @@ def fetch(url, site, cache=None):
 
 
 def _fetch(url, site):
-    return _fetch_window(url, site, int(monotonic() // 900))
+    return _fetch_window(url, site, int(monotonic() // MEMO_WINDOW))
 
 
 @lru_cache(maxsize=64)
 def _fetch_window(url, site, _cache_window):
-    for _ in range(4):
+    for _ in range(MAX_REDIRECTS):
         parsed = urlsplit(url)
         if (parsed.scheme not in {"http", "https"} or not site or site_key(url) != site
                 or parsed.username is not None or parsed.password is not None):
@@ -141,7 +150,7 @@ def _fetch_window(url, site, _cache_window):
         if not ip.is_global or ip.is_multicast:
             raise ValueError("Zieladresse ist nicht öffentlich")
         cls = http.client.HTTPSConnection if parsed.scheme == "https" else http.client.HTTPConnection
-        connection = cls(parsed.hostname, port, timeout=4)
+        connection = cls(parsed.hostname, port, timeout=TIMEOUT)
         # Pin the validated address while keeping the original hostname for TLS.
         connection._create_connection = lambda _address, *args: socket.create_connection(
             (str(ip), port), *args
@@ -150,7 +159,7 @@ def _fetch_window(url, site, _cache_window):
             path = parsed.path or "/"
             if parsed.query:
                 path += "?" + parsed.query
-            connection.request("GET", path, headers={"User-Agent": "FounderRadar/1.0"})
+            connection.request("GET", path, headers={"User-Agent": USER_AGENT})
             response = connection.getresponse()
             if response.status in {301, 302, 303, 307, 308} and response.getheader("Location"):
                 url = urljoin(url, response.getheader("Location"))
@@ -167,10 +176,11 @@ def _fetch_window(url, site, _cache_window):
     raise ValueError("Zu viele Weiterleitungen")
 
 
-def company_pages(url, cache=None):
+def company_pages(url: str, cache=None) -> Iterable[SourceSignal]:
+    """Start page plus same-site about/team/product pages (max. MAX_PAGES) as website signals."""
     site = site_key(url)
     pending = [url]
-    for index in range(5):
+    for index in range(MAX_PAGES):
         if index >= len(pending):
             break
         try:
@@ -181,7 +191,7 @@ def company_pages(url, cache=None):
                 break
             continue
         if page.lines:
-            yield SourceSignal(source="Unternehmenswebsite", type="website", url=final_url,
+            yield SourceSignal(source=SOURCE_WEBSITE, type="website", url=final_url,
                                evidence="\n".join(page.lines))
         if index == 0:
             candidates = {}
@@ -199,13 +209,14 @@ def company_pages(url, cache=None):
             pending.extend(sorted(candidates, key=lambda link: candidates[link] not in PRIORITY_PAGES))
 
 
-def original_page(url, cache=None):
+def original_page(url: str, cache=None) -> SourceSignal | None:
+    """The page the lead was found on as an "original" signal, or None if unavailable."""
     try:
         final_url, page = fetch(url, site_key(url), cache=cache)
     except FETCH_ERRORS:
         logger.info("Original source unavailable for %s", site_key(url))
         return None
     if page.lines:
-        return SourceSignal(source="Fundquelle", type="original", url=final_url,
+        return SourceSignal(source=SOURCE_ORIGINAL, type="original", url=final_url,
                             evidence="\n".join(page.lines))
     return None

@@ -7,12 +7,17 @@ Läuft mit Python 3.9+, braucht nur PyYAML.
 
 Ohne URL übernommen werden nur vier Metadaten des Sourcing-Schritts, weil sie dessen eigenes
 Ergebnis sind: noise_class, match_confidence, in_databases und first_db_date.
+
+Ablauf je Dossier (`_score`): Stammdaten -> Pflichtprüfung -> Kriterien je Achse (`_bewerte_dimensionen`)
+-> Gesamtscore, Noise, Stage, Ausschluss (`_einordnung`) -> Texte (`_investmenthypothese`, `_why_now`).
+Unbekannte Dossier-Schlüssel werden ignoriert.
 """
 from __future__ import annotations
 
 import datetime as dt
 import hashlib
 import json
+import logging
 import math
 import re
 from decimal import ROUND_HALF_UP, Decimal
@@ -21,7 +26,14 @@ from urllib.parse import urlparse
 
 import yaml
 
+logger = logging.getLogger(__name__)
 CONFIG_PATH = Path(__file__).with_name("scoring_config.yaml")
+# Oberste Schlüssel, die der Scorer liest (adapter_* nur evaluation/engine.py). Eine eigene --config braucht alle.
+CONFIG_SCHLUESSEL = ("version", "dim3_name", "gewichte", "neutral", "ausschluss_max_gesamt", "htgf_max_alter_monate",
+                     "exist_max_laufzeit_monate", "exist_nachlauf_monate", "hinweis_max_vor_signal_monate",
+                     "zu_spaet_wenn_in_databases", "confidence_ohne_pflichtfelder", "email_erlaubte_postfaecher",
+                     "adapter_zu_spaet_ab_funding_eur", "noise_agentur_woerter", "noise_beratung_woerter",
+                     "noise_agentur_min_treffer", "texte", "kriterien")
 BRANCHEN = ("digital_tech", "industrial_deep_tech", "climate_tech", "life_sciences", "chemie_materialien")
 STAGES = ("pre_gruendung", "in_gruendung", "pre_seed", "seed", "zu_spaet")
 NOISE = ("vc_potenzial", "hobby", "agentur", "studi_projekt", "beratung", "bereits_finanziert")
@@ -54,6 +66,9 @@ STAGE_TEXT = {"pre_gruendung": "Noch vor der Gründung", "in_gruendung": "Gerade
 
 def load_config(path=None):
     cfg = yaml.safe_load(Path(path or CONFIG_PATH).read_text(encoding="utf-8"))
+    fehlt = [k for k in CONFIG_SCHLUESSEL if k not in (cfg if isinstance(cfg, dict) else {})]
+    if fehlt:
+        raise ValueError("Konfiguration unvollständig, es fehlt: %s" % ", ".join(fehlt))
     if abs(sum(cfg["gewichte"].values()) - 1) > 1e-9:
         raise ValueError("gewichte müssen zusammen 1.0 ergeben")
     for dim in DIMENSIONEN:
@@ -466,7 +481,7 @@ class Scorer:
     def hinweis_ignoriert(self):
         """Jahr des Hinweises, wenn es mehr als hinweis_max_vor_signal_monate vor dem ersten Signal liegt."""
         h = self.hinweis_roh()
-        if h and self.signals and months_between(dt.date(h[0], 12, 31), self.signals[0]["datum"]) > self.cfg.get("hinweis_max_vor_signal_monate", 24):
+        if h and self.signals and months_between(dt.date(h[0], 12, 31), self.signals[0]["datum"]) > self.cfg["hinweis_max_vor_signal_monate"]:
             return h[0]
         return None
 
@@ -580,7 +595,10 @@ def _leer(lead_id, name, cfg, stichtag):
 
 
 def score_dossier(dossier, cfg=None, stichtag=None):
-    """Ein Dossier -> ein Score-Datensatz (dict, Spalten siehe scores.schema.json). Wirft nie wegen Dossier-Inhalten."""
+    """Ein Dossier -> ein Score-Datensatz (dict, Spalten siehe scores.schema.json). Wirft nie wegen Dossier-Inhalten.
+
+    Unbekannte Dossier-Schlüssel werden ignoriert; die gelesenen Schlüssel stehen in SCORING.md ("Dossier-Felder").
+    """
     cfg = cfg or load_config()
     tag = _stichtag(stichtag)
     try:
@@ -588,6 +606,7 @@ def score_dossier(dossier, cfg=None, stichtag=None):
     except Exception as e:  # letzte Sicherung: ein kaputtes Dossier darf den Lauf nicht abbrechen
         d = clean(dossier) if isinstance(dossier, dict) else {}
         rec = _leer(_lead_id(d if isinstance(d, dict) else {}, None), None, cfg, tag)
+        logger.exception("Scoring fehlgeschlagen für lead_id=%s", rec["lead_id"])
         rec["ausschluss_grund"] = "Dossier nicht lesbar (%s)" % type(e).__name__
         rec["offene_punkte"] = [rec["ausschluss_grund"]]
         return rec
@@ -595,10 +614,25 @@ def score_dossier(dossier, cfg=None, stichtag=None):
 
 def _score(dossier, cfg, stichtag):
     s = Scorer(clean(dossier), cfg, stichtag)
-    d = s.d
-    name = text(fact(d.get("name_unternehmen"))[0])
+    name = text(fact(s.d.get("name_unternehmen"))[0])
     name = clip(name, 200) if name else None
-    rec = _leer(_lead_id(d, name), name, cfg, stichtag)
+    rec = _leer(_lead_id(s.d, name), name, cfg, stichtag)
+    _stammdaten(s, rec)
+    fehlt = pflicht_fehlt(s, name)
+    if fehlt:
+        rec.update(ausschluss_grund="Pflichtangaben fehlen: " + ", ".join(fehlt), offene_punkte=fehlt)
+        return rec
+    _hinweis_punkte(s, rec)
+    scores, abdeckung, treffer = _bewerte_dimensionen(s, rec)
+    gruende = _einordnung(s, rec, scores, abdeckung)
+    rec["investmenthypothese"] = clip(_investmenthypothese(s, rec, treffer, gruende), 400)
+    rec["why_now"] = _why_now(s, rec)
+    return rec
+
+
+# --- Stammdaten: Spalten, die auch ein nicht bewertetes Dossier bekommt --------------
+def _stammdaten(s, rec):
+    d, stichtag = s.d, s.stichtag
     leiter = [m["name"] for m in s.team if not re.search(r"(?i)(?<!\w)(kein|keine|ehem|ehemalig\w*|former|ex)(?!\w)", str(m.get("rolle") or ""))
               and re.search(r"(?<!\w)(gf|gesch(ä|ae)ftsf(ü|ue)hr\w*|projektleit\w*|(mit)?gr(ü|ue)nder\w*|(co-?)?founder|ceo|cto)(?!\w)", str(m.get("rolle") or ""), re.I)]
     website = fact(d.get("website"))[0]
@@ -621,23 +655,26 @@ def _score(dossier, cfg, stichtag):
         "source_url": d.get("source_url") if is_url(d.get("source_url")) else (s.signals[0]["url"] if s.signals else None),
     })
 
-    fehlt = pflicht_fehlt(s, name)
-    if fehlt:
-        rec.update(ausschluss_grund="Pflichtangaben fehlen: " + ", ".join(fehlt), offene_punkte=fehlt)
-        return rec
 
+def _hinweis_punkte(s, rec):
+    """Offene Punkte zum Gründungsjahr aus einem Pressetext (genutzt als Proxy oder ignoriert)."""
+    gr, proxy, _, _ = s.gruendung()
     h = s.hinweis()
     if h and proxy and gr and gr.year == h[0]:
         rec["offene_punkte"].append("Gründungsjahr %d nur aus Pressetext, nicht für Ausschluss verwendet" % h[0])
     elif s.hinweis_ignoriert() and not (gr and not proxy):
         rec["offene_punkte"].append("Gründungsjahr %d aus Pressetext liegt mehr als %d Monate vor dem ersten Signal, ignoriert"
-                                    % (s.hinweis_ignoriert(), cfg.get("hinweis_max_vor_signal_monate", 24)))
+                                    % (s.hinweis_ignoriert(), s.cfg["hinweis_max_vor_signal_monate"]))
 
-    neutral = cfg["neutral"] / 100.0
+
+# --- Scoring: drei Achsen aus den Kriterien der Konfiguration -------------------------
+def _bewerte_dimensionen(s, rec):
+    """Füllt evidence, teilwerte und offene_punkte. -> (scores, abdeckung, treffer) je Dimension bzw. (dim, krit)."""
+    neutral = s.cfg["neutral"] / 100.0
     scores, abdeckung, treffer = {}, {}, {}
     for dim in DIMENSIONEN:
         total, belegt_gewicht, rec["teilwerte"][dim] = 0.0, 0.0, {}
-        for krit, k in cfg["kriterien"][dim].items():
+        for krit, k in s.cfg["kriterien"][dim].items():
             r = getattr(s, "k_" + krit)(k)
             belegt = bool(r and r.get("url") and r.get("wert") is not None)
             if belegt:
@@ -655,7 +692,13 @@ def _score(dossier, cfg, stichtag):
             total += k["gewicht"] * wert
             rec["teilwerte"][dim][krit] = {"punkte": r1(wert * 100), "gewicht": k["gewicht"], "belegt": belegt}
         scores[dim], abdeckung[dim] = r1(total * 100), belegt_gewicht
+    return scores, abdeckung, treffer
 
+
+# --- Klassifikation: Gesamtscore, Confidence, Noise, Stage, Ausschluss -----------------
+def _einordnung(s, rec, scores, abdeckung):
+    """Setzt Scores, Confidence, Stage, Noise und Status. -> Liste der Ausschlussgründe (leer = kein Ausschluss)."""
+    cfg, d = s.cfg, s.d
     g = cfg["gewichte"]
     gesamt = g["team"] * scores["team"] + g["marktpotenzial"] * scores["marktpotenzial"] + g["risiko_invers"] * (100 - scores["risiko"])
     conf = g["team"] * abdeckung["team"] + g["marktpotenzial"] * abdeckung["marktpotenzial"] + g["risiko_invers"] * abdeckung["risiko"]
@@ -681,29 +724,41 @@ def _score(dossier, cfg, stichtag):
     rec.update(status="bewertet", risiko_score=scores["risiko"], marktpotenzial_score=scores["marktpotenzial"], team_score=scores["team"],
                gesamt_score=r1(gesamt), confidence=round(min(1.0, conf), 2), stage=stage, noise_class=noise, noise_quelle=noise_quelle,
                ausschluss_grund="; ".join(gruende))
+    return gruende
 
-    # Texte: nur aus Quelltext und belegten Kriterien zusammengesetzt, nichts frei formuliert.
+
+# --- Texte: nur aus Quelltext und belegten Kriterien zusammengesetzt, nichts frei formuliert ---
+def _investmenthypothese(s, rec, treffer, gruende):
+    cfg = s.cfg
     tx = cfg["texte"]
     risiken = sorted(((cfg["kriterien"]["risiko"][krit]["gewicht"] * r["wert"], r["aussage"]) for (dim, krit), r in treffer.items()
                       if dim == "risiko" and r["wert"] >= tx["risiko_ab"]), key=lambda x: (-x[0], x[1]))
     risiko_satz = "Hauptrisiko: %s." % risiken[0][1] if risiken else "Kein Risikofaktor ab %d Punkten belegt." % round(tx["risiko_ab"] * 100)
     if gruende:
-        hypo = "Kein Investment-Case: %s." % rec["ausschluss_grund"]
-    elif rec["confidence"] < tx["hypothese_min_confidence"]:
-        hypo = "Datenlage zu dünn für eine Hypothese (Confidence %.2f). %s" % (rec["confidence"], risiko_satz)
-    else:
-        staerken = sorted(((cfg["kriterien"][dim][krit]["gewicht"] * r["wert"], r["aussage"]) for (dim, krit), r in treffer.items()
-                           if dim != "risiko" and r["wert"] >= tx["staerke_ab"]), key=lambda x: (-x[0], x[1]))[:2]
-        teile = ["Wir investieren, weil: %s." % "; ".join(x[1] for x in staerken) if staerken
-                 else "Noch keine Stärke belegt, die Hypothese ist offen."]
-        reife = s.reifegrad()[0]
-        if reife:
-            teile.append("Nächster Meilenstein: %s." % NAECHSTER_MEILENSTEIN[reife])
-        teile.append(risiko_satz)
-        hypo = " ".join(teile)
-    rec["investmenthypothese"] = clip(hypo, 400)
+        return "Kein Investment-Case: %s." % rec["ausschluss_grund"]
+    if rec["confidence"] < tx["hypothese_min_confidence"]:
+        return "Datenlage zu dünn für eine Hypothese (Confidence %.2f). %s" % (rec["confidence"], risiko_satz)
+    staerken = sorted(((cfg["kriterien"][dim][krit]["gewicht"] * r["wert"], r["aussage"]) for (dim, krit), r in treffer.items()
+                       if dim != "risiko" and r["wert"] >= tx["staerke_ab"]), key=lambda x: (-x[0], x[1]))[:2]
+    teile = ["Wir investieren, weil: %s." % "; ".join(x[1] for x in staerken) if staerken
+             else "Noch keine Stärke belegt, die Hypothese ist offen."]
+    reife = s.reifegrad()[0]
+    if reife:
+        teile.append("Nächster Meilenstein: %s." % NAECHSTER_MEILENSTEIN[reife])
+    teile.append(risiko_satz)
+    return " ".join(teile)
 
-    now = [STAGE_TEXT[stage]]
+
+def vor_monaten(n):
+    """Abstand in Monaten als Text: 'in diesem Monat', 'vor 1 Monat', 'vor 5 Monaten'."""
+    if n <= 0:
+        return "in diesem Monat"
+    return "vor 1 Monat" if n == 1 else "vor %d Monaten" % n
+
+
+def _why_now(s, rec):
+    stichtag, tx = s.stichtag, s.cfg["texte"]
+    now = [STAGE_TEXT[rec["stage"]]]
     for f in s.exist():
         ende = parse_date(f.get("ende"))
         if ende and ende < stichtag:  # exist() enthält nur Förderungen, die höchstens exist_nachlauf_monate vorbei sind
@@ -712,11 +767,10 @@ def _score(dossier, cfg, stichtag):
         if ende and months_between(stichtag, ende) <= tx["foerderende_in_monaten"]:
             now.append("%s endet %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
             break
-    if in_db is False:
-        now.append("in Crunchbase/Dealroom nicht gefunden" if d.get("in_databases_quelle") else "laut Sourcing in keiner Datenbank gefunden")
-    now.append("jüngstes Signal vor %d Monaten" % months_between(s.signals[-1]["datum"], stichtag))
-    rec["why_now"] = "; ".join(now)
-    return rec
+    if rec["in_databases"] is False:
+        now.append("in Crunchbase/Dealroom nicht gefunden" if s.d.get("in_databases_quelle") else "laut Sourcing in keiner Datenbank gefunden")
+    now.append("jüngstes Signal %s" % vor_monaten(months_between(s.signals[-1]["datum"], stichtag)))
+    return "; ".join(now)
 
 
 def score_all(dossiers, cfg=None, stichtag=None):

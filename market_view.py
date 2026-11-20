@@ -2,15 +2,23 @@
 import plotly.graph_objects as go
 import streamlit as st
 
+from research_models import ContextV2
+from ui_theme import format_date
 
-def _claims(owner, labels):
+# Maximum levels of the two sector scales shown at the end of the market tab.
+TRL_MAX, MCL_MAX = 9, 6
+
+
+def _claims(owner, labels: dict[str, str]):
+    """One text line per filled claim of ``owner``."""
     for field, label in labels.items():
         claim = getattr(owner, field)
         if claim:
             st.text(f"{label} · {claim.value}")
 
 
-def render_company_research(context):
+def render_company_research(context: ContextV2):
+    """Founders, company, product, funding and traction facts from step 2."""
     if context.founders:
         st.subheader("Gründerteam")
         for founder in context.founders:
@@ -61,15 +69,17 @@ def render_company_research(context):
                       "burn_rate": "Burn Rate", "cash_runway": "Cash Runway"})
 
 
-def _measure(value):
-    if value is None:
+def _measure(measure) -> str:
+    """Measured value with two decimals and space as thousands separator; "Offen" if missing."""
+    if measure is None:
         return "Offen"
-    return f"{value.value:,.2f} {value.currency or ''} {value.unit}".replace(",", " ").strip()
+    return f"{measure.value:,.2f} {measure.currency or ''} {measure.unit}".replace(",", " ").strip()
 
 
-def render_market(context):
+def render_market(context: ContextV2):
+    """Market tab: sizing, growth, competitors, transactions, capital needs and research gaps."""
     market = context.market_intelligence
-    st.caption(f"Recherche aktualisiert am {context.updated_at:%d.%m.%Y}")
+    st.caption(f"Recherche aktualisiert am {format_date(context.updated_at)}")
     if market.market_definition:
         st.text(market.market_definition.value)
     _claims(market, {"target_segment": "Zielsegment", "target_geography": "Zielgeografie"})
@@ -83,6 +93,17 @@ def render_market(context):
         with st.expander("Daten und Annahmen zur Marktgröße"):
             for measure in market.sizing_inputs.values():
                 st.text(f"{measure.methodology} · {_measure(measure)} · {measure.data_type} · {measure.period.end_year}")
+    _render_growth(market)
+    _render_competition(market)
+    _render_capital_and_levels(market)
+    if market.research_gaps:
+        st.subheader("Offene Punkte")
+        for gap in market.research_gaps:
+            st.text(f"• {gap}")
+
+
+def _render_growth(market):
+    """Historical and forecast series, growth drivers and market risks."""
     for title, series_list in (("Historische Daten", market.historical_growth),
                                ("Prognosen und Szenarien", market.forecast_growth)):
         if series_list:
@@ -105,6 +126,10 @@ def render_market(context):
             st.subheader(label)
             for claim in claims:
                 st.text(claim.value)
+
+
+def _render_competition(market):
+    """Competitor and comparable-transaction tables."""
     if market.competitors:
         st.subheader("Wettbewerbsumfeld")
         st.dataframe([{"Unternehmen": x.name, "Produkt": x.product, "Zielkunden": x.target_customers,
@@ -120,6 +145,10 @@ def render_market(context):
                        "Vergleichsgrund": x.comparability_reason, "Quelle": str(x.original_source)}
                       for x in market.comparable_transactions], hide_index=True,
                      column_config={"Quelle": st.column_config.LinkColumn()})
+
+
+def _render_capital_and_levels(market):
+    """Capital requirements and the TRL/MCL sector levels."""
     capital = market.capital_requirements
     capital_metrics = {
         "capital_need": "Kapitalbedarf", "time_to_milestone": "Zeitraum bis zum Meilenstein",
@@ -133,11 +162,7 @@ def render_market(context):
             if measure := getattr(capital, field):
                 st.text(f"{label} · {_measure(measure)} · {measure.data_type} · {measure.methodology}")
     levels = market.sector_metrics
-    for label, level, maximum in (("Technology Readiness Level", levels.technology_readiness, 9),
-                                  ("Market Certainty Level", levels.market_certainty, 6)):
+    for label, level, maximum in (("Technology Readiness Level", levels.technology_readiness, TRL_MAX),
+                                  ("Market Certainty Level", levels.market_certainty, MCL_MAX)):
         if level:
             st.text(f"{label} · {level.level}/{maximum} · {level.rationale}")
-    if market.research_gaps:
-        st.subheader("Offene Punkte")
-        for gap in market.research_gaps:
-            st.text(f"• {gap}")

@@ -1,4 +1,4 @@
-"""Deterministic market calculations from curated market inputs."""
+"""Deterministic market calculations (TAM/SAM/SOM, CAGR) from curated market inputs; used by scoring_input.py."""
 from collections import defaultdict
 from decimal import Decimal, ROUND_FLOOR, ROUND_HALF_EVEN, localcontext
 
@@ -107,7 +107,8 @@ def _growth(metric, points, *, historical):
     ))
 
 
-def market_parameters(market, add_evidence, as_of):
+def market_parameters(market, add_evidence, as_of) -> dict:
+    """Step-3 market Parameters (tam, sam, som, market_growth) from ContextV2.market_intelligence or None."""
     if market is None:
         return dict(_sizing({}), market_growth=[])
     sources = {item.evidence_id: item for item in market.sources}

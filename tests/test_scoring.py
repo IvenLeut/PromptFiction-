@@ -2,6 +2,8 @@ import copy
 import csv
 import json
 import sqlite3
+from datetime import date
+from functools import partial
 from pathlib import Path
 
 import pytest
@@ -12,6 +14,8 @@ from scoring.sources import load_dossiers
 
 LEADS = Path(__file__).parent.parent / "scoring" / "testleads" / "dummy_leads.json"
 TAG = "2026-11-20"
+TAG_DATE = date(2026, 11, 20)
+SAMPLE_CONTEXT = Path(__file__).parent.parent / "examples" / "sourcing" / "sample_dossiers.json"
 
 
 @pytest.fixture(scope="module")
@@ -164,6 +168,7 @@ def test_evaluation_engine_fits_pipeline_contract():
     from evaluation.engine import evaluate
     from models import Industry, SearchCriteria
     from pipeline import run_pipeline
+    evaluate = partial(evaluate, as_of=TAG_DATE)  # Stichtag fest, sonst hängt das Ergebnis vom heutigen Datum ab
     run = run_pipeline(SearchCriteria(industry=Industry.HEALTH, limit=30), evaluator=evaluate)
     assert not run.result.issues and len(run.result.leads) == 30
     for lead in run.result.leads:
@@ -301,7 +306,8 @@ def test_sqlite_loader_edge_cases(tmp_path):
 
 def test_adapter_translates_only_exact_and_sourced_values():
     from datetime import datetime, timezone
-    from evaluation.engine import evaluate
+    from evaluation.engine import evaluate as evaluate_live
+    evaluate = partial(evaluate_live, as_of=TAG_DATE)
     from models import EnrichedLead, Evidence, Industry
     ev = Evidence(source="Demo", url="https://example.org/a", finding="Sitz in Berlin", field="country",
                   retrieved_at=datetime(2026, 11, 20, tzinfo=timezone.utc))
@@ -323,7 +329,6 @@ def test_adapter_translates_only_exact_and_sourced_values():
     assert evaluate(lead(product_stage="Pilot", evidence=[ev, prod])).risk_score < basis_lead.risk_score
     assert evaluate(lead(founding_year=2023)).stage_classification == "Pre-Seed"
     assert evaluate(lead(founding_year=2022)).stage_classification == "Early Growth"
-    from datetime import date
     assert evaluate(lead(founded_on=date(2020, 1, 1))).stage_classification == "Pre-Seed"      # Schritt-2-Feld ohne Evidence zählt nicht
     spaet = Evidence(source="Demo", url="https://example.org/a/f", finding="Runde", field="last_funding_on", retrieved_at=ev.retrieved_at)
     assert evaluate(lead(funding_stage="Series A", evidence=[ev, spaet])).overall_score > 20      # falsches Evidence-Feld schaltet nichts frei
@@ -331,7 +336,7 @@ def test_adapter_translates_only_exact_and_sourced_values():
     assert evaluate(lead(funding_stage="Series A", evidence=[ev, echt])).overall_score <= 20
 
 
-def test_round_two_findings(tmp_path):
+def test_review_round2_founding_earliness_legal_form_noise_exist_csv(tmp_path):
     q = {"quelle": U}
     # Jahr ohne Monat: kein erfundener Monat, Alter wird nicht überschätzt
     r = score_dossier(basis(gruendungsdatum={"wert": "2023", **q}, rechtsform={"wert": "GmbH", **q}), stichtag=TAG)
@@ -403,7 +408,7 @@ def test_sqlite_loader_does_not_invent_exist(tmp_path):
     assert "100.000 EUR" in json.dumps(r["evidence"], ensure_ascii=False) and r["teilwerte"]["team"]["vollzeit"]["belegt"]
 
 
-def test_round_three_findings(tmp_path):
+def test_review_round3_description_grants_dates_legal_form_roles_loaders(tmp_path):
     q = {"quelle": U}
     # Beschreibung braucht ihre eigene Quelle; source_url ist kein Ersatz
     r = score_dossier(basis(beschreibung_rohtext="T baut Dinge.", source_url="https://other.de/y"), stichtag=TAG)
@@ -457,3 +462,48 @@ def test_round_three_findings(tmp_path):
     assert len(load_dossiers(ordner)) == 1
     with pytest.raises(SystemExit):
         main([str(ordner), "--out", str(tmp_path / "o"), "--config", str(tmp_path / "fehlt.yaml")])
+
+
+def test_why_now_month_wording():
+    from scoring.engine import vor_monaten
+    assert (vor_monaten(0), vor_monaten(1), vor_monaten(13)) == ("in diesem Monat", "vor 1 Monat", "vor 13 Monaten")
+    jetzt = score_dossier(basis(signals=[{"url": U, "datum": "2026-11-02"}]), stichtag=TAG)
+    assert jetzt["why_now"].endswith("jüngstes Signal in diesem Monat")
+    einer = score_dossier(basis(signals=[{"url": U, "datum": "2026-10-20"}]), stichtag=TAG)
+    assert einer["why_now"].endswith("jüngstes Signal vor 1 Monat")
+
+
+def test_evaluate_stichtag_is_injectable():
+    from evaluation.engine import evaluate
+    from models import ContextResult
+    lead = ContextResult.model_validate_json(SAMPLE_CONTEXT.read_text(encoding="utf-8")).leads[0]
+    lead = lead.model_copy(update={"scoring_input": None, "founding_year": 2023})
+    assert evaluate(lead, as_of=date(2026, 11, 20)).stage_classification == "Pre-Seed"
+    assert evaluate(lead, as_of=date(2027, 2, 1)).stage_classification == "Early Growth"  # Jahr allein zählt ab 31.12.
+
+
+def test_cli_scores_context_result_like_pipeline(tmp_path):
+    """`python -m scoring <ContextResult.json>` übersetzt die Leads wie der Dashboard-Weg (to_dossier + ScoringInput)."""
+    from evaluation.engine import apply_scoring_input, to_dossier
+    from models import ContextResult
+    dossiers = load_dossiers(SAMPLE_CONTEXT)
+    leads = ContextResult.model_validate_json(SAMPLE_CONTEXT.read_text(encoding="utf-8")).leads
+    assert len(dossiers) == len(leads) == 8
+    cfg = load_config()
+    assert dossiers[0] == apply_scoring_input(to_dossier(leads[0], cfg), leads[0].scoring_input)
+    assert main([str(SAMPLE_CONTEXT), "--out", str(tmp_path), "--stichtag", TAG]) == 0
+    data = json.loads((tmp_path / "scores.json").read_text(encoding="utf-8"))
+    assert len(data) == 8 and all(r["status"] == "bewertet" for r in data)
+    assert {r["lead_id"] for r in data} == {lead.id for lead in leads}
+
+
+def test_invalid_lead_and_incomplete_config(tmp_path):
+    kaputt = tmp_path / "leads.json"
+    kaputt.write_text(json.dumps({"leads": [{"id": "x", "source_url": "https://example.org", "industry": "keine"}]}), encoding="utf-8")
+    (r,) = score_all(load_dossiers(kaputt), stichtag=TAG)
+    assert r["lead_id"] == "x" and r["status"] == "zurueck_an_sourcing"
+    cfg = Path(__file__).parent.parent / "scoring" / "scoring_config.yaml"
+    ohne = tmp_path / "c.yaml"
+    ohne.write_text(cfg.read_text(encoding="utf-8").replace("hinweis_max_vor_signal_monate: 24", ""), encoding="utf-8")
+    with pytest.raises(ValueError, match="hinweis_max_vor_signal_monate"):
+        load_config(ohne)

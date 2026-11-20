@@ -4,6 +4,7 @@ Schnittstelle (Toms Vertrag, SCORING_HANDOFF.md): `evaluate(ScoringInput) -> Eva
 Die Pipeline reicht zusätzlich das Dossier als `lead=` durch, weil der ScoringInput keine Gründerprofile,
 Förderbeträge, Rechtsform, Partner oder Patente enthält. Ohne `lead` wird nur der ScoringInput bewertet.
 Gilt ein Parameter im ScoringInput als `usable`, hat er Vorrang vor dem gleichbedeutenden Dossierfeld.
+Stichtag: `as_of=`, sonst `ScoringInput.as_of`, sonst heute.
 
 Regeln der Übersetzung:
 - Felder aus Schritt 1 (Name, Beschreibung, Gründer, Gründungsdatum) gelten als durch `source_url` belegt.
@@ -19,7 +20,7 @@ from scoring_models import ScoringInput
 
 BRANCHE = {Industry.AI: "digital_tech", Industry.FINTECH: "digital_tech", Industry.CLIMATE: "climate_tech",
            Industry.HEALTH: "life_sciences", Industry.INDUSTRIAL: "industrial_deep_tech"}
-STAGE = {"pre_gruendung": "Pre-Seed", "in_gruendung": "Pre-Seed", "pre_seed": "Pre-Seed", "seed": "Seed", "zu_spaet": "Early Growth"}
+STAGE_LABEL = {"pre_gruendung": "Pre-Seed", "in_gruendung": "Pre-Seed", "pre_seed": "Pre-Seed", "seed": "Seed", "zu_spaet": "Early Growth"}
 REIFE = {"idee": "idee", "konzept": "idee", "paper": "paper", "forschung": "paper", "laborprototyp": "labor_prototyp",
          "labor_prototyp": "labor_prototyp", "labor-prototyp": "labor_prototyp", "prototyp": "prototyp", "mvp": "prototyp",
          "pilot": "pilot", "pilotkunden": "pilot", "pilotphase": "pilot", "erste kunden": "erste_kunden", "erste_kunden": "erste_kunden",
@@ -30,9 +31,16 @@ SPAETE_RUNDEN = {"series a", "series b", "series c", "series d", "growth", "late
 # Crunchbase capture or an unrelated press round-up must not become the "first signal" of a project.
 SIGNAL_FIELDS = {"grants", "idw", "founding_year_mention", "first_web_capture"}
 # Step 1 (sourcing/mapping.py) marks a default industry with this flag in prioritization_reason ("Flags: …" or
-# "Hinweise: …"); older runs wrote the plain-text marker.
-UNCLASSIFIED_MARKERS = ("industry_unclassified", "Branche nicht klassifiziert")
+# "Hinweise: …") or in a signal's evidence; older runs wrote the plain-text marker. Keep in sync with mapping.py.
+UNCLASSIFIED_FLAG = "industry_unclassified"
+UNCLASSIFIED_TEXT = "Branche nicht klassifiziert"
 _CONFIG = None
+
+
+def _config() -> dict:
+    global _CONFIG
+    _CONFIG = _CONFIG or load_config()
+    return _CONFIG
 
 
 def _sourced(value, url):
@@ -45,16 +53,47 @@ def _is_signal(e) -> bool:
             and "(Erwähnung)" not in source)  # "idw (Erwähnung)": name mention in a round-up, same as idw_mention
 
 
-def _branche(lead: EnrichedLead):
+def _industry_unclassified(lead: EnrichedLead) -> bool:
+    """True if step 1 only defaulted `industry` (marker in prioritization_reason or a signal). Demo leads never are."""
+    if lead.is_demo:
+        return False
+    texts = [lead.prioritization_reason or ""] + [s.evidence or "" for s in lead.signals]
+    return any(m in t for t in texts for m in (UNCLASSIFIED_FLAG, UNCLASSIFIED_TEXT))
+
+
+def _branche(lead: EnrichedLead) -> str | None:
     if lead.htgf_sector:
         return lead.htgf_sector
-    texts = [lead.prioritization_reason or ""] + [s.evidence or "" for s in lead.signals]
-    if not lead.is_demo and any(m in t for t in texts for m in UNCLASSIFIED_MARKERS):
-        return None  # industry is only step 1's default, not a classification
-    return BRANCHE[lead.industry]
+    return None if _industry_unclassified(lead) else BRANCHE[lead.industry]
 
 
 def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
+    """EnrichedLead -> scorer dossier (the untyped contract with scoring/engine.py; field rules: scoring/SCORING.md).
+
+    Facts are `{"wert", "quelle"}` (or None when unsourced); list entries carry their own `quelle`/`url`.
+
+    | key | value | from |
+    |---|---|---|
+    | lead_id, source_url | str | `id`, `source_url` |
+    | name_unternehmen, beschreibung_rohtext | fact | `name`, `description` (source: `source_url`) |
+    | deutschland_beleg | fact | `country_evidence` |
+    | website | str | `website` |
+    | email | fact | `contact_email` or `imprint_email` |
+    | branche | str or None | `htgf_sector`, else `industry` unless unclassified |
+    | rechtsform | fact | `legal_form` (+ " i.G." if `in_formation`) |
+    | gruendungsdatum, gruendungsjahr_hinweis | fact | `founded_on`/`founding_year[_month]`, `founding_year_hint` |
+    | team | [{name, rolle, institut, quelle, openalex, papers_im_feld, hintergrund, vorerfahrung}] | `founder_profiles`, `founders` |
+    | reifegrad, produkt_typ, regulierter_markt, ip | fact | `product_stage` (via REIFE), `product_type`, `regulated_market`, `patents`/`ip_status` |
+    | markt | {zielkunde, modell, volumen_eur: fact} | `target_customers`, `business_model`, `market_size_eur` |
+    | partner | [{name, typ, quelle}] | `partners`, `customer_count` |
+    | wettbewerber | [{name, quelle}] | `competitors` |
+    | foerderung | [{programm, summe_eur, start, ende, quelle}] | `grants` |
+    | funding_meldung | fact(True) | late `funding_stage`, `funding_total_eur` ≥ config, confirmed `vc_status` |
+    | in_databases, in_databases_quelle, first_db_date, match_confidence | sourcing metadata | same-named fields |
+    | signals | [{typ, url, datum}] | `signals`, dated signal evidence, `first_web_capture` |
+
+    scoring/engine.py ignores keys it does not know, so adding a key here is safe; renaming one is not.
+    """
     by_field = {}
     for e in lead.evidence:
         if e.field:
@@ -154,7 +193,7 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     }
 
 
-STAGE_EN = {"idea": "idee", "paper": "paper", "lab_prototype": "labor_prototyp", "prototype": "prototyp", "mvp": "prototyp",
+REIFE_AUS_EN = {"idea": "idee", "paper": "paper", "lab_prototype": "labor_prototyp", "prototype": "prototyp", "mvp": "prototyp",
             "pilot": "pilot", "first_customers": "erste_kunden", "commercial": "erste_kunden"}
 
 
@@ -175,8 +214,8 @@ def apply_scoring_input(dossier: dict, scoring: ScoringInput) -> dict:
         f = scoring.founded.value
         wert = "-".join(["%04d" % f.year] + ["%02d" % x for x in (f.month, f.day) if x is not None])
         dossier["gruendungsdatum"] = {"wert": wert, "quelle": _evidence_url(scoring, scoring.founded)}
-    if usable(scoring.product_stage) and scoring.product_stage.value in STAGE_EN:
-        dossier["reifegrad"] = {"wert": STAGE_EN[scoring.product_stage.value], "quelle": _evidence_url(scoring, scoring.product_stage)}
+    if usable(scoring.product_stage) and scoring.product_stage.value in REIFE_AUS_EN:
+        dossier["reifegrad"] = {"wert": REIFE_AUS_EN[scoring.product_stage.value], "quelle": _evidence_url(scoring, scoring.product_stage)}
     late = [r for r in scoring.completed_rounds if usable(r) and r.value in {"series_a", "series_b", "series_c"}]
     if late or (usable(scoring.vc_status) and scoring.vc_status.value == "confirmed"):
         src = _evidence_url(scoring, late[0] if late else scoring.vc_status)
@@ -203,18 +242,17 @@ def _dossier_from_scoring(scoring: ScoringInput) -> dict:
             "signals": signals, "source_url": urls[0] if urls else None}
 
 
-def _score(lead: EnrichedLead | None, scoring: ScoringInput | None) -> dict:
-    global _CONFIG
-    _CONFIG = _CONFIG or load_config()
-    dossier = to_dossier(lead, _CONFIG) if lead is not None else _dossier_from_scoring(scoring)
+def _score_record(lead: EnrichedLead | None, scoring: ScoringInput | None, as_of: date | None) -> dict:
+    cfg = _config()
+    dossier = to_dossier(lead, cfg) if lead is not None else _dossier_from_scoring(scoring)
     if scoring is not None:
         dossier = apply_scoring_input(dossier, scoring)
-    stichtag = scoring.as_of if scoring is not None and scoring.as_of else date.today()
-    return score_dossier(dossier, _CONFIG, stichtag)
+    stichtag = as_of or (scoring.as_of if scoring is not None else None) or date.today()
+    return score_dossier(dossier, cfg, stichtag)
 
 
 def _is_risk(e: dict) -> bool:
-    return e["dimension"] == "risiko" and e["punkte"] is not None and e["punkte"] >= _CONFIG["texte"]["risiko_ab"] * 100
+    return e["dimension"] == "risiko" and e["punkte"] is not None and e["punkte"] >= _config()["texte"]["risiko_ab"] * 100
 
 
 def _driver(e: dict) -> str:
@@ -223,15 +261,14 @@ def _driver(e: dict) -> str:
 
 
 def _scores(r: dict, lead: EnrichedLead | None) -> dict:
-    global _CONFIG
-    _CONFIG = _CONFIG or load_config()
+    """Score record (scoring/scores.schema.json) -> EvaluationScores fields."""
     belege = [e for e in r["evidence"] if e["url"] and e["dimension"] in ("team", "marktpotenzial", "risiko")]
     fragen = list(dict.fromkeys((list(lead.research_questions) if lead else []) + r["offene_punkte"]))
     beschreibung = (lead.description or lead.name) if lead else r["lead_id"]
     return dict(
         overall_score=r["gesamt_score"], company_score=r["team_score"],
         market_potential_score=r["marktpotenzial_score"], risk_score=r["risiko_score"],
-        stage_classification=STAGE.get(r["stage"], "Unbekannt"),
+        stage_classification=STAGE_LABEL.get(r["stage"], "Unbekannt"),
         value_proposition=r["value_proposition"] or beschreibung,
         investment_thesis=r["investmenthypothese"] or "Nicht bewertet. %s." % r["ausschluss_grund"],
         confidence_score=round(r["confidence"] * 100, 1),
@@ -243,17 +280,16 @@ def _scores(r: dict, lead: EnrichedLead | None) -> dict:
     )
 
 
-def evaluate(scoring: ScoringInput | EnrichedLead, *, lead: EnrichedLead | None = None):
+def evaluate(scoring: ScoringInput | EnrichedLead, *, lead: EnrichedLead | None = None, as_of: date | None = None):
     """Live scoring.
 
     - `evaluate(ScoringInput, lead=EnrichedLead) -> EvaluationScores`: the pipeline path (Tom's handoff plus dossier).
     - `evaluate(ScoringInput) -> EvaluationScores`: frozen handoff only.
-    - `evaluate(EnrichedLead) -> EvaluatedLead`: direct call with a dossier (kept for tests and scripts).
+    - `evaluate(EnrichedLead) -> EvaluatedLead`: direct call with a dossier; its own `scoring_input` is overlaid if set.
     """
     if isinstance(scoring, EnrichedLead):
-        dossier_lead = scoring
-        r = _score(dossier_lead, dossier_lead.scoring_input)
-        return EvaluatedLead(**dossier_lead.model_dump(), **_scores(r, dossier_lead))
-    r = _score(lead, scoring)
-    return EvaluationScores(**_scores(r, lead))
-
+        lead, scoring, as_lead = scoring, scoring.scoring_input, True
+    else:
+        as_lead = False
+    fields = _scores(_score_record(lead, scoring, as_of), lead)
+    return EvaluatedLead(**lead.model_dump(), **fields) if as_lead else EvaluationScores(**fields)

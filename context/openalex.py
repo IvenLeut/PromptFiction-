@@ -31,14 +31,15 @@ import urllib.parse
 
 from context.cache import Cache
 from context.http import get_json
-from context.lookup import Lookup
+from context.lookup import SOURCE_OPENALEX, Lookup
 from models import Evidence, FounderProfile
 
 logger = logging.getLogger(__name__)
 
 API = "https://api.openalex.org"
 AUTHOR_SELECT = "id,display_name,works_count,cited_by_count,summary_stats,last_known_institutions,affiliations,topics"
-SOURCE = "OpenAlex"
+SOURCE = SOURCE_OPENALEX
+MIN_INTERVAL = 0.2      # seconds between two OpenAlex requests (timeout: context.http.TIMEOUT)
 MIN_CONFIDENCE = 0.4
 MAX_TERMS = 8
 
@@ -236,7 +237,7 @@ def author_lookup(name: str, *, institution: str | None, field_terms: list[str],
     lookup = Lookup()
     if fetch is None:
         def fetch(url):
-            return get_json(url, cache=cache, min_interval=0.2)
+            return get_json(url, cache=cache, min_interval=MIN_INTERVAL)
     name = (name or "").strip()
     if not name:
         lookup.errors.append("openalex: kein Name")

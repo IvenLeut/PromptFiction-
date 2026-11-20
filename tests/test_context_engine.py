@@ -144,3 +144,19 @@ def test_field_terms_and_default_lookups():
     lookups = default_lookups(cache=NoCache())
     assert lookups["patents"] is None and callable(lookups["imprint"]) and callable(lookups["grants"])
     assert callable(default_lookups(cache=NoCache(), patents=True)["patents"])
+
+
+def test_default_lookups_without_cache_never_opens_a_file(tmp_path, monkeypatch):
+    from context.cache import NoCache
+    monkeypatch.chdir(tmp_path)
+    assert isinstance(default_lookups(cache=None)["cache"], NoCache)
+    assert not (tmp_path / ".cache").exists()
+
+
+def test_catalogue_signal_drops_person_names():
+    unit = "Ausführende Stelle: Universität Augsburg, Lehrstuhl für Experimentalphysik VI, Prof. Dr. Erika Musterfrau"
+    signal = SourceSignal(source="foekat", type="exist_projekt", url=U + "fk", date=date(2025, 4, 1),
+                          evidence="Förderkennzeichen: 03EFTEST01\nFörderempfänger: Universität Augsburg\n" + unit)
+    lead = enrich(make_lead(signals=[signal]), light=True)
+    assert lead.grants[0].recipient == "Universität Augsburg"
+    assert not any("Musterfrau" in e.finding for e in lead.evidence if e.field == "grants")

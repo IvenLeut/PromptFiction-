@@ -4,6 +4,24 @@ Keyed by an arbitrary string, values are JSON. Entries expire after `ttl_hours`.
 lives in `.cache/context.db` (git-ignored) unless CONTEXT_CACHE points elsewhere; set
 CONTEXT_CACHE=off to disable. A cache makes a second run identical to the first and keeps us
 within the rate limits of OpenAlex, the Förderkatalog and Wayback.
+
+Caching layers of step 2 (all persistent ones share one `Cache`, passed as `lookups["cache"]`):
+
+| layer                                   | key                         | scope                         |
+|-----------------------------------------|-----------------------------|-------------------------------|
+| `context.http.request` (idw, OpenAlex,  | `http:` + sha1(method, url, | persistent, raw response text |
+|  Wayback, Google Patents)               |  body), `http.cache_key`    |                               |
+| `context.foekat._cached_fetch`          | `foekat:` + method/url/body | persistent, raw catalogue page|
+| `context.web.fetch` (website, Impressum)| `web:` + sha1(url)          | persistent, parsed lines/links and failures |
+| `context.imprint.imprint_lookup`        | `imprint:` + sha1(website)  | persistent, found Impressum text or miss |
+| `context.web._fetch_window`            | `lru_cache(64)` per URL     | in-process, 15-minute window  |
+| `context.classify.classify_texts`       | `classify:` + prompt hash   | persistent, model answer      |
+| `context.engine.cached_quotes`          | `quotes:` + sha1(texts)     | persistent, Ollama quotes     |
+| `context.ollama.request_quotes`         | `lru_cache(128)` per call   | in-process                    |
+
+The two in-process `lru_cache`s are not redundant: they also apply when no `Cache` is passed (CLI `--no-lookups`,
+a custom enricher without lookups), where the persistent layers are skipped.
+`NoCache()` disables the persistent layers without touching the disk (tests; `default_lookups(cache=None)`).
 """
 from __future__ import annotations
 
@@ -17,6 +35,8 @@ DEFAULT_PATH = Path(".cache") / "context.db"
 
 
 class Cache:
+    """JSON values in one SQLite table; the file is opened on first use."""
+
     def __init__(self, path: str | os.PathLike | None = None, ttl_hours: float = 24 * 14):
         target = os.environ.get("CONTEXT_CACHE") if path is None else str(path)
         self.enabled = target != "off"
@@ -32,6 +52,7 @@ class Cache:
         return self._con
 
     def get(self, key: str):
+        """The stored value, or None if missing, expired or the cache is off."""
         if not self.enabled:
             return None
         row = self._db().execute("SELECT value, ts FROM cache WHERE key = ?", (key,)).fetchone()
@@ -40,6 +61,7 @@ class Cache:
         return json.loads(row[0])
 
     def set(self, key: str, value) -> None:
+        """Store a JSON-serialisable value (no-op when off)."""
         if not self.enabled:
             return
         self._db().execute("INSERT OR REPLACE INTO cache(key, value, ts) VALUES (?, ?, ?)",
@@ -58,5 +80,7 @@ class Cache:
 
 
 class NoCache(Cache):
+    """A disabled cache: never opens a file."""
+
     def __init__(self):
         super().__init__("off")

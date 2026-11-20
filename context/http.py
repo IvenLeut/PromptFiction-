@@ -10,7 +10,6 @@ import gzip
 import hashlib
 import http.client
 import json
-import logging
 import time
 import urllib.parse
 import urllib.request
@@ -18,14 +17,21 @@ from urllib.error import HTTPError, URLError
 
 from context.cache import Cache
 
-logger = logging.getLogger(__name__)
 USER_AGENT = "FounderRadar/1.0 (research prototype)"
 MAX_BYTES = 2_000_000
+TIMEOUT = 15             # seconds; modules pass their own TIMEOUT for slower services
+MIN_INTERVAL = 0.5       # seconds between two requests to the same host
+RETRIES = 2
 _last_call: dict[str, float] = {}
 
 
 class FetchError(Exception):
     """Raised for every transport or decoding failure; callers record it in enrichment_errors."""
+
+
+def cache_key(url: str, method: str = "GET", data: bytes | None = None) -> str:
+    """Cache key of one request; POST bodies are part of it."""
+    return "http:" + hashlib.sha1((method + " " + url + " " + (data or b"").decode("latin-1")).encode("utf-8")).hexdigest()
 
 
 def _throttle(host: str, min_interval: float) -> None:
@@ -36,11 +42,11 @@ def _throttle(host: str, min_interval: float) -> None:
 
 
 def request(url: str, *, method: str = "GET", data: bytes | None = None, headers: dict | None = None,
-            timeout: float = 15, encoding: str | None = None, min_interval: float = 0.5,
-            cache: Cache | None = None, retries: int = 2) -> str:
+            timeout: float = TIMEOUT, encoding: str | None = None, min_interval: float = MIN_INTERVAL,
+            cache: Cache | None = None, retries: int = RETRIES) -> str:
     """Return the response body as text. POST bodies are part of the cache key."""
     host = urllib.parse.urlsplit(url).hostname or ""
-    key = "http:" + hashlib.sha1((method + " " + url + " " + (data or b"").decode("latin-1")).encode("utf-8")).hexdigest()
+    key = cache_key(url, method, data)
     if cache is not None:
         hit = cache.get(key)
         if hit is not None:
@@ -67,7 +73,7 @@ def request(url: str, *, method: str = "GET", data: bytes | None = None, headers
             if e.code in (429, 500, 502, 503, 504) and attempt < retries:
                 time.sleep(2 * (attempt + 1))
                 continue
-            raise last
+            raise last from e
         except (URLError, TimeoutError, http.client.HTTPException, OSError, UnicodeError) as e:
             last = FetchError("%s: %s" % (host, type(e).__name__))
             if attempt < retries:
@@ -77,8 +83,9 @@ def request(url: str, *, method: str = "GET", data: bytes | None = None, headers
 
 
 def get_json(url: str, **kw):
+    """`request` plus JSON decoding; a non-JSON body raises FetchError."""
     text = request(url, **kw)
     try:
         return json.loads(text)
-    except ValueError:
-        raise FetchError("%s: keine JSON-Antwort" % (urllib.parse.urlsplit(url).hostname or ""))
+    except ValueError as e:
+        raise FetchError("%s: keine JSON-Antwort" % (urllib.parse.urlsplit(url).hostname or "")) from e

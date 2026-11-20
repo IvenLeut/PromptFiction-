@@ -15,12 +15,12 @@ import logging
 import re
 from urllib.parse import unquote, urljoin, urlsplit
 
-from context.lookup import Lookup
+from context.lookup import SOURCE_IMPRINT, Lookup
 from context.web import fetch as _web_fetch, site_key
 from models import SourceSignal
 
 logger = logging.getLogger(__name__)
-SOURCE = "Impressum"
+SOURCE = SOURCE_IMPRINT
 MAX_REQUESTS = 6
 MAX_SIGNAL_CHARS = 8000
 COMMON_PATHS = ["/impressum", "/impressum/", "/imprint", "/legal", "/legal-notice", "/de/impressum",

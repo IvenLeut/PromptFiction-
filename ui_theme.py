@@ -1,10 +1,61 @@
-"""FounderRadar visual system: charcoal, white and a warm orange accent."""
+"""FounderRadar visual system: charcoal, white and a warm orange accent.
+
+Also the single home of display constants and value formatting shared by all views.
+The CSS below and .streamlit/config.toml use the same palette values.
+"""
+from datetime import date
 from html import escape
 
 import streamlit as st
 
+# Palette
+WHITE = "#ffffff"
+INK = "#221f19"            # body text, hover labels, thesis box
+CHARCOAL = "#161616"       # company score bars
+BLACK = "#171717"          # "Seed" slice, market bar in the profile chart
+ORANGE = "#f5653f"         # accent
+RUST = "#b63716"           # risk bar in the profile chart
+TEAL = "#94cbd0"           # overall score bar, "Early Growth" slice
+TEAL_DARK = "#78bfc5"      # risk bars in the comparison chart
+NEUTRAL = "#c9cdd2"        # "Unbekannt" slice
+MUTED = "#626971"          # axis labels
+GRID = "#dfe3e6"           # 3D grid
+GRID_LIGHT = "#ededed"     # 2D grid
+PANEL = "#f7f8f9"          # 3D background
+ZERO_LINE = "#b8bec4"
+RISK_LOW = "#106049"       # risk colour scale: green -> orange -> red
+RISK_HIGH = "#aa2c20"
+FONT = "Arial, sans-serif"
+STAGE_COLORS = {"Pre-Seed": ORANGE, "Seed": BLACK, "Early Growth": TEAL, "Unbekannt": NEUTRAL}
+
+# Layout
+SCORE_MAX = 100
+TOP_N_OPTIONS = [10, 20]
+COMPARISON_LIMIT = 10      # bars in the direct comparison
+QUESTION_PREVIEW = 8       # open questions shown before collapsing the rest
+TABLE_ROW_HEIGHT = 44
+TABLE_MAX_HEIGHT = 740
+
+UNKNOWN = "Unbekannt"
+
+
+def format_score(score: float | None, missing: str = UNKNOWN) -> str:
+    """Score with one decimal, e.g. "53.7"; ``missing`` if unknown."""
+    return missing if score is None else f"{score:.1f}"
+
+
+def format_number(amount: float | int | None, suffix: str = "") -> str:
+    """Whole number with German thousands separator, e.g. "1.029.852 EUR"."""
+    return UNKNOWN if amount is None else f"{amount:,.0f}{suffix}".replace(",", ".")
+
+
+def format_date(day: date) -> str:
+    """German date, e.g. "21.11.2026"."""
+    return f"{day:%d.%m.%Y}"
+
 
 def apply_theme():
+    """Inject the FounderRadar CSS."""
     st.markdown('''<style>
     .stApp {background:#ffffff;color:#221f19;}
     .block-container {max-width:1480px;padding:2rem 3.5rem 4rem;}
@@ -46,7 +97,6 @@ def apply_theme():
     .fr-kpi p {font-size:.8rem;margin:0;color:#626971;}
     .fr-kpi .fr-meter {height:4px;background:#eceeef;margin:.7rem 0;max-width:180px;}
     .fr-kpi .fr-meter i {display:block;height:100%;background:#f5653f;}
-    .fr-section {font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:#b63716;margin-top:1rem;}
     [data-testid="stRadio"] [role="radiogroup"] {gap:.75rem;}
     [data-testid="stRadio"] [role="radiogroup"] label {border:1px solid #d9dce0;border-radius:12px;padding:1rem 1.2rem!important;flex:1;}
     [data-testid="stRadio"] [role="radiogroup"] label:has(input:checked) {background:#fff2ec;border-color:#f5653f;}
@@ -60,8 +110,6 @@ def apply_theme():
     .fr-fact {border-bottom:1px solid #e4e6e8;padding:.8rem 0;}
     .fr-fact-label {font-size:.85rem;color:#626971;margin-bottom:.25rem;}
     .fr-fact-value {font-size:1rem;font-weight:600;overflow-wrap:anywhere;}
-    .fr-note {border-left:3px solid #f5653f;padding:.45rem .9rem;color:#626971;
-        font-size:.875rem;margin:1rem 0;}
     @media(max-width:700px){.block-container{padding:1.5rem 1rem;} .fr-thesis{padding:1.2rem;}
     .fr-summary,.fr-flow{grid-template-columns:repeat(2,1fr);} .fr-orbit{opacity:.25;right:-100px;}
     .fr-brand span{display:none;} .fr-kpi strong{font-size:2.8rem;}}
@@ -69,10 +117,12 @@ def apply_theme():
 
 
 def brand():
+    """Top bar with the product name."""
     st.markdown('<div class="fr-brand"><div>FounderRadar<b>●</b></div><span>VENTURE INTELLIGENCE / GERMANY</span></div>', unsafe_allow_html=True)
 
 
-def landing():
+def landing(live: bool = False):
+    """Start-page hero; the caption names the data source of the selected mode."""
     st.markdown('''<div class="fr-hero"><div class="fr-orbit"></div>
     <div class="fr-eyebrow">Von der Entdeckung zur Investmenthypothese</div>
     <h1>Früh erkennen.<br><em>Fundiert entscheiden.</em></h1>
@@ -82,10 +132,14 @@ def landing():
     <div><b>02 / RESEARCH</b><span>Kontext verbinden</span></div>
     <div><b>03 / EVALUATE</b><span>Potenziale bewerten</span></div>
     <div><b>04 / EXPLORE</b><span>Ergebnisse entdecken</span></div></div>''', unsafe_allow_html=True)
-    st.caption("Interaktiver Prototyp mit fiktiven Daten. Quellen und Kontakte sind Demo-Platzhalter.")
+    if live:
+        st.caption("Live-Modus: Förderprojekte aus dem Förderkatalog des Bundes, ergänzt um öffentliche Quellen.")
+    else:
+        st.caption("Interaktiver Prototyp mit fiktiven Daten. Quellen und Kontakte sind Demo-Platzhalter.")
 
 
 def summary_kpis(leads):
+    """Four KPI cards with the mean of each known score."""
     def mean(field):
         values = [getattr(x, field) for x in leads if getattr(x, field) is not None]
         return sum(values) / len(values) if values else None
@@ -95,18 +149,20 @@ def summary_kpis(leads):
                                 ("Ø Marktpotenzial", "market_potential_score", "Marktchance · höher ist besser"),
                                 ("Ø Risiko", "risk_score", "Risikowert · niedriger ist besser")]:
         score = mean(field)
-        formatted = f"{score:.1f}" if score is not None else "—"
+        formatted = format_score(score, missing="—")
         cards.append(f'<div class="fr-kpi"><small>{label}</small><strong>{formatted}</strong>'
                      f'<div class="fr-meter"><i style="width:{score or 0}%"></i></div><p>{hint}</p></div>')
     st.markdown('<div class="fr-summary">' + ''.join(cards) + '</div>', unsafe_allow_html=True)
 
 
-def heading(kicker, title, description):
+def heading(kicker: str, title: str, description: str):
+    """Eyebrow, page title and intro paragraph."""
     st.markdown(f'<div class="fr-eyebrow">{escape(kicker)}</div>', unsafe_allow_html=True)
     st.title(title)
     st.markdown(f'<div class="fr-intro">{escape(description)}</div>', unsafe_allow_html=True)
 
 
-def fact(label, item):
+def fact(label: str, item: object):
+    """One labelled value in a fact list."""
     st.markdown(f'<div class="fr-fact"><div class="fr-fact-label">{escape(label)}</div>'
                 f'<div class="fr-fact-value">{escape(str(item))}</div></div>', unsafe_allow_html=True)

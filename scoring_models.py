@@ -1,4 +1,8 @@
-"""Versioned, deterministic input and evidence for step 3."""
+"""Versioned, deterministic input and evidence for step 3 (built by scoring_input.py, read by evaluation/).
+
+Imports only research_models. Class docstrings become JSON-schema descriptions
+(examples/scoring-input-schema.json), so classes are documented with comments.
+"""
 from datetime import date
 from decimal import Decimal
 from hashlib import sha256
@@ -18,6 +22,7 @@ Count = Annotated[int, Field(strict=True, ge=0)]
 PositiveCents = Annotated[int, Field(strict=True, gt=0)]
 
 
+# A date known to year, month or day precision.
 class PartialDate(Contract):
     year: int = Field(ge=1800, le=2200)
     month: int | None = None
@@ -26,6 +31,7 @@ class PartialDate(Contract):
 
     @model_validator(mode="after")
     def validate_precision(self):
+        """`precision` must match the given parts, and the parts must form a real date."""
         actual = "day" if self.day is not None else "month" if self.month is not None else "year"
         if self.precision != actual or (self.day is not None and self.month is None):
             raise ValueError("Datum und Genauigkeit stimmen nicht überein.")
@@ -33,10 +39,12 @@ class PartialDate(Contract):
              self.day if self.day is not None else 1)
         return self
 
-    def components(self):
+    def components(self) -> tuple[int, ...]:
+        """(year[, month[, day]]) for prefix comparison of dates with different precision."""
         return tuple(part for part in (self.year, self.month, self.day) if part is not None)
 
 
+# One source excerpt referenced by ScoringInput parameters via its stable_id.
 class ScoringEvidence(Contract):
     url: HttpUrl
     excerpt: str = Field(min_length=1)
@@ -45,7 +53,8 @@ class ScoringEvidence(Contract):
     subject_lead_id: str = Field(min_length=1)
     source_snapshot_id: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
 
-    def stable_id(self):
+    def stable_id(self) -> str:
+        """SHA-256 of the canonical JSON; the key under which ScoringInput.evidence stores this item."""
         return sha256(self.model_dump_json().encode("utf-8")).hexdigest()
 
 
@@ -65,6 +74,7 @@ class Calculation(Contract):
     inputs: list[CalculationInput] = Field(min_length=1)
 
 
+# A scoring fact with status, provenance and evidence; only "usable" values may be scored.
 class Parameter(Contract, Generic[T]):
     value: T | None = None
     status: Literal["usable", "missing", "ambiguous", "conflicting", "informational"]
@@ -79,6 +89,7 @@ class Parameter(Contract, Generic[T]):
 
     @model_validator(mode="after")
     def check_value_and_status(self):
+        """Values need evidence and provenance; open statuses carry no value; estimates are never usable."""
         if self.status in {"usable", "informational"}:
             if self.value is None or not self.evidence_ids or self.provenance is None:
                 raise ValueError("Ein Wert benötigt Belege und Herkunft.")
@@ -96,6 +107,7 @@ class MarketGrowth(Contract):
     cagr: Parameter[Decimal]
 
 
+# Step-2 -> step-3 handoff for one lead (SCORING_HANDOFF.md).
 class ScoringInput(Contract):
     schema_version: Literal["1.0"] = "1.0"
     rules_version: Literal["1.0"] = "1.0"
@@ -122,6 +134,7 @@ class ScoringInput(Contract):
 
     @model_validator(mode="after")
     def check_references(self):
+        """Every evidence id exists, belongs to this lead and matches its content."""
         if any(item.subject_lead_id != self.lead_id for item in self.evidence.values()):
             raise ValueError("Ein Beleg ist einem anderen Lead zugeordnet.")
         if any(key != item.stable_id() for key, item in self.evidence.items()):

@@ -1,4 +1,3 @@
-from pathlib import Path
 import pytest
 from pydantic import ValidationError
 import mock_data
@@ -112,3 +111,86 @@ def test_pipeline_preserves_partial_errors():
     assert result.discovered_count == 3
     assert result.enriched_count == len(result.result.leads) == 2
     assert len(result.result.issues) == 1
+
+def _evaluated(lead_id, score, reason=None):
+    from demo_portfolio import demo_enrich, demo_evaluate, demo_search
+    lead = demo_evaluate(demo_enrich(demo_search(SearchCriteria(industry=Industry.AI, limit=1))[0]))
+    return lead.model_copy(update={"id": lead_id, "overall_score": score, "prioritization_reason": reason})
+
+
+def test_lead_priority_parsing():
+    from pipeline import lead_priority
+    assert lead_priority(_evaluated("a", 1, "Priorität 90: EXIST-Forschungstransfer.")) == 90
+    assert lead_priority(_evaluated("a", 1, "Priorität 250: zu hoch.")) == 100
+    assert lead_priority(_evaluated("a", 1, "EXIST, Priorität 90: nicht am Anfang.")) == 0
+    assert lead_priority(_evaluated("a", 1, "Priorität hoch")) == 0
+    assert lead_priority(_evaluated("a", 1)) == 0
+
+
+def test_ranking_ties_broken_by_priority_missing_score_last():
+    from pipeline import ranking_key
+    leads = [_evaluated("a", 70, "Priorität 40: x."), _evaluated("b", None, "Priorität 99: x."),
+             _evaluated("c", 70, "Priorität 80: x."), _evaluated("d", 80), _evaluated("e", 70)]
+    assert [x.id for x in sorted(leads, key=ranking_key)] == ["d", "c", "a", "e", "b"]
+
+
+def test_evaluate_context_sorts_by_ranking_key():
+    leads = [_evaluated("a", 70, "Priorität 40: x."), _evaluated("c", 70, "Priorität 80: x.")]
+    result = evaluate_context(leads, evaluator=lambda lead: lead)
+    assert [x.id for x in result.leads] == ["c", "a"]
+
+
+def test_demo_order_unchanged_by_priority_tie_break():
+    from pipeline import run_pipeline
+    for industry in Industry:
+        leads = run_pipeline(SearchCriteria(industry=industry)).result.leads
+        assert all(x.prioritization_reason is None for x in leads)
+        old = sorted(leads, key=lambda x: (x.overall_score is None, -(x.overall_score or 0), x.id))
+        assert [x.id for x in leads] == [x.id for x in old]
+
+
+def _live_lead(index, priority):
+    lead = mock_data.search(SearchCriteria(industry=Industry.AI))[0]
+    return lead.model_copy(update={"id": f"live-{index}", "is_demo": False,
+                                   "prioritization_reason": f"Priorität {priority}: Test."})
+
+
+def test_live_discover_keeps_provider_order_and_limit():
+    # sourcing.engine.search sorts by priority and cuts at criteria.limit; discover must neither re-sort nor cut again.
+    criteria = SearchCriteria(industry=Industry.AI, limit=3)
+    sourced = [_live_lead(1, 90), _live_lead(2, 95), _live_lead(3, 40)]
+    assert [x.id for x in discover(criteria, use_mock=False, provider=lambda c: sourced[:c.limit])] == \
+        ["live-1", "live-2", "live-3"]
+    dropped = [sourced[0], sourced[1].model_copy(update={"country_evidence": None}), sourced[2]]
+    assert [x.id for x in discover(criteria, use_mock=False, provider=lambda _: dropped)] == ["live-1", "live-3"]
+    uncapped = sourced + [_live_lead(4, 99)]
+    assert [x.id for x in discover(criteria, use_mock=False, provider=lambda _: uncapped)] == \
+        ["live-1", "live-2", "live-3"]
+    with pytest.raises(ValueError):
+        discover(criteria, use_mock=False, provider=lambda _: mock_data.search(criteria))
+
+
+@pytest.mark.parametrize("has_vc, scored", [(None, True), (False, True), (True, False)])
+def test_live_vc_gate(has_vc, scored):
+    lead = mock_data.enrich(_live_lead(1, 50).model_copy(update={"has_vc": has_vc}))
+    lead = lead.model_copy(update={"is_demo": False})
+    seen = {}
+
+    def evaluator(scoring, *, lead):
+        seen["lead"] = lead.id
+        return dict(overall_score=50, company_score=50, market_potential_score=50, risk_score=50,
+                    stage_classification="Unbekannt", value_proposition="Test.", investment_thesis="Test.")
+    result = evaluate_context([lead], use_mock=False, evaluator=evaluator)
+    assert [x.id for x in result.leads] == (["live-1"] if scored else [])
+    assert (seen.get("lead") == "live-1") is scored
+    if not scored:
+        assert result.issues[0].message == "VC-Finanzierung gefunden oder widersprüchlich gemeldet."
+
+
+def test_failed_evaluation_is_logged_with_type(caplog):
+    lead = mock_data.enrich(_live_lead(1, 50))
+    def broken(scoring):
+        raise KeyError("x")
+    result = evaluate_context([lead], use_mock=False, evaluator=broken)
+    assert result.issues[0].message == "Bewertung fehlgeschlagen. Details im Server-Log."
+    assert "live-1" in caplog.text and "KeyError" in caplog.text

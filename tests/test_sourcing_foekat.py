@@ -22,6 +22,7 @@ from pydantic import TypeAdapter
 
 import context.engine
 import sourcing.foekat_export as fx
+import sourcing.mapping as mp
 from context.cache import Cache, NoCache
 from context.foekat import SEARCH_URL, FoekatError, detail_url
 from models import Industry, RawLead, SearchCriteria
@@ -100,7 +101,7 @@ def hints(lead):
 
 @pytest.fixture
 def leads():
-    return fx.run(fetch=FixtureFetch(), cache=None, clock=CLOCK).leads
+    return mp.run(fetch=FixtureFetch(), cache=None, clock=CLOCK).leads
 
 
 # --- cleaning ---------------------------------------------------------------------------------------
@@ -202,7 +203,7 @@ def test_unrepairable_mismatch_sets_incomplete():
     assert result.complete is False
     assert len(result.rows) == 19                              # only validated child rows, nothing invented
     assert any("unvollständig" in w for w in result.warnings)
-    run = fx.build_leads(result)
+    run = mp.build_leads(result)
     assert run.stats()["complete"] is False and run.stats()["warnings"]
 
 
@@ -248,15 +249,15 @@ def test_zero_hits_needs_no_export():
 # --- mapping ----------------------------------------------------------------------------------------
 
 def test_names_from_thema():
-    assert fx.project_name("EXIST-Forschungstransfer: HAPPY") == ("HAPPY", None)
-    assert fx.project_name("EXIST - Forschungstransfer: PlantMap") == ("PlantMap", None)
-    assert fx.project_name("EXIST_P2P") == ("EXIST_P2P", None)
-    assert fx.project_name("u/press (ehemals trykk)") == ("u/press", "trykk")
-    assert fx.project_name("Synascale (ehem. SPHAERAM)") == ("Synascale", "SPHAERAM")
-    assert fx.project_name("JoulyAI ehemals Minmo") == ("JoulyAI", "Minmo")
-    assert fx.project_name("Charge Circle (VrakosGrid)") == ("Charge Circle (VrakosGrid)", None)
+    assert mp.project_name("EXIST-Forschungstransfer: HAPPY") == ("HAPPY", None)
+    assert mp.project_name("EXIST - Forschungstransfer: PlantMap") == ("PlantMap", None)
+    assert mp.project_name("EXIST_P2P") == ("EXIST_P2P", None)
+    assert mp.project_name("u/press (ehemals trykk)") == ("u/press", "trykk")
+    assert mp.project_name("Synascale (ehem. SPHAERAM)") == ("Synascale", "SPHAERAM")
+    assert mp.project_name("JoulyAI ehemals Minmo") == ("JoulyAI", "Minmo")
+    assert mp.project_name("Charge Circle (VrakosGrid)") == ("Charge Circle (VrakosGrid)", None)
     long = "EXIST-Forschungstransfer: Ionera - Hochdurchsatzplattform für die chemische und biologische Analytik"
-    assert fx.project_name(long) == ("Ionera", None)
+    assert mp.project_name(long) == ("Ionera", None)
 
 
 def test_industry_mapping(leads):
@@ -281,14 +282,14 @@ def test_industry_default_is_flagged(leads):
         lead = named[name]
         assert lead.industry == industry and lead.htgf_sector is None
         assert "industry_unclassified" in hints(lead) and "nicht klassifiziert" in lead.prioritization_reason
-    stats = fx.run(fetch=FixtureFetch(), cache=None, clock=CLOCK).stats()
+    stats = mp.run(fetch=FixtureFetch(), cache=None, clock=CLOCK).stats()
     assert stats["industry_defaulted"] == stats["flags"]["industry_unclassified"] > 0
     assert sum(stats["industry"].values()) == stats["leads"] == 45
 
 
 def test_raw_lead_contract(leads):
     assert len(leads) == 45 and len({l.id for l in leads}) == 45
-    info = fx.run(fetch=FixtureFetch(), cache=None, clock=CLOCK).info
+    info = mp.run(fetch=FixtureFetch(), cache=None, clock=CLOCK).info
     keys = [(-info[l.id].priority, -l.signals[0].date.toordinal(), l.id) for l in leads]
     assert keys == sorted(keys)                                # priority desc, newest project start, id
     for lead in leads:
@@ -327,7 +328,7 @@ def test_executing_country_unassigned_and_empty_ort(leads):
 def test_no_german_party_is_skipped():
     row = rows_of("03EF")[0]
     foreign = fx.GrantRow(**{**row.__dict__, "recipient_staat": "Schweiz", "executing_staat": "Schweiz"})
-    run = fx.build_leads(fx.ExportResult(rows=[foreign]))
+    run = mp.build_leads(fx.ExportResult(rows=[foreign]))
     assert run.leads == [] and run.skipped_non_de == [row.fkz]
 
 
@@ -336,7 +337,7 @@ def test_verbund_rows_become_one_lead():
     row = rows_of("03EF")[0]
     a = fx.GrantRow(**{**row.__dict__, "fkz": row.fkz + "A"})
     b = fx.GrantRow(**{**row.__dict__, "fkz": row.fkz + "B", "amount": Decimal("100000.00"), "recipient": "Partner e.V."})
-    run = fx.build_leads(fx.ExportResult(rows=[b, a]))
+    run = mp.build_leads(fx.ExportResult(rows=[b, a]))
     assert len(run.leads) == 1
     lead = run.leads[0]
     assert lead.id == "foekat-" + row.fkz.lower() and [s.evidence.splitlines()[0] for s in lead.signals] == [
@@ -344,19 +345,19 @@ def test_verbund_rows_become_one_lead():
     assert "verbund" in hints(lead) and "976.964 EUR" in lead.prioritization_reason
     named = fx.GrantRow(**{**row.__dict__, "fkz": "03EFXX9001", "projekt": "Verbund HoCHQuant"})
     other = fx.GrantRow(**{**row.__dict__, "fkz": "03EFYY9002", "projekt": "Verbund HoCHQuant"})
-    assert len(fx.group_projects([named, other])) == 1
+    assert len(mp.group_projects([named, other])) == 1
 
 
 def test_company_recipient_flag():
     row = rows_of("03EF")[0]
     company = fx.GrantRow(**{**row.__dict__, "fkz": "03EFU9XX01", "recipient": "Beispiel Sensorik GmbH", "executing": "Beispiel Sensorik GmbH"})
-    lead = fx.build_leads(fx.ExportResult(rows=[company])).leads[0]
+    lead = mp.build_leads(fx.ExportResult(rows=[company])).leads[0]
     assert "recipient_company" in hints(lead) and "exist_ft_phase2_candidate" in hints(lead)
     assert "pre_founding_team" not in hints(lead)
     assert lead.founding_year is None and lead.founders == []
     macromedia = next(r for r in rows_of("03EG") if r.recipient == "Macromedia GmbH")
     skz = next(r for r in rows_of("03EF") if r.recipient == "SKZ - KFE gGmbH")
-    assert not fx.recipient_is_company(macromedia) and not fx.recipient_is_company(skz)
+    assert not mp.recipient_is_company(macromedia) and not mp.recipient_is_company(skz)
 
 
 # --- integration with steps 2 and 3 -----------------------------------------------------------------
@@ -384,10 +385,10 @@ def test_context_light_keeps_leads_and_scoring_input_builds(leads):
 def test_determinism_and_cache(tmp_path):
     cache = Cache(tmp_path / "c.db")
     first_fetch = FixtureFetch()
-    first = fx.run(fetch=first_fetch, cache=cache, clock=CLOCK)
+    first = mp.run(fetch=first_fetch, cache=cache, clock=CLOCK)
     later = lambda: datetime(2030, 1, 1, tzinfo=timezone.utc)
     second_fetch = FixtureFetch()
-    second = fx.run(fetch=second_fetch, cache=cache, clock=later)
+    second = mp.run(fetch=second_fetch, cache=cache, clock=later)
     assert second_fetch.calls == [] and second.export.fetches == 0 and first.export.fetches == 2
     dump = lambda run: TypeAdapter(list[RawLead]).dump_json(run.leads, indent=2)
     assert dump(first) == dump(second)

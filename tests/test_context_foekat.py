@@ -398,3 +398,37 @@ def test_session_retries_on_5xx(monkeypatch):
 def test_detail_url_quotes_fkz():
     assert detail_url("03EGSBW750 TIB") == SEARCH_URL + "?actionMode=view&fkz=03EGSBW750%20TIB"
     assert re.fullmatch(r"https://foerderportal\.bund\.de/foekat/jsp/SucheAction\.do\?actionMode=view&fkz=[A-Z0-9%]+", detail_url("03EFBW0275"))
+
+
+# --- person names in the executing unit ------------------------------------------------------------
+# Real catalogue units (fixture foekat_detail_spinmagic.html and FKZ 03EFBE0166 from examples/sourcing/shortlist.json),
+# with the head of the chair pseudonymised.
+SPINMAGIC_UNIT = ("Universität Stuttgart - Fakultät 5 Informatik, Elektrotechnik und Informationstechnik - "
+                  "Institut für Intelligente Sensorik und Theoretische Elektrotechnik (IIS)")
+
+
+@pytest.mark.parametrize("suffix", [", Prof. Dr.-Ing. Erika Musterfrau", " Prof. Dr. Max Muster", " AG Erika Musterfrau"])
+def test_person_names_never_reach_grant_or_evidence(suffix):
+    detail = load("detail_spinmagic").replace("(IIS)</div>", "(IIS)%s</div>" % suffix, 1)
+    fetch = fixture_fetch(search=load("search_spinmagic"), detail=detail)
+    grants, lookup = grant_lookup("SpinMagIC", institution=None, reference=None, cache=NoCache(), fetch=fetch)
+    assert grants[0].recipient == SPINMAGIC_UNIT and lookup.fields["institution"] == SPINMAGIC_UNIT
+    texts = [s.evidence for s in lookup.signals] + [e.finding for e in lookup.evidence]
+    assert not any("Muster" in text for text in texts)
+    assert "Ausführende Stelle: " + SPINMAGIC_UNIT + "; Laufzeit" in lookup.signals[0].evidence
+
+
+def test_untitled_working_group_head_removed_subject_groups_kept():
+    from context.foekat import _grant_from
+    unit = ("Charité - Universitätsmedizin Berlin, Berliner Institut für Gesundheitsforschung in der Charité "
+            "AG Sophie van Linthout")
+    grant, facts = _grant_from({"fkz": "03EFBE0166", "recipient": "Charité - Universitätsmedizin Berlin", "executing": unit}, None)
+    assert grant.recipient == facts["executing"] == unit.removesuffix(" AG Sophie van Linthout")
+    subject = "Freie Universität Berlin - Institut für Informatik - AG Künstliche Intelligenz"
+    assert _grant_from({"fkz": "03EFBE0001", "recipient": "Freie Universität Berlin", "executing": subject}, None)[0].recipient == subject
+
+
+def test_unit_that_is_only_a_person_becomes_empty():
+    from context.foekat import _grant_from
+    grant, facts = _grant_from({"fkz": "03EFBE0002", "recipient": "Universität X", "executing": "Prof. Dr. Erika Musterfrau"}, None)
+    assert grant.recipient == "Universität X" and facts["executing"] == ""

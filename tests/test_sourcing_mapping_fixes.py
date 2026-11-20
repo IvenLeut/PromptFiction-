@@ -32,30 +32,30 @@ def mapped(**changes):
     return mp.map_project([grant(**changes)], AS_OF)
 
 
-# --- 5. person names (real strings from examples/sourcing/shortlist.json) ---------------------------
+# --- 5. person names (catalogue strings from examples/sourcing/shortlist.json, names pseudonymised) ---
 
 PERSON_CASES = [
-    ("Technische Universität Darmstadt Prof. Dr. Carolin Bock, FG Entrepreneurship",
+    ("Technische Universität Darmstadt Prof. Dr. Erika Muster, FG Entrepreneurship",
      "Technische Universität Darmstadt, FG Entrepreneurship"),
-    ("Kirchhoff Institut für Physik - Neuromorphic Quantumphotonics, Prof. Dr. Wolfram Pernice",
+    ("Kirchhoff Institut für Physik - Neuromorphic Quantumphotonics, Prof. Dr. Max Mustermann",
      "Kirchhoff Institut für Physik - Neuromorphic Quantumphotonics"),
-    ("Universität Bremen - Fachbereich 03 Mathematik - Informatik - Maschinelles Lernen in der Statistik - Prof. Dr. Marvin Wright",
+    ("Universität Bremen - Fachbereich 03 Mathematik - Informatik - Maschinelles Lernen in der Statistik - Prof. Dr. Jan Beispiel",
      "Universität Bremen - Fachbereich 03 Mathematik - Informatik - Maschinelles Lernen in der Statistik"),
-    ("Technische Universität Braunschweig, Institut für Mechanik und Adaptronik, Herr Prof. Dr.-Ing. Markus Böl",
+    ("Technische Universität Braunschweig, Institut für Mechanik und Adaptronik, Herr Prof. Dr.-Ing. Erik Bär",
      "Technische Universität Braunschweig, Institut für Mechanik und Adaptronik"),
-    ("Technische Hochschule Köln Fakultät für Fakultät für Anlagen, Energie- und Maschinensysteme Prof. Dr. Jörg Luderich",
+    ("Technische Hochschule Köln Fakultät für Fakultät für Anlagen, Energie- und Maschinensysteme Prof. Dr. Jörg Musterle",
      "Technische Hochschule Köln Fakultät für Fakultät für Anlagen, Energie- und Maschinensysteme"),
-    ("Prof. Dr. Jörg Schipper | Direktor HNO-Klinik des Universitätsklinikum Düsseldorf | Medizinische Fakultät der Heinrich-Heine-Universität",
+    ("Prof. Dr. Jörn Beispielmann | Direktor HNO-Klinik des Universitätsklinikum Düsseldorf | Medizinische Fakultät der Heinrich-Heine-Universität",
      "Direktor HNO-Klinik des Universitätsklinikum Düsseldorf | Medizinische Fakultät der Heinrich-Heine-Universität"),
-    ("Universität Kassel, FB 15 Maschinenbau, Institut für Werkstofftechnik, FG Kunststofftechnik Prof. Dr.-Ing. Hans-Peter Heim",
+    ("Universität Kassel, FB 15 Maschinenbau, Institut für Werkstofftechnik, FG Kunststofftechnik Prof. Dr.-Ing. Hans-Peter Muster",
      "Universität Kassel, FB 15 Maschinenbau, Institut für Werkstofftechnik, FG Kunststofftechnik"),
-    ("Universität Augsburg, Lehrstuhl für Experimentalphysik VI, Prof. Dr. Philipp Gegenwart",
+    ("Universität Augsburg, Lehrstuhl für Experimentalphysik VI, Prof. Dr. Erika Musterfrau",
      "Universität Augsburg, Lehrstuhl für Experimentalphysik VI"),
-    ("Universität Leipzig, Biotechnologisch-Biomedizinisches Zentrum Professur für Biochemische Zelltechnologie Professur Dr. Matthias Meier",
+    ("Universität Leipzig, Biotechnologisch-Biomedizinisches Zentrum Professur für Biochemische Zelltechnologie Professur Dr. Max Muster",
      "Universität Leipzig, Biotechnologisch-Biomedizinisches Zentrum Professur für Biochemische Zelltechnologie"),
-    ("Universität Augsburg, Lehr- & Forschungseinheit Mechanical Engineering, Prof. Dr. Markus Sause",
+    ("Universität Augsburg, Lehr- & Forschungseinheit Mechanical Engineering, Prof. Dr. Lena Beispiel",
      "Universität Augsburg, Lehr- & Forschungseinheit Mechanical Engineering"),
-    ("Institut für Photonik (Prof. Dr. Wolfram Pernice)", "Institut für Photonik"),
+    ("Institut für Photonik (Prof. Dr. Max Mustermann)", "Institut für Photonik"),
     # a chair named after a donor is a designation, not a person
     ("Technische Universität München - Dr. Theo Schöller-Stiftungslehrstuhl für Technologie- und Innovationsmanagement",
      "Technische Universität München - Dr. Theo Schöller-Stiftungslehrstuhl für Technologie- und Innovationsmanagement"),
@@ -63,15 +63,47 @@ PERSON_CASES = [
 
 
 @pytest.mark.parametrize("text, expected", PERSON_CASES)
-def test_strip_persons_real_strings(text, expected):
+def test_strip_persons_catalogue_strings(text, expected):
     assert mp.strip_persons(text) == expected
+
+
+# untitled working-group head: the raw catalogue string of FKZ 03EFBE0166 (real name kept on purpose, requested
+# as a regression case; examples/sourcing/shortlist.json no longer contains it because strip_persons removes it)
+AG_PERSON = ("Charité - Universitätsmedizin Berlin, Berliner Institut für Gesundheitsforschung in der Charité "
+             "AG Sophie van Linthout")
+
+
+@pytest.mark.parametrize("text, expected", [
+    (AG_PERSON, "Charité - Universitätsmedizin Berlin, Berliner Institut für Gesundheitsforschung in der Charité"),
+    ("Universität X - AG Erika Musterfrau - Institut Y", "Universität X - Institut Y"),
+    # subject working groups stay (strings from the shortlist)
+    ("Freie Universität Berlin - Institut für Informatik - AG Künstliche Intelligenz",) * 2,
+    ("Rheinische Friedrich-Wilhelms-Universität Bonn - AG Autonome Intelligente Systeme - Institut für Informatik VI",) * 2,
+    ("Universität Bremen - Fachbereich 3 - AG Digitale Transformation im öffentlichen Dienst",) * 2,
+    ("Philipps-Universität Marburg - FB 04 Psychologie - AG Kinder- und Jugendpsychologie",) * 2,
+    ("Universität X - AG Jan Peter Muster - Institut Y", "Universität X - Institut Y"),
+    ("Beispiel AG",) * 2,
+    # legal form outside an academic field, English/adjective subject groups (synthetic)
+    ("Beispiel AG Corporate Technology, München",) * 2,
+    ("Universität X - AG Data Science",) * 2,
+    ("Universität X - AG Maschinelles Lernen",) * 2,
+    ("Universität X - AG Neue Materialien",) * 2,
+])
+def test_strip_persons_untitled_working_group_head(text, expected):
+    assert mp.strip_persons(text) == expected
+
+
+def test_untitled_working_group_head_reaches_no_output_field():
+    lead, _ = mapped(executing=AG_PERSON, recipient="Charité - Universitätsmedizin Berlin")
+    dump = lead.model_dump_json()
+    assert "Linthout" not in dump and "Berliner Institut für Gesundheitsforschung in der Charité" in dump
 
 
 def test_person_names_reach_no_output_field():
     executing = PERSON_CASES[1][0]
     lead, _ = mapped(executing=executing, recipient="Universität Heidelberg")
     dump = lead.model_dump_json()
-    assert "Pernice" not in dump and "Prof." not in dump
+    assert "Mustermann" not in dump and "Prof." not in dump
     assert "Kirchhoff Institut für Physik - Neuromorphic Quantumphotonics" in lead.signals[0].evidence
     assert "Kirchhoff Institut für Physik" in lead.country_evidence.finding
 

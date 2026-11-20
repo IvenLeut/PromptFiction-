@@ -1,6 +1,6 @@
 """Soft scoring inputs from collected texts: rules first, then (optionally) a local Ollama model.
 
-`classify_texts(name, signals, *, model, cache, ask=None, founders=())` reads every `SourceSignal`
+`classify_texts(name, signals, *, model, cache, ask=None, founders=(), exclude_names=())` reads every `SourceSignal`
 (website pages, Impressum, press releases, Förderkatalog descriptions) and fills the `EnrichedLead`
 fields `product_stage`, `product_type`, `regulated_market`, `ip_status` + `patents`, `partners`,
 `market_size_eur`, `business_model` and `competitors`.
@@ -50,12 +50,13 @@ import re
 from collections import defaultdict
 from decimal import Decimal, InvalidOperation
 
-from context.idw import MENTION_SOURCE, fold, mentions_lead, name_pattern, sentences, surnames
-from context.lookup import Lookup
+from context.idw import fold, mentions_lead, name_pattern, sentences, surnames
+from context.lookup import SOURCE_IDW_MENTION as MENTION_SOURCE, SOURCE_MODEL, Lookup
+from context.ollama import OLLAMA_HOST, OLLAMA_PORT
 from models import Evidence, Partner, Patent, SourceSignal
 
-SOURCE = "Textklassifikation"
-MODEL_SOURCE = "ollama"
+MODEL_SOURCE = SOURCE_MODEL
+CLASSIFY_TIMEOUT = 120     # seconds; one classification answer for up to eight excerpts
 MAX_PROMPT_CHARS = 6000
 MAX_LINE = 1000
 # The company's own statements: always "about the lead" and the strongest source for product_stage.
@@ -642,7 +643,7 @@ SYSTEM_PROMPT = (
 
 
 def _ask_ollama(payload: dict) -> dict:
-    connection = http.client.HTTPConnection("127.0.0.1", 11434, timeout=120)
+    connection = http.client.HTTPConnection(OLLAMA_HOST, OLLAMA_PORT, timeout=CLASSIFY_TIMEOUT)
     try:
         connection.request("POST", "/api/chat", json.dumps(payload).encode("utf-8"),
                            headers={"Content-Type": "application/json"})

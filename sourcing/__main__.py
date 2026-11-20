@@ -2,7 +2,9 @@
 
 Writes a JSON array of RawLead that `python -m context shortlist.json dossiers.json` reads unchanged, sorted
 by priority (desc), project start (desc), id. Leads whose industry is only the programme default are included
-by default (hint `industry_unclassified` in the signal evidence); `--no-unclassified` drops them. With the
+by default (hint `industry_unclassified` in the signal evidence); `--no-unclassified` drops them. This differs
+on purpose from `sourcing.engine.search` (pipeline provider), which excludes them unless
+`include_unclassified=True`: the shortlist is the full list of review cases. With the
 cache filled, two runs produce byte-identical files (the priority reference date is the export's retrieval
 date unless `--as-of` is given).
 """
@@ -27,6 +29,7 @@ INDUSTRY_ALIASES = {"ai": Industry.AI, "software": Industry.AI, "climate": Indus
 
 
 def parse_industry(value: str) -> Industry | None:
+    """--industry value (Industry value/name or alias, case-insensitive) -> Industry; 'all' -> None."""
     if value.casefold() == "all":
         return None
     for industry in Industry:
@@ -50,7 +53,8 @@ def _raw_copies(directory: Path, prefixes, since, cache) -> None:
         (directory / ("foekat_%s_%s.csv" % (prefix, since.isoformat()))).write_bytes(export.raw)
 
 
-def main(argv=None) -> int:
+def main(argv: list[str] | None = None) -> int:
+    """Run the CLI; exit code 0 = complete export, 1 = incomplete (leads written, warning), 2 = export error."""
     parser = argparse.ArgumentParser(prog="python -m sourcing", description="Schritt 1: Sourcing")
     sub = parser.add_subparsers(dest="source", required=True)
     p = sub.add_parser("foekat", help="EXIST-Projekte aus dem Förderkatalog des Bundes (CSV-Export)")
@@ -64,7 +68,8 @@ def main(argv=None) -> int:
                    help="ef = Forschungstransfer, eg = Gründungsstipendium")
     p.add_argument("--min-priority", type=int, default=None, help="Nur Leads mit Priorität >= Wert (0-100)")
     p.add_argument("--include-unclassified", dest="include_unclassified", action="store_true", default=True,
-                   help="Leads ohne Branchentreffer (Programmstandard, Hinweis industry_unclassified) ausgeben (Standard)")
+                   help="Leads ohne Branchentreffer (Programmstandard, Hinweis industry_unclassified) ausgeben "
+                        "(Standard der CLI; sourcing.engine.search lässt sie standardmäßig weg)")
     p.add_argument("--no-unclassified", dest="include_unclassified", action="store_false",
                    help="Leads ohne Branchentreffer weglassen")
     p.add_argument("--as-of", type=date.fromisoformat, default=None,
@@ -97,6 +102,8 @@ def main(argv=None) -> int:
         stats["selected"] = {k: v for k, v in result.stats(shown=selected).items()
                              if k in ("leads", "leads_by_programme", "classification_basis", "industry_by_basis",
                                       "priority_histogram", "top10", "flags")}
+        export = result.export.as_dict()
+        stats.update({k: export[k] for k in ("requests", "budget", "prefixes")})
         stats.update({"since": since.isoformat(), "programme": args.programme, "written": len(leads),
                       "industry_filter": args.industry.value if args.industry else "all",
                       "include_unclassified": args.include_unclassified, "min_priority": args.min_priority})

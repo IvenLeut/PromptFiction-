@@ -1,4 +1,4 @@
-"""CLI: python -m scoring <leads.json | ordner | leads.db> [--out DIR] [--stichtag JJJJ-MM-TT] [--config DATEI]"""
+"""CLI: python -m scoring <dossiers.json | context_result.json | ordner | leads.db> [--out DIR] [--stichtag JJJJ-MM-TT] [--config DATEI]"""
 from __future__ import annotations
 
 import argparse
@@ -70,7 +70,7 @@ def write_outputs(rows, out_dir):
 
 def main(argv=None):
     p = argparse.ArgumentParser(prog="python -m scoring", description="Lead-Dossiers bewerten und scores.csv/json schreiben")
-    p.add_argument("input", help="JSON-Datei, Ordner mit JSON-Dateien oder SQLite-DB")
+    p.add_argument("input", help="JSON-Datei (Dossiers oder ContextResult), Ordner mit JSON-Dateien oder SQLite-DB")
     p.add_argument("--out", default="scoring_out", help="Zielordner (Standard: scoring_out)")
     p.add_argument("--stichtag", help="Bezugsdatum JJJJ-MM-TT für Alter und Earliness (Standard: heute)")
     p.add_argument("--config", help="andere scoring_config.yaml")
@@ -80,7 +80,7 @@ def main(argv=None):
     except Exception as e:
         p.error("Konfiguration nicht lesbar: %s: %s" % (type(e).__name__, e))
     try:
-        rows = score_all(load_dossiers(a.input), cfg, a.stichtag)
+        rows = score_all(load_dossiers(a.input, cfg), cfg, a.stichtag)
     except (ValueError, OSError) as e:
         p.error(str(e))
     kaputt = repair(rows, cfg, a.stichtag)

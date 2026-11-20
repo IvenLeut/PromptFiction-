@@ -18,7 +18,7 @@
     "produktbeschreibung": "Kontraktwerk prüft Lieferverträge im Maschinenbau automatisch auf Haftungsrisiken. Einkäufer laden Verträge hoch und erhalten in Minuten eine Liste kritischer Klauseln.",
     "value_proposition": "Kontraktwerk prüft Lieferverträge im Maschinenbau automatisch auf Haftungsrisiken.",
     "investmenthypothese": "Wir investieren, weil: 2 belegte Partner; stärkster: Dummy Maschinenbau 2 (pilot); Dummy Gründerin A: 4 Papers im Produktfeld. Nächster Meilenstein: der erste zahlende Kunde. Hauptrisiko: Keine Schutzrechte.",
-    "why_now": "Gerade in Gründung; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 5 Monaten",
+    "why_now": "Gerade in Gründung; EXIST-Gründungsstipendium endete 09/2026; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 5 Monaten",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
     "status": "bewertet",
@@ -123,7 +123,7 @@
       {
         "dimension": "risiko",
         "kriterium": "finanzierung",
-        "aussage": "Bisherige Förderung 140.000 EUR",
+        "aussage": "Bisherige Förderung 140.000 EUR (EXIST-Gründungsstipendium)",
         "url": "https://example.com/foerderkatalog/03EGDUMMY1",
         "datum": "2025-10-01",
         "punkte": 45.0
@@ -253,7 +253,7 @@
     "produktbeschreibung": "OsteoPrint druckt patientenspezifische Knochenimplantate aus resorbierbarem Material. Chirurgen bestellen das Implantat auf Basis von CT-Daten.",
     "value_proposition": "OsteoPrint druckt patientenspezifische Knochenimplantate aus resorbierbarem Material.",
     "investmenthypothese": "Wir investieren, weil: Dummy Ärztin E: 11 Papers im Produktfeld; 3 Gründer mit Technik und Business. Nächster Meilenstein: ein erster Pilot. Hauptrisiko: Reifegrad: prototyp.",
-    "why_now": "Gegründet, Pre-Seed; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 8 Monaten",
+    "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 06/2026; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 8 Monaten",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
     "status": "bewertet",
@@ -358,7 +358,7 @@
       {
         "dimension": "risiko",
         "kriterium": "finanzierung",
-        "aussage": "Bisherige Förderung 900.000 EUR",
+        "aussage": "Bisherige Förderung 900.000 EUR (EXIST-Forschungstransfer)",
         "url": "https://example.com/foerderkatalog/03EFDUMMY3",
         "datum": "2024-07-01",
         "punkte": 25.0
@@ -593,7 +593,7 @@
       {
         "dimension": "risiko",
         "kriterium": "finanzierung",
-        "aussage": "Bisherige Förderung 780.000 EUR",
+        "aussage": "Bisherige Förderung 780.000 EUR (EXIST-Forschungstransfer)",
         "url": "https://example.com/foerderkatalog/03EFDUMMY2",
         "datum": "2025-04-01",
         "punkte": 25.0

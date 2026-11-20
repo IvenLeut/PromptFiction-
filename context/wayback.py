@@ -33,14 +33,18 @@ Caveats, deliberately not worked around:
 """
 from __future__ import annotations
 
+import logging
 import re
 import urllib.parse
 from datetime import date
 
 from context.cache import Cache
 from context.http import FetchError, get_json
-from context.lookup import Lookup
+from context.lookup import SOURCE_WAYBACK, SOURCE_WAYBACK_CDX, WEB_NAMESAKE_YEARS, Lookup
+from context.text import LEGAL_FORMS as _LEGAL_FORMS, TRANSLIT as _UMLAUTS, years_before
 from models import Evidence, SourceSignal
+
+logger = logging.getLogger(__name__)
 
 CDX = "https://web.archive.org/cdx/search/cdx"
 PROFILE_HOSTS = (
@@ -52,12 +56,6 @@ MAX_REQUESTS = 7
 MIN_INTERVAL = 1.0
 TIMEOUT = 20
 
-_UMLAUTS = str.maketrans({"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss", "é": "e", "è": "e", "á": "a", "à": "a"})
-_LEGAL_FORMS = re.compile(
-    r"\b(gmbh\s*&\s*co\.?\s*kg|gmbh|ug|ag|se|kg|ohg|gbr|e\.?\s?v\.?|ltd\.?|inc\.?)\b"
-    r"|\bi\.\s?gr?\.?(?=\s|$)|\(haftungsbeschr(ä|ae)nkt\)|haftungsbeschr(ä|ae)nkt|in gr(ü|ue)ndung",
-    re.IGNORECASE,
-)
 
 
 def slugs(name: str) -> list[str]:
@@ -91,6 +89,7 @@ def normalise_host(website: str | None) -> str | None:
 
 
 def cdx_url(target: str) -> str:
+    """CDX query for the earliest 200 capture of exactly `target`."""
     return CDX + "?" + urllib.parse.urlencode({
         "url": target, "output": "json", "fl": "timestamp,original,statuscode",
         "filter": "statuscode:200", "limit": "1",
@@ -124,13 +123,6 @@ def _archive_url(rows) -> str | None:
     return None
 
 
-def _year_before(day: date) -> date:
-    try:
-        return day.replace(year=day.year - 1)
-    except ValueError:          # 29 February
-        return day.replace(year=day.year - 1, day=28)
-
-
 def web_history_lookup(website: str | None, name: str, *, cache: Cache, fetch=None,
                        not_before: date | None = None) -> Lookup:
     """Fill ``first_web_capture``, ``in_databases``, ``first_db_date`` and ``database_urls``.
@@ -140,12 +132,12 @@ def web_history_lookup(website: str | None, name: str, *, cache: Cache, fetch=No
     ``errors`` as ``"wayback: ..."`` and the affected fields stay unset.
 
     ``not_before`` is the earliest dated sourcing signal (e.g. the EXIST project start). A profile or
-    website whose first capture is more than 12 months older than that belongs, most likely, to a
+    website whose first capture is more than ``WEB_NAMESAKE_YEARS`` (one year, see context/lookup.py) older than that belongs, most likely, to a
     namesake ("sensai" on Crunchbase in 2019 for a project started in 2024): it is not counted, the
     fields stay unset and an error entry names the URL.
     """
     result = Lookup()
-    cutoff = _year_before(not_before) if not_before else None
+    cutoff = years_before(not_before, WEB_NAMESAKE_YEARS) if not_before else None
     if fetch is None:
         def fetch(url):
             return get_json(url, cache=cache, min_interval=MIN_INTERVAL, timeout=TIMEOUT)
@@ -163,6 +155,7 @@ def web_history_lookup(website: str | None, name: str, *, cache: Cache, fetch=No
         except FetchError as e:
             return None, "wayback: %s" % str(e).replace("web.archive.org: ", "")
         except Exception as e:  # noqa: BLE001 - never raise out of a lookup
+            logger.warning("wayback query %s failed", url, exc_info=True)
             return None, "wayback: %s" % (str(e) or type(e).__name__)
         if rows is None or rows == "":
             rows = []
@@ -185,9 +178,9 @@ def web_history_lookup(website: str | None, name: str, *, cache: Cache, fetch=No
                 first, original = hit
                 result.add("first_web_capture", first, url=cdx_url(host),
                            finding="Erste Wayback-Aufnahme: %s" % first.isoformat(),
-                           source="Wayback CDX", source_date=first)
+                           source=SOURCE_WAYBACK_CDX, source_date=first)
                 result.signals.append(SourceSignal(
-                    source="Wayback", type="wayback", url=_archive_url(rows), date=first,
+                    source=SOURCE_WAYBACK, type="wayback", url=_archive_url(rows), date=first,
                     evidence="Erste Archivaufnahme der Website",
                 ))
 
@@ -219,10 +212,10 @@ def web_history_lookup(website: str | None, name: str, *, cache: Cache, fetch=No
             result.fields["database_urls"] = [u for _, u, _ in found]
             result.add("first_db_date", found[0][0], url=found[0][1],
                        finding="Früheste archivierte %s-Profilaufnahme: %s" % (found[0][2], found[0][0].isoformat()),
-                       source="Wayback CDX", source_date=found[0][0])
+                       source=SOURCE_WAYBACK_CDX, source_date=found[0][0])
             for d, archived, label in found:
                 result.evidence.append(Evidence(
-                    field="in_databases", url=archived, source="Wayback CDX", source_date=d,
+                    field="in_databases", url=archived, source=SOURCE_WAYBACK_CDX, source_date=d,
                     finding="%s-Profil im Webarchiv (Aufnahme %s)" % (label, d.isoformat()),
                 ))
         elif errored:
@@ -230,7 +223,7 @@ def web_history_lookup(website: str | None, name: str, *, cache: Cache, fetch=No
         else:
             result.fields["in_databases"] = False
             result.evidence.append(Evidence(
-                field="in_databases", url=cdx_url(PROFILE_HOSTS[0][1] + candidates[0]), source="Wayback CDX",
+                field="in_databases", url=cdx_url(PROFILE_HOSTS[0][1] + candidates[0]), source=SOURCE_WAYBACK_CDX,
                 finding="Keine archivierte Crunchbase-/Dealroom-Profilseite für %s" % ", ".join(candidates),
             ))
     return result

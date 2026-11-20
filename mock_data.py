@@ -1,8 +1,15 @@
-"""Entirely fictional fixtures; no real startup or investment claims."""
-from models import EnrichedLead, EvaluatedLead, Evidence, Industry, RawLead, SearchCriteria
+"""Entirely fictional fixtures; no real startup or investment claims.
+
+Three minimal leads per industry, used as the default provider/enricher/evaluator of
+pipeline.discover / collect_context / evaluate_context when called with use_mock=True and no
+provider (unit tests, tests/test_pipeline.py). The dashboard demo (run_pipeline, app.py) uses the
+30-lead portfolio in demo_portfolio.py instead.
+"""
+from models import EnrichedLead, EvaluatedLead, Evidence, RawLead, SearchCriteria
 
 
 def search(criteria: SearchCriteria) -> list[RawLead]:
+    """Step-1 fixture: three fictional German leads of `criteria.industry`."""
     return [
         RawLead(
             id=f"demo-{criteria.industry.name.lower()}-{index}",
@@ -25,6 +32,7 @@ def search(criteria: SearchCriteria) -> list[RawLead]:
 
 
 def enrich(lead: RawLead) -> EnrichedLead:
+    """Step-2 fixture: one fictional evidence entry, no real research."""
     return EnrichedLead(
         **lead.model_dump(),
         evidence=[Evidence(source="Fiktive Recherche", url=lead.source_url,
@@ -34,6 +42,7 @@ def enrich(lead: RawLead) -> EnrichedLead:
 
 
 def evaluate(lead: EnrichedLead) -> EvaluatedLead:
+    """Step-3 fixture: scores rise with the lead index (index 3 ranks first)."""
     index = int(lead.id.rsplit("-", 1)[1])
     return EvaluatedLead(
         **lead.model_dump(), quality_score=70 + index * 5,

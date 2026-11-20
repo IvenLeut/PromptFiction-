@@ -1,6 +1,6 @@
 # Sourcing aus dem Förderkatalog des Bundes (EXIST)
 
-Übergabe für Leonard (Sourcing) und Tom (Scoring), Stand 20.11.2026, geprüft gegen Code und Cache-Lauf.
+Übergabe für Sourcing und Scoring, Stand 20.11.2026, geprüft gegen Code und Cache-Lauf.
 Code: `sourcing/foekat_export.py` (Abruf, Prüfung, Bereinigung), `sourcing/mapping.py` (Zeilen → `RawLead`,
 Branche, Priorität), `sourcing/engine.py` (`search`), `sourcing/__main__.py` (CLI).
 
@@ -12,7 +12,7 @@ EXIST-Forschungstransfer (Laufzeit meist 18–24 Monate, 146 Leads am 20.11.2026
 EXIST-Gründungsstipendium (fast immer 12 Monate, 587 Leads).
 Ein EXIST-Team gründet in der Regel während oder am Ende der Förderung, der Projektbeginn liegt also meist
 12 bis 24 Monate vor der Gründung (Erfahrungswert, der Katalog belegt ihn nicht). Das Team taucht im Katalog
-auf, bevor es Firma, Website oder Presse gibt. Nach Leonards Sourcing-Regeln sind diese Funde **frühe Signale**
+auf, bevor es Firma, Website oder Presse gibt. Nach den Sourcing-Regeln des Teams sind diese Funde **frühe Signale**
 und **interne Prüffälle**, keine Zeilen der UI-Ergebnisliste (die früher zitierte `sourcing/AGENTS.md` liegt
 nicht mehr im Repo).
 
@@ -26,26 +26,23 @@ python -m sourcing foekat --since 2024-01-01 --out shortlist.json --min-priority
 # Schritt 2: Kontext für die ersten fünf (online ca. 60 s) oder nur aus mitgelieferten Belegen (--light, kein Netz)
 python -m context shortlist.json dossiers.json --limit 5
 python -m context shortlist.json dossiers.json --limit 5 --light
-# Schritt 3: Scores (es gibt keine CLI vom ContextResult zu Scores)
-python -c "from models import ContextResult; from pipeline import evaluate_context; r = ContextResult.model_validate_json(open('dossiers.json', encoding='utf-8').read()); [print(e.id, e.name, e.overall_score, e.confidence_score) for e in evaluate_context(r.leads, use_mock=False).leads]"
+# Schritt 3: Scores aus dem ContextResult (Details im README)
+python -m scoring dossiers.json --out scoring_out
 ~~~
-
-`python -m scoring dossiers.json` erwartet das Format aus `evaluation.engine.to_dossier`, meldet beim
-`ContextResult` „Pflichtangaben fehlen“ und legt trotzdem `scoring_out/` an.
 
 **Was der Score enthält:** Schritt 2 baut aus dem Katalogsignal offline einen `Grant` (`catalogue_grant`, auch
 `--light`). Bewertet werden nur förderbasierte Kriterien („Vollzeit-Signal: EXIST-…“, „Bisherige Förderung“),
 der Rest bleibt neutral: 03EF 53,7, 03EG 52,8, Confidence 0,14. Online blieb es für die Top 5 bei 53,7 (keine
 Website, keine idw-Treffer). Die Priorität aus Schritt 1 fließt nicht in den Score ein.
 
-Begriff: `shortlist.json` ist die Fundliste aller Prüffälle, nicht Leonards „Shortlist“ (bis zu fünf
+Begriff: `shortlist.json` ist die Fundliste aller Prüffälle, nicht die „Shortlist“ der Sourcing-Regeln (bis zu fünf
 priorisierte Kandidaten); die treffen erst `--min-priority` und `python -m context --limit`.
 
 **CLI**: `--out` (Pflicht), `--since` (Standard `FOEKAT_SINCE` oder 2024-01-01), `--programme ef|eg|both`,
 `--industry` (`Industry`-Wert oder `ai`, `software`, `health`, `climate`, `fintech`, `industrial`, `deeptech`),
 `--min-priority 0–100`, `--include-unclassified` (Standard) / `--no-unclassified`, `--limit n` (nach
 Sortierung), `--as-of JJJJ-MM-TT` (Stichtag der Priorität), `--cache PFAD|off`, `--stats`, `--raw-dir`
-(Roh-Exporte aus dem Cache). `--stats`: `complete`, `warnings`, `queries`, `as_of`, Zählungen je Programm,
+(Roh-Exporte aus dem Cache). `--stats`: `complete`, `warnings`, `queries`, `requests`, `budget`, `prefixes`, `as_of`, Zählungen je Programm,
 Branche, Grundlage, HTGF-Sektor, Flag, `priority_histogram`, `top10`, Filter, `selected` (gefiltert, vor `--limit`). **Exit-Codes:** `0` vollständig, `1` Export unvollständig
 (Datei wird trotzdem geschrieben, Warnung auf stderr), `2` Abbruch durch `ExportError` (keine Datei).
 
@@ -54,7 +51,9 @@ von `criteria.industry`: erst Grundlage `thema`, dann `institut`, jeweils nach P
 `criteria.limit` gilt nach dem Sortieren. **Unterschied:** `search` lässt Leads mit Programmstandard
 (Grundlage `default`) weg, außer mit `include_unclassified=True` (dann zuletzt); die CLI gibt sie aus, außer
 mit `--no-unclassified`. `ExportError` und „unvollständig ohne validierte Zeile“ werden zu `SourcingError`;
-bei unvollständigem Export mit validierten Zeilen liefert `search` die Teilmenge **ohne Hinweis**.
+bei unvollständigem Export mit validierten Zeilen liefert `search` die validierte Teilmenge, protokolliert eine
+Warnung (Logger `sourcing.engine`) und setzt an der zurückgegebenen Liste (`SourcingLeads`, ein `list`)
+`complete=False` und `warnings`.
 
 ## Ablauf des Abrufs
 
@@ -82,7 +81,7 @@ wiederholt; erst der zweite Fehler bricht ab.
 (Cache-Treffer kosten nichts). Ein Volllauf braucht 5 (einmal Start, je Präfix Suche und Export), eine
 Wiederholung nach `NotCsvError` 3 mehr. `ExportResult` meldet zusätzlich `fetches`, `requests`,
 `budget`, `retrieved_at` (älteste Abrufzeit), `prefixes` (je Präfix Treffer vs. FKZ) und `as_dict()`; `--stats`
-übernimmt davon nur `complete`, `warnings`, `queries`.
+übernimmt davon `complete`, `warnings`, `queries`, `requests`, `budget`, `prefixes`.
 
 **Bereinigung:** ISO-8859-15 (0xA4 = €), UTF-8-BOM entfernt; Zeilen enden nur an `\n`/`\r\n`, nie innerhalb
 `="…"` (Umbrüche im Thema bleiben in der Zelle); Trennung an `;` außer in `="…"`; Wrapper entfernt,
@@ -212,9 +211,11 @@ Nutzungsbedingungen und keine Lizenz**, zu automatisiertem Abruf nichts; `robots
 steht an jedem Lead; vor Weitergabe außerhalb des Hackathons bei foekat@dlr.de nachfragen.
 
 **DSGVO.** Ausführende Stellen nennen teils Professor:innen. Schritt 1 entfernt Namen mit akademischem Titel
-(`strip_persons`: „…, Prof. Dr. Philipp Gegenwart“) aus Name, Beschreibung, Signal, `country_evidence` und vor
-der Branchenzuordnung; nach Personen benannte Lehrstühle („Dr. Theo Schöller-Stiftungslehrstuhl“) bleiben.
-**Bekannte Lücken:** Namen ohne Titel bleiben stehen (im Beispiel ein Lead, „AG Sophie van Linthout“); die
+(`strip_persons`: „…, Prof. Dr. Erika Musterfrau“) und untitelte Arbeitsgruppenleitungen der Form
+„AG Vorname [van/von] Nachname“ am Ende eines Abschnitts aus Name, Beschreibung, Signal, `country_evidence` und
+vor der Branchenzuordnung; Fach-AGs („AG Künstliche Intelligenz“, „AG Autonome Intelligente Systeme“) und nach
+Personen benannte Lehrstühle („Dr. Theo Schöller-Stiftungslehrstuhl“) bleiben.
+**Bekannte Lücken:** andere Namen ohne Titel (die AG-Regel ist eine Heuristik über Wortendungen); die
 Katalogabfrage in Schritt 2 (`context/foekat.py`) übernimmt den Text der Ausführenden Stelle von der
 Detailseite ungefiltert, also samt Namen; Cache und `--raw-dir` enthalten die unveränderten Zeilen.
 Gründer:innen, E-Mails oder Telefonnummern werden nicht abgeleitet. Rechtsgrundlage und Löschfrist sind offen.

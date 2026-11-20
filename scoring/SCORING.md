@@ -5,14 +5,21 @@ Das Scoring nimmt pro Unternehmen ein Lead-Dossier und liefert eine Zeile mit dr
 ## Aufruf
 
 ```bash
-python -m scoring <leads.json | ordner | leads.db> --out scoring_out --stichtag 2026-11-20
+python -m scoring <dossiers.json | context_result.json | ordner | leads.db> --out scoring_out --stichtag 2026-11-20
 ```
+
+Input: eine Liste von Scoring-Dossiers (Format unten, z. B. `scoring/testleads/dummy_leads.json`), ein `ContextResult` bzw. eine Liste von Leads aus Schritt 1/2 (erkannt an `source_url` + `industry`, z. B. `examples/sourcing/sample_dossiers.json`), ein Ordner mit solchen Dateien oder eine SQLite-DB im Plan-v4-Format (`scoring/sources.py`). Leads werden wie im Dashboard mit `evaluation.engine.to_dossier` übersetzt; ein mitgelieferter `scoring_input` wird darübergelegt. Damit führt `python -m scoring` direkt von der Sourcing-Ausgabe zu Scores. Unterschiede zur Pipeline: die CLI nimmt den gespeicherten `scoring_input` (`pipeline.evaluate_context` baut ihn neu) und als Stichtag immer `--stichtag` bzw. heute, nie `scoring_input.as_of`. Eine Datei gilt nur als Lead-Liste, wenn jeder Eintrag `source_url` und `industry` und kein `name_unternehmen` hat; ein ungültiger Lead wird mit Warnung zu einer Zeile `zurueck_an_sourcing`.
 
 Ergebnis im Zielordner: `scores.csv`, `scores.json` (gleiche Daten, Liste von Objekten) und `scores.schema.json`. Jede Zeile wird vor dem Schreiben gegen das Schema geprüft. Verletzt eine Zeile das Schema, steht sie als `zurueck_an_sourcing` mit Grund im Export, der Lauf endet mit Exit-Code 1 und alle anderen Zeilen bleiben erhalten. Doppelte `lead_id` bekommen das Suffix `-dup2`, `-dup3` … Textzellen der CSV, die mit `=`, `+`, `-` oder `@` beginnen, bekommen ein vorangestelltes `'`, damit Excel sie nicht als Formel ausführt; `scores.json` enthält den Originalwert. Ein Beispiel aus erfundenen Dummy-Leads liegt in `examples/scoring/`.
 
 `--stichtag` legt das Bezugsdatum für Alter und Earliness fest. Mit demselben Stichtag liefert derselbe Input immer dieselben Werte. Ohne Angabe gilt das heutige Datum. Signale zählen nur mit taggenauem Datum (`JJJJ-MM-TT` oder `TT.MM.JJJJ`) bis zum Stichtag; aus einem Jahr allein wird kein Tag gemacht. Dasselbe gilt für `first_db_date` und für das `datum` in `evidence`.
 
-Im Dashboard läuft dieselbe Logik über `evaluation.engine.evaluate(EnrichedLead)`.
+Im Dashboard läuft dieselbe Logik über `evaluation.engine.evaluate(ScoringInput, lead=EnrichedLead)` (auch `evaluate(ScoringInput)` und `evaluate(EnrichedLead)`). Der Stichtag ist dort `as_of=`, sonst `ScoringInput.as_of`, sonst heute.
+
+## Dossier-Felder
+
+Ein Dossier ist ein JSON-Objekt. Gelesen werden: `lead_id`, `name_unternehmen`, `beschreibung_rohtext`, `deutschland_beleg`, `website`, `email`, `branche` (oder `htgf_bereich`), `rechtsform`, `gruendungsdatum`, `gruendungsjahr_hinweis`, `team`, `mix_tech_business`, `vollzeit_signal`, `reifegrad`, `produkt_typ`, `regulierter_markt`, `ip`, `markt` (`zielkunde`, `modell`, `volumen_eur`), `partner`, `wettbewerber`, `foerderung`, `funding_meldung`, `website_text`, `repo_art`, `noise_class`, `in_databases`, `in_databases_quelle`, `first_db_date`, `match_confidence`, `signals`, `source_url`. Unbekannte Schlüssel werden ignoriert. Welche Lead-Felder der Dashboard-Weg wohin übersetzt, steht als Tabelle im Docstring von `evaluation.engine.to_dossier`.
+
 
 ## Die drei Achsen
 
@@ -30,7 +37,7 @@ Im Dashboard läuft dieselbe Logik über `evaluation.engine.evaluate(EnrichedLea
 gesamt_score = 0,35 · team_score + 0,35 · marktpotenzial_score + 0,30 · (100 − risiko_score)
 ```
 
-Alle Gewichte und Punktetabellen stehen in `scoring/scoring_config.yaml`. Die Datei prüft beim Laden, dass die Gewichte jeweils 1,0 ergeben.
+Alle Gewichte und Punktetabellen stehen in `scoring/scoring_config.yaml`. Beim Laden wird geprüft, dass alle Schlüssel vorhanden sind und die Gewichte jeweils 1,0 ergeben.
 
 ## Regeln
 
@@ -72,7 +79,7 @@ Liefert das Sourcing eine `noise_class`, gilt sie. Sonst greifen diese Regeln, j
 - `evidence`: Liste aus `{dimension, kriterium, aussage, url, datum, punkte}`. `dimension` ist `team`, `marktpotenzial`, `risiko`, `stage` oder `noise`. In der CSV als JSON-Text in einer Zelle.
 - `teilwerte`: Punkte, Gewicht und Beleg-Status je Kriterium.
 - `earliness_delta_monate`: Monate vom ersten Signal bis zum ersten Datenbank-Eintrag, ohne Eintrag bis zum Stichtag. Liegt der Datenbank-Eintrag vor dem ersten Signal, ist der Wert 0. Ein Eintragsdatum nach dem Stichtag wird ignoriert.
-- `produktbeschreibung` (erste zwei Sätze) und `value_proposition` (erster Satz): wörtlich aus dem Beschreibungstext, nur gekürzt. `investmenthypothese` und `why_now`: aus belegten Kriterien und den vier Sourcing-Metadaten zusammengesetzt. `why_now` nennt das Ende einer EXIST-Förderung, wenn es höchstens 12 Monate in der Zukunft liegt ("… endet MM/JJJJ") oder schon vorbei ist, solange die Förderung noch zählt ("… endete MM/JJJJ"). Das Kriterium bisherige Förderung nennt die Programme, z. B. "Bisherige Förderung 135.000 EUR (EXIST-Gründungsstipendium)". Bei einem Ausschluss lautet die Hypothese "Kein Investment-Case: …", bei Confidence unter 0,3 "Datenlage zu dünn für eine Hypothese …". Es formuliert kein Sprachmodell.
+- `produktbeschreibung` (erste zwei Sätze) und `value_proposition` (erster Satz): wörtlich aus dem Beschreibungstext, nur gekürzt. `investmenthypothese` und `why_now`: aus belegten Kriterien und den vier Sourcing-Metadaten zusammengesetzt. `why_now` nennt das Ende einer EXIST-Förderung, wenn es höchstens 12 Monate in der Zukunft liegt ("… endet MM/JJJJ") oder schon vorbei ist, solange die Förderung noch zählt ("… endete MM/JJJJ"). Am Ende steht das Alter des jüngsten Signals ("jüngstes Signal in diesem Monat", "… vor 1 Monat", "… vor 5 Monaten"). Das Kriterium bisherige Förderung nennt die Programme, z. B. "Bisherige Förderung 135.000 EUR (EXIST-Gründungsstipendium)". Bei einem Ausschluss lautet die Hypothese "Kein Investment-Case: …", bei Confidence unter 0,3 "Datenlage zu dünn für eine Hypothese …". Es formuliert kein Sprachmodell.
 - Leere Zellen in der CSV bedeuten "unbekannt", nicht null.
 
 ## Herkunft des Verfahrens
@@ -104,7 +111,8 @@ Faktoren und Ausgangsgewichte stammen aus Scorecard (Bill Payne), Berkus und Ris
 ## Offen
 
 - Die Gewichte sind nicht kalibriert. Dafür fehlen noch 10 von Hand bewertete Leads.
-- Seit dem 20.11.2026 liefert der Kontext-Schritt Rechtsform, Förderung, Papers je Gründer, IP, Partner und Produkttyp mit Quellen (`context/ENRICHMENT.md`); `evaluation/engine.py` reicht sie durch. Die **Demo-Leads** des Dashboards haben diese Felder nicht und landen weiter bei drei Gesamtscores (50,0 / 52,4 / 54,2); echte Leads siehe `examples/context/scores/`.
+- Echte Leads gibt es: Das Sourcing liefert 733 EXIST-Projekte aus dem Förderkatalog (Beispiel `examples/sourcing/sample_dossiers.json`, angereichert `examples/context/real_dossiers.json`, Scores in `examples/context/scores/`). Der Kontext-Schritt liefert Rechtsform, Förderung, Papers je Gründer, IP, Partner und Produkttyp mit Quellen (`context/ENRICHMENT.md`); `evaluation/engine.py` reicht sie durch.
+- Leads, die nur aus dem Förderkatalog stammen, werden fast nur über die Förderung bewertet (Vollzeit-Signal, Fördersumme, Datenlage). Ihre Scores liegen eng beieinander (Beispiel: 51,8 bis 53,7), viele sind gleich. Gleichstände bricht nicht das Scoring, sondern Pipeline und Dashboard über die Schritt-1-Priorität (`ranking_key` in `pipeline.py`). Die **Demo-Leads** des Dashboards landen weiter bei drei Gesamtscores (50,0 / 52,4 / 54,2).
 - Die Textklassifikation (Reifegrad, Produkttyp, Regulatorik, Partner) ist die schwächste Quelle: im ersten Faktencheck waren rund zwei Drittel ihrer Werte falsch oder schwach belegt, vor allem durch Pressemeldungen über andere Firmen. Harte Quellen (Impressum, Förderkatalog, Wayback, OpenAlex) stimmten in über 90 % der Fälle.
 - Der Dashboard-Weg nimmt als Signale nur die Schritt-1-Signale, Wayback-Erstaufnahmen und datierte Evidence der Felder `grants`, `idw` und `founding_year_mention`. Datenbanktreffer (`in_databases`, `first_db_date`), idw-Erwähnungen (`idw_mention`, Quelle "idw (Erwähnung)"), `*_alt`-Kandidaten und Modellzitate ("Ollama-Zitat …") zählen nicht. Hat Schritt 1 die Branche nicht klassifiziert (`htgf_sector` leer und Marker `industry_unclassified` bzw. "Branche nicht klassifiziert"), bleibt `branche` leer. `ScoringInput.public_grant` wird nicht übernommen; die Förderung kommt allein aus `lead.grants`.
 - Der Dashboard-Weg übersetzt `product_stage` und `funding_stage` nur bei exakter Übereinstimmung mit einer festen Liste (siehe `evaluation/engine.py`) und nur mit passendem Evidence-Eintrag.

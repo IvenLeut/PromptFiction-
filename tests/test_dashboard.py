@@ -123,3 +123,108 @@ def test_industrial_demo_renders_market_and_sources():
     assert "Marktrecherche" in [tab.label for tab in app.tabs]
     assert {"TAM", "SAM", "SOM"} <= {metric.label for metric in app.metric}
     assert any("Eurostat SBS" in item.value for item in app.markdown)
+
+
+# --- Live-like leads (Förderkatalog dossiers, scored offline) -------------------------------------------
+
+SAMPLE_DOSSIERS = Path(__file__).resolve().parents[1] / "examples" / "sourcing" / "sample_dossiers.json"
+
+
+def live_leads():
+    """Two live EvaluatedLeads from the committed dossiers; the second is marked industry_unclassified."""
+    import json
+
+    from models import EnrichedLead
+    from pipeline import evaluate_context
+
+    dossiers = json.loads(SAMPLE_DOSSIERS.read_text(encoding="utf-8"))["leads"][:2]
+    enriched = [EnrichedLead.model_validate(x) for x in dossiers]
+    leads = evaluate_context(enriched, use_mock=False).leads
+    assert len(leads) == 2 and not any(x.is_demo for x in leads)
+    first, second = leads
+    signal = second.signals[0]
+    marked = signal.model_copy(update={"evidence": signal.evidence.replace("Hinweise: ", "Hinweise: industry_unclassified, ")})
+    second = second.model_copy(update={
+        "signals": [marked, *second.signals[1:]], "htgf_sector": None,
+        "open_questions": [f"Testfrage {i}?" for i in range(1, 21)],
+    })
+    return [first, second]
+
+
+def live_run(leads):
+    from models import AnalysisRun, SearchCriteria
+    return AnalysisRun(criteria=SearchCriteria(industry=leads[0].industry, limit=10), mode="live",
+                       discovered_count=len(leads), enriched_count=len(leads), result=ResearchResult(leads=leads))
+
+
+def start_live_app(monkeypatch, run=None, error=None):
+    """Start the app with the live toggle on; run_pipeline is replaced (no network)."""
+    import pipeline
+    from streamlit.testing.v1 import AppTest
+
+    calls = []
+
+    def fake_run_pipeline(criteria, **kwargs):
+        calls.append((criteria, kwargs))
+        if error:
+            raise error
+        return run
+
+    monkeypatch.setattr(pipeline, "run_pipeline", fake_run_pipeline)
+    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=30).run()
+    toggle = next(x for x in app.toggle if x.label == "Live-Daten (Förderkatalog)")
+    assert toggle.value is False
+    toggle.set_value(True).run()
+    next(b for b in app.button if b.label == "Analyse starten").click().run()
+    assert not app.exception
+    return app, calls
+
+
+def test_ranking_tie_break_uses_step1_priority():
+    lead = get_demo_result().leads[0]
+    low = lead.model_copy(update={"id": "a-low", "prioritization_reason": "Priorität 40: Test"})
+    high = lead.model_copy(update={"id": "b-high", "prioritization_reason": "Priorität 90: Test"})
+    none = lead.model_copy(update={"id": "c-none", "prioritization_reason": None})
+    assert [x.id for x in shortlist([none, low, high])] == ["b-high", "a-low", "c-none"]
+
+
+def test_industry_label_priority_line_and_source_links():
+    from dashboard import industry_label, priority_line, source_link_markdown
+
+    plain, unclassified = live_leads()
+    assert industry_label(plain) == plain.industry.value
+    assert industry_label(unclassified) == "nicht klassifiziert"
+    assert all(industry_label(x) == x.industry.value for x in get_demo_result().leads)
+    number, rest = plain.prioritization_reason.split(":", 1)
+    assert priority_line(plain) == f"{number} – {rest.strip()}"
+    assert priority_line(get_demo_result().leads[0]) is None
+    text = source_link_markdown("Dünne Datenlage (Quelle: https://example.org/a?b=1)")
+    assert text == "Dünne Datenlage ([Quelle](https://example.org/a?b=1))"
+    assert source_link_markdown("Ohne Quelle") == "Ohne Quelle"
+
+
+def test_live_toggle_runs_live_pipeline_and_renders_every_view(monkeypatch):
+    leads = live_leads()
+    app, calls = start_live_app(monkeypatch, run=live_run(leads))
+    (criteria, kwargs), = calls
+    assert kwargs["use_mock"] is False and criteria.limit == 10 and callable(kwargs["on_progress"])
+    assert len(app.dataframe[0].value) == 2
+    assert len(app.get("plotly_chart")) == 3
+    assert any("LIVE-ANALYSE" in x.value for x in app.caption)
+    for lead in leads:
+        app.query_params["startup"] = lead.id
+        app.run()
+        assert not app.exception
+        assert app.title[0].value == lead.name
+        assert any(x.value.startswith("Priorität ") for x in app.caption)
+    assert any("nicht klassifiziert" in x.value for x in app.markdown)
+    assert any(x.label.endswith("weitere Fragen") for x in app.expander)
+    assert any("[Quelle](https://" in x.value for x in app.warning)
+
+
+def test_live_sourcing_error_shows_readable_message(monkeypatch):
+    from sourcing.engine import SourcingError
+
+    app, _ = start_live_app(monkeypatch, error=SourcingError("Förderkatalog-Sourcing fehlgeschlagen: Timeout"))
+    assert any("Förderkatalog konnte gerade nicht abgefragt werden" in x.value for x in app.error)
+    assert "analysis" not in app.session_state

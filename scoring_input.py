@@ -1,4 +1,8 @@
-"""Normalize captured lead sources for scoring without reading dossier interpretations."""
+"""Normalize captured lead sources for scoring without reading dossier interpretations (step 2 -> 3 handoff).
+
+Owner: context step; consumed by pipeline.evaluate_context and evaluation/engine.py. Market sizing and
+growth come from scoring_market.py.
+"""
 from collections import defaultdict
 from datetime import date, datetime
 from decimal import Decimal
@@ -61,6 +65,11 @@ VOCABULARY = {
     "completed_rounds": ROUND_STAGES, "planned_round": ROUND_STAGES,
 }
 HEADERS = r"Unternehmen|Company"
+
+
+def _after(value: PartialDate, as_of: date | None) -> bool:
+    """True if a (partial) date lies after the as-of date."""
+    return bool(as_of) and value.components() > (as_of.year, as_of.month, as_of.day)
 
 
 def _labelled(line, names):
@@ -149,6 +158,7 @@ def _assertions(lines):
 
 
 class _Candidates:
+    """Collected (value, evidence id) candidates per scoring key, resolved into Parameters."""
     def __init__(self, lead_id):
         self.lead_id = lead_id
         self.values = defaultdict(list)
@@ -200,8 +210,7 @@ def _collect(lead, as_of):
                                precision="month" if lead.founding_month else "year")
         reference = candidates.add_evidence(lead.source_url, f"founding = {founding.components()}",
                                             kind="upstream_field")
-        is_future = as_of and founding.components() > (as_of.year, as_of.month, as_of.day)
-        candidates.values["founded"].append((None if is_future else founding, reference))
+        candidates.values["founded"].append((None if _after(founding, as_of) else founding, reference))
     for signal in lead.scoring_sources if lead.scoring_sources is not None else lead.signals:
         if as_of and signal.date and signal.date > as_of:
             continue
@@ -228,7 +237,7 @@ def _parse_line(line, as_of):
                 yield "vc_status", "confirmed"
         elif field == "founded":
             value = _date(text)
-            if value and as_of and value.components() > (as_of.year, as_of.month, as_of.day):
+            if value and _after(value, as_of):
                 value = None
             yield field, value
         elif field.endswith("_cents"):
@@ -244,7 +253,7 @@ def _parse_line(line, as_of):
 
 
 def build_scoring_input(lead: EnrichedLead, *, as_of: date | None = None) -> ScoringInput:
-    """Recompute from source material; previously exported scores and facts are ignored."""
+    """Build the step-3 ScoringInput from source material; previously exported scores and facts are ignored."""
     items = _collect(lead, as_of)
     resolve = items.resolve
     metrics = {}

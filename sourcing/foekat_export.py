@@ -36,16 +36,17 @@ from datetime import date, datetime, timezone
 from decimal import Decimal, InvalidOperation
 
 from context.cache import Cache
-from context.foekat import ENCODING, SEARCH_URL, FoekatError, Session, encode_form, parse_date
+from context.foekat import PROGRAMMES as PROGRAMME_LABELS
+from context.foekat import ENCODING, SEARCH_URL, SOURCE, FoekatError, Session, encode_form, parse_date
 
 logger = logging.getLogger(__name__)
 
 SOURCE_NAME = "Förderkatalog des Bundes"
-SIGNAL_SOURCE = "Förderkatalog"            # same source label as the step-2 lookup (context.foekat.SOURCE)
+SIGNAL_SOURCE = SOURCE                     # same source label as the step-2 lookup (context.foekat.SOURCE)
 SIGNAL_TYPE = "exist_projekt"              # step 2 never quotes/classifies this type (context/classify.py NO_QUOTE_TYPES)
 CSV_URL = SEARCH_URL + "?actionMode=print&presentationType=csv"
-PROGRAMMES = {"03EF": ("EXIST-Forschungstransfer", "exist_forschungstransfer"),
-              "03EG": ("EXIST-Gründungsstipendium", "exist_gruendungsstipendium")}
+PROGRAMMES = {"03EF": (PROGRAMME_LABELS["03EF"], "exist_forschungstransfer"),   # prefix -> (label, slug)
+              "03EG": (PROGRAMME_LABELS["03EG"], "exist_gruendungsstipendium")}
 DEFAULT_SINCE = date(2024, 1, 1)
 CACHE_VERSION = "foekat-export:v1:"
 SPLIT_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -53,9 +54,12 @@ MAX_SPLIT_DEPTH = 2
 SIZE_ERROR = "Antwort größer als"          # context.foekat.Session size cap message (MAX_BYTES exceeded)
 _SIZE_PATTERN = re.compile(r"gr(?:ö|oe)(?:ß|ss)er\s+als|too\s+large|zu\s+gro(?:ß|ss)|max(?:imum)?[_ ]?bytes", re.I)
 DEFAULT_BUDGET = 60                        # network requests per export_rows call
+DEFAULT_PREFIXES = ("03EF", "03EG")
 ACADEMIC = re.compile(r"hochschul|universit|institut|akademie|academy|school|college|leibniz|fraunhofer|max-planck|"
                       r"helmholtz|forschung|research|zentrum|center|centre|klinik|charité|wissenschaft", re.I)
-LEGAL_FORM = re.compile(r"(?<![\w])(GmbH|UG|AG|SE|KG|OHG|GbR|mbH)(?![\w])")  # gGmbH excluded on purpose
+# Company detection (case-sensitive, gGmbH excluded on purpose). Not context.foekat.LEGAL_FORMS: that one strips
+# legal forms from names for matching (case-insensitive, also gGmbH, e.V., i.G., Co., &).
+LEGAL_FORM = re.compile(r"(?<![\w])(GmbH|UG|AG|SE|KG|OHG|GbR|mbH)(?![\w])")
 
 
 # --- errors ---------------------------------------------------------------------------------------
@@ -128,7 +132,9 @@ def unwrap(cell: str) -> str:
 
 
 def parse_euro(text: str) -> Decimal | None:
-    """German number '1.234.567,89' -> Decimal('1234567.89'); empty/invalid -> None."""
+    """German number '1.234.567,89' -> Decimal('1234567.89'); empty/invalid -> None.
+
+    Stricter than context.foekat.parse_amount (whole cell must be a number, keeps cents and sign)."""
     raw = (text or "").replace("€", "").replace("EUR", "").strip()
     if not re.fullmatch(r"-?\d{1,3}(?:\.\d{3})*(?:,\d+)?|-?\d+(?:,\d+)?", raw):
         return None
@@ -256,6 +262,7 @@ class GrantRow:
 
     @classmethod
     def from_dict(cls, row: dict, retrieved_at: datetime) -> "GrantRow":
+        """Build from a `parse_export` dict row; missing columns become ''."""
         g = lambda key: row.get(key, "").strip()
         return cls(
             fkz=g("FKZ").upper(), thema=g("Thema des geförderten Vorhabens"),
@@ -271,10 +278,12 @@ class GrantRow:
 
     @property
     def prefix(self) -> str:
+        """Programme prefix of the FKZ ('03EF' or '03EG')."""
         return self.fkz[:4]
 
     @property
     def programme(self) -> str:
+        """Programme label ('EXIST-Forschungstransfer', ...)."""
         return PROGRAMMES.get(self.prefix, ("EXIST", "exist"))[0]
 
 
@@ -305,6 +314,7 @@ def search_form(prefix: str, since: date) -> dict:
 
 @dataclass
 class Export:
+    """One (search, CSV export) pair for one FKZ prefix, fresh or from the cache."""
     prefix: str
     count: int
     raw: bytes
@@ -314,6 +324,7 @@ class Export:
 
 
 def _now() -> datetime:
+    """Retrieval timestamp (UTC, whole seconds); injectable as `clock` for tests."""
     return datetime.now(timezone.utc).replace(microsecond=0)
 
 
@@ -405,6 +416,7 @@ def fetch_export(prefix: str, since: date, *, fetch, cache: Cache | None, clock=
 
 @dataclass
 class QueryStat:
+    """Validation record of one query (top-level prefix or split part)."""
     query: str
     server_count: int | None
     exported_rows: int
@@ -422,6 +434,7 @@ class QueryStat:
 
 @dataclass
 class ExportResult:
+    """Validated rows of one export_rows call plus completeness, warnings, per-query stats and request use."""
     rows: list[GrantRow] = field(default_factory=list)
     complete: bool = True
     warnings: list[str] = field(default_factory=list)
@@ -478,6 +491,7 @@ def _dedupe(rows: list[GrantRow], result: ExportResult) -> list[GrantRow]:
 
 
 def _collect(prefix: str, since: date, depth: int, result: ExportResult, *, fetch, cache, clock) -> tuple[list[GrantRow], bool]:
+    """Rows of one prefix and whether they are validated; splits by the next FKZ character on a shortfall."""
     retrieved, from_cache = None, False
     try:
         export = fetch_export(prefix, since, fetch=fetch, cache=cache, clock=clock)
@@ -535,7 +549,7 @@ def _lazy_session():
     return fetch
 
 
-def export_rows(prefixes=("03EF", "03EG"), since: date = DEFAULT_SINCE, *, fetch=None, cache: Cache | None = None,
+def export_rows(prefixes: tuple[str, ...] = DEFAULT_PREFIXES, since: date = DEFAULT_SINCE, *, fetch=None, cache: Cache | None = None,
                 clock=_now, budget: int = DEFAULT_BUDGET) -> ExportResult:
     """All validated catalogue rows for the FKZ prefixes with project start >= since.
 
@@ -568,10 +582,3 @@ def export_rows(prefixes=("03EF", "03EG"), since: date = DEFAULT_SINCE, *, fetch
         logger.warning("Förderkatalog: %s", warning)
     return result
 
-
-def __getattr__(name):
-    """Backwards compatibility: mapping names moved to sourcing/mapping.py."""
-    import sourcing.mapping as mapping
-    if hasattr(mapping, name):
-        return getattr(mapping, name)
-    raise AttributeError(name)

@@ -3,16 +3,21 @@
 Das Live-Scoring erhält pro Lead genau ein Objekt vom Typ `ScoringInput`.
 Es gibt `EvaluationScores` zurück. Die Pipeline verbindet diese mit dem Dossier
 für das Dashboard. Die Demo verwendet weiterhin ihre vorkonfigurierten Scores.
-Die Live-Bewertung steht in `evaluation/engine.py` (Regeln in `scoring/`, siehe `scoring/SCORING.md`).
-Die Pipeline übergibt neben dem `ScoringInput` das Dossier als `lead=`, weil der ScoringInput keine
-Gründerprofile, Förderbeträge, Rechtsform, Partner oder Patente enthält. Nutzbare ScoringInput-Parameter
-haben Vorrang. Der Aufbau des ScoringInput liegt in `scoring_input.py` (vorher `scoring.py`, umbenannt,
-weil `scoring/` das Paket der Bewertung ist). Leads mit unbekanntem VC-Status werden bewertet; nur
-bestätigte oder widersprüchliche VC-Angaben werden vor der Bewertung zurückgehalten.
+Die Live-Bewertung steht in `evaluation/engine.py` (Regeln in `scoring/`, siehe `scoring/SCORING.md`):
+`evaluate(scoring: ScoringInput | EnrichedLead, *, lead: EnrichedLead | None = None, as_of=None)`.
+Die Pipeline (`pipeline.evaluate_context`) übergibt neben dem `ScoringInput` das Dossier als `lead=`, weil
+der ScoringInput keine Gründerprofile, Förderbeträge, Rechtsform, Partner oder Patente enthält. Nutzbare
+ScoringInput-Parameter haben Vorrang. Der Aufbau des ScoringInput liegt in `scoring_input.py`
+(`build_scoring_input`; vorher `scoring.py`, umbenannt, weil `scoring/` das Paket der Bewertung ist).
+
+Vor der Bewertung hält die Pipeline einen Lead als `issue` zurück, wenn am Stichtag kein nutzbarer
+Deutschland-Beleg vorliegt (`country.status != "usable"`) oder wenn `vc_status` den Wert `confirmed` oder
+den Status `conflicting` hat. Ein unbekannter VC-Status (Status `missing`, `ambiguous` oder `informational`)
+ist bei Forschungsprojekten der Normalfall und wird ebenso bewertet wie der Wert `reported_none`.
 
 ## Export und Reproduktion
 
-~~~powershell
+~~~bash
 python -m context examples/scoring-leads.json dossier.json --offline --as-of 2025-12-31 --scoring-output scoring.json
 python -m context dossier.json replay.json --replay
 ~~~
@@ -49,7 +54,7 @@ eingefrorenen Quellen und den expliziten Markteingaben gelesen.
 | `country` | `DE` | Übernommener Deutschland-Beleg. Der Status gibt an, ob ein nutzbarer Beleg vorliegt. |
 | `founded` | Jahr, optional Monat und Tag. Genauigkeit `year`, `month` oder `day` | Explizites Gründungsdatum. Kompatible Teilangaben lassen die genaueste belegte Angabe zu. Nur im Sourcing genannte Daten sind `informational`. |
 | `product_stage` | `idea`, `paper`, `lab_prototype`, `prototype`, `mvp`, `pilot`, `first_customers`, `commercial` | Explizite Angabe zur Produktreife, normalisiert über eine feste Liste. |
-| `vc_status` | `confirmed` oder `reported_none` bei nutzbarer Angabe | Expliziter VC-Status oder typisierte Angabe aus Schritt 1. `missing` mit `null` bedeutet unbekannt. Der Live-Pfad verlangt `usable` und `reported_none`. |
+| `vc_status` | `confirmed` oder `reported_none` bei nutzbarer Angabe | Expliziter VC-Status oder typisierte Angabe aus Schritt 1. `missing` mit `null` bedeutet unbekannt. Der Live-Pfad hält nur den Wert `confirmed` und den Status `conflicting` zurück; unbekannte Angaben werden bewertet. |
 | `public_grant` | `applied`, `approved`, `received`, `none_reported` | Expliziter Förderstatus. Ein Antrag oder eine Bewilligung verändert den VC-Status nicht. Abweichende Statusangaben bleiben ohne eindeutige Zuordnung offen. |
 | `completed_rounds`, `planned_round` | `pre_seed`, `seed`, `series_a`, `series_b`, `series_c`, `other` | Explizit abgeschlossene Eigenkapitalrunde oder explizit geplante Runde. Die Liste dokumentiert belegte Phasen und dient nicht als Zähler einzelner Abschlüsse. |
 | `round_size_eur_cents`, `asking_pre_money_eur_cents` | Positive Ganzzahl in EUR-Cent | Explizit beschrifteter Betrag und EUR/€. Für die separate VC-Methode müssen beide Angaben ein gemeinsames Quelldokument referenzieren. |

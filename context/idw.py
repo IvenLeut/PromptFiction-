@@ -36,6 +36,7 @@ between requests, everything through the cache. Failures end up in ``errors`` as
 from __future__ import annotations
 
 import html
+import logging
 import re
 import unicodedata
 import urllib.parse
@@ -43,8 +44,11 @@ from datetime import date, datetime
 
 from context.cache import Cache
 from context.http import FetchError, request
-from context.lookup import Lookup
+from context.lookup import SOURCE_IDW, SOURCE_IDW_MENTION, Lookup
+from context.text import LEGAL_FORMS as _LEGAL_FORMS, UMLAUTS
 from models import Evidence, SourceSignal
+
+logger = logging.getLogger(__name__)
 
 BASE = "https://idw-online.de"
 MAX_REQUESTS = 6
@@ -52,15 +56,10 @@ MAX_ARTICLES = 5
 MIN_INTERVAL = 1.0
 TIMEOUT = 20
 MAX_EVIDENCE_CHARS = 8000
-SOURCE = "idw"
-MENTION_SOURCE = "idw (Erwähnung)"
+SOURCE = SOURCE_IDW
+MENTION_SOURCE = SOURCE_IDW_MENTION
 
-_UMLAUTS = str.maketrans({"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss", "Ä": "ae", "Ö": "oe", "Ü": "ue"})
-_LEGAL_FORMS = re.compile(
-    r"\b(gmbh\s*&\s*co\.?\s*kg|gmbh|ug|ag|se|kg|ohg|gbr|e\.?\s?v\.?|ltd\.?|inc\.?)\b"
-    r"|\bi\.\s?gr?\.?(?=\s|$)|\(haftungsbeschr(ä|ae)nkt\)|haftungsbeschr(ä|ae)nkt|in gr(ü|ue)ndung",
-    re.IGNORECASE,
-)
+_UMLAUTS = str.maketrans({**UMLAUTS, "Ä": "ae", "Ö": "oe", "Ü": "ue"})     # fold() runs before lower()
 _STOPWORDS = {
     "und", "the", "and", "for", "fuer", "von", "der", "die", "das", "des", "mit", "aus", "projekt",
     "project", "gruppe", "group", "team", "labs", "lab", "systems", "system", "technologies",
@@ -123,6 +122,7 @@ def fold(text: str) -> str:
 
 
 def strip_legal_form(name: str) -> str:
+    """'Testwerk GmbH i.G.' -> 'Testwerk' (also drops commas/semicolons and trailing dashes)."""
     cleaned = _LEGAL_FORMS.sub(" ", name or "")
     cleaned = re.sub(r"[,;]+", " ", cleaned)
     return re.sub(r"\s+", " ", cleaned).strip(" -–")
@@ -143,6 +143,7 @@ def distinctive_word(name: str) -> str | None:
 
 
 def surnames(founders: list[str]) -> list[str]:
+    """Last name word of each founder (initials skipped), used to recognise articles about the team."""
     out = []
     for founder in founders or []:
         parts = [p for p in re.split(r"[\s,]+", founder.strip()) if p and not p.endswith(".")]
@@ -170,6 +171,7 @@ def _parse_datetime(text: str) -> datetime | None:
 
 
 def search_url(term: str) -> str:
+    """idw simple search for press releases containing `term`, newest first."""
     return BASE + "/de/simplesearch?" + urllib.parse.urlencode({
         "words": term, "scope": "press_release", "sort_order": "start_datetime", "_form_": "Results", "page": "1",
     })
@@ -235,7 +237,7 @@ def sentences(text: str) -> list[str]:
     return out
 
 
-def name_pattern(name: str):
+def name_pattern(name: str) -> re.Pattern | None:
     """Whole-word pattern for the folded lead name (without legal form); None for an empty name."""
     name_f = fold(strip_legal_form(name))
     if not name_f:
@@ -345,6 +347,7 @@ def idw_lookup(name: str, *, institution: str | None, founders: list[str], cache
         except FetchError as e:
             return None, "idw: %s" % re.sub(r"^[\w.-]*idw-online\.de: ", "", str(e))
         except Exception as e:  # noqa: BLE001 - never raise out of a lookup
+            logger.warning("idw request %s failed", url, exc_info=True)
             return None, "idw: %s" % (str(e) or type(e).__name__)
         if not isinstance(text, str):
             return None, "idw: unerwartete Antwort"

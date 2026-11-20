@@ -2,8 +2,8 @@
 sourcing/engine.py, sourcing/__main__.py). All offline: `fetch` is injected, the cache is None or a tmp_path
 Cache. Synthetic rows are built from the real recorded header in tests/fixtures/sourcing/ and marked as such.
 
-Tests marked xfail(strict=True, reason="BUG: ...") document real defects; they turn into failures (XPASS)
-as soon as the source is fixed, so the marker must then be removed.
+Regression tests for fixed parser defects (sign of small negatives, Excel quote doubling, UTF-8 BOM,
+line breaks/NEL inside wrapped cells, header-only exports) are plain tests.
 """
 import json
 import random
@@ -157,8 +157,6 @@ def test_format_euro_round_trip_and_unknown():
     assert fx.format_euro(Decimal("1234.5")) == "1.234,50 €"
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: format_euro drops the minus sign of amounts between -1 and 0 "
-                                       "(int('-0') == 0), sourcing/foekat_export.py:120-121")
 def test_format_euro_keeps_sign_of_small_negative():
     assert fx.format_euro(Decimal("-0.50")) == "-0,50 €"
 
@@ -205,9 +203,6 @@ def test_split_line_wrappers_with_semicolons_and_quotes():
     assert fx.split_line(";") == ["", ""]
 
 
-@pytest.mark.xfail(strict=True, reason="BUG (if the export uses Excel quote doubling): a doubled quote followed "
-                                       "by ';' inside '=\"...\"' ends the cell early and unwrap never un-doubles, "
-                                       "sourcing/foekat_export.py:124 and :98-102")
 def test_doubled_quote_before_semicolon_inside_wrapper():
     cells = [fx.unwrap(c) for c in fx.split_line('="Projekt ""Alpha""; Beta";="x";')]
     assert cells == ['Projekt "Alpha"; Beta', "x", ""]
@@ -254,9 +249,6 @@ def test_utf8_body_is_not_silently_accepted_as_clean_text():
     assert fx.parse_export(raw)[0][THEMA] == "GrÃ¶Ã\x9fe"
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: decode_export decodes ISO-8859-15 before stripping the BOM, so a UTF-8 "
-                                       "BOM (EF BB BF) becomes 'ï»¿' and the header loses FKZ -> NotCsvError, "
-                                       "sourcing/foekat_export.py:139-140")
 def test_utf8_bom_is_dropped():
     rows = fx.parse_export(b"\xef\xbb\xbf" + fixture_bytes("03EF"))
     assert len(rows) == 19 and rows[0]["FKZ"] == "03EFBB0063"
@@ -268,17 +260,11 @@ def test_crlf_line_endings_and_blank_lines():
     assert len(rows) == 19 and rows[0]["FKZ"] == "03EFBB0063" and rows[-1]["Förderart"] == "Direkte Projektförderung"
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: parse_export splits with str.splitlines() before honouring '=\"...\"', "
-                                       "so a line break inside a wrapped Thema creates an extra garbage row, "
-                                       "sourcing/foekat_export.py:170")
 def test_newline_inside_wrapped_cell_stays_one_row():
     rows = fx.parse_export(fixture_bytes("03EF").replace(b'="HoCHQuant"', b'="HoCH\nQuant"'))
     assert len(rows) == 19 and rows[0][THEMA] == "HoCH\nQuant"
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: byte 0x85 (cp1252 '…' stored in latin-15 data) decodes to U+0085 NEL, "
-                                       "which str.splitlines() treats as a line break -> row split in two, "
-                                       "sourcing/foekat_export.py:170")
 def test_nel_byte_inside_cell_does_not_split_row():
     rows = fx.parse_export(fixture_bytes("03EF").replace(b'="HoCHQuant"', b'="HoCH\x85Quant"'))
     assert len(rows) == 19
@@ -319,10 +305,6 @@ def test_header_only_export_parses_to_no_rows():
     assert fx.parse_export(HEADER_LINE + b"\n") == []
 
 
-@pytest.mark.xfail(strict=True, reason="BUG: an export with only the header line while the server reports hits is "
-                                       "an empty export (EmptyExportError docstring) but only raw.strip() is "
-                                       "checked, so it triggers the full prefix split instead, "
-                                       "sourcing/foekat_export.py:291")
 def test_header_only_export_with_hits_raises_empty_export():
     fetch = Fetch(count_fn=lambda prefix, n: n or 1, exports={"03EF": HEADER_LINE + b"\n"})
     with pytest.raises(fx.EmptyExportError):
@@ -352,19 +334,27 @@ def test_parse_hit_count_variants():
 def test_export_with_more_fkz_than_server_count_is_incomplete():
     fetch = Fetch(counts={"03EF": 18})
     result = fx.export_rows(("03EF",), fetch=fetch, cache=None, clock=CLOCK)
-    assert result.complete is False and len(result.rows) == 19            # every child validated on its own
+    assert result.complete is False and len(result.rows) == 19            # surplus export kept, flagged
     assert any("19 FKZ, Server meldet 18" in w for w in result.warnings)
-    assert any("Aufteilung ergibt 19 von 18" in w for w in result.warnings)
+    assert any("mehr FKZ als Treffer, keine Aufteilung" in w for w in result.warnings)
+    assert fetch.queries == ["03EF"]                                       # a split cannot fix a surplus
 
 
 def test_persistent_mismatch_stops_at_max_split_depth():
     fetch = Fetch(count_fn=lambda prefix, n: n + 1 if n else 0)          # every non-empty query is one short
-    result = fx.export_rows(("03EF",), fetch=fetch, cache=None, clock=CLOCK)
+    result = fx.export_rows(("03EF",), fetch=fetch, cache=None, clock=CLOCK, budget=10_000)
     assert result.complete is False and result.rows == []                # nothing unvalidated survives
     assert max(len(q) for q in fetch.queries) == 4 + fx.MAX_SPLIT_DEPTH
     assert len(fetch.queries) == len(set(fetch.queries)) <= 1 + 36 + 36 ** 2
     assert any("maximale Aufteilungstiefe" in w for w in result.warnings)
     assert all(q.validated is False for q in result.queries if q.server_count)
+
+
+def test_persistent_mismatch_with_default_budget_raises_budget_exhausted():
+    fetch = Fetch(count_fn=lambda prefix, n: n + 1 if n else 0)
+    with pytest.raises(fx.BudgetExhaustedError) as caught:
+        fx.export_rows(("03EF",), fetch=fetch, cache=None, clock=CLOCK)
+    assert caught.value.requests == caught.value.budget == fx.DEFAULT_BUDGET
 
 
 def test_split_fan_out_is_bounded_when_only_top_level_mismatches():
@@ -435,8 +425,25 @@ def test_search_wraps_every_export_error_and_empty_incomplete_result():
     criteria = SearchCriteria(industry=Industry.AI)
     with pytest.raises(SourcingError):
         search(criteria, fetch=Fetch(exports={"03EF": "<html>x</html>"}), cache=NoCache())
-    with pytest.raises(SourcingError, match="ohne validierte Zeilen"):
+    with pytest.raises(SourcingError, match="Anfragebudget"):
         search(criteria, prefixes=("03EF",), fetch=Fetch(count_fn=lambda p, n: n + 1 if n else 0), cache=NoCache())
+    surplus_all_too_old = Fetch(counts={"03EF": 18})                      # incomplete, every row dropped by since
+    with pytest.raises(SourcingError, match="ohne validierte Zeilen"):
+        search(criteria, since=date(2099, 1, 1), prefixes=("03EF",), fetch=surplus_all_too_old, cache=NoCache())
+
+
+def test_search_incomplete_export_with_rows_warns_and_flags(caplog):
+    criteria = SearchCriteria(industry=Industry.INDUSTRIAL, limit=50)
+    with caplog.at_level("WARNING", logger="sourcing.engine"):
+        found = search(criteria, prefixes=("03EF",), fetch=Fetch(counts={"03EF": 18}), cache=NoCache())
+    assert found and isinstance(found, list) and found.complete is False
+    assert any("mehr FKZ als Treffer" in w for w in found.warnings)
+    assert any("unvollständig" in r.getMessage() for r in caplog.records if r.name == "sourcing.engine")
+
+
+def test_search_complete_export_is_flagged_complete():
+    found = search(SearchCriteria(industry=Industry.AI), fetch=Fetch(), cache=NoCache())
+    assert found.complete is True and found.warnings == []
 
 
 def test_lazy_session_is_opened_once_and_only_on_cache_miss(monkeypatch, tmp_path):
@@ -727,6 +734,8 @@ def test_cli_stats_file(offline_db, tmp_path):
     assert data["since"] == "2024-01-01" and data["complete"] is True and data["warnings"] == []
     assert data["leads"] >= 2 and data["leads_before_industry_filter"] == 45
     assert [q["query"] for q in data["queries"]] == ["03EF%", "03EG%"]
+    assert data["requests"] == 0 and data["budget"] == fx.DEFAULT_BUDGET          # everything from the cache
+    assert data["prefixes"]["03EF"]["server_count"] == 19 and data["prefixes"]["03EG"]["complete"] is True
 
 
 @pytest.mark.parametrize("args", [("--limit", "0"), ("--limit", "-1"), ("--industry", "astrology"),

@@ -237,9 +237,9 @@ def test_parse_hit_count_separators_and_case(text, count):
     assert fx.parse_hit_count(text) == count
 
 
-# --- 7. imports and shim -----------------------------------------------------------------------------
+# --- 7. imports ---------------------------------------------------------------------------------------
 
-def test_no_unused_imports_and_shim_still_works():
+def test_no_unused_imports_and_no_mapping_reexport():
     tree = ast.parse(Path(fx.__file__).read_text(encoding="utf-8"))
     imported = {(a.asname or a.name).split(".")[0] for node in ast.walk(tree)
                 if isinstance(node, (ast.Import, ast.ImportFrom)) and getattr(node, "module", "") != "__future__"
@@ -247,9 +247,9 @@ def test_no_unused_imports_and_shim_still_works():
     used = {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)} | \
            {n.value.id for n in ast.walk(tree) if isinstance(n, ast.Attribute) and isinstance(n.value, ast.Name)}
     assert imported - used == set()
-    assert fx.build_leads and fx.run and fx.Industry and fx.RawLead   # resolved through the mapping shim
+    assert not hasattr(fx, "__getattr__")                             # mapping names live in sourcing.mapping only
     with pytest.raises(AttributeError):
-        fx.does_not_exist
+        fx.build_leads
 
 
 # --- 8. reporting fields and caching -----------------------------------------------------------------

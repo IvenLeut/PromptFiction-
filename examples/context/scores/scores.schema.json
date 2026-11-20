@@ -22,7 +22,7 @@
       "branche": {"enum": ["digital_tech", "industrial_deep_tech", "climate_tech", "life_sciences", "chemie_materialien", null]},
       "gruendungsjahr": {"type": ["integer", "null"], "minimum": 1800, "maximum": 2100},
       "gruendungsmonat": {"type": ["integer", "null"], "minimum": 1, "maximum": 12},
-      "gruendung_ist_proxy": {"type": "boolean", "description": "true = EXIST-Start statt echtem Gründungsdatum"},
+      "gruendung_ist_proxy": {"type": "boolean", "description": "true = EXIST-Start oder Gründungsjahr aus Pressetext statt echtem Gründungsdatum"},
       "risiko_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100, "description": "100 = hohes Risiko"},
       "marktpotenzial_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
       "team_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100, "description": "dritte Achse; ihr Anzeigename steht in dim3_name"},

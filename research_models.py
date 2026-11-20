@@ -1,4 +1,8 @@
-"""Additive research contract consumed by scoring and the dashboard."""
+"""Additive research contract (step 2, context_v2) consumed by scoring and the dashboard.
+
+Imports nothing from this repo; models.py and scoring_models.py build on it. Class docstrings become
+JSON-schema descriptions, so classes are documented with comments.
+"""
 from datetime import date, datetime, timezone
 from hashlib import sha256
 import json
@@ -8,10 +12,12 @@ from urllib.parse import urlsplit
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
 
 
+# Base of every shared model: unknown keys are rejected, assignments are validated.
 class Contract(BaseModel):
     model_config = ConfigDict(extra="forbid", validate_assignment=True)
 
 
+# A sourced finding (step 2); `evidence_id` is derived from its identity when not given.
 class Evidence(Contract):
     source: str = Field(min_length=1)
     url: HttpUrl
@@ -33,6 +39,7 @@ class Evidence(Contract):
     @model_validator(mode="before")
     @classmethod
     def normalize_legacy_fields(cls, raw):
+        """Map legacy scoring keys (aussage, datum) and fill source, dates and evidence_id."""
         if not isinstance(raw, dict):
             return raw
         data = dict(raw)

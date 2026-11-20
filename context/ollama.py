@@ -1,4 +1,9 @@
-"""Optional extraction of verbatim excerpts with a local Ollama model."""
+"""Optional extraction of verbatim excerpts with a local Ollama model.
+
+`extract_quotes(model, name, signals, fields)` yields `(field, quote, signal)` for quotes that occur verbatim in
+one of the first MAX_SOURCES excerpts. Caching (see context/cache.py): `request_quotes` is memoised in-process
+with `lru_cache`; `context.engine.cached_quotes` adds the persistent SQLite layer when lookups carry a cache.
+"""
 import http.client
 import json
 from functools import lru_cache
@@ -15,10 +20,16 @@ class Quote(Contract):
 
 
 QUOTES = TypeAdapter(list[Quote])
+OLLAMA_HOST, OLLAMA_PORT = "127.0.0.1", 11434   # local Ollama only; shared with context.classify
+TIMEOUT = 30                # seconds per quote request
+MAX_RESPONSE = 128_000      # bytes read from the answer
+MAX_SOURCES = 8             # excerpts per request
+MAX_EXCERPT = 2200          # characters per excerpt
 
 
 @lru_cache(maxsize=128)
-def request_quotes(model, name, excerpts, fields):
+def request_quotes(model: str, name: str, excerpts: tuple[str, ...], fields: tuple[str, ...]) -> list[Quote]:
+    """One /api/chat call; HTTP and protocol failures raise OSError."""
     payload = {
         "model": model, "stream": False, "think": False, "options": {"temperature": 0},
         "format": QUOTES.json_schema(),
@@ -34,14 +45,14 @@ def request_quotes(model, name, excerpts, fields):
             )},
         ],
     }
-    connection = http.client.HTTPConnection("127.0.0.1", 11434, timeout=30)
+    connection = http.client.HTTPConnection(OLLAMA_HOST, OLLAMA_PORT, timeout=TIMEOUT)
     try:
         connection.request("POST", "/api/chat", json.dumps(payload).encode("utf-8"),
                            headers={"Content-Type": "application/json"})
         response = connection.getresponse()
         if response.status != 200:
             raise OSError(f"Ollama HTTP {response.status}")
-        data = json.loads(response.read(128_000))
+        data = json.loads(response.read(MAX_RESPONSE))
         return QUOTES.validate_json(data["message"]["content"])
     except http.client.HTTPException as exc:
         raise OSError("Ollama lieferte keine lesbare Antwort") from exc
@@ -50,8 +61,9 @@ def request_quotes(model, name, excerpts, fields):
 
 
 def extract_quotes(model, name, signals, fields):
-    sources = signals[:8]
-    excerpts = tuple(source.evidence[:2200] for source in sources)
+    """Yield (field, verbatim quote, signal) for the requested fields."""
+    sources = signals[:MAX_SOURCES]
+    excerpts = tuple(source.evidence[:MAX_EXCERPT] for source in sources)
     if excerpts:
         for item in request_quotes(model, name, excerpts, fields):
             index = item.source_index

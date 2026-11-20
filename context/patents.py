@@ -43,31 +43,26 @@ years past founding.
 """
 from __future__ import annotations
 
-import hashlib
 import html
 import re
 import urllib.parse
 
 from context.cache import Cache
-from context.http import FetchError, get_json
-from context.lookup import Lookup
-from models import Evidence, Patent
+from context.http import FetchError, cache_key, get_json
+from context.lookup import SOURCE_PATENTS, Lookup
+from context.text import TRANSLIT, legal_forms
+from models import Patent
 
 ENDPOINT = "https://patents.google.com/xhr/query"
 PATENT_URL = "https://patents.google.com/patent/"
-SOURCE = "Google Patents"
+SOURCE = SOURCE_PATENTS
 MIN_INTERVAL = 15.0
 TIMEOUT = 20
 MAX_REQUESTS = 6
 MAX_FOUNDERS = 2
 NUM = 10
 
-_UMLAUTS = str.maketrans({"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss", "é": "e", "è": "e", "á": "a", "à": "a"})
-_LEGAL_FORMS = re.compile(
-    r"\b(gmbh\s*&\s*co\.?\s*kg|gmbh|ug|ag|se|kg|ohg|gbr|e\.?\s?v\.?|ltd\.?|inc\.?|llc|corp\.?|co\.?)\b"
-    r"|\bi\.\s?gr?\.?(?=\s|$)|\(haftungsbeschr(ä|ae)nkt\)|haftungsbeschr(ä|ae)nkt|in gr(ü|ue)ndung",
-    re.IGNORECASE,
-)
+_LEGAL_FORMS = legal_forms(r"llc|corp\.?|co\.?")     # assignee names also carry US forms
 _INSTITUTION = re.compile(
     r"universit|hochschule|technische|fraunhofer|max[- ]planck|helmholtz|leibniz|institut|"
     r"forschungszentrum|\bkit\b|\btum\b|\brwth\b|\beth\b|charit[eé]|klinikum|college|school|academy|"
@@ -102,7 +97,7 @@ BUDGET = Budget()
 
 def normalise_name(name: str) -> str:
     """Casefold, fold umlauts, strip legal forms and punctuation: 'Müller Fräsen GmbH i.G.' -> 'mueller fraesen'."""
-    text = (name or "").casefold().translate(_UMLAUTS)
+    text = (name or "").casefold().translate(TRANSLIT)
     text = _LEGAL_FORMS.sub(" ", text)
     text = re.sub(r"[^a-z0-9]+", " ", text)
     return " ".join(text.split())
@@ -151,13 +146,6 @@ def parse_results(data) -> list[dict]:
                 "priority_date": _clean(pat.get("priority_date")) or None,
             })
     return out
-
-
-def total_results(data) -> int | None:
-    try:
-        return int(((data or {}).get("results") or {}).get("total_num_results"))
-    except (TypeError, ValueError):
-        return None
 
 
 def assignee_matches(result: dict, company_norm: str) -> bool:
@@ -285,7 +273,3 @@ def patent_lookup(company: str, founders: list[str], *, cache: Cache, fetch=None
         look.fields["patents"] = patents
     return patents, look
 
-
-def cache_key(url: str) -> str:
-    """The key ``context.http.request`` uses for a GET without body (used to tell cache hits from live calls)."""
-    return "http:" + hashlib.sha1(("GET " + url + " ").encode("utf-8")).hexdigest()

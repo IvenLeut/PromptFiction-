@@ -1,7 +1,6 @@
 """Step 1 mapping: Förderkatalog rows -> projects -> RawLead (name, industry/HTGF sector, priority, signals).
 
-The export client lives in sourcing/foekat_export.py; `sourcing.foekat_export` re-exports these names for
-existing callers.
+The export client lives in sourcing/foekat_export.py.
 
 Industry classification (`classify`) and its basis
 --------------------------------------------------
@@ -22,9 +21,10 @@ field with any hit the rule with the most hits wins; ties go to the earlier rule
 HealthTech, ClimateTech, Chemie/Materialien, Industrial/DeepTech, AI/Software: specific domains before the
 horizontal software rule, so "KlimaPay" or "AI-Wallet" is FinTech).
 
-`sourcing.engine.search` returns only "thema" and "institut" leads as members of an industry ("thema"
-first); default-classified leads appear only in the CLI shortlist (with the hint) or with
-``search(..., include_unclassified=True)``.
+Unclassified leads, two deliberate defaults: `sourcing.engine.search` (the pipeline provider) returns only
+"thema" and "institut" leads as members of an industry ("thema" first) and default-classified leads only with
+``search(..., include_unclassified=True)``; the CLI shortlist (`python -m sourcing foekat`) includes them by
+default (hint ``industry_unclassified``) so step 2 can still check them, ``--no-unclassified`` drops them.
 
 Priority
 --------
@@ -46,8 +46,8 @@ from context.cache import Cache
 from context.foekat import detail_url
 from models import Industry, RawLead, SourceSignal
 from research_models import Evidence
-from sourcing.foekat_export import (ACADEMIC, DEFAULT_SINCE, LEGAL_FORM, PROGRAMMES, SIGNAL_SOURCE, SIGNAL_TYPE,
-                                    SOURCE_NAME, ExportResult, GrantRow, _now, export_rows, format_euro)
+from sourcing.foekat_export import (ACADEMIC, DEFAULT_PREFIXES, DEFAULT_SINCE, LEGAL_FORM, PROGRAMMES, SIGNAL_SOURCE,
+                                    SIGNAL_TYPE, SOURCE_NAME, ExportResult, GrantRow, _now, export_rows, format_euro)
 
 logger = logging.getLogger(__name__)
 
@@ -68,6 +68,52 @@ END_WINDOW_BEFORE_MONTHS, END_WINDOW_AFTER_MONTHS = 12, 6
 BASIS_ORDER = {"thema": 0, "institut": 1, "default": 2}
 GRANT_APPROVED = "Bewilligt"       # scoring_input.GRANT_STATES["approved"]: the catalogue lists approved grants
 
+# --- industry rules -------------------------------------------------------------------------------
+
+# (rule, Industry, htgf_sector, keywords). Syntax: 'stem' = token starts with stem, '*stem' = stem anywhere in a
+# token (compounds), '<tok>' = exact token, 'a b' = consecutive tokens (each a stem).
+INDUSTRY_RULES = (
+    ("fintech", Industry.FINTECH, "digital_tech", (
+        "finanz", "finance", "fintech", "<bank>", "banking", "*versicher", "insur", "payment", "<pay>", "zahlung",
+        "blockchain", "krypto", "crypto", "wallet", "accounting", "buchhalt", "rechnungswesen", "steuerrecht",
+        "steuerberat", "taxation", "<tax>", "kredit", "<geld>")),
+    ("health", Industry.HEALTH, "life_sciences", (
+        "*medizin", "*klinik", "charité", "pharma", "gesundheit", "health", "medical", "medicine", "biotech",
+        "biomed", "biochem", "molekularbiolog", "zellbiolog", "mikrobiolog", "*immun", "onkolog", "*krebs",
+        "cancer", "*therap", "*diagnos", "patient", "pflege", "neurolog", "neurodegen", "neurochirurg",
+        "neurowissen", "kardio", "dental", "<zahn>", "zahnmedizin", "zahnarzt", "zahnersatz", "zahnheil",
+        "orthop", "orthodont", "chirurg", "surg", "virolog", "infekt", "genom", "protein", "life science",
+        "transfusion", "zelltechn", "wirkstoff", "arznei", "medikament", "<hno>", "radiolog", "prothes",
+        "rehabilit", "physio", "antibiot", "impfstoff", "*implantat")),
+    ("climate", Industry.CLIMATE, "climate_tech", (
+        "*energie", "energy", "*klima", "climate", "solar", "photovolt", "*wasserstoff", "hydrogen", "batter",
+        "*umwelt", "environment", "nachhaltig", "sustainab", "recyc", "kreislauf", "circular", "emission",
+        "<co2>", "<carbon>", "decarbon", "dekarbon", "agrar", "agri", "landwirt", "gartenbau", "forstw",
+        "elektrochem", "*elektrolys", "wärmepump", "<pv>", "elektromobil", "biogas", "abwasser")),
+    ("chemistry_materials", Industry.INDUSTRIAL, "chemie_materialien", (
+        "chemie", "chemistry", "chemical", "chemisch", "*werkstoff", "material", "polymer", "*kunststoff",
+        "makromolekular", "*katalys", "keramik", "kolloid", "grenzfläche", "<glas>", "metallurg", "beschicht",
+        "*legierung", "nanopartik", "faserverbund", "*klebstoff")),
+    ("industrial_deeptech", Industry.INDUSTRIAL, "industrial_deep_tech", (
+        "maschinen", "*maschinenbau", "mechanical", "mechanik", "ingenieur", "produktion", "production",
+        "fertigung", "manufactur", "robot", "automatisier", "automation", "elektrotechn", "electrical",
+        "elektronik", "electronic", "photon", "*laser", "optik", "optics", "optisch", "lichttechn", "physik",
+        "physics", "quanten", "quantum", "raumfahrt", "aerospace", "<space>", "satellit", "flugzeug", "fahrzeug",
+        "automotive", "mobilität", "mobility", "logistik", "fördertechn", "*sensor", "messtechn", "halbleiter",
+        "semiconductor", "mechatron", "mikrosystem", "leichtbau", "verfahrenstechn", "werkzeug", "umformtechn",
+        "antrieb", "*getriebe", "bauingenieur", "bauwesen", "architektur", "geophysik", "drohne", "drone",
+        "adaptronik", "additiv", "schweiß")),
+    ("software_ai", Industry.AI, "digital_tech", (
+        "informatik", "computer", "computing", "software", "<ki>", "künstlich intelligenz", "artificial intelligence",
+        "<ai>", "machine learning", "maschinell lern", "deep learning", "neuronal netz", "neural network", "data science",
+        "daten", "<data>", "digital", "informations", "cyber", "<app>", "cloud", "algorithm", "telematik", "<xr>",
+        "<vr>", "virtual reality", "<llm>", "chatbot", "<saas>", "<api>", "sprachmodell", "sprachverarbeit")),
+)
+TIE_ORDER = tuple(rule for rule, *_ in INDUSTRY_RULES)   # table order is the tie-break order
+WEAK_KEYWORDS = {"climate": {"carbon"}}                    # count only together with another hit of the rule
+DEFAULT_INDUSTRY = {"03EF": Industry.INDUSTRIAL, "03EG": Industry.AI}
+_TOKEN = re.compile(r"[a-z0-9äöüßéè]+")
+
 # --- person names ---------------------------------------------------------------------------------
 
 _TITLE = (r"(?:Jun\.-Prof\.|apl\.\s?Prof\.|Prof\.|Professorin|Professor|Priv\.-Doz\.|PD|"
@@ -76,25 +122,51 @@ _TITLE = (r"(?:Jun\.-Prof\.|apl\.\s?Prof\.|Prof\.|Professorin|Professor|Priv\.-D
 _NAMEWORD = r"(?:[A-ZÄÖÜ][a-zäöüßéèáçñ]+(?:-[A-ZÄÖÜ][a-zäöüßéèáçñ]+)?|[A-Z]\.)"
 _PERSON = re.compile(rf"(?:\b(?:Herr|Frau|Professur)\s+)?(?:{_TITLE}\s*)+(?:(?:von|van|de|zu)\s+)?{_NAMEWORD}"
                      rf"(?:\s+(?:(?:von|van|de|der|zu)\s+)?{_NAMEWORD}){{0,2}}(?![\w-])")
+# Untitled working-group head ("..., AG Vorname [Zweitname] van Nachname"): AG + two or three name words (optional
+# particle) closing the field or a ',', ';', ' - ' segment, only in an academic field (so "Siemens AG Corporate
+# Technology" keeps its legal form). Subject designations ("AG Künstliche Intelligenz", "AG Data Science") are told
+# apart by an adjective/English first word or a subject-noun last word (`_is_subject`); a single word
+# ("AG Photonik") is never stripped.
+_UNTITLED_AG = re.compile(rf"\bAG\s+({_NAMEWORD})(?:\s+{_NAMEWORD})?\s+(?:(?:von|van|de|der|zu)\s+)?({_NAMEWORD})"
+                          r"(?=\s*(?:$|[,;|)]|\s[-–]\s))")
+_ADJECTIVE_END = re.compile(r"(?:lich|liche|isch|ische|ale|ive|are|elles|ches|ue)$")
+_SUBJECT_FIRST = {"data", "quantum", "soft", "applied", "computational", "digital", "neue", "angewandte"}
+_SUBJECT_END = re.compile(r"(?:ung|heit|keit|enz|anz|ik|ie|ion|tät|schaft|logie|ismus|tur|systeme|wesen|lehre|"
+                          r"kunde|medizin|ence|ance|ics|ogy|ing|nen|ien|ität)$")
 # Chairs named after a person ("Dr. Theo Schöller-Stiftungslehrstuhl") are a designation, not a person.
 _NAMED_CHAIR = re.compile(r"(?:Dr\.\s+)?(?:[A-ZÄÖÜ][\wäöüß]+\s+){0,2}[A-ZÄÖÜ][\wäöüß]+-(?:Stiftungs)?"
                           r"(?:[Ll]ehrstuhl|[Pp]rofessur|Institut|Zentrum)")
 
 
-def strip_persons(text: str) -> str:
-    """Remove personal names with academic titles, keep the institute/chair designation.
+def _is_subject(first: str, last: str) -> bool:
+    """'Künstliche Intelligenz' is a subject, 'Erika Musterfrau' a person (heuristic, see _UNTITLED_AG)."""
+    first = first.lower()
+    return bool(first in _SUBJECT_FIRST or _ADJECTIVE_END.search(first) or _SUBJECT_END.search(last.lower()))
 
-    'Universität Augsburg, Lehrstuhl für Experimentalphysik VI, Prof. Dr. Philipp Gegenwart'
-    -> 'Universität Augsburg, Lehrstuhl für Experimentalphysik VI'."""
-    if not text or not re.search(_TITLE, text):
+
+def _strip_untitled_ag(text: str) -> str:
+    """Drop untitled 'AG <first> <last>' heads from an academic field (see _UNTITLED_AG)."""
+    if not ACADEMIC.search(text):
+        return text
+    return _UNTITLED_AG.sub(lambda m: m.group(0) if _is_subject(m.group(1), m.group(2)) else " ", text)
+
+
+def strip_persons(text: str) -> str:
+    """Remove personal names with academic titles and untitled 'AG <first> <last>' heads, keep the
+    institute/chair designation.
+
+    'Universität X, Lehrstuhl für Experimentalphysik VI, Prof. Dr. Erika Musterfrau'
+    -> 'Universität X, Lehrstuhl für Experimentalphysik VI'."""
+    if not text or not (re.search(_TITLE, text) or _UNTITLED_AG.search(text)):
         return text or ""
     chairs: list[str] = []
 
-    def protect(m):
+    def protect(m: re.Match) -> str:
         chairs.append(m.group(0))
         return "\x00%d\x00" % (len(chairs) - 1)
     out = _NAMED_CHAIR.sub(protect, text)
     out = _PERSON.sub(" ", out)
+    out = _strip_untitled_ag(out)
     out = re.sub(r"\(\s*[,;|]?\s*\)", " ", out)
     out = re.sub(r"\s+", " ", out)
     out = re.sub(r"\s+([,;)])", r"\1", out)
@@ -102,6 +174,7 @@ def strip_persons(text: str) -> str:
     out = re.sub(r"(?:\s*[-–,;|]\s*)+$", "", out)
     out = re.sub(r"^(?:\s*[-–,;|]\s*)+", "", out)
     out = re.sub(r"\s+-\s*([,;|])", r"\1", out)
+    out = re.sub(r"\s([-–])(?:\s+[-–])+\s", r" \1 ", out)
     out = re.sub(r"\x00(\d+)\x00", lambda m: chairs[int(m.group(1))], out)
     return out.strip() or text
 
@@ -153,6 +226,7 @@ def project_key(row: GrantRow) -> str:
 
 
 def group_projects(rows: list[GrantRow]) -> list[list[GrantRow]]:
+    """Rows grouped by `project_key`, each group sorted by FKZ."""
     groups: dict[str, list[GrantRow]] = {}
     for row in rows:
         groups.setdefault(project_key(row), []).append(row)
@@ -160,51 +234,6 @@ def group_projects(rows: list[GrantRow]) -> list[list[GrantRow]]:
 
 
 # --- industry mapping -----------------------------------------------------------------------------
-
-# (rule, Industry, htgf_sector, keywords). Syntax: 'stem' = token starts with stem, '*stem' = stem anywhere in a
-# token (compounds), '<tok>' = exact token, 'a b' = consecutive tokens (each a stem).
-INDUSTRY_RULES = (
-    ("fintech", Industry.FINTECH, "digital_tech", (
-        "finanz", "finance", "fintech", "<bank>", "banking", "*versicher", "insur", "payment", "<pay>", "zahlung",
-        "blockchain", "krypto", "crypto", "wallet", "accounting", "buchhalt", "rechnungswesen", "steuerrecht",
-        "steuerberat", "taxation", "<tax>", "kredit", "<geld>")),
-    ("health", Industry.HEALTH, "life_sciences", (
-        "*medizin", "*klinik", "charité", "pharma", "gesundheit", "health", "medical", "medicine", "biotech",
-        "biomed", "biochem", "molekularbiolog", "zellbiolog", "mikrobiolog", "*immun", "onkolog", "*krebs",
-        "cancer", "*therap", "*diagnos", "patient", "pflege", "neurolog", "neurodegen", "neurochirurg",
-        "neurowissen", "kardio", "dental", "<zahn>", "zahnmedizin", "zahnarzt", "zahnersatz", "zahnheil",
-        "orthop", "orthodont", "chirurg", "surg", "virolog", "infekt", "genom", "protein", "life science",
-        "transfusion", "zelltechn", "wirkstoff", "arznei", "medikament", "<hno>", "radiolog", "prothes",
-        "rehabilit", "physio", "antibiot", "impfstoff", "*implantat")),
-    ("climate", Industry.CLIMATE, "climate_tech", (
-        "*energie", "energy", "*klima", "climate", "solar", "photovolt", "*wasserstoff", "hydrogen", "batter",
-        "*umwelt", "environment", "nachhaltig", "sustainab", "recyc", "kreislauf", "circular", "emission",
-        "<co2>", "<carbon>", "decarbon", "dekarbon", "agrar", "agri", "landwirt", "gartenbau", "forstw",
-        "elektrochem", "*elektrolys", "wärmepump", "<pv>", "elektromobil", "biogas", "abwasser")),
-    ("chemistry_materials", Industry.INDUSTRIAL, "chemie_materialien", (
-        "chemie", "chemistry", "chemical", "chemisch", "*werkstoff", "material", "polymer", "*kunststoff",
-        "makromolekular", "*katalys", "keramik", "kolloid", "grenzfläche", "<glas>", "metallurg", "beschicht",
-        "*legierung", "nanopartik", "faserverbund", "*klebstoff")),
-    ("industrial_deeptech", Industry.INDUSTRIAL, "industrial_deep_tech", (
-        "maschinen", "*maschinenbau", "mechanical", "mechanik", "ingenieur", "produktion", "production",
-        "fertigung", "manufactur", "robot", "automatisier", "automation", "elektrotechn", "electrical",
-        "elektronik", "electronic", "photon", "*laser", "optik", "optics", "optisch", "lichttechn", "physik",
-        "physics", "quanten", "quantum", "raumfahrt", "aerospace", "<space>", "satellit", "flugzeug", "fahrzeug",
-        "automotive", "mobilität", "mobility", "logistik", "fördertechn", "*sensor", "messtechn", "halbleiter",
-        "semiconductor", "mechatron", "mikrosystem", "leichtbau", "verfahrenstechn", "werkzeug", "umformtechn",
-        "antrieb", "*getriebe", "bauingenieur", "bauwesen", "architektur", "geophysik", "drohne", "drone",
-        "adaptronik", "additiv", "schweiß")),
-    ("software_ai", Industry.AI, "digital_tech", (
-        "informatik", "computer", "computing", "software", "<ki>", "künstlich intelligenz", "artificial intelligence",
-        "<ai>", "machine learning", "maschinell lern", "deep learning", "neuronal netz", "neural network", "data science",
-        "daten", "<data>", "digital", "informations", "cyber", "<app>", "cloud", "algorithm", "telematik", "<xr>",
-        "<vr>", "virtual reality", "<llm>", "chatbot", "<saas>", "<api>", "sprachmodell", "sprachverarbeit")),
-)
-TIE_ORDER = tuple(rule for rule, *_ in INDUSTRY_RULES)   # table order is the tie-break order
-WEAK_KEYWORDS = {"climate": {"carbon"}}                    # count only together with another hit of the rule
-DEFAULT_INDUSTRY = {"03EF": Industry.INDUSTRIAL, "03EG": Industry.AI}
-_TOKEN = re.compile(r"[a-z0-9äöüßéè]+")
-
 
 def _tokens(text: str) -> list[str]:
     """Lowercase tokens; CamelCase and digits split ('SherpAI' -> sherp, ai; 'NIXI-AI' -> nixi, ai)."""
@@ -224,7 +253,7 @@ def _kw_hits(tokens: list[str], kw: str) -> int:
     return sum(1 for i in range(len(tokens) - n + 1) if all(tokens[i + j].startswith(p) for j, p in enumerate(parts)))
 
 
-def _hits(text: str, keywords, rule: str = "") -> list[str]:
+def _hits(text: str, keywords: tuple[str, ...], rule: str = "") -> list[str]:
     tokens = _tokens(text)
     hits: list[str] = []
     for kw in keywords:
@@ -235,6 +264,7 @@ def _hits(text: str, keywords, rule: str = "") -> list[str]:
 
 @dataclass(frozen=True)
 class IndustryMatch:
+    """Result of `classify`: industry, HTGF sector, winning rule and the field/keywords it rests on."""
     industry: Industry
     htgf_sector: str | None
     rule: str
@@ -244,6 +274,7 @@ class IndustryMatch:
 
     @property
     def unclassified(self) -> bool:
+        """No keyword hit anywhere (programme default industry)."""
         return self.field is None
 
     @property
@@ -272,6 +303,7 @@ def classify(rows: list[GrantRow]) -> IndustryMatch:
 # --- priority -------------------------------------------------------------------------------------
 
 def _add_months(day: date, months: int) -> date:
+    """`day` shifted by `months`, clamped to the month's last day."""
     y, m = divmod(day.month - 1 + months, 12)
     year, month = day.year + y, m + 1
     for d in (day.day, 30, 29, 28):
@@ -368,13 +400,14 @@ def recipient_is_company(row: GrantRow) -> bool:
 
 
 def flags_for(rows: list[GrantRow], match: IndustryMatch, as_of: date | None = None) -> list[str]:
+    """Machine-readable hints of one project (listed in each signal's 'Hinweise:' line)."""
     first = rows[0]
     as_of = as_of or max(r.retrieved_at for r in rows).date()
     company = any(recipient_is_company(r) for r in rows)
     flags = ["early_signal_exist", "founding_date_unknown", "founders_unknown"]
     flags.append("recipient_company" if company else "pre_founding_team")
     if not company:
-        flags.append("internal_review_case")  # Leonard's rule: teams before founding stay internal
+        flags.append("internal_review_case")  # sourcing rule: teams before founding stay internal
     flags.append("industry_basis_" + match.basis)
     if match.unclassified:
         flags.append("industry_unclassified")
@@ -415,11 +448,13 @@ class LeadInfo:
     end: date | None
     amount: Decimal | None
 
-    def sort_key(self):
+    def sort_key(self) -> tuple[int, int, str]:
+        """Priority desc, project start desc, id."""
         return (-self.priority, -(self.start or date.min).toordinal(), self.lead_id)
 
 
 def lead_id_for(rows: list[GrantRow]) -> str:
+    """Stable lead id 'foekat-<project key>' (lower case, no spaces)."""
     return "foekat-" + project_key(sorted(rows, key=lambda r: r.fkz)[0]).lower().replace("verbund:", "verbund-").replace(" ", "-")
 
 
@@ -464,12 +499,14 @@ def map_project(rows: list[GrantRow], as_of: date | None = None) -> tuple[RawLea
 
 
 def lead_from_rows(rows: list[GrantRow], as_of: date | None = None) -> RawLead | None:
+    """`map_project` without the LeadInfo."""
     mapped = map_project(rows, as_of)
     return mapped[0] if mapped else None
 
 
 @dataclass
 class SourcingRun:
+    """Mapped leads of one run (sorted by `LeadInfo.sort_key`), the export behind them and per-lead facts."""
     leads: list[RawLead]
     export: ExportResult
     skipped_non_de: list[str] = field(default_factory=list)
@@ -477,6 +514,7 @@ class SourcingRun:
     as_of: date | None = None
 
     def stats(self, industry: Industry | None = None, shown: list[RawLead] | None = None) -> dict:
+        """JSON-ready run statistics for `shown` (default: the leads of `industry`, or all)."""
         if shown is None:
             shown = [l for l in self.leads if industry is None or l.industry == industry]
         infos = [self.info[l.id] for l in shown]
@@ -525,7 +563,7 @@ def build_leads(result: ExportResult, as_of: date | None = None) -> SourcingRun:
     return SourcingRun([l for l, _ in pairs], result, sorted(skipped), {i.lead_id: i for _, i in pairs}, as_of)
 
 
-def run(prefixes=("03EF", "03EG"), since: date = DEFAULT_SINCE, *, fetch=None, cache: Cache | None = None,
+def run(prefixes: tuple[str, ...] = DEFAULT_PREFIXES, since: date = DEFAULT_SINCE, *, fetch=None, cache: Cache | None = None,
         clock=_now, as_of: date | None = None) -> SourcingRun:
     """Export, validate, clean and map: the complete step-1 run for the Förderkatalog."""
     return build_leads(export_rows(prefixes, since, fetch=fetch, cache=cache, clock=clock), as_of=as_of)

@@ -1,5 +1,9 @@
-"""Deterministic, fully fictional step-3 output for dashboard development."""
+"""Deterministic, fully fictional step-3 output for dashboard development.
+
+All names are invented ("Demo-Gründerin …"), all URLs and e-mails use example.org.
+"""
 from datetime import datetime, timezone
+from functools import lru_cache
 
 from context.demo_market import demo_market
 from context.engine import enrich
@@ -14,9 +18,13 @@ PROFILES = [
 ]
 PREFIXES = ["Aven", "Briva", "Caleo", "Dovra", "Eluno", "Faryn"]
 SUFFIXES = ["Logic", "Therm", "Care", "Flow", "Sense"]
+# Fixed timestamp for every demo record, so runs and exports are reproducible.
+DEMO_RETRIEVED_AT = datetime(2026, 11, 20, tzinfo=timezone.utc)
+MARKET_DEMO_ID = "industrial-16"  # the one lead with a full demo market research
 
 
 def get_demo_result(industry_filter: Industry | None = None) -> ResearchResult:
+    """30 fictional evaluated leads, all of ``industry_filter`` or cycling through the industries."""
     leads = []
     for i in range(30):
         profile_index = list(Industry).index(industry_filter) if industry_filter else i % 5
@@ -32,7 +40,7 @@ def get_demo_result(industry_filter: Industry | None = None) -> ResearchResult:
         overall = round(.45 * company + .35 * market + .20 * (100 - risk_score), 1)
         evidence = Evidence(source=f"{source} – fiktiver Beleg", url=f"{url}/source",
                             finding="Simulierter Fund und deutscher Standort; kein realer Registereintrag.",
-                            field="country", retrieved_at=datetime(2026, 11, 20, tzinfo=timezone.utc))
+                            field="country", retrieved_at=DEMO_RETRIEVED_AT)
         leads.append(EvaluatedLead(
             id=slug, name=name, description=f"Entwickelt {product}.",
             industry=industry, country="DE", location=["Berlin", "München", "Hamburg", "Köln", "Dresden"][i % 5],
@@ -68,22 +76,38 @@ def get_demo_result(industry_filter: Industry | None = None) -> ResearchResult:
     return ResearchResult(leads=sorted(leads, key=lambda x: (-x.overall_score, x.id)))
 
 
-def demo_search(criteria):
+def demo_search(criteria) -> list[RawLead]:
     """Step 1 exposes only identity/contact fields, never the fixture scores."""
     return [RawLead.model_validate(x.model_dump(include=set(RawLead.model_fields)))
             for x in sorted(get_demo_result(criteria.industry).leads, key=lambda x: x.id)][:criteria.limit]
 
 
-def _fixture(lead):
-    return next(x for x in get_demo_result(lead.industry).leads if x.id == lead.id)
+@lru_cache(maxsize=len(Industry))
+def _fixtures(industry: Industry) -> dict[str, EvaluatedLead]:
+    return {x.id: x for x in get_demo_result(industry).leads}
 
 
-def demo_enrich(lead):
+def _fixture(lead: RawLead) -> EvaluatedLead:
+    return _fixtures(lead.industry)[lead.id]
+
+
+def _pin_timestamps(data):
+    """Replace run-time ``retrieved_at``/``updated_at`` values set by step 2 with ``DEMO_RETRIEVED_AT``."""
+    if isinstance(data, dict):
+        return {key: DEMO_RETRIEVED_AT if key in ("retrieved_at", "updated_at") and value is not None
+                else _pin_timestamps(value) for key, value in data.items()}
+    if isinstance(data, list):
+        return [_pin_timestamps(item) for item in data]
+    return data
+
+
+def demo_enrich(lead: RawLead) -> EnrichedLead:
+    """Step 2 for demo leads: fixture facts plus the light context engine (no network)."""
     fixture = _fixture(lead)
     extra = set(EnrichedLead.model_fields) - set(RawLead.model_fields)
     fields = fixture.model_dump(include=extra)
     sample = lead
-    if lead.id == "industrial-16":
+    if lead.id == MARKET_DEMO_ID:
         sample = lead.model_copy(update={"signals": [SourceSignal(
             source="FounderRadar · fiktive Unternehmensangaben", type="demo", url=lead.source_url,
             evidence=(
@@ -101,10 +125,13 @@ def demo_enrich(lead):
     fields["context_v2"] = researched.context_v2
     fields["evidence"] = [*fixture.evidence, *researched.evidence]
     enriched = EnrichedLead(**lead.model_dump(), **fields)
-    return demo_market(enriched) if lead.id == "industrial-16" else enriched
+    if lead.id == MARKET_DEMO_ID:
+        enriched = demo_market(enriched)
+    return EnrichedLead.model_validate(_pin_timestamps(enriched.model_dump()))
 
 
-def demo_evaluate(lead):
+def demo_evaluate(lead: EnrichedLead) -> EvaluatedLead:
+    """Step 3 for demo leads: the fixture scores."""
     fixture = _fixture(lead)
     extra = set(EvaluatedLead.model_fields) - set(EnrichedLead.model_fields)
     return EvaluatedLead(**lead.model_dump(), **fixture.model_dump(include=extra))

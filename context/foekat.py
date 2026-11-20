@@ -8,7 +8,6 @@ cache so a second run never touches the site. Tests inject `fetch(method, url, d
 """
 from __future__ import annotations
 
-import hashlib
 import html
 import http.client
 import http.cookiejar
@@ -22,12 +21,13 @@ from datetime import date
 from urllib.error import HTTPError, URLError
 
 from context.cache import Cache
-from context.http import USER_AGENT
-from context.lookup import Lookup
+from context.http import USER_AGENT, cache_key as http_cache_key
+from context.lookup import SOURCE_FOEKAT, Lookup
+from context.text import UMLAUTS, strip_persons
 from models import Evidence, Grant, SourceSignal
 
 logger = logging.getLogger(__name__)
-SOURCE = "Förderkatalog"
+SOURCE = SOURCE_FOEKAT
 ENCODING = "iso-8859-15"
 BASE = "https://foerderportal.bund.de/foekat/jsp/"
 START_URL = BASE + "StartAction.do"
@@ -37,6 +37,8 @@ ROWS_PER_PAGE = 100
 MAX_ROWS = 300          # at most three result pages per query
 MAX_DETAILS = 3         # detail pages fetched per lead
 AMBIGUOUS = 10          # more hits than this -> narrow with the institution
+TIMEOUT = 20            # seconds per request
+MIN_INTERVAL = 1.0      # seconds between two requests (politeness)
 PROGRAMMES = {"03EF": "EXIST-Forschungstransfer", "03EG": "EXIST-Gründungsstipendium"}
 LEGAL_FORMS = re.compile(
     r"(?<![\w.])(gGmbH|GmbH|mbH|UG|AG|SE|KG|OHG|GbR|e\.\s?V\.?|i\.\s?G\.?|i\.\s?Gr\.?|haftungsbeschränkt|Co\.?|&)(?![\w])\.?",
@@ -59,7 +61,7 @@ def encode_form(fields: dict) -> bytes:
 class Session:
     """Cookie-keeping opener: starts the session lazily, 1 request/s, retries on 5xx."""
 
-    def __init__(self, timeout: float = 20, min_interval: float = 1.0, retries: int = 2):
+    def __init__(self, timeout: float = TIMEOUT, min_interval: float = MIN_INTERVAL, retries: int = 2):
         self.timeout, self.min_interval, self.retries = timeout, min_interval, retries
         self.jar = http.cookiejar.CookieJar()
         self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self.jar))
@@ -109,7 +111,7 @@ class Session:
 def _cached_fetch(fetch, cache: Cache | None):
     """Wrap a fetch so identical requests (method + URL + body) come from the cache."""
     def run(method: str, url: str, data: bytes | None = None) -> str:
-        key = "foekat:" + hashlib.sha1((method + " " + url + " " + (data or b"").decode("latin-1")).encode("utf-8")).hexdigest()
+        key = "foekat:" + http_cache_key(url, method, data).removeprefix("http:")
         if cache is None:
             return fetch(method, url, data)
         return cache.memo(key, lambda: fetch(method, url, data))
@@ -134,6 +136,7 @@ def parse_amount(text: str) -> int | None:
 
 
 def parse_date(text: str) -> date | None:
+    """First 'dd.mm.yyyy' in the text as a date; None if absent or invalid."""
     m = re.search(r"(\d{2})\.(\d{2})\.(\d{4})", text or "")
     if not m:
         return None
@@ -144,6 +147,7 @@ def parse_date(text: str) -> date | None:
 
 
 def parse_count(page: str) -> int:
+    """Total hit count of a result page (0 for 'Keine Treffer' or an unknown page)."""
     if re.search(r"Keine Treffer", page):
         return 0
     m = re.search(r"(\d+)\s+Treffer insgesamt", page)
@@ -207,6 +211,7 @@ def parse_detail(page: str) -> dict:
 
 
 def programme_for(fkz: str, leistungsplan: str = "") -> str:
+    """Programme name from the FKZ prefix (03EF/03EG), else from the Leistungsplansystematik."""
     for prefix, name in PROGRAMMES.items():
         if (fkz or "").upper().startswith(prefix):
             return name
@@ -219,18 +224,23 @@ def programme_for(fkz: str, leistungsplan: str = "") -> str:
 
 
 def is_exist(fkz: str, leistungsplan: str = "") -> bool:
+    """True for EXIST projects (FKZ prefix or Leistungsplansystematik)."""
     return (fkz or "").upper()[:4] in PROGRAMMES or "EXIST" in (leistungsplan or "").upper()
 
 
 def detail_url(fkz: str) -> str:
+    """Public detail page of one FKZ."""
     return SEARCH_URL + "?actionMode=view&fkz=" + urllib.parse.quote(fkz, safe="")
 
 
 # --- name handling --------------------------------------------------------------------------------
 
+_UMLAUT_TABLE = str.maketrans(UMLAUTS)
+
+
 def _fold(text: str) -> str:
     """Lowercase ASCII with umlauts folded: 'Grün-Tech' -> 'gruentech', 'Gruentech' -> 'gruentech'."""
-    text = (text or "").lower().replace("ä", "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss")
+    text = (text or "").lower().translate(_UMLAUT_TABLE)
     text = unicodedata.normalize("NFKD", text)
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
     return re.sub(r"[^a-z0-9]+", "", text)
@@ -296,11 +306,15 @@ def _search(fetch, form: dict, *, first_page: str | None = None) -> tuple[int, l
 
 
 def _grant_from(detail: dict | None, row: dict | None) -> tuple[Grant, dict]:
-    """Merge detail page (preferred) and result row into a Grant plus the facts used for the evidence."""
+    """Merge detail page (preferred) and result row into a Grant plus the facts used for the evidence.
+
+    Person names in recipient and executing unit ("..., Prof. Dr. Erika Musterfrau", "... AG Vorname Nachname")
+    are removed before they reach Grant.recipient, the evidence and the `institution` field.
+    """
     d, r = detail or {}, row or {}
     pick = lambda k: d.get(k) or r.get(k) or ""
     fkz = pick("fkz")
-    recipient, executing = pick("recipient"), pick("executing")
+    recipient, executing = strip_persons(pick("recipient")), strip_persons(pick("executing"))
     full = recipient
     if executing and _fold(executing) != _fold(recipient):
         # "Universität Augsburg - Lehrstuhl X" already names the recipient; do not repeat it.
@@ -329,7 +343,8 @@ def _record(lookup: Lookup, grant: Grant, facts: dict) -> None:
                                     finding=("%s %s: %s" % (grant.programme, facts["fkz"], text))[:1000]))
 
 
-def grant_lookup(name: str, *, institution: str | None, reference: str | None, cache, fetch=None) -> tuple[list[Grant], Lookup]:
+def grant_lookup(name: str, *, institution: str | None, reference: str | None, cache: Cache | None,
+                 fetch=None) -> tuple[list[Grant], Lookup]:
     """Return the grants of a project/company from the Förderkatalog plus the Lookup with evidence and signals.
 
     `reference` is an FKZ (exact lookup, confidence 1.0); otherwise the name is searched (quick search,
@@ -393,8 +408,9 @@ def grant_lookup(name: str, *, institution: str | None, reference: str | None, c
                 best = max(best, confidence)
         if grants:
             first = grants[0]
-            executing = next((f for f in lookup.signals), None)
-            unit = re.search(r"Ausführende Stelle: (.*?); Laufzeit", executing.evidence).group(1) if executing else ""
+            first_signal = next(iter(lookup.signals), None)
+            unit_match = re.search(r"Ausführende Stelle: (.*?); Laufzeit", first_signal.evidence) if first_signal else None
+            unit = unit_match.group(1) if unit_match else ""
             if unit and unit != "?":
                 lookup.add("institution", unit, url=str(first.url), finding="Ausführende Stelle: " + unit, source=SOURCE, source_date=first.start)
             lookup.add("match_confidence", best, url=str(first.url), source=SOURCE, source_date=first.start,
