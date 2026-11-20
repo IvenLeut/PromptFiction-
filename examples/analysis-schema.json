@@ -63,6 +63,56 @@
           "default": null,
           "title": "Source Name"
         },
+        "discovery_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discovery Source"
+        },
+        "first_signal_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Signal Date"
+        },
+        "discovered_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discovered At"
+        },
+        "initial_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Initial Signal"
+        },
         "country_evidence": {
           "anyOf": [
             {
@@ -141,6 +191,143 @@
           ],
           "default": null,
           "title": "Founding Month"
+        },
+        "founder_profiles": {
+          "items": {
+            "$ref": "#/$defs/FounderProfile"
+          },
+          "title": "Founder Profiles",
+          "type": "array"
+        },
+        "problem_statement": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Problem Statement"
+        },
+        "target_customers": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Customers"
+        },
+        "product_mechanics": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Mechanics"
+        },
+        "product_maturity": {
+          "default": "Unknown",
+          "enum": [
+            "Idea",
+            "Prototype",
+            "MVP",
+            "Market",
+            "Unknown"
+          ],
+          "title": "Product Maturity",
+          "type": "string"
+        },
+        "business_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Business Model"
+        },
+        "target_market": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Market"
+        },
+        "competitors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Competitors",
+          "type": "array"
+        },
+        "technology_advantage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Technology Advantage"
+        },
+        "differentiation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Differentiation"
+        },
+        "traction_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Traction Evidence",
+          "type": "array"
+        },
+        "funding_status": {
+          "default": "Unknown",
+          "enum": [
+            "Bootstrapped",
+            "Grant-funded",
+            "Pre-Seed",
+            "Seed",
+            "Later",
+            "Unknown"
+          ],
+          "title": "Funding Status",
+          "type": "string"
+        },
+        "funding_events": {
+          "items": {
+            "$ref": "#/$defs/FundingEvent"
+          },
+          "title": "Funding Events",
+          "type": "array"
         },
         "evidence": {
           "items": {
@@ -262,6 +449,87 @@
           ],
           "default": null,
           "title": "Traction Notes"
+        },
+        "fund_fit_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fund Fit Score"
+        },
+        "team_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Score"
+        },
+        "hard_exclusions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hard Exclusions",
+          "type": "array"
+        },
+        "eligibility_status": {
+          "default": "Unknown",
+          "enum": [
+            "Eligible",
+            "Excluded",
+            "Unknown"
+          ],
+          "title": "Eligibility Status",
+          "type": "string"
+        },
+        "fund_fit_rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fund Fit Rationale"
+        },
+        "team_rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Rationale"
+        },
+        "earliness_rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Earliness Rationale"
         },
         "overall_score": {
           "anyOf": [
@@ -447,6 +715,19 @@
           "default": null,
           "title": "Field"
         },
+        "published_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published On"
+        },
         "retrieved_at": {
           "format": "date-time",
           "title": "Retrieved At",
@@ -459,6 +740,122 @@
         "finding"
       ],
       "title": "Evidence",
+      "type": "object"
+    },
+    "FounderProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        },
+        "background": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Background"
+        },
+        "relevant_experience": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relevant Experience"
+        },
+        "distinctive_skills": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distinctive Skills"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "FounderProfile",
+      "type": "object"
+    },
+    "FundingEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "announced_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Announced On"
+        },
+        "amount_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Amount Eur"
+        },
+        "investors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Investors",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "title": "FundingEvent",
       "type": "object"
     },
     "Industry": {

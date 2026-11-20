@@ -70,96 +70,100 @@ def open_selected_row(event, shown):
 
 def render_dashboard(result: ResearchResult, analysis=None):
     from hashlib import sha256
+    from analyst_store import load_decisions
     from charts import stage_figure, comparison_figure
     from deep_dive import render_deep_dive
-    from ui_theme import heading, summary_kpis
+    from screening import filter_leads, review_status, high_priority
+    from ui_theme import heading
 
+    namespace = "demo" if (analysis and analysis.mode == "demo") or all(x.is_demo for x in result.leads) else "live"
+    try:
+        decisions = load_decisions(namespace)
+    except Exception:
+        st.error("Analystenentscheidungen konnten nicht geladen werden. Bitte Datenbankzugriff prüfen.")
+        return
     for issue in result.issues:
         st.warning(f"{issue.lead_id}: {issue.message}")
-    if not result.leads:
-        st.info("Für diese Kategorie liegen noch keine bewerteten Startups vor. Starte eine neue Analyse.")
-        return
     requested_id = st.query_params.get("startup")
     if requested_id:
         lead = next((x for x in result.leads if x.id == requested_id), None)
         if lead is not None:
-            render_deep_dive(lead, back_to_overview, contact_url, value)
+            render_deep_dive(lead, back_to_overview, contact_url, value, namespace=namespace,
+                             decision=decisions.get(lead.id))
             return
         st.warning("Dieses Startup ist im aktuellen Suchlauf nicht vorhanden.")
         st.button("Zurück zur Übersicht", on_click=back_to_overview)
         return
-
-    category = analysis.criteria.industry.value if analysis else "Tech-Startups"
-    heading("Dein Investment-Radar", f"{category}. Potenzial im Blick.",
-            "Unternehmensstärke, Marktchance und Risiko. Die wichtigsten Signale deiner ausgewählten Kategorie auf einen Blick.")
-    left, right = st.columns([4, 1])
-    with left:
-        total = len(result.leads)
-        st.caption(f"{total} STARTUPS BEWERTET · DEUTSCHLAND · DEMO-DATEN")
-        if analysis:
-            st.caption(f"{analysis.discovered_count} entdeckt / {analysis.enriched_count} mit Kontext / {total} bewertet")
-    saved_top = st.session_state.get("portfolio_top_n", 10)
-    top_n = right.selectbox("Ranking anzeigen", [10, 20], index=[10, 20].index(saved_top),
-                            format_func=lambda x: f"Top {x}", key="top_filter")
+    heading("FounderRadar / Investment Screening Cockpit", "Früh entdecken. Klar entscheiden.",
+            "Priorisierte Startup-Longlist für die erste Kontaktentscheidung. Quellenfakten, KI-Einschätzungen und Analystenentscheidungen bleiben unterscheidbar.")
+    if not result.leads:
+        st.info("Noch keine bewerteten Startups vorhanden.")
+        return
+    if namespace == "demo":
+        st.caption("DEMO · Fiktive Startups, Bewertung und Quellen. Neue, unbelegte Angaben bleiben Unknown.")
+    metrics = st.columns(4)
+    metrics[0].metric("Total Leads", len(result.leads))
+    metrics[1].metric("High-Priority Leads", sum(high_priority(x, decisions) for x in result.leads))
+    metrics[2].metric("Pending Review", sum(review_status(x, decisions) == "Pending Review" for x in result.leads))
+    metrics[3].metric("Contact Candidates", sum(review_status(x, decisions) == "Contact" for x in result.leads))
+    st.caption("Gesamter Analyselauf · High Priority: bestätigter Fund Fit, Quality ≥75, Fit ≥70, Earliness ≥70; kein Ausschluss/Reject. Contact Candidates: explizite Analystenentscheidung Contact.")
+    search = st.text_input("Unternehmen oder Branche suchen", placeholder="Name oder Technologiefeld eingeben …", key="cockpit_search")
+    with st.expander("Filter und Priorisierung"):
+        a, b, c = st.columns(3)
+        locations = a.multiselect("Standort", sorted({x.location or "Unknown" for x in result.leads}), key="cockpit_locations")
+        industries = b.multiselect("Branche", sorted({x.industry.value for x in result.leads}), key="cockpit_industries")
+        stages = c.multiselect("Stage", sorted({x.stage_classification for x in result.leads}), key="cockpit_stages")
+        d, e = st.columns(2)
+        fit = d.selectbox("Fund Fit", ["Alle", "Passend", "Ungeklärt", "Ausgeschlossen"], key="cockpit_fit")
+        statuses = e.multiselect("Screening Status", ["Pending Review", "Contact", "Watchlist", "Reject", "Excluded"], key="cockpit_statuses")
+    left, right = st.columns([3, 1])
+    order = left.selectbox("Sortieren nach", ["Priorität", "Quality Score", "Fund Fit", "Earliness", "Entdeckungsdatum"], key="cockpit_sort")
+    saved = st.session_state.get("portfolio_top_n", 0)
+    top_n = right.selectbox("Ranking anzeigen", [0, 10, 20], index=[0, 10, 20].index(saved) if saved in [0,10,20] else 0,
+                            format_func=lambda x: "Alle Startups" if x == 0 else f"Top {x}", key="top_filter")
     st.session_state.portfolio_top_n = top_n
-    shown = shortlist(result.leads, top_n=top_n)
-    summary_kpis(shown)
-    st.caption(f"Kennzahlen und Visualisierungen beziehen sich auf die angezeigten Top {len(shown)}. Mittelwerte berücksichtigen nur bekannte Scores; Skala 0–100.")
-
-    space, stages = st.columns([2.2, 1], gap="large")
-    with space:
-        st.subheader("Der Potenzialraum")
-        st.caption("X: Risiko · Y: Unternehmensscore · Z: Marktpotenzial")
-        fig, omitted = build_figure(shown)
-        st.plotly_chart(fig, width="stretch", key="startup_3d", theme=None,
-                        config={"displaylogo": False, "scrollZoom": True})
-        st.caption("Ziehen zum Drehen · Scrollen zum Zoomen · Hover für Details. Grün: geringeres Risiko, Rot: höheres Risiko.")
-        if omitted:
-            st.caption(f"{omitted} Startups ohne vollständige Achsenwerte sind nicht im 3D-Diagramm enthalten.")
-    with stages:
-        st.subheader("Wo stehen die Teams?")
-        st.caption("Stage-Einordnung aus Schritt 3")
-        st.plotly_chart(stage_figure(shown), width="stretch", theme=None, key="stage_distribution",
-                        config={"displayModeBar": False})
-        st.markdown("**Die stärkste Bewertung**")
-        best = shown[0]
-        if best.overall_score is not None:
-            st.markdown(f"### {best.name}")
-            st.caption(f"SCORE {best.overall_score:.1f}/100 · {best.stage_classification.upper()}")
-            st.write(best.value_proposition)
-            if st.button("Startup kennenlernen", key="featured_startup", width="stretch"):
-                st.query_params["startup"] = best.id
-                st.rerun()
-        else:
-            st.caption("Noch kein Gesamt-Score verfügbar.")
-    st.divider()
-    st.subheader("Stärken und Risiken im Direktvergleich")
-    st.caption("Die zehn bestplatzierten Startups der aktuellen Auswahl. Unternehmen und Markt: höher ist besser. Risiko: niedriger ist besser.")
-    st.plotly_chart(comparison_figure(shown), width="stretch", theme=None, key="score_comparison",
-                    config={"displayModeBar": False})
-    st.divider()
-    st.subheader("Deine Investment-Shortlist")
-    st.caption("Klicke auf ein Unternehmen für Produkt, Investmenthypothese, Gründerkontakt und Quellen.")
-    rows = [{"Rang": i, "Unternehmen": x.name, "Standort": x.location,
-             "Stage": x.stage_classification, "Score": x.overall_score,
-             "Unternehmensscore": x.company_score, "Marktpotenzial": x.market_potential_score,
-             "Risiko": x.risk_score} for i, x in enumerate(shown, 1)]
+    filtered = filter_leads(result.leads, decisions, search=search, locations=locations, industries=industries,
+                            stages=stages, fit=fit, statuses=statuses, sort_by=order)
+    shown = filtered[:top_n] if top_n else filtered
+    st.caption(f"{len(shown)} angezeigt / {len(filtered)} passend / {len(result.leads)} insgesamt. Ausschlüsse sind sichtbar und werden bei Standardpriorisierung zurückgestellt.")
+    if not shown:
+        st.info("Keine Unternehmen entsprechen den gewählten Filtern.")
+        return
+    rows = [{"Unternehmen": x.name, "Value Proposition": x.value_proposition,
+             "Branche": x.industry.value, "Standort": x.location or "Unknown",
+             "Stage": x.stage_classification,
+             "Fund Fit": "Excluded" if x.hard_exclusions or x.eligibility_status == "Excluded" else
+                         (f"{x.fund_fit_score:.0f}/100" if x.fund_fit_score is not None else "Unknown"),
+             "Quality Score": x.overall_score, "Earliness Score": x.earliness_score,
+             "Screening Status": review_status(x, decisions),
+             "Priorität": "Hoch" if high_priority(x, decisions) else "—"} for x in shown]
     signature = sha256("|".join(x.id for x in shown).encode()).hexdigest()[:12]
     table_key = f"ranking_{signature}_{st.session_state.get('table_generation', 0)}"
     config = {
-        "Rang": st.column_config.NumberColumn("#", width="small", format="%d"),
         "Unternehmen": st.column_config.TextColumn("Unternehmen / Deep Dive", width="medium"),
-        "Score": st.column_config.ProgressColumn("Score", min_value=0, max_value=100, format="%.1f"),
-        "Unternehmensscore": st.column_config.NumberColumn("Unternehmen", format="%.0f"),
-        "Marktpotenzial": st.column_config.NumberColumn("Markt", format="%.0f"),
-        "Risiko": st.column_config.NumberColumn("Risiko", format="%.0f", help="Ein niedrigerer Risikoscore ist besser."),
+        "Value Proposition": st.column_config.TextColumn("Value Proposition", width="medium"),
+        "Quality Score": st.column_config.ProgressColumn("Quality", min_value=0, max_value=100, format="%.0f"),
+        "Earliness Score": st.column_config.ProgressColumn("Earliness", min_value=0, max_value=100, format="%.0f"),
     }
-    event = st.dataframe(rows, hide_index=True, width="stretch", height=min(740, 40 + len(rows) * 44),
+    event = st.dataframe(rows, hide_index=True, width="stretch", height=min(700, 40 + len(rows) * 44),
                         row_height=44, column_config=config, on_select="rerun", selection_mode="single-row", key=table_key)
     if open_selected_row(event, shown):
         st.rerun()
-    st.caption("Ranking nach dem übergebenen Gesamt-Score. Keine neue Bewertung im Dashboard; unbekannte Scores stehen zuletzt.")
+    st.caption("Zeile anklicken für das Investment Briefing. Quality bezeichnet den bisherigen Gesamt-Score. Unknown-Fit bedeutet ungeprüfte Eignung.")
+    with st.expander("Visuelle Portfolioanalyse", expanded=False):
+        st.caption("Die Diagramme beziehen sich auf die gefilterte und angezeigte Liste. Fehlende Werte werden nicht als null gezeichnet.")
+        space, stage = st.columns([2, 1])
+        with space:
+            st.subheader("Risiko / Unternehmen / Markt")
+            fig, omitted = build_figure(shown)
+            st.plotly_chart(fig, width="stretch", key="startup_3d", theme=None,
+                            config={"displaylogo": False, "scrollZoom": True})
+            if omitted:
+                st.caption(f"{omitted} Startups ohne vollständige Achsenwerte ausgelassen.")
+        with stage:
+            st.subheader("Stage-Verteilung")
+            st.plotly_chart(stage_figure(shown), width="stretch", theme=None, key="stage_distribution")
+        st.plotly_chart(comparison_figure(shown), width="stretch", theme=None, key="score_comparison")
     if analysis:
         st.download_button("Analyse als JSON exportieren", analysis.model_dump_json(indent=2),
                            file_name="founder-radar-analysis.json", mime="application/json")
-    st.caption("Fiktive Demo-Daten. Kontakte und Quellen verwenden example.org. Die Gewichtung ist noch keine abgestimmte Investmentmethodik.")

@@ -18,6 +18,9 @@ def new_analysis():
     st.query_params.clear()
     for key in ("top_filter", "portfolio_top_n", "portfolio_filters", "industry_filter"):
         st.session_state.pop(key, None)
+    for key in list(st.session_state):
+        if key.startswith("cockpit_"):
+            st.session_state.pop(key, None)
     st.session_state.table_generation = st.session_state.get("table_generation", 0) + 1
 
 

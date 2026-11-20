@@ -29,6 +29,7 @@ class Evidence(Contract):
     url: HttpUrl
     finding: str = Field(min_length=1)
     field: str | None = None
+    published_on: date | None = None
     retrieved_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -41,6 +42,10 @@ class RawLead(Contract):
     location: str | None = None
     source_url: HttpUrl
     source_name: str | None = None
+    discovery_source: str | None = None
+    first_signal_date: date | None = None
+    discovered_at: datetime | None = None
+    initial_signal: str | None = None
     country_evidence: Evidence | None = None
     is_demo: bool = False
     website: HttpUrl | None = None
@@ -50,7 +55,36 @@ class RawLead(Contract):
     founding_month: int | None = Field(default=None, ge=1, le=12)
 
 
+class FounderProfile(Contract):
+    name: str
+    role: str | None = None
+    background: str | None = None
+    relevant_experience: str | None = None
+    distinctive_skills: str | None = None
+    evidence: list[Evidence] = Field(default_factory=list)
+
+
+class FundingEvent(Contract):
+    announced_on: date | None = None
+    amount_eur: float | None = Field(default=None, ge=0, allow_inf_nan=False)
+    investors: list[str] = Field(default_factory=list)
+    evidence: list[Evidence] = Field(default_factory=list)
+
+
 class EnrichedLead(RawLead):
+    founder_profiles: list[FounderProfile] = Field(default_factory=list)
+    problem_statement: str | None = None
+    target_customers: str | None = None
+    product_mechanics: str | None = None
+    product_maturity: Literal["Idea", "Prototype", "MVP", "Market", "Unknown"] = "Unknown"
+    business_model: str | None = None
+    target_market: str | None = None
+    competitors: list[str] = Field(default_factory=list)
+    technology_advantage: str | None = None
+    differentiation: str | None = None
+    traction_evidence: list[Evidence] = Field(default_factory=list)
+    funding_status: Literal["Bootstrapped", "Grant-funded", "Pre-Seed", "Seed", "Later", "Unknown"] = "Unknown"
+    funding_events: list[FundingEvent] = Field(default_factory=list)
     evidence: list[Evidence] = Field(default_factory=list)
     funding_stage: str | None = None
     founded_on: date | None = None
@@ -63,7 +97,25 @@ class EnrichedLead(RawLead):
     traction_notes: str | None = None
 
 
+class InvestmentArgument(Contract):
+    statement: str
+    rationale: str
+    evidence: list[Evidence] = Field(default_factory=list)
+
+
 class EvaluatedLead(EnrichedLead):
+    technology_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    why_contact_now: str | None = None
+    key_strengths: list[InvestmentArgument] = Field(default_factory=list, max_length=3)
+    key_risks: list[InvestmentArgument] = Field(default_factory=list, max_length=3)
+    score_rationales: dict[str, str] = Field(default_factory=dict)
+    fund_fit_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    team_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    hard_exclusions: list[str] = Field(default_factory=list)
+    eligibility_status: Literal["Eligible", "Excluded", "Unknown"] = "Unknown"
+    fund_fit_rationale: str | None = None
+    team_rationale: str | None = None
+    earliness_rationale: str | None = None
     overall_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
     company_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
     market_potential_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)

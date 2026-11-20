@@ -60,12 +60,13 @@ def start_app(category=None):
 def test_dashboard_filters_and_detail():
     from models import Industry
     app = start_app(Industry.HEALTH)
-    assert len(app.dataframe[0].value) == 10
+    assert len(app.dataframe[0].value) == 30
     assert len(app.get("plotly_chart")) == 3
     next(x for x in app.selectbox if x.label == "Ranking anzeigen").set_value(20).run()
     assert len(app.dataframe[0].value) == 20
     from hashlib import sha256
-    shown = shortlist(app.session_state.analysis.result.leads, top_n=20)
+    from screening import filter_leads
+    shown = filter_leads(app.session_state.analysis.result.leads, {})[:20]
     assert all(x.industry == Industry.HEALTH for x in shown)
     signature = sha256("|".join(x.id for x in shown).encode()).hexdigest()[:12]
     app.session_state[f"ranking_{signature}_1"] = {"selection": {"rows": [1], "columns": [], "cells": []}}
@@ -74,7 +75,7 @@ def test_dashboard_filters_and_detail():
     assert app.query_params["startup"] == shown[1].id
     assert app.title[0].value == shown[1].name
     assert not app.dataframe
-    assert len(app.tabs) == 3
+    assert any(x.value == "Analyst Decision" for x in app.subheader)
     next(x for x in app.button if x.key == "back_to_portfolio").click().run()
     assert not app.exception
     assert len(app.dataframe[0].value) == 20
@@ -84,7 +85,7 @@ def test_dashboard_filters_and_detail():
     app.radio[0].set_value(Industry.CLIMATE)
     next(x for x in app.button if x.label == "Analyse starten").click().run()
     assert all(x.industry == Industry.CLIMATE for x in app.session_state.analysis.result.leads)
-    assert len(app.dataframe[0].value) == 10
+    assert len(app.dataframe[0].value) == 30
     assert not app.exception
 
 
@@ -99,7 +100,7 @@ def test_detail_direct_link_and_unknown_id():
     app.run()
     assert any("nicht vorhanden" in x.value for x in app.warning)
     next(x for x in app.button if x.label == "Zurück zur Übersicht").click().run()
-    assert len(app.dataframe[0].value) == 10
+    assert len(app.dataframe[0].value) == 30
 
 
 def test_visualizations_match_data():

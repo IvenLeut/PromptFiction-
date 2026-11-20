@@ -142,3 +142,30 @@ Visuelle Referenz: die vom Team bereitgestellte HTGF-Ansicht mit großer Typogra
 Weißraum, klaren Kennzahlen und dezenten Akzenten. FounderRadar verwendet eine eigene Marke.
 Technik: [Streamlit](https://docs.streamlit.io/develop/api-reference/data/st.dataframe),
 [Plotly](https://plotly.com/python/3d-scatter-plots/).
+
+## Investment Screening Cockpit: erweiterter Vertrag
+
+Die bestehenden v2-Verträge wurden um optionale Screening-Felder erweitert.
+Alte JSON-Dateien bleiben lesbar; fehlende Felder werden als Unknown/null dargestellt.
+
+- Schritt 1: discovery_source, first_signal_date, discovered_at, initial_signal.
+  source_url verweist auf den Originalfund; source_name bleibt als Legacy-Feld erhalten.
+- Schritt 2: founder_profiles mit Rollen, Hintergründen, Erfahrungen und Belegen;
+  Problem, Zielkunden, Produktmechanik/-reife, Geschäftsmodell, Markt, Wettbewerber,
+  Technologie/IP und Differenzierung. traction_evidence und funding_events halten
+  belegbare Ereignisse fest. Evidence.published_on ergänzt das Abrufdatum.
+- Funding-Status: Bootstrapped / Grant-funded / Pre-Seed / Seed / Later / Unknown.
+  Keine gefundenen Finanzierungsinformationen bedeuten Unknown, niemals Bootstrapped.
+- Schritt 3: fund_fit_score, team_score, bestehender earliness_score, getrennte
+  hard_exclusions, eligibility_status und Begründungen für die drei Scores.
+  Ein expliziter Ausschluss übersteuert den Screening-Status.
+
+Die neuen Scores werden noch nicht automatisch berechnet: konkrete Fondskriterien,
+Gewichte und die vollständige Earliness-Definition stehen aus. Demo-Earliness-Werte
+sind ausdrücklich fiktive Altwerte; Fund Fit und Team bleiben ohne Grundlage null.
+Die Anforderungen endeten mitten in der Earliness-Definition; weitere Evaluation-
+und Designvorgaben müssen noch ergänzt werden.
+
+Die Startup Overview unterstützt alle Leads, Top 10/20, Funding-Filter und das
+Ausblenden expliziter Ausschlüsse. Der Company Deep Dive zeigt die neuen Fakten
+und die Discovery Timeline. Es ist weiterhin eine Demo, keine Live-Recherche.
