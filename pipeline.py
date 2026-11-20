@@ -2,6 +2,7 @@
 import inspect
 import logging
 from collections.abc import Callable, Sequence
+from datetime import date
 from functools import partial
 from models import (
     ContextResult, EnrichedLead, EvaluatedLead, EvaluationScores, PipelineIssue, RawLead, ResearchResult, SearchCriteria,
@@ -59,7 +60,7 @@ def collect_context(leads: Sequence[RawLead], *, use_mock: bool = True,
     result = ContextResult()
     for lead in leads:
         try:
-            enriched = EnrichedLead.model_validate(enricher(lead))
+            enriched = EnrichedLead.model_validate(enricher(lead.model_copy(deep=True)))
             _preserve(lead, enriched)
             result.leads.append(enriched)
         except Exception:
@@ -82,9 +83,10 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
     for lead in leads:
         try:
             if use_mock:
-                evaluated = EvaluatedLead.model_validate(evaluator(lead))
+                evaluated = EvaluatedLead.model_validate(evaluator(lead.model_copy(deep=True)))
             else:
-                scoring = build_scoring_input(lead, as_of=lead.scoring_input.as_of if lead.scoring_input else None)
+                cutoff = lead.scoring_input.as_of if lead.scoring_input else None
+                scoring = build_scoring_input(lead, as_of=cutoff or lead.screening_as_of or date.today())
                 if scoring.country.status != "usable":
                     result.issues.append(PipelineIssue(
                         lead_id=lead.id, stage="evaluation", message="Kein nutzbarer Deutschland-Beleg am Stichtag.",
@@ -99,7 +101,12 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
                 # projects. Such leads are scored; the open question travels in research_questions/open_questions.
                 param = inspect.signature(evaluator).parameters.get("lead")
                 takes_lead = param is not None and param.kind is inspect.Parameter.KEYWORD_ONLY
-                scores = EvaluationScores.model_validate(evaluator(scoring, lead=lead) if takes_lead else evaluator(scoring))
+                evaluator_input = scoring.model_copy(deep=True)
+                scores = EvaluationScores.model_validate(
+                    evaluator(evaluator_input, lead=lead.model_copy(deep=True)) if takes_lead else evaluator(evaluator_input)
+                )
+                if scores.scoring_status == "zurueck_an_sourcing":
+                    result.issues.append(PipelineIssue(lead_id=lead.id, stage="evaluation", message=scores.investment_thesis))
                 lead = lead.model_copy(update={"scoring_input": scoring})
                 evaluated = EvaluatedLead(**lead.model_dump(), **scores.model_dump())
             _preserve(lead, evaluated)

@@ -4,7 +4,7 @@ from datetime import date as Date
 from datetime import datetime, timezone
 from typing import Literal
 
-from pydantic import Field, HttpUrl
+from pydantic import Field, HttpUrl, model_validator
 
 from research_models import ContextV2, Contract, Evidence
 from scoring_models import ScoringInput
@@ -73,6 +73,9 @@ class Patent(Contract):
     url: HttpUrl
 
 
+CONTACT_EMAIL_PATTERN = r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+
+
 class RawLead(Contract):
     id: str = Field(min_length=1)
     name: str = Field(min_length=1)
@@ -86,14 +89,26 @@ class RawLead(Contract):
     is_demo: bool = False
     website: HttpUrl | None = None
     founders: list[str] = Field(default_factory=list)
-    contact_email: str | None = Field(default=None, pattern=r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+    contact_email: str | None = Field(default=None, pattern=CONTACT_EMAIL_PATTERN)
     founding_year: int | None = Field(default=None, ge=1800, le=2100)
     founding_month: int | None = Field(default=None, ge=1, le=12)
+    founded_day: int | None = Field(default=None, ge=1, le=31)
+    founding_country: Literal["DE"] | None = None
+    field_evidence: dict[str, list[Evidence]] = Field(default_factory=dict)
+    screening_as_of: Date | None = None
     has_vc: bool | None = None
     signals: list[SourceSignal] = Field(default_factory=list)
     prioritization_reason: str | None = None
     htgf_sector: Literal["digital_tech", "industrial_deep_tech", "climate_tech",
                          "life_sciences", "chemie_materialien"] | None = None
+
+    @model_validator(mode="after")
+    def validate_founding_day(self):
+        if self.founded_day is not None:
+            if self.founding_year is None or self.founding_month is None:
+                raise ValueError("Ein Gründungstag benötigt Monat und Jahr.")
+            Date(self.founding_year, self.founding_month, self.founded_day)
+        return self
 
 
 class EnrichedLead(RawLead):
@@ -163,6 +178,8 @@ class EvaluationScores(Contract):
     open_questions: list[str] = Field(default_factory=list)
     quality_score: float | None = Field(default=None, ge=0, le=100)
     earliness_score: float | None = Field(default=None, ge=0, le=100)
+    earliness_delta_months: int | None = Field(default=None, ge=0)
+    scoring_status: Literal["bewertet", "zurueck_an_sourcing"] | None = None
     confidence_score: float | None = Field(default=None, ge=0, le=100)
     investment_thesis: str
     risks: list[str] = Field(default_factory=list)

@@ -1,4 +1,5 @@
 """Step 4: presentation only; scores are supplied by step 3."""
+import re
 from urllib.parse import quote
 
 import plotly.graph_objects as go
@@ -12,13 +13,27 @@ def shortlist(leads, industry="Alle Branchen", top_n=10):
     return sorted(candidates, key=lambda x: (x.overall_score is None, -(x.overall_score or 0), x.id))[:top_n]
 
 
+def contact_email(lead: EvaluatedLead) -> str | None:
+    if lead.contact_email:
+        return lead.contact_email
+    address = lead.imprint_email or ""
+    if not re.fullmatch(r"[A-Za-z0-9.!#$%&'*+/=?^_{}|~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", address):
+        return None
+    pattern = rf"(?<![\w.%+-]){re.escape(address)}(?![\w@-]|\.[\w-])"
+    if any(item.field == "contact_email" and item.verification_status != "assumption"
+           and re.search(pattern, item.finding, re.I) for item in lead.evidence):
+        return address
+    return None
+
+
 def contact_url(lead: EvaluatedLead) -> str | None:
-    if not lead.contact_email:
+    address = contact_email(lead)
+    if not address:
         return None
     subject = quote(f"Austausch zu {lead.name}", safe="")
     body = quote(f"Hallo,\n\nwir sind auf {lead.name} aufmerksam geworden und würden gerne mehr "
                  "über euer Unternehmen erfahren. Habt ihr Zeit für einen kurzen Austausch?\n\nViele Grüße", safe="")
-    return f"mailto:{quote(lead.contact_email, safe='@')}?subject={subject}&body={body}"
+    return f"mailto:{quote(address, safe='@')}?subject={subject}&body={body}"
 
 
 def build_figure(leads, selected_id=None):

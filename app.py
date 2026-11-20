@@ -1,5 +1,6 @@
 ﻿"""Product flow: choose category -> run steps 1–3 -> inspect the dashboard."""
 import logging
+import os
 
 import streamlit as st
 
@@ -21,6 +22,7 @@ def new_analysis():
     st.session_state.table_generation = st.session_state.get("table_generation", 0) + 1
 
 
+use_mock = os.getenv("FOUNDERRADAR_MODE", "demo").strip().lower() != "live"
 run = st.session_state.get("analysis")
 if run is None:
     if st.query_params.get("startup"):
@@ -30,13 +32,16 @@ if run is None:
         st.markdown("#### Welches Technologiefeld möchtest du entdecken?")
         category = st.radio("Kategorie", list(Industry), format_func=lambda x: x.value,
                             horizontal=True, label_visibility="collapsed")
-        st.caption("Deutschland · 30 Demo-Startups pro Kategorie · Top 10 oder 20 im Ergebnis")
+        st.caption("Deutschland · 30 Demo-Startups pro Kategorie · Top 10 oder 20 im Ergebnis" if use_mock
+                   else "Deutschland · Screening-Bericht als Datenquelle")
         start = st.form_submit_button("Analyse starten", type="primary", width="stretch")
     if start:
         progress = st.progress(0, text="Analyse vorbereiten")
         try:
-            completed = run_pipeline(SearchCriteria(industry=category, limit=30),
+            completed = run_pipeline(SearchCriteria(industry=category, limit=30), use_mock=use_mock,
                 on_progress=lambda amount, message: progress.progress(amount, text=message))
+        except (NotImplementedError, ValueError) as exc:
+            st.error(str(exc))
         except Exception:
             logging.exception("Analysis failed")
             st.error("Die Analyse konnte nicht abgeschlossen werden. Bitte erneut versuchen.")
@@ -48,6 +53,7 @@ if run is None:
     st.stop()
 
 meta, action = st.columns([5, 1])
-meta.caption(f"{run.criteria.industry.value.upper()}  /  DEUTSCHLAND  /  DEMO-ANALYSE")
+mode_label = "DEMO-ANALYSE" if run.mode == "demo" else "LIVE-ANALYSE"
+meta.caption(f"{run.criteria.industry.value.upper()}  /  DEUTSCHLAND  /  {mode_label}")
 action.button("Neue Analyse", on_click=new_analysis, width="stretch")
 render_dashboard(run.result, analysis=run)

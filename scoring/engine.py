@@ -10,6 +10,7 @@ Ergebnis sind: noise_class, match_confidence, in_databases und first_db_date.
 """
 from __future__ import annotations
 
+import calendar
 import datetime as dt
 import hashlib
 import json
@@ -467,6 +468,17 @@ class Scorer:
             return "hobby", "heuristik", rf_url
         return "vc_potenzial", "heuristik", None
 
+    def beyond_age_limit(self, founded):
+        raw, _, _ = fact(self.d.get("gruendungsdatum"))
+        if isinstance(raw, str) and re.fullmatch(r"\d{4}-\d{2}", raw.strip()):
+            founded = founded.replace(day=calendar.monthrange(founded.year, founded.month)[1])
+        months = self.cfg["htgf_max_alter_monate"]
+        year, month = divmod(self.stichtag.year * 12 + self.stichtag.month - 1 - months, 12)
+        if year < 1:
+            return False
+        day = min(self.stichtag.day, calendar.monthrange(year, month + 1)[1])
+        return founded < dt.date(year, month + 1, day)
+
     def stage(self, noise):
         """(stage, grund, url)."""
         cfg = self.cfg
@@ -478,7 +490,7 @@ class Scorer:
             return "zu_spaet", "laut Sourcing bereits finanziert", None
         if self.d.get("in_databases") is True and cfg["zu_spaet_wenn_in_databases"]:
             return "zu_spaet", "bereits in Datenbanken gelistet", text(self.d.get("in_databases_quelle"))
-        if gr and not proxy and months_between(gr, self.stichtag) > cfg["htgf_max_alter_monate"]:
+        if gr and not proxy and self.beyond_age_limit(gr):
             return "zu_spaet", "älter als %d Monate (gegründet %s)" % (cfg["htgf_max_alter_monate"], gr.strftime("%m/%Y") if monat else str(gr.year)), gr_url
         if (not rf or rf == "keine") and gr and not proxy:
             return "pre_seed", "gegründet laut Quelle (%s), Rechtsform nicht belegt" % (gr.strftime("%m/%Y") if monat else gr.year), gr_url
@@ -508,8 +520,8 @@ def pflicht_fehlt(s, name):
         fehlt.append("beschreibung_rohtext (mit Quellen-URL)")
     if not s.signals:
         fehlt.append("signals (mind. 1 mit URL und Datum bis zum Stichtag)")
-    de, url, _ = fact(s.d.get("deutschland_beleg"))
-    if not text(de) or not url:
+    de, url, documented = fact(s.d.get("deutschland_beleg"))
+    if not text(de) or not url or (documented and documented > s.stichtag.isoformat()):
         fehlt.append("deutschland_beleg (mit Quellen-URL)")
     return fehlt
 
@@ -674,10 +686,10 @@ def _score(dossier, cfg, stichtag):
     return rec
 
 
-def score_all(dossiers, cfg=None, stichtag=None):
+def score_all(dossiers, cfg=None, stichtag=None, *, scorer=score_dossier):
     cfg = cfg or load_config()
     tag = _stichtag(stichtag)
-    rows = [score_dossier(d, cfg, tag) for d in (dossiers if isinstance(dossiers, list) else [])]
+    rows = [scorer(d, cfg, tag) for d in (dossiers if isinstance(dossiers, list) else [])]
     vergeben = set()
     for r in rows:  # doppelte IDs brechen den Lauf nicht ab, bleiben aber sichtbar
         if r["lead_id"] in vergeben:

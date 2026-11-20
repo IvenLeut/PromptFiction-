@@ -8,6 +8,12 @@ Das Scoring nimmt pro Unternehmen ein Lead-Dossier und liefert eine Zeile mit dr
 python -m scoring <leads.json | ordner | leads.db> --out scoring_out --stichtag 2026-11-20
 ```
 
+Die Eingabe kann auch ein Kontext-Export mit Dossiers oder eine Liste eingefrorener
+ScoringInput-Objekte sein. Ein eingefrorener Export verwendet seinen gespeicherten
+Stichtag. Verwende den Kontext-Export, um mit einem anderen Stichtag zu rechnen.
+Der Import älterer SQLite-Dateien erwartet eine Tabelle mit Leads und expliziten
+Deutschland-Belegen zu den jeweiligen Leads.
+
 Ergebnis im Zielordner: `scores.csv`, `scores.json` (gleiche Daten, Liste von Objekten) und `scores.schema.json`. Jede Zeile wird vor dem Schreiben gegen das Schema geprüft. Verletzt eine Zeile das Schema, steht sie als `zurueck_an_sourcing` mit Grund im Export, der Lauf endet mit Exit-Code 1 und alle anderen Zeilen bleiben erhalten. Doppelte `lead_id` bekommen das Suffix `-dup2`, `-dup3` … Textzellen der CSV, die mit `=`, `+`, `-` oder `@` beginnen, bekommen ein vorangestelltes `'`, damit Excel sie nicht als Formel ausführt; `scores.json` enthält den Originalwert. Ein Beispiel aus erfundenen Dummy-Leads liegt in `examples/scoring/`.
 
 `--stichtag` legt das Bezugsdatum für Alter und Earliness fest. Mit demselben Stichtag liefert derselbe Input immer dieselben Werte. Ohne Angabe gilt das heutige Datum. Signale zählen nur mit taggenauem Datum (`JJJJ-MM-TT` oder `TT.MM.JJJJ`) bis zum Stichtag; aus einem Jahr allein wird kein Tag gemacht. Dasselbe gilt für `first_db_date` und für das `datum` in `evidence`.
@@ -107,7 +113,7 @@ Faktoren und Ausgangsgewichte stammen aus Scorecard (Bill Payne), Berkus und Ris
 - Die Textklassifikation (Reifegrad, Produkttyp, Regulatorik, Partner) ist die schwächste Quelle: im ersten Faktencheck waren rund zwei Drittel ihrer Werte falsch oder schwach belegt, vor allem durch Pressemeldungen über andere Firmen. Harte Quellen (Impressum, Förderkatalog, Wayback, OpenAlex) stimmten in über 90 % der Fälle.
 - Der Dashboard-Weg übersetzt `product_stage` und `funding_stage` nur bei exakter Übereinstimmung mit einer festen Liste (siehe `evaluation/engine.py`) und nur mit passendem Evidence-Eintrag.
 - Ein Sprachmodell für weiche Kriterien ist nicht eingebaut.
-- Der SQLite-Lader übernimmt eine Fördersumme nur, wenn im Signaltext genau ein Betrag in deutscher Schreibweise steht ("650.000 EUR"). Sonst bleibt die Summe leer. Als Deutschland-Beleg nimmt er den Textausschnitt eines Förderkatalog- oder Impressum-Signals, ohne den Inhalt zu prüfen.
+- Der SQLite-Lader übernimmt eine Fördersumme aus einem Signal mit eindeutigem Betrag in deutscher Schreibweise. Ein Förderkatalog- oder Impressums-Signal benötigt eine ausdrückliche Ortsangabe in Deutschland, damit es als Deutschland-Beleg gilt.
 - Die Agentur-Regel erkennt keine Verneinung ("Wir sind keine Agentur und bieten keine Beratung" gilt als Beratung).
 - `lead_id` wird bereinigt (Steuerzeichen zu Leerzeichen, höchstens 120 Zeichen). Ein Dossier ohne `lead_id` und ohne lateinischen Namen bekommt eine Hash-ID.
 - Bei einem Ordner als Input wird eine unlesbare Datei mit Warnung übersprungen.

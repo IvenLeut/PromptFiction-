@@ -8,7 +8,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from .engine import _leer, _stichtag, clip, load_config, score_all
+from .engine import _leer, _stichtag, clip, load_config, score_all, score_dossier
 from .sources import load_dossiers
 
 SCHEMA_PATH = Path(__file__).with_name("scores.schema.json")
@@ -68,8 +68,29 @@ def write_outputs(rows, out_dir):
     return out
 
 
+def _score_input(item, cfg, tag, explicit_cutoff):
+    if not isinstance(item, dict):
+        return score_dossier(item, cfg, tag)
+    if "rules_version" in item and "lead_id" in item:
+        from evaluation.engine import score_lead
+        from scoring_models import ScoringInput
+        scoring = ScoringInput.model_validate(item)
+        if explicit_cutoff and scoring.as_of != tag:
+            raise ValueError(f"{scoring.lead_id}: Für einen anderen Stichtag das Kontext-Dossier verwenden.")
+        return score_lead(scoring, cfg=cfg)
+    if {"id", "industry", "source_url"} <= item.keys():
+        from evaluation.engine import score_lead
+        from models import EnrichedLead
+        from scoring_input import build_scoring_input
+        lead = EnrichedLead.model_validate(item)
+        cutoff = tag if explicit_cutoff or lead.scoring_input is None else lead.scoring_input.as_of
+        scoring = build_scoring_input(lead, as_of=cutoff or tag)
+        return score_lead(scoring, lead=lead, cfg=cfg)
+    return score_dossier(item, cfg, tag)
+
+
 def main(argv=None):
-    p = argparse.ArgumentParser(prog="python -m scoring", description="Lead-Dossiers bewerten und scores.csv/json schreiben")
+    p = argparse.ArgumentParser(prog="python -m scoring", description="Kontext-Dossiers, Scoring-Exporte und ältere Lead-Dossiers bewerten")
     p.add_argument("input", help="JSON-Datei, Ordner mit JSON-Dateien oder SQLite-DB")
     p.add_argument("--out", default="scoring_out", help="Zielordner (Standard: scoring_out)")
     p.add_argument("--stichtag", help="Bezugsdatum JJJJ-MM-TT für Alter und Earliness (Standard: heute)")
@@ -80,7 +101,8 @@ def main(argv=None):
     except Exception as e:
         p.error("Konfiguration nicht lesbar: %s: %s" % (type(e).__name__, e))
     try:
-        rows = score_all(load_dossiers(a.input), cfg, a.stichtag)
+        rows = score_all(load_dossiers(a.input), cfg, a.stichtag,
+                         scorer=lambda item, conf, tag: _score_input(item, conf, tag, a.stichtag is not None))
     except (ValueError, OSError) as e:
         p.error(str(e))
     kaputt = repair(rows, cfg, a.stichtag)

@@ -121,7 +121,9 @@ def _metric_value(metric, text):
     return int(text) if re.fullmatch(r"\d{1,12}", text) else None
 
 
-def _bound_to_company(lead, signal, lines):
+def source_binding(lead, signal, lines=None):
+    if lines is None:
+        lines = signal.evidence.splitlines()
     subjects = {value.casefold() for line in lines if (value := _labelled(line, HEADERS))}
     if subjects and subjects != {" ".join(lead.name.split()).casefold()}:
         return False
@@ -196,8 +198,9 @@ def _collect(lead, as_of):
                                             kind="upstream_field")
         candidates.values["vc_status"].append(("confirmed" if lead.has_vc else "reported_none", reference))
     if lead.founding_year is not None:
-        founding = PartialDate(year=lead.founding_year, month=lead.founding_month,
-                               precision="month" if lead.founding_month else "year")
+        precision = "day" if lead.founded_day else "month" if lead.founding_month else "year"
+        founding = PartialDate(year=lead.founding_year, month=lead.founding_month, day=lead.founded_day,
+                               precision=precision)
         reference = candidates.add_evidence(lead.source_url, f"founding = {founding.components()}",
                                             kind="upstream_field")
         is_future = as_of and founding.components() > (as_of.year, as_of.month, as_of.day)
@@ -206,7 +209,7 @@ def _collect(lead, as_of):
         if as_of and signal.date and signal.date > as_of:
             continue
         lines = [" ".join(line.split()) for line in signal.evidence.splitlines() if line.strip()]
-        bound = _bound_to_company(lead, signal, lines)
+        bound = source_binding(lead, signal, lines)
         if bound is False:
             continue
         snapshot_id = sha256(signal.model_dump_json().encode("utf-8")).hexdigest()

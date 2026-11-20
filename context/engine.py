@@ -25,7 +25,7 @@ from research_models import (
     Claim, CompanyResearch, ContextV2, FounderResearch, FundingResearch, MarketMeasure, Period,
     ProductResearch, ResearchStatus, TractionResearch,
 )
-from scoring_input import build_scoring_input
+from scoring_input import build_scoring_input, source_binding
 
 logger = logging.getLogger(__name__)
 STOPWORDS = set("""für mit und oder der die das des dem den ein eine einer eines einem einen von zur zum auf aus bei nach über unter durch
@@ -176,21 +176,22 @@ def default_lookups(cache=None, model: str | None = None, patents: bool = False)
     return found
 
 
-def cached_quotes(extract_quotes: Callable, cache) -> Callable:
+def cached_quotes(extract_quotes: Callable, cache, model=None) -> Callable:
     """Memoise Tom's Ollama quote extractor in the shared cache so a second run yields the same quotes."""
     import hashlib
     import json as _json
 
     def wrapped(name, signals, fields):
-        key = "quotes:" + hashlib.sha1(_json.dumps([name, sorted(fields), [(str(s.url), s.evidence) for s in signals]],
-                                                   ensure_ascii=False).encode("utf-8")).hexdigest()
+        payload = [model, name, sorted(fields), [signal.model_dump(mode="json") for signal in signals]]
+        key = "quotes:v2:" + hashlib.sha256(_json.dumps(payload, ensure_ascii=False).encode("utf-8")).hexdigest()
         hit = cache.get(key) if cache is not None else None
         if hit is None:
-            hit = [(field, quote, str(signal.url)) for field, quote, signal in extract_quotes(name, signals, fields)]
+            indices = {id(signal): index for index, signal in enumerate(signals)}
+            hit = [(field, quote, indices[id(signal)])
+                   for field, quote, signal in extract_quotes(name, signals, fields) if id(signal) in indices]
             if cache is not None:
                 cache.set(key, hit)
-        by_url = {str(s.url): s for s in signals}
-        return [(field, quote, by_url[url]) for field, quote, url in hit if url in by_url]
+        return [(field, quote, signals[index]) for field, quote, index in hit]
     return wrapped
 
 
@@ -223,6 +224,7 @@ def enrich(
     as_of: date | None = None,
 ) -> EnrichedLead:
     """Return the original lead plus public context and per-field evidence."""
+    as_of = as_of or lead.screening_as_of
     signals = list(lead.signals)
     if light:
         lookups = None  # light mode never calls external services
@@ -237,13 +239,16 @@ def enrich(
             and not any(signal.url == lead.source_url for signal in signals)):
         if original := load_original(str(lead.source_url)):
             signals.append(original)
+    def in_scope(signal):
+        return source_binding(lead, signal) is not False and (as_of is None or signal.date is None or signal.date <= as_of)
+
     merged = Lookup()
     grants, patents, profiles_by_name = [], [], {}
     if lookups and not lead.is_demo:
         cache = lookups.get("cache")
         if lead.website:
             _run(lookups, "imprint", merged, lambda f: f(str(lead.website), cache=cache))
-        reference = next((m.group(0) for s in signals for m in [re.search(r"(?<![A-Za-z0-9])03E[FG][A-Za-z0-9]{3,}", s.evidence)] if m), None)
+        reference = next((m.group(0) for s in signals if in_scope(s) for m in [re.search(r"(?<![A-Za-z0-9])03E[FG][A-Za-z0-9]{3,}", s.evidence)] if m), None)
         institution = merged.fields.get("institution")
         result = _run(lookups, "grants", merged, lambda f: f(lead.name, institution=institution or lead.location, reference=reference, cache=cache))
         if result:
@@ -259,9 +264,12 @@ def enrich(
             result = _run(lookups, "author", merged, lambda f, n=founder: f(n, institution=institution, field_terms=terms, cache=cache))
             if result and result[0] is not None:
                 profiles_by_name[founder] = result[0]
-    evidence = list(merged.evidence)
-    # Frozen source excerpts for the replayable scoring handoff, incl. lookup texts (Impressum, idw, Förderkatalog).
+    evidence = list({item.evidence_id: item for item in (
+        *merged.evidence, *(proof for entries in lead.field_evidence.values() for proof in entries)
+    )}.values())
+    # Retain snapshots for replay at a different cutoff.
     scoring_sources = [signal.model_copy(deep=True) for signal in signals] if not lead.is_demo else None
+    signals = [signal for signal in signals if in_scope(signal)]
     evidence_by_key = {}
     facts = defaultdict(dict)
     discovery = []
@@ -397,7 +405,7 @@ def enrich(
                 del merged.fields[name]
     model_failed = False
     if extract_quotes and lookups and lookups.get("cache") is not None:
-        extract_quotes = cached_quotes(extract_quotes, lookups["cache"])
+        extract_quotes = cached_quotes(extract_quotes, lookups["cache"], model=lookups.get("model"))
     if extract_quotes and not light:
         text_fields = [*LABELS, *(f"product.{field}" for field in PRODUCT_FIELDS)]
         missing = tuple(field for field in text_fields if field != "funding_stage" and not facts[field])

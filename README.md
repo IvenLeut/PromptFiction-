@@ -256,13 +256,30 @@ ist die daraus und aus weiteren Fakten abgeleitete Einordnung aus Schritt 3.
 `demo_portfolio.py` enthält deterministische Fixtures und drei Adapter:
 `demo_search`, `demo_enrich`, `demo_evaluate`. Sie liefern jeweils nur die Felder
 ihres Prozessschritts. Die Demo durchläuft dieselben Pipeline-Funktionen wie die
-spätere Live-Integration. Die UI verwendet aktuell `use_mock=True`.
+spätere Live-Integration. Standardmäßig verwendet die UI `use_mock=True`.
 
 `run_pipeline(criteria, use_mock=False)` verbindet die drei Live-Module.
-Sourcing ist weiterhin ein Platzhalter; Kontext und Bewertung laufen live (Bewertung:
+Das Sourcing verwendet einen konfigurierten Screening-Export, dessen bestätigte
+Leads zur gewählten Kategorie passen. Die Feldbelege bleiben bis ins Dossier erhalten.
+Kontext und Bewertung laufen live (Bewertung:
 `scoring/SCORING.md`). Provider, Enricher und Evaluator lassen sich für Tests einzeln injizieren.
 Fehler einzelner Kontext-/Bewertungsaufrufe verhindern nicht die restliche Verarbeitung.
 Ein Totalausfall im Sourcing wird an die Oberfläche gemeldet.
+
+Für einen vorhandenen Screening-Bericht kann die Oberfläche im Live-Modus starten.
+
+~~~powershell
+$env:FOUNDERRADAR_MODE = 'live'
+$env:FOUNDERRADAR_SCREENING_REPORT = 'climate.json'
+python -m streamlit run app.py
+~~~
+
+Für die Kommandozeile akzeptiert der Kontext-Schritt den Bericht direkt:
+
+~~~sh
+python -m context climate.json dossiers.json --light --offline --scoring-output scoring.json
+python -m scoring dossiers.json --out scores
+~~~
 
 Beispielübergabe: `examples/analysis-demo.json`.
 Maschinenlesbares Schema: `examples/analysis-schema.json`.

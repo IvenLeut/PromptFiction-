@@ -1389,6 +1389,56 @@
           ],
           "default": null,
           "title": "Traction Notes"
+        },
+        "founded_day": {
+          "anyOf": [
+            {
+              "maximum": 31,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founded Day"
+        },
+        "founding_country": {
+          "anyOf": [
+            {
+              "const": "DE",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Country"
+        },
+        "field_evidence": {
+          "additionalProperties": {
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "type": "array"
+          },
+          "title": "Field Evidence",
+          "type": "object"
+        },
+        "screening_as_of": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Screening As Of"
         }
       },
       "required": [

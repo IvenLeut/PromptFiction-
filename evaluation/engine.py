@@ -16,6 +16,7 @@ from datetime import date
 from models import EnrichedLead, EvaluatedLead, EvaluationScores, Industry
 from scoring import load_config, score_dossier
 from scoring_models import ScoringInput
+from scoring_input import source_binding
 
 BRANCHE = {Industry.AI: "digital_tech", Industry.FINTECH: "digital_tech", Industry.CLIMATE: "climate_tech",
            Industry.HEALTH: "life_sciences", Industry.INDUSTRIAL: "industrial_deep_tech"}
@@ -32,10 +33,25 @@ def _sourced(value, url):
     return {"wert": value, "quelle": url} if value is not None and url else None
 
 
-def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
+def to_dossier(lead: EnrichedLead, cfg: dict, *, as_of: date | None = None) -> dict:
     by_field = {}
+    snapshots = lead.scoring_sources if lead.scoring_sources is not None else lead.signals
+
+    def available(item):
+        documented = item.document_date or item.source_date
+        if as_of is not None and documented is not None and documented > as_of:
+            return False
+        quote = " ".join(item.finding.split())
+        origins = [signal for signal in snapshots if signal.url == item.url
+                   and quote in " ".join(signal.evidence.split())]
+        return not origins or any(
+            source_binding(lead, signal) is not False
+            and (as_of is None or signal.date is None or signal.date <= as_of)
+            for signal in origins
+        )
+
     for e in lead.evidence:
-        if e.field:
+        if e.field and available(e) and (lead.is_demo or e.verification_status != "assumption"):
             by_field.setdefault(e.field, e)
     quelle = str(lead.source_url)
 
@@ -48,11 +64,15 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
         return str(e.url) if e and not e.source.startswith("Ollama-Zitat") else None
 
     reife = REIFE.get((lead.product_stage or "").strip().lower())
-    if lead.founded_on and src("founded_on"):
-        gruendung = {"wert": lead.founded_on.isoformat(), "quelle": src("founded_on")}
+    if lead.founded_on and src("founded_on", "company.founding_date"):
+        gruendung = {"wert": lead.founded_on.isoformat(), "quelle": src("founded_on", "company.founding_date")}
     elif lead.founding_year:
-        wert = "%d-%02d" % (lead.founding_year, lead.founding_month) if lead.founding_month else str(lead.founding_year)
-        gruendung = {"wert": wert, "quelle": quelle}
+        wert = str(lead.founding_year)
+        if lead.founding_month is not None:
+            wert += f"-{lead.founding_month:02d}"
+        if lead.founded_day is not None:
+            wert += f"-{lead.founded_day:02d}"
+        gruendung = {"wert": wert, "quelle": src("founding_month", "founding_year") or quelle}
     elif lead.founding_year_hint and src("founding_year_mention"):
         gruendung = {"wert": str(lead.founding_year_hint), "quelle": src("founding_year_mention")}
     else:
@@ -90,15 +110,20 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     elif lead.ip_status and src("ip_status"):
         ip = {"wert": lead.ip_status, "quelle": src("ip_status")}
 
-    signals = [{"typ": s.type, "url": str(s.url), "datum": s.date.isoformat() if s.date else None} for s in lead.signals]
+    signals = [{"typ": signal.type, "url": str(signal.url), "datum": signal.date.isoformat() if signal.date else None}
+               for signal in lead.signals if source_binding(lead, signal) is not False
+               and (as_of is None or signal.date is None or signal.date <= as_of)]
     signals += [{"typ": e.field or "kontext", "url": str(e.url), "datum": e.source_date.isoformat()}
-                for e in lead.evidence if e.source_date]
+                for e in lead.evidence if e.source_date and available(e)
+                and (lead.is_demo or e.verification_status != "assumption")]
     if lead.first_web_capture and src("first_web_capture"):
         signals.append({"typ": "wayback", "url": src("first_web_capture"), "datum": lead.first_web_capture.isoformat()})
     if lead.is_demo and not any(s["datum"] for s in signals) and lead.country_evidence:
         # Demo-Fixtures haben keine datierten Signale; nur dort gilt das Abrufdatum des Fundbelegs als Signaldatum.
         signals.append({"typ": "demo", "url": str(lead.country_evidence.url), "datum": lead.country_evidence.retrieved_at.date().isoformat()})
     ce = lead.country_evidence
+    if ce and (not available(ce) or (ce.verification_status == "assumption" and not lead.is_demo)):
+        ce = None
     return {
         "lead_id": lead.id,
         "name_unternehmen": {"wert": lead.name, "quelle": quelle},
@@ -144,6 +169,13 @@ def apply_scoring_input(dossier: dict, scoring: ScoringInput) -> dict:
     def usable(p):
         return p.status == "usable" and p.value is not None and _evidence_url(scoring, p)
 
+    for field, parameter in (("gruendungsdatum", scoring.founded), ("reifegrad", scoring.product_stage),
+                             ("funding_meldung", scoring.vc_status)):
+        if parameter.status in {"ambiguous", "conflicting"}:
+            dossier.pop(field, None)
+    if scoring.country.status != "usable":
+        dossier.pop("deutschland_beleg", None)
+
     if usable(scoring.founded):
         f = scoring.founded.value
         wert = "-".join(["%04d" % f.year] + ["%02d" % x for x in (f.month, f.day) if x is not None])
@@ -168,7 +200,7 @@ def _dossier_from_scoring(scoring: ScoringInput) -> dict:
     """Minimal dossier when only the ScoringInput is available (no lead passed)."""
     urls = [str(e.url) for e in scoring.evidence.values()]
     signals = [{"typ": e.kind, "url": str(e.url), "datum": e.document_date.isoformat() if e.document_date else None}
-               for e in scoring.evidence.values()]
+               for e in scoring.evidence.values() if e.kind != "unbound_excerpt"]
     country_url = _evidence_url(scoring, scoring.country) if scoring.country.status == "usable" else None
     return {"lead_id": scoring.lead_id, "name_unternehmen": {"wert": scoring.lead_id, "quelle": urls[0] if urls else None},
             "beschreibung_rohtext": {"wert": scoring.lead_id, "quelle": urls[0] if urls else None},
@@ -176,14 +208,20 @@ def _dossier_from_scoring(scoring: ScoringInput) -> dict:
             "signals": signals, "source_url": urls[0] if urls else None}
 
 
-def _score(lead: EnrichedLead | None, scoring: ScoringInput | None) -> dict:
+def score_lead(scoring: ScoringInput | None, *, lead: EnrichedLead | None = None,
+               cfg: dict | None = None) -> dict:
     global _CONFIG
-    _CONFIG = _CONFIG or load_config()
-    dossier = to_dossier(lead, _CONFIG) if lead is not None else _dossier_from_scoring(scoring)
+    if cfg is None:
+        _CONFIG = _CONFIG or load_config()
+        cfg = _CONFIG
+    if lead is not None and scoring is not None and lead.id != scoring.lead_id:
+        raise ValueError("ScoringInput und Dossier gehören zu verschiedenen Leads.")
+    stichtag = scoring.as_of if scoring is not None else None
+    stichtag = stichtag or date.today()
+    dossier = to_dossier(lead, cfg, as_of=stichtag) if lead is not None else _dossier_from_scoring(scoring)
     if scoring is not None:
         dossier = apply_scoring_input(dossier, scoring)
-    stichtag = scoring.as_of if scoring is not None and scoring.as_of else date.today()
-    return score_dossier(dossier, _CONFIG, stichtag)
+    return score_dossier(dossier, cfg, stichtag)
 
 
 def _scores(r: dict, lead: EnrichedLead | None) -> dict:
@@ -197,6 +235,8 @@ def _scores(r: dict, lead: EnrichedLead | None) -> dict:
         value_proposition=r["value_proposition"] or beschreibung,
         investment_thesis=r["investmenthypothese"] or "Nicht bewertet. %s." % r["ausschluss_grund"],
         confidence_score=round(r["confidence"] * 100, 1),
+        earliness_delta_months=r["earliness_delta_monate"],
+        scoring_status=r["status"],
         score_drivers=["%s (Quelle: %s)" % (e["aussage"], e["url"]) for e in belege if e["dimension"] != "risiko"],
         risks=["%s (Quelle: %s)" % (e["aussage"], e["url"]) for e in belege if e["dimension"] == "risiko"]
               + (["Ausschluss: " + r["ausschluss_grund"]] if r["ausschluss_grund"] else []),
@@ -213,8 +253,8 @@ def evaluate(scoring: ScoringInput | EnrichedLead, *, lead: EnrichedLead | None 
     """
     if isinstance(scoring, EnrichedLead):
         dossier_lead = scoring
-        r = _score(dossier_lead, dossier_lead.scoring_input)
+        r = score_lead(dossier_lead.scoring_input, lead=dossier_lead)
         return EvaluatedLead(**dossier_lead.model_dump(), **_scores(r, dossier_lead))
-    r = _score(lead, scoring)
+    r = score_lead(scoring, lead=lead)
     return EvaluationScores(**_scores(r, lead))
 

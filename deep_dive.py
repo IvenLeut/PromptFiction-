@@ -45,6 +45,8 @@ def render_deep_dive(lead, back, contact_url, value):
             with right:
                 fact("Produktstatus", lead.product_stage or "Unbekannt")
                 fact("Stage-Einordnung", lead.stage_classification)
+                if lead.earliness_delta_months is not None:
+                    fact("Abstand zum ersten Datenbankeintrag oder Stichtag", f"{lead.earliness_delta_months} Monate")
                 fact("Finanzierung gesamt", value(lead.funding_total_eur, " EUR"))
                 fact("Finanzierungsphase", lead.funding_stage or "Unbekannt")
                 fact("Kunden", value(lead.customer_count))
@@ -92,10 +94,12 @@ def render_deep_dive(lead, back, contact_url, value):
             with tabs[3]:
                 render_market(context)
     with contact:
+        from dashboard import contact_email
+
         with st.container(border=True):
             st.subheader("Gründer kontaktieren")
             st.write(", ".join(lead.founders) or "Gründer noch unbekannt")
-            fact("E-Mail", lead.contact_email or "Noch nicht verfügbar")
+            fact("E-Mail", contact_email(lead) or "Noch nicht verfügbar")
             mailto = contact_url(lead)
             if mailto:
                 st.link_button("Kontakt aufnehmen", mailto, type="primary", width="stretch")
