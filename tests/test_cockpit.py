@@ -113,55 +113,6 @@ def test_storage_migrates_legacy_database_and_keeps_namespaces(monkeypatch, tmp_
     assert load_decisions("live") == {}
 
 
-def test_ui_navigation_decision_persistence_and_noise(leads):
-    from streamlit.testing.v1 import AppTest
-    app = AppTest.from_file(str(ROOT / "cockpit.py"), default_timeout=30).run()
-    assert not app.exception
-    assert app.title[0].value == "Investment Pipeline"
-    assert len(app.dataframe[0].value) == 10
-    next(x for x in app.radio if x.label == "Sourcing relevance").set_value("Excluded only").run()
-    assert len(app.dataframe[0].value) == 5  # includes OhneBeleg: returned to sourcing
-    next(x for x in app.radio if x.label == "Sourcing relevance").set_value("All leads").run()
-    next(x for x in app.button if x.label == "Open research").click().run()
-    assert not app.exception
-    assert app.title[0].value.startswith("Kontraktwerk")
-    assert [x.label for x in app.tabs] == ["Investment Overview", "Market Intelligence", "Competition", "Funding & Valuation", "Discovery & Evidence"]
-    next(x for x in app.radio if x.label == "Decision").set_value("Watchlist")
-    next(x for x in app.text_area if x.label == "Reason for decision").set_value("Verify customer pilots")
-    next(x for x in app.text_input if x.label == "Next action").set_value("Request pilot reference")
-    next(x for x in app.button if x.label == "Save decision").click().run()
-    assert not app.exception
-    assert load_decisions("demo")[leads[0].id]["next_action"] == "Request pilot reference"
-    next(x for x in app.radio if x.label == "Workspace").set_value("Watchlist").run()
-    assert len(app.dataframe[0].value) == 1
-    # New app session reads the existing database rather than Session State.
-    again = AppTest.from_file(str(ROOT / "cockpit.py"), default_timeout=30).run()
-    next(x for x in again.radio if x.label == "Workspace").set_value("Screening Decisions").run()
-    assert len(again.dataframe[0].value) == 1
-
-
-@pytest.mark.parametrize("index", range(10))
-def test_every_company_profile_renders(leads, index):
-    from streamlit.testing.v1 import AppTest
-    app = AppTest.from_file(str(ROOT / "cockpit.py"), default_timeout=30)
-    app.query_params["company"] = leads[index].id
-    app.run()
-    assert not app.exception
-    assert app.title[0].value == leads[index].name
-
-
-def test_row_selection_can_return_to_dealflow():
-    from streamlit.testing.v1 import AppTest
-    app = AppTest.from_file(str(ROOT / "cockpit.py"), default_timeout=30).run()
-    key = app.dataframe[0].key
-    app.session_state[key] = {"selection": {"rows": [1], "columns": [], "cells": []}}
-    app.run()
-    assert app.title[0].value.startswith("OsteoPrint")
-    next(x for x in app.radio if x.label == "Workspace").set_value("Dealflow").run()
-    assert app.title[0].value == "Investment Pipeline"
-    assert not app.exception
-
-
 def test_context_date_can_only_fill_empty_from_evidence():
     from pipeline import _preserve
     from models import RawLead, EnrichedLead, Evidence

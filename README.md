@@ -7,44 +7,63 @@ Neuer Einstieg:
 .\.venv\Scripts\python.exe -m streamlit run cockpit.py
 ```
 
-Das Cockpit startet mit den zehn fiktiven Leads aus `examples/scoring/scores.json`.
-Die Datei und Bewertungsengine stammen aus dem integrierten `feature/scoring`-Branch;
-der aktuelle `main` mit Kontext-Recherche wurde ebenfalls integriert.
+Das Cockpit startet mit der Branchenauswahl. **Start analysis** führt automatisch
+Sourcing → Context → Evaluation aus und öffnet die Ergebnisse. Es gibt keinen
+manuellen Import. Standardmäßig läuft die vorhandene Demo-Pipeline mit 30 fiktiven
+Firmen pro Branche. Die zehn Scoring-Beispiele bleiben Adapter-/Regressionstests.
+`main` mit Kontext-Recherche und `feature/scoring` sind integriert.
 Die ursprüngliche Anwendung bleibt mit `streamlit run app.py` als Fallback erhalten.
 
-- **Dealflow:** Suche, sortierbare Tabelle, Sektor/Stage/Fit/Confidence/Status-Filter,
-  Noise-Ansicht, Profilauswahl und unveränderter JSON-Export der ausgewählten Records.
-- **Company Research:** Investment Overview, Market Intelligence, Competition,
-  Funding & Valuation, Discovery & Evidence.
-- **Watchlist / Screening Decisions:** persistente Entscheidungen, Begründungen,
-  Notizen, nächste Aktionen und optional Analystenname.
+- **Overview:** priorisierte Review-Liste, Qualität/Confidence-Streudiagramm,
+  Entwicklungsphasen und nächste Aktionen in einem kompakten Raster.
+- **Dealflow:** Suche und Filter; eigene Ansichten für Pending Review, Watchlist,
+  Entscheidungen und ausgeschlossene Leads; direkter Profileinstieg und JSON-Export.
+- **Company Deep Dive:** Investment brief, Company & team, Market & competition,
+  Capital & fit, Evidence & activity. Untertabs trennen Produkt, Team, Traction,
+  Marktgröße, Wettbewerb, Fund Fit, Finanzierung, Quellen und Aktivitätshistorie.
+- **Activities:** Aufgaben mit Owner, Termin, Open/Done und manuellem Kontaktstatus;
+  überfällige Aufgaben, abgeschlossene Schritte und gespeicherte Änderungen.
+- **Kontakt:** vorbereiteter `mailto:`-Entwurf bei gültiger Adresse, sonst Website.
+  Öffnen ist kein Versand und ändert den Kontaktstatus nicht.
 - **Szenarien:** Ownership-/Exit-Rechner und Deep-Tech-Readiness-Workspace mit
   ausdrücklich gekennzeichneten Analystenannahmen.
 
-Datenimport über die Sidebar: scores-Liste, einzelnes Lead, ResearchResult oder
-AnalysisRun. Alternativer Standardpfad und persistente Datenbank:
+Die automatische Übergabe verwendet `AnalysisRun` aus `pipeline.run_pipeline`.
+Für Live-Betrieb und einen optionalen lokalen Extraktor:
 
 ```powershell
-$env:FOUNDERRADAR_SCORES = 'C:\Pfad\scores.json'
+$env:FOUNDERRADAR_MODE = 'live'
+$env:FOUNDERRADAR_OLLAMA_MODEL = 'dein-installiertes-modell'
 $env:FOUNDERRADAR_DB = 'C:\Pfad\screening.sqlite3'
 .\.venv\Scripts\python.exe -m streamlit run cockpit.py
 ```
 
-Ohne DB-Variable: `data/screening.sqlite3` (Git-ignored). Bestehende Entscheidungen
-bleiben durch additive Migration erhalten. Demo und Live haben getrennte Namespaces.
-`bewertet` ist kein Analystenstatus. Keine E-Mails werden versendet. Die lokale
-SQLite-Lösung ist für den Hackathon gedacht, ohne Mehrbenutzer-Login.
+**Live-Sourcing fehlt derzeit:** `sourcing/engine.py` ist noch ein Platzhalter.
+Live-Modus meldet diesen Fehler und fällt nicht heimlich auf Demo-Daten zurück.
+Ollama ist optional und ersetzt keinen Datenanbieter. Details und konkrete
+Integrationslücken: [Cockpit-Daten und Integrationen](docs/COCKPIT.md).
+
+Ohne DB-Variable: `data/screening.sqlite3` (Git-ignored). Additive Migrationen erhalten
+bestehende Entscheidungen. Demo und Live bleiben getrennt. Jede Änderung speichert
+einen Snapshot in derselben Transaktion. **Plan next step** speichert eine Aufgabe
+auch ohne Investmententscheidung; diese bleibt dann Pending Review. Pro Firma wird
+eine aktuelle Folgeaufgabe verwaltet, frühere Stände bleiben in der Historie.
+Analyseläufe leben in der Browsersitzung; Entscheidungen und Aufgaben überleben
+Neustarts. SQLite ist für den Hackathon gedacht, ohne Mehrbenutzer-Login.
 
 ### Architektur und Grenzen
 
 | Datei | Aufgabe |
 | --- | --- |
-| `cockpit.py` | Navigation, Dealflow, Profile, Evidence, Analystenworkflow |
+| `cockpit.py` | Branchenauswahl, Navigation, Overview, Dealflow, Activities |
+| `cockpit_details.py` | Firmenprofil, Untertabs, Entscheidungen und Aufgaben |
+| `cockpit_service.py` | Automatische Pipeline-Übergabe, optional Ollama, Mailto |
+| `cockpit_style.py` / `cockpit_visuals.py` | Kompaktes Layout und datenbasierte Charts |
 | `cockpit_data.py` | Normalisiertes Lead-Modell, Legacy/v2-Adapter, HTGF-Heuristik, Szenariomathematik |
 | `cockpit_research.py` | Marktcharts, Competition, Funding, sektorbezogene Ansichten |
 | `config/htgf.v1.json` | Versionierte Kriterien mit Quelle, Prüfdatum und Mandatsabgrenzung |
-| `analyst_store.py` | SQLite; Migration für next_action und analyst_name |
-| `tests/test_cockpit.py` | Zehn Scoring-Fixtures, Adapter, Mathematik, UI, Persistenz und Datenlücken |
+| `analyst_store.py` | SQLite; Aufgaben, Kontaktstatus und transaktionale Änderungshistorie |
+| `tests/test_cockpit.py` / `tests/test_workspace.py` | Scoring-Fixtures, Adapter, Charts, Mathematik, Navigation und Persistenz |
 
 Der bestehende Python-/Streamlit-Stack wird weiterverwendet. Ein separater
 React-/Next.js-Build und eine HTTP-API sind für diese Implementierung nicht nötig.
@@ -61,6 +80,9 @@ tragen einen Hinweis auf neutrale 50-Punkte-Anteile. Risiko: 100 = hohes Risiko,
 entsprechend `scoring/SCORING.md`. Fehlende DB-Angaben bleiben unbekannt, Proxy-Gründung
 bleibt Proxy, first_signal_date wird nicht als Engine-Entdeckung ausgegeben.
 Dummy-Namen und example-Domains kennzeichnen Demo-Daten.
+Die native Evaluation erhält ihren vollständigen Scoring-Output in `evaluation_v2`;
+der Adapter kombiniert dessen Evidence mit den Context-Belegen. Ausschlüsse verhindern
+eine ungeprüfte Potential-Fit-Anzeige und die Aufnahme in die priorisierte Review Queue.
 
 Die [offiziellen HTGF-Kriterien](https://www.htgf.de/) wurden am 20.11.2026 geprüft:
 frühe Phase, Technologiefokus, höchstens drei Jahre und deutscher Sitz/Betriebsstätte.
@@ -96,8 +118,8 @@ Optionale Felder auf Lead-Ebene oder unter context_v2:
   regulatory_pathway, patent_protection, next_catalyst für Life Sciences/Chemistry.
 
 Noch kein dedizierter Market-Research-Endpunkt: kein vorgetäuschter Generate-Button.
-Die vorhandene Kontext-CLI bleibt separat nutzbar (siehe unten). Marktcharts und
-Wettbewerbspositionierung sind implementiert, aber die zehn Scoring-Dummies liefern
+Die vorhandene Kontext-CLI bleibt zusätzlich separat nutzbar (siehe unten). Marktcharts und
+Wettbewerbspositionierung sind implementiert, aber die aktuellen Beispieldaten liefern
 noch keine ausreichend strukturierten Eingaben dafür. Es gibt keine erfundenen
 Finanzierungen, Marktgrößen, Zeitreihen, Exitbewertungen oder Empfehlungen.
 

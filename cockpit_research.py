@@ -3,14 +3,11 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from cockpit_data import items, known, number, url, investment_scenario
+from cockpit_style import fact_rows
 
 
 def facts(values):
-    rows = [{"Field": key, "Available research": str(value)} for key, value in values.items() if known(value)]
-    if rows:
-        st.dataframe(rows, hide_index=True, width="stretch")
-    else:
-        st.caption("Not researched. No supported facts supplied for this section.")
+    fact_rows(values)
 
 
 def source_links(rows):
@@ -35,11 +32,26 @@ def comparable_series(rows):
 
 def market(lead):
     st.subheader("Market Intelligence")
-    st.caption("How large is the opportunity — and what could drive growth?")
+    st.caption("Market definition, addressable opportunity and growth drivers")
     d = lead.data
     research = d.get("market_intelligence") or {}
     if not isinstance(research, dict):
         research = {}
+    if not research:
+        left, right = st.columns([1.5, 1])
+        with left, st.container(border=True, key="card-market-context"):
+            st.subheader("Available market context")
+            facts({"Target market": d.get("target_market") or d.get("market"), "Customers": d.get("target_customers")})
+            evidence = [e for e in lead.evidence if e["category"] == "Market" and e["url"]]
+            if evidence:
+                st.dataframe(evidence, column_order=["statement", "criterion", "url"], column_config={"url": st.column_config.LinkColumn("Source")}, hide_index=True, width="stretch")
+            else:
+                st.caption("No sourced market evidence supplied.")
+        with right, st.container(border=True, key="card-market-next"):
+            st.subheader("Research to complete")
+            st.markdown("1. Define the customer segment and geography.\n2. Source TAM, SAM and SOM with year and methodology.\n3. Validate growth drivers and buyer budgets.")
+            st.caption("Market sizing and growth charts appear when comparable, sourced research is available from the pipeline.")
+        return
     facts({"Market definition": research.get("definition") or d.get("target_market") or d.get("market"),
            "Target geography": research.get("geography"), "Reference year": research.get("year"),
            "Methodology": research.get("methodology")})
@@ -81,7 +93,7 @@ def market(lead):
     if evidence:
         st.markdown("#### Available market evidence")
         st.dataframe(evidence, column_order=["statement", "criterion", "url"], column_config={"url": st.column_config.LinkColumn("Source")}, hide_index=True, width="stretch")
-    st.caption("On-demand market research is not connected. Import researched market_intelligence data to extend this view.")
+    st.caption("Market research is supplied by the upstream pipeline. On-demand external research is not connected.")
 
 
 def competition(lead):

@@ -69,6 +69,7 @@ def evaluate(lead: EnrichedLead) -> EvaluatedLead:
     belege = [e for e in r["evidence"] if e["url"] and e["dimension"] in ("team", "marktpotenzial", "risiko")]
     return EvaluatedLead(
         **lead.model_dump(),
+        evaluation_v2=r,
         overall_score=r["gesamt_score"], company_score=r["team_score"],
         market_potential_score=r["marktpotenzial_score"], risk_score=r["risiko_score"],
         stage_classification=STAGE.get(r["stage"], "Unbekannt"),

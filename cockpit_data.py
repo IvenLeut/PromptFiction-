@@ -90,7 +90,10 @@ def adapt(record):
     data = dict(record)
     for extension in ("context_v2", "evaluation_v2"):
         if isinstance(record.get(extension), dict):
+            previous_evidence = data.get("evidence") or []
             data.update(record[extension])
+            if extension == "evaluation_v2" and isinstance(record[extension].get("evidence"), list):
+                data["evidence"] = previous_evidence + [e for e in record[extension]["evidence"] if e not in previous_evidence]
             for canonical, legacy_key in {"overall_score": "gesamt_score", "market_potential_score": "marktpotenzial_score", "risk_score": "risiko_score",
                                           "investment_thesis": "investmenthypothese", "why_contact_now": "why_now"}.items():
                 if canonical in record[extension]:
@@ -210,6 +213,10 @@ def fund_fit(lead, today=None):
     add("Portfolio overlap", "Unknown", str(d.get("portfolio_overlap") or "No portfolio comparison available"))
     core = rows[:4]
     status = "Likely Out of Scope" if any(r["Status"] == "No Match" for r in core) else "Potential Fit" if all(r["Status"] == "Match" for r in core) else "Review Required"
+    if lead.excluded:
+        add("Sourcing eligibility", "Unknown", "Resolve sourcing exclusion: " + str(d.get("ausschluss_grund") or d.get("hard_exclusions") or d.get("noise_class")))
+        if status == "Potential Fit":
+            status = "Review Required"
     return status, rows
 
 

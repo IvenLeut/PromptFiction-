@@ -132,6 +132,8 @@ class InvestmentArgument(Contract):
 
 
 class EvaluatedLead(EnrichedLead):
+    # Preserve the scoring engine's full evidence and missing-value semantics.
+    evaluation_v2: dict | None = None
     technology_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
     why_contact_now: str | None = None
     key_strengths: list[InvestmentArgument] = Field(default_factory=list, max_length=3)
