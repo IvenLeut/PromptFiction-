@@ -124,7 +124,8 @@ def _metric_value(metric, text):
 def source_binding(lead, signal, lines=None):
     if lines is None:
         lines = signal.evidence.splitlines()
-    subjects = {value.casefold() for line in lines if (value := _labelled(line, HEADERS))}
+    subjects = {" ".join(value.split()).casefold() for line in lines
+                if (value := _labelled(" ".join(line.split()), HEADERS))}
     if subjects and subjects != {" ".join(lead.name.split()).casefold()}:
         return False
     if signal.subject_lead_id is not None:
