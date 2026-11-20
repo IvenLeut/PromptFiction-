@@ -96,26 +96,27 @@ Projektbeginn ab 01.01.2024, laufende und abgeschlossene Projekte. Das Startdatu
 
 ~~~powershell
 python -m sourcing foekat --since 2024-01-01 --out shortlist.json --stats stats.json
-python -m sourcing foekat --out health.json --industry health --programme ef --limit 20
-python -m context shortlist.json dossiers.json
+python -m sourcing foekat --out top.json --min-priority 80          # 54 Leads
+python -m context top.json dossiers.json --limit 5 [--light]
 ~~~
 
-Je Programm laufen eine Detailsuche und der CSV-Export des Katalogs. Die Zeilenzahl wird gegen die
-gemeldete Trefferzahl geprüft. Bei Abweichung wird die Abfrage nach FKZ-Präfix aufgeteilt und über die
-FKZ dedupliziert. Ist die Lücke nicht zu schließen, meldet der Lauf `complete=false` mit Warnung.
-Der Cache `.cache/context.db` macht Folgeläufe byte-identisch.
+Code: `sourcing/foekat_export.py` (Abruf, Trefferzahl-Prüfung, Bereinigung, Anfragebudget 60),
+`sourcing/mapping.py` (Zeilen → RawLead, Branche, Priorität), `sourcing/engine.py`. Je Programm laufen eine
+Detailsuche und der CSV-Export; fehlen FKZ, wird nach FKZ-Präfix aufgeteilt. Exit-Code 1 = unvollständig,
+2 = Abbruch. Stand 20.11.2026: 733 Leads (146 × 03EF, 587 × 03EG), Beispiel
+`examples/sourcing/shortlist.json`. Mit gefülltem Cache (`.cache/context.db`, 14 Tage) sind Folgeläufe
+byte-identisch und ohne Netz.
 
-Pro Projekt entsteht ein Lead:
-- Signale: eines je FKZ, mit FKZ, Thema, Förderempfänger, Ausführender Stelle, Laufzeit und Summe.
-- Deutschland-Beleg: die Detailseite des Katalogs.
-- Branche: über Schlüsselwortregeln für Thema, Ausführende Stelle und Empfänger. Trifft keine Regel,
-  gilt ein Standardwert mit dem Flag `industry_unclassified`.
-
-Grenzen: EXIST-Teams sind meist noch nicht gegründet. Gründer:innen, E-Mail, Website und
-Gründungsdatum bleiben deshalb leer, und die Flags `pre_founding_team` und `internal_review_case`
-markieren diese Leads als Prüffälle. Details stehen in `sourcing/FOEKAT.md`.
-
-NOTICE: Vorgehen nach technologiestiftung/udb-foerderkatalog-scraper (MIT).
+Pro Projekt entsteht ein Lead mit einem beschrifteten Katalogsignal je FKZ (Schritt 2 macht daraus offline
+einen `Grant`) und der Katalog-Detailseite als Deutschland-Beleg. Die Branche kommt aus Schlüsselwortregeln
+auf ganzen Token, Grundlage Thema (83), nur Institut (302) oder Programmstandard (348, `htgf_sector=null`,
+Hinweis `industry_unclassified`). Jeder Lead hat eine Priorität 0–100 (`Priorität N: …`); die CLI sortiert
+danach. `search(criteria)` liefert Thema- vor Institut-Leads und Standard-Leads nur mit
+`include_unclassified=True`. EXIST-Teams sind noch nicht gegründet: Gründer:innen, E-Mail, Website und
+Gründungsdatum bleiben leer, die Hinweise `pre_founding_team` und `internal_review_case` markieren interne
+Prüffälle.
+Übergabe, Felder, Grenzen, Lizenz und Datenschutz: [`sourcing/FOEKAT.md`](sourcing/FOEKAT.md).
+Vorgehen nach technologiestiftung/udb-foerderkatalog-scraper (MIT), siehe [`NOTICE.md`](NOTICE.md).
 
 ## Schritt 2: zusätzlicher Kontext
 

@@ -288,7 +288,7 @@ def test_round_up_is_kept_and_flagged_when_nothing_better_exists():
     res = run("SpinMagIC", responses, institution="Universität Stuttgart")
     assert [str(s.url) for s in res.signals] == [article_url(849480)]
     assert res.signals[0].source == MENTION_SOURCE == "idw (Erwähnung)"
-    (title,) = [e for e in res.evidence if e.field == "idw"]
+    (title,) = [e for e in res.evidence if e.field == "idw_mention"]
     assert title.source == MENTION_SOURCE
     # the round-up's EXIST sentence names no founder and not the lead -> no grants_mention from it
     assert not [e for e in res.evidence if e.field in ("grants_mention", "founding_statement", "ip_mention")]

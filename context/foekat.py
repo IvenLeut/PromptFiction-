@@ -303,7 +303,9 @@ def _grant_from(detail: dict | None, row: dict | None) -> tuple[Grant, dict]:
     recipient, executing = pick("recipient"), pick("executing")
     full = recipient
     if executing and _fold(executing) != _fold(recipient):
-        full = (recipient + ", " + executing) if recipient else executing
+        # "Universität Augsburg - Lehrstuhl X" already names the recipient; do not repeat it.
+        repeats = bool(recipient) and _fold(executing).startswith(_fold(recipient))
+        full = executing if repeats or not recipient else recipient + ", " + executing
     start, end = d.get("start") or r.get("start"), d.get("end") or r.get("end")
     amount = d.get("amount") if d.get("amount") is not None else r.get("amount")
     grant = Grant(programme=programme_for(fkz, d.get("leistungsplan", "")), reference=fkz or None, recipient=full or None,

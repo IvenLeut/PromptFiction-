@@ -19,8 +19,10 @@ newest hits whose title or snippet mentions the name (umlaut-folded, case-insens
 two founder surnames; hits whose *title* contains the name rank first, then hits from the lead's own
 institution. After fetching, an article whose title lacks the name and whose text mentions it only
 once (a round-up such as a trade-fair or prize announcement) is dropped when a better article exists;
-otherwise it is kept with ``source="idw (Erwähnung)"`` so that ``context.classify`` only uses the
-lines around the mention. Each kept article becomes a ``SourceSignal(type="idw")`` with title and
+otherwise it is kept with ``source="idw (Erwähnung)"`` (title evidence ``field="idw_mention"``, which the
+scorer does not count as a dated signal) so that ``context.classify`` only uses the lines around the mention.
+Name matching is whole-word ("sensAI" never matches "BiosenSAI"); a fetched article that names neither the
+lead nor two founder surnames is dropped. Each kept article becomes a ``SourceSignal(type="idw")`` with title and
 body, an ``Evidence(field="idw")`` per article, and rule-based evidence sentences for
 ``founding_statement``, ``grants_mention`` and ``ip_mention`` - taken from every sentence when the
 title names the lead, otherwise only from sentences that name the lead or a founder surname. A sentence
@@ -291,11 +293,16 @@ def detect_mentions(text: str, name: str, founders: list[str] | None = None,
 
 # --- matching ----------------------------------------------------------------------------------
 
+def _word(term: str, folded: str) -> bool:
+    """Whole-word occurrence of a folded term ("sensai" is not in "biosensai")."""
+    return bool(term) and re.search(r"(?<![a-z0-9])" + re.escape(term) + r"(?![a-z0-9])", folded) is not None
+
+
 def _matches(item: dict, name_f: str, names: list[str]) -> bool:
     hay = fold(item["title"] + " " + item["snippet"])
-    if name_f and name_f in hay:
+    if _word(name_f, hay):
         return True
-    return sum(1 for s in names if s in hay) >= 2
+    return sum(1 for s in names if _word(s, hay)) >= 2
 
 
 def select_items(items: list[dict], name: str, founders: list[str], institution: str | None,
@@ -311,7 +318,7 @@ def select_items(items: list[dict], name: str, founders: list[str], institution:
         return bool(inst_f) and bool(item_inst) and (inst_f in item_inst or item_inst in inst_f)
 
     def title_has_name(it) -> bool:
-        return bool(name_f) and name_f in fold(it["title"])
+        return _word(name_f, fold(it["title"]))
 
     kept.sort(key=lambda it: (0 if title_has_name(it) else 1, 0 if from_institution(it) else 1,
                               -((it["when"] or datetime.min) - datetime.min).total_seconds()))
@@ -372,7 +379,7 @@ def idw_lookup(name: str, *, institution: str | None, founders: list[str], cache
 
     name_re = name_pattern(name)
     names = surnames(founders)
-    articles = []
+    articles, dropped = [], 0
     for item in chosen:
         page, err = get(item["url"])
         if err:
@@ -390,17 +397,24 @@ def idw_lookup(name: str, *, institution: str | None, founders: list[str], cache
         folded = fold(text)
         in_title = name_re is not None and bool(name_re.search(fold(title)))
         count = len(name_re.findall(folded)) if name_re is not None else 0
-        by_founders = sum(1 for s in names if re.search(r"(?<![a-z0-9])" + re.escape(s) + r"(?![a-z0-9])", folded)) >= 2
+        by_founders = sum(1 for s in names if _word(s, folded)) >= 2
+        if count == 0 and not by_founders:
+            # The search matched a longer word ("sensAI" in "BiosenSAI") or the snippet only: not about the lead.
+            dropped += 1
+            continue
         strong = in_title or count >= 2 or (count == 0 and by_founders)
         articles.append((item, title, when, text, in_title, strong))
 
+    if dropped and not articles:
+        result.errors.append("idw: keine Treffer (%d Artikel ohne Namensnennung verworfen)" % dropped)
     if any(strong for *_, strong in articles):
         articles = [a for a in articles if a[-1]]       # drop round-ups when a real article exists
     for item, title, when, text, in_title, strong in articles:
         source = SOURCE if strong else MENTION_SOURCE
         result.signals.append(SourceSignal(source=source, type="idw", url=item["url"], date=when,
                                            evidence=text[:MAX_EVIDENCE_CHARS]))
-        result.evidence.append(Evidence(field="idw", url=item["url"], finding=title[:1000],
+        # Mention-only articles are marked so that the scorer does not count them as dated signals.
+        result.evidence.append(Evidence(field="idw" if strong else "idw_mention", url=item["url"], finding=title[:1000],
                                         source=source, source_date=when))
         for field_name, hits in detect_mentions(text, name, founders, about_lead=strong).items():
             for sentence in hits[:3]:

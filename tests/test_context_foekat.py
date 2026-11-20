@@ -179,7 +179,7 @@ def test_live_spinmagic_by_name():
     g = grants[0]
     assert g.programme == "EXIST-Forschungstransfer"
     assert g.reference == "03EFBW0275"
-    assert g.recipient.startswith("Universität Stuttgart, Universität Stuttgart - Fakultät 5")
+    assert g.recipient.startswith("Universität Stuttgart - Fakultät 5")  # recipient not repeated
     assert g.amount_eur == 972638
     assert (g.start, g.end) == (date(2024, 9, 1), date(2026, 9, 30))
     assert str(g.url) == SEARCH_URL + "?actionMode=view&fkz=03EFBW0275"
@@ -211,7 +211,7 @@ def test_live_siderogain():
     fetch = fixture_fetch(search=load("search_siderogain"), detail=load("detail_siderogain"))
     grants, lookup = grant_lookup("SideroGaIn", institution="HZDR", reference=None, cache=NoCache(), fetch=fetch)
     assert grants[0].reference == "03EFSN0258" and grants[0].amount_eur == 774408
-    assert grants[0].recipient.startswith("Helmholtz-Zentrum Dresden - Rossendorf e. V., ")
+    assert grants[0].recipient.startswith("Helmholtz-Zentrum Dresden - Rossendorf e. V. - Helmholtz-Institut Freiberg")
     assert lookup.fields["institution"].endswith("(HIF)")
 
 
@@ -278,7 +278,7 @@ def test_non_exist_grant_gets_foerderprojekt_signal():
     fetch = fixture_fetch(search=synthetic_page(1, rows))  # no detail page -> row data only
     grants, lookup = grant_lookup("EniQmA", institution=None, reference=None, cache=NoCache(), fetch=fetch)
     assert grants[0].programme == "Bundesförderung" and grants[0].reference == "01MQ22007B"
-    assert grants[0].recipient == "Universität Stuttgart, Universität Stuttgart - IAAS"
+    assert grants[0].recipient == "Universität Stuttgart - IAAS"
     assert lookup.signals[0].type == "foerderprojekt"
     assert lookup.fields["match_confidence"] == 0.7
     assert lookup.errors == ["foekat: HTTP 404"]

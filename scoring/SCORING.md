@@ -46,11 +46,11 @@ Alle Gewichte und Punktetabellen stehen in `scoring/scoring_config.yaml`. Die Da
 
 | Wert | Regel |
 |---|---|
-| `zu_spaet` | belegte Finanzierungsmeldung, `noise_class = bereits_finanziert` oder belegtes Gründungsdatum älter als 36 Monate. Ist nur das Gründungsjahr bekannt, zählt der 31.12. Ein Datenbank-Eintrag allein reicht nicht (Schalter `zu_spaet_wenn_in_databases`) |
+| `zu_spaet` | belegte Finanzierungsmeldung, `noise_class = bereits_finanziert` oder belegtes Gründungsdatum älter als 36 Monate. Ist nur das Gründungsjahr bekannt, zählt der 31.12. Ein Datenbank-Eintrag allein reicht nicht (Schalter `zu_spaet_wenn_in_databases`). Ein Gründungsjahr nur aus einem Pressetext (`gruendungsjahr_hinweis`) löst `zu_spaet` nie aus |
 | `pre_gruendung` | keine Kapitalgesellschaft belegt. Das gilt auch, wenn die Angabe fehlt, nicht mit GmbH, gGmbH, UG, AG oder SE endet (z. B. GbR, e.V., "AG Müller") oder eine Verneinung bzw. einen Plan enthält ("noch keine GmbH", "GmbH geplant") |
 | `in_gruendung` | GmbH, gGmbH, UG, AG oder SE mit "i.G.", "i.Gr." oder "in Gründung" |
 | `seed` | GmbH, gGmbH, UG, AG oder SE und belegter Reifegrad `pilot` oder `erste_kunden` |
-| `pre_seed` | GmbH, gGmbH, UG, AG oder SE sonst; oder belegtes Gründungsdatum ohne belegte Rechtsform |
+| `pre_seed` | GmbH, gGmbH, UG, AG oder SE sonst; oder belegtes Gründungsdatum ohne belegte Rechtsform; oder belegter `gruendungsjahr_hinweis` ohne belegte Rechtsform ("gegründet laut Quelle (Pressetext, JJJJ)", mit offenem Punkt "Gründungsjahr JJJJ nur aus Pressetext, nicht für Ausschluss verwendet") |
 
 ## Noise-Klasse
 
@@ -66,13 +66,13 @@ Liefert das Sourcing eine `noise_class`, gilt sie. Sonst greifen diese Regeln, j
 
 ## Weitere Spalten
 
-- `gruendungsjahr`, `gruendungsmonat`: belegtes Gründungsdatum, sonst der Start einer belegten EXIST-Förderung. Dann ist `gruendung_ist_proxy = true`. Ist nur das Jahr bekannt, bleibt der Monat leer.
+- `gruendungsjahr`, `gruendungsmonat`: belegtes Gründungsdatum, sonst ein belegter `gruendungsjahr_hinweis` (Jahr aus einem Pressetext, `{"wert": 2025, "quelle": …}`), sonst der Start einer belegten EXIST-Förderung. In beiden Ersatzfällen ist `gruendung_ist_proxy = true`. Ist nur das Jahr bekannt, bleibt der Monat leer. Ein Hinweis, der mehr als 24 Monate (`hinweis_max_vor_signal_monate`) vor dem ersten Signal liegt, wird ignoriert und als offener Punkt genannt.
 - Als EXIST zählt nur ein Eintrag, dessen `programm` ein EXIST-Programmname ist (z. B. "EXIST-Forschungstransfer"), der ein Startdatum hat, nicht in der Zukunft beginnt und nicht länger als 12 Monate beendet ist. Fehlt das Enddatum, gilt eine Laufzeit von 36 Monaten. Nur exakt gleiche Einträge werden zusammengefasst; der SQLite-Lader fasst zusätzlich Signale mit demselben Förderkennzeichen zusammen.
 - `name_gruender`: nur Personen mit Quelle.
 - `evidence`: Liste aus `{dimension, kriterium, aussage, url, datum, punkte}`. `dimension` ist `team`, `marktpotenzial`, `risiko`, `stage` oder `noise`. In der CSV als JSON-Text in einer Zelle.
 - `teilwerte`: Punkte, Gewicht und Beleg-Status je Kriterium.
 - `earliness_delta_monate`: Monate vom ersten Signal bis zum ersten Datenbank-Eintrag, ohne Eintrag bis zum Stichtag. Liegt der Datenbank-Eintrag vor dem ersten Signal, ist der Wert 0. Ein Eintragsdatum nach dem Stichtag wird ignoriert.
-- `produktbeschreibung` (erste zwei Sätze) und `value_proposition` (erster Satz): wörtlich aus dem Beschreibungstext, nur gekürzt. `investmenthypothese` und `why_now`: aus belegten Kriterien und den vier Sourcing-Metadaten zusammengesetzt. Bei einem Ausschluss lautet die Hypothese "Kein Investment-Case: …", bei Confidence unter 0,3 "Datenlage zu dünn für eine Hypothese …". Es formuliert kein Sprachmodell.
+- `produktbeschreibung` (erste zwei Sätze) und `value_proposition` (erster Satz): wörtlich aus dem Beschreibungstext, nur gekürzt. `investmenthypothese` und `why_now`: aus belegten Kriterien und den vier Sourcing-Metadaten zusammengesetzt. `why_now` nennt das Ende einer EXIST-Förderung, wenn es höchstens 12 Monate in der Zukunft liegt ("… endet MM/JJJJ") oder schon vorbei ist, solange die Förderung noch zählt ("… endete MM/JJJJ"). Das Kriterium bisherige Förderung nennt die Programme, z. B. "Bisherige Förderung 135.000 EUR (EXIST-Gründungsstipendium)". Bei einem Ausschluss lautet die Hypothese "Kein Investment-Case: …", bei Confidence unter 0,3 "Datenlage zu dünn für eine Hypothese …". Es formuliert kein Sprachmodell.
 - Leere Zellen in der CSV bedeuten "unbekannt", nicht null.
 
 ## Herkunft des Verfahrens
@@ -97,7 +97,8 @@ Faktoren und Ausgangsgewichte stammen aus Scorecard (Bill Payne), Berkus und Ris
 | `seed` | `Seed` |
 | `zu_spaet` | `Early Growth` |
 | nicht bewertet | `Unbekannt` |
-| belegte Aussagen | `score_drivers`, `risks` |
+| belegte Aussagen | `score_drivers`; Risikokriterien unter `texte.risiko_ab` (50 Punkte) als "Risikomindernd: …" |
+| belegte Risikokriterien ab 50 Punkten, Ausschlussgrund | `risks` |
 | `offene_punkte` | `open_questions` |
 
 ## Offen
@@ -105,6 +106,7 @@ Faktoren und Ausgangsgewichte stammen aus Scorecard (Bill Payne), Berkus und Ris
 - Die Gewichte sind nicht kalibriert. Dafür fehlen noch 10 von Hand bewertete Leads.
 - Seit dem 20.11.2026 liefert der Kontext-Schritt Rechtsform, Förderung, Papers je Gründer, IP, Partner und Produkttyp mit Quellen (`context/ENRICHMENT.md`); `evaluation/engine.py` reicht sie durch. Die **Demo-Leads** des Dashboards haben diese Felder nicht und landen weiter bei drei Gesamtscores (50,0 / 52,4 / 54,2); echte Leads siehe `examples/context/scores/`.
 - Die Textklassifikation (Reifegrad, Produkttyp, Regulatorik, Partner) ist die schwächste Quelle: im ersten Faktencheck waren rund zwei Drittel ihrer Werte falsch oder schwach belegt, vor allem durch Pressemeldungen über andere Firmen. Harte Quellen (Impressum, Förderkatalog, Wayback, OpenAlex) stimmten in über 90 % der Fälle.
+- Der Dashboard-Weg nimmt als Signale nur die Schritt-1-Signale, Wayback-Erstaufnahmen und datierte Evidence der Felder `grants`, `idw` und `founding_year_mention`. Datenbanktreffer (`in_databases`, `first_db_date`), idw-Erwähnungen (`idw_mention`, Quelle "idw (Erwähnung)"), `*_alt`-Kandidaten und Modellzitate ("Ollama-Zitat …") zählen nicht. Hat Schritt 1 die Branche nicht klassifiziert (`htgf_sector` leer und Marker `industry_unclassified` bzw. "Branche nicht klassifiziert"), bleibt `branche` leer. `ScoringInput.public_grant` wird nicht übernommen; die Förderung kommt allein aus `lead.grants`.
 - Der Dashboard-Weg übersetzt `product_stage` und `funding_stage` nur bei exakter Übereinstimmung mit einer festen Liste (siehe `evaluation/engine.py`) und nur mit passendem Evidence-Eintrag.
 - Ein Sprachmodell für weiche Kriterien ist nicht eingebaut.
 - Der SQLite-Lader übernimmt eine Fördersumme nur, wenn im Signaltext genau ein Betrag in deutscher Schreibweise steht ("650.000 EUR"). Sonst bleibt die Summe leer. Als Deutschland-Beleg nimmt er den Textausschnitt eines Förderkatalog- oder Impressum-Signals, ohne den Inhalt zu prüfen.

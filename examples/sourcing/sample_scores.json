@@ -1,0 +1,336 @@
+{
+ "stichtag": "2026-11-20",
+ "pipeline_issues": [],
+ "scoring_seconds": 0.02,
+ "rows": [
+  {
+   "fkz": "03EFBW0318",
+   "name": "MRDMYELOMA",
+   "industry": "HealthTech",
+   "htgf_sector": "life_sciences",
+   "institution": "Universität Heidelberg - Medizinische Fakultät und Universitätsklinikum Heidelberg - Medizinische Klinik - Innere Medizin V - Hämatologie, Onkologie und Rheumatologie",
+   "overall": 53.7,
+   "company": 60.0,
+   "market": 50.0,
+   "risk": 49.3,
+   "stage": "Pre-Seed",
+   "stage_raw": "pre_gruendung",
+   "confidence": 14.0,
+   "ausschluss": "",
+   "first_signal_date_scorer": "2025-10-01",
+   "grants": 1,
+   "grant_amount_eur": 1029852,
+   "programme": "EXIST-Forschungstransfer",
+   "partners": [],
+   "in_databases": false,
+   "founding_year_hint": null,
+   "enrichment_errors": [
+    "idw: keine Treffer"
+   ],
+   "score_drivers": [
+    "Vollzeit-Signal: EXIST-Forschungstransfer (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0318)",
+    "Risikomindernd: Bisherige Förderung 1,0 Mio. EUR (EXIST-Forschungstransfer) (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0318)"
+   ],
+   "risks": [
+    "Dünne Datenlage: nur eine unabhängige Quelle (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0318)"
+   ],
+   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 09/2027; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 13 Monaten",
+   "investment_thesis": "Datenlage zu dünn für eine Hypothese (Confidence 0.14). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle.",
+   "scoring_input": {
+    "country": "usable",
+    "public_grant": "usable",
+    "founded": "missing",
+    "vc_status": "missing",
+    "product_stage": "missing"
+   }
+  },
+  {
+   "fkz": "03EFBY0323",
+   "name": "sensAI",
+   "industry": "AI / Software",
+   "htgf_sector": "digital_tech",
+   "institution": "Universität Augsburg, Lehr- & Forschungseinheit Mechanical Engineering, Prof. Dr. Markus Sause",
+   "overall": 53.7,
+   "company": 60.0,
+   "market": 50.0,
+   "risk": 49.3,
+   "stage": "Pre-Seed",
+   "stage_raw": "pre_gruendung",
+   "confidence": 14.0,
+   "ausschluss": "",
+   "first_signal_date_scorer": "2024-10-01",
+   "grants": 1,
+   "grant_amount_eur": 598747,
+   "programme": "EXIST-Forschungstransfer",
+   "partners": [],
+   "in_databases": null,
+   "founding_year_hint": null,
+   "enrichment_errors": [
+    "wayback: Profil https://web.archive.org/web/20190701150010/https://www.crunchbase.com/organization/sensai älter als das Vorhaben, vermutlich Namensvetter",
+    "idw: keine Treffer"
+   ],
+   "score_drivers": [
+    "Vollzeit-Signal: EXIST-Forschungstransfer (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBY0323)",
+    "Risikomindernd: Bisherige Förderung 598.747 EUR (EXIST-Forschungstransfer) (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBY0323)"
+   ],
+   "risks": [
+    "Dünne Datenlage: nur eine unabhängige Quelle (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBY0323)"
+   ],
+   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 07/2026; jüngstes Signal vor 25 Monaten",
+   "investment_thesis": "Datenlage zu dünn für eine Hypothese (Confidence 0.14). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle.",
+   "scoring_input": {
+    "country": "usable",
+    "public_grant": "usable",
+    "founded": "missing",
+    "vc_status": "missing",
+    "product_stage": "missing"
+   }
+  },
+  {
+   "fkz": "03EFHE0117",
+   "name": "IntelliTHz",
+   "industry": "Industrial / DeepTech",
+   "htgf_sector": "industrial_deep_tech",
+   "institution": "Johann Wolfgang Goethe-Universität Frankfurt am Main, Fachbereich Physik der Goethe-Universität Frankfurt",
+   "overall": 53.7,
+   "company": 60.0,
+   "market": 50.0,
+   "risk": 49.3,
+   "stage": "Pre-Seed",
+   "stage_raw": "pre_gruendung",
+   "confidence": 14.0,
+   "ausschluss": "",
+   "first_signal_date_scorer": "2026-10-01",
+   "grants": 1,
+   "grant_amount_eur": 1049843,
+   "programme": "EXIST-Forschungstransfer",
+   "partners": [],
+   "in_databases": false,
+   "founding_year_hint": null,
+   "enrichment_errors": [
+    "idw: keine Treffer"
+   ],
+   "score_drivers": [
+    "Vollzeit-Signal: EXIST-Forschungstransfer (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFHE0117)",
+    "Risikomindernd: Bisherige Förderung 1,0 Mio. EUR (EXIST-Forschungstransfer) (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFHE0117)"
+   ],
+   "risks": [
+    "Dünne Datenlage: nur eine unabhängige Quelle (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFHE0117)"
+   ],
+   "why_now": "Noch vor der Gründung; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 1 Monaten",
+   "investment_thesis": "Datenlage zu dünn für eine Hypothese (Confidence 0.14). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle.",
+   "scoring_input": {
+    "country": "usable",
+    "public_grant": "usable",
+    "founded": "missing",
+    "vc_status": "missing",
+    "product_stage": "missing"
+   }
+  },
+  {
+   "fkz": "03EGTBE131",
+   "name": "HeuristicEnergy",
+   "industry": "ClimateTech",
+   "htgf_sector": "climate_tech",
+   "institution": "Freie Universität Berlin",
+   "overall": 52.8,
+   "company": 60.0,
+   "market": 50.0,
+   "risk": 52.3,
+   "stage": "Pre-Seed",
+   "stage_raw": "pre_gruendung",
+   "confidence": 14.0,
+   "ausschluss": "",
+   "first_signal_date_scorer": "2026-10-01",
+   "grants": 1,
+   "grant_amount_eur": 114600,
+   "programme": "EXIST-Gründungsstipendium",
+   "partners": [],
+   "in_databases": false,
+   "founding_year_hint": null,
+   "enrichment_errors": [
+    "idw: keine Treffer"
+   ],
+   "score_drivers": [
+    "Vollzeit-Signal: EXIST-Gründungsstipendium (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBE131)",
+    "Risikomindernd: Bisherige Förderung 114.600 EUR (EXIST-Gründungsstipendium) (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBE131)"
+   ],
+   "risks": [
+    "Dünne Datenlage: nur eine unabhängige Quelle (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBE131)"
+   ],
+   "why_now": "Noch vor der Gründung; EXIST-Gründungsstipendium endet 09/2027; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 1 Monaten",
+   "investment_thesis": "Datenlage zu dünn für eine Hypothese (Confidence 0.14). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle.",
+   "scoring_input": {
+    "country": "usable",
+    "public_grant": "usable",
+    "founded": "missing",
+    "vc_status": "missing",
+    "product_stage": "missing"
+   }
+  },
+  {
+   "fkz": "03EGTBW090",
+   "name": "Biocompile",
+   "industry": "AI / Software",
+   "htgf_sector": null,
+   "institution": "Eberhard Karls Universität Tübingen - Zentrum für Quantitative Biologie (QBiC) Forschungsinstitut M3",
+   "overall": 52.8,
+   "company": 60.0,
+   "market": 50.0,
+   "risk": 52.3,
+   "stage": "Pre-Seed",
+   "stage_raw": "pre_gruendung",
+   "confidence": 14.0,
+   "ausschluss": "",
+   "first_signal_date_scorer": "2024-12-01",
+   "grants": 1,
+   "grant_amount_eur": 105000,
+   "programme": "EXIST-Gründungsstipendium",
+   "partners": [],
+   "in_databases": false,
+   "founding_year_hint": null,
+   "enrichment_errors": [
+    "idw: keine Treffer"
+   ],
+   "score_drivers": [
+    "Vollzeit-Signal: EXIST-Gründungsstipendium (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBW090)",
+    "Risikomindernd: Bisherige Förderung 105.000 EUR (EXIST-Gründungsstipendium) (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBW090)"
+   ],
+   "risks": [
+    "Dünne Datenlage: nur eine unabhängige Quelle (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBW090)"
+   ],
+   "why_now": "Noch vor der Gründung; EXIST-Gründungsstipendium endete 11/2025; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 23 Monaten",
+   "investment_thesis": "Datenlage zu dünn für eine Hypothese (Confidence 0.14). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle.",
+   "scoring_input": {
+    "country": "usable",
+    "public_grant": "usable",
+    "founded": "missing",
+    "vc_status": "missing",
+    "product_stage": "missing"
+   }
+  },
+  {
+   "fkz": "03EGTBW246",
+   "name": "YarnAI",
+   "industry": "AI / Software",
+   "htgf_sector": "digital_tech",
+   "institution": "Hochschule der Medien Stuttgart",
+   "overall": 52.8,
+   "company": 60.0,
+   "market": 50.0,
+   "risk": 52.3,
+   "stage": "Pre-Seed",
+   "stage_raw": "pre_gruendung",
+   "confidence": 14.0,
+   "ausschluss": "",
+   "first_signal_date_scorer": "2026-11-01",
+   "grants": 1,
+   "grant_amount_eur": 155600,
+   "programme": "EXIST-Gründungsstipendium",
+   "partners": [],
+   "in_databases": false,
+   "founding_year_hint": null,
+   "enrichment_errors": [
+    "idw: keine Treffer"
+   ],
+   "score_drivers": [
+    "Vollzeit-Signal: EXIST-Gründungsstipendium (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBW246)",
+    "Risikomindernd: Bisherige Förderung 155.600 EUR (EXIST-Gründungsstipendium) (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBW246)"
+   ],
+   "risks": [
+    "Dünne Datenlage: nur eine unabhängige Quelle (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBW246)"
+   ],
+   "why_now": "Noch vor der Gründung; EXIST-Gründungsstipendium endet 10/2027; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 0 Monaten",
+   "investment_thesis": "Datenlage zu dünn für eine Hypothese (Confidence 0.14). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle.",
+   "scoring_input": {
+    "country": "usable",
+    "public_grant": "usable",
+    "founded": "missing",
+    "vc_status": "missing",
+    "product_stage": "missing"
+   }
+  },
+  {
+   "fkz": "03EGTBY182",
+   "name": "Procado",
+   "industry": "FinTech",
+   "htgf_sector": "digital_tech",
+   "institution": "Technische Universität München - Fakultät für Wirtschaftswissenschaften - Lehrstuhl für Betriebswirtschaftslehre - Entrepreneurial Finance",
+   "overall": 52.8,
+   "company": 60.0,
+   "market": 50.0,
+   "risk": 52.3,
+   "stage": "Pre-Seed",
+   "stage_raw": "pre_gruendung",
+   "confidence": 14.0,
+   "ausschluss": "",
+   "first_signal_date_scorer": "2025-10-01",
+   "grants": 1,
+   "grant_amount_eur": 135000,
+   "programme": "EXIST-Gründungsstipendium",
+   "partners": [],
+   "in_databases": false,
+   "founding_year_hint": null,
+   "enrichment_errors": [
+    "idw: Artikel https://idw-online.de/de/news546496 vom 2013-08-07 vor erstem Signal, vermutlich Namensvetter"
+   ],
+   "score_drivers": [
+    "Vollzeit-Signal: EXIST-Gründungsstipendium (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBY182)",
+    "Risikomindernd: Bisherige Förderung 135.000 EUR (EXIST-Gründungsstipendium) (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBY182)"
+   ],
+   "risks": [
+    "Dünne Datenlage: nur eine unabhängige Quelle (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBY182)"
+   ],
+   "why_now": "Noch vor der Gründung; EXIST-Gründungsstipendium endete 09/2026; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 13 Monaten",
+   "investment_thesis": "Datenlage zu dünn für eine Hypothese (Confidence 0.14). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle.",
+   "scoring_input": {
+    "country": "usable",
+    "public_grant": "usable",
+    "founded": "missing",
+    "vc_status": "missing",
+    "product_stage": "missing"
+   }
+  },
+  {
+   "fkz": "03EFNW0397",
+   "name": "ExoAssist",
+   "industry": "ClimateTech",
+   "htgf_sector": "climate_tech",
+   "institution": "Technische Hochschule Köln Fakultät für Fakultät für Anlagen, Energie- und Maschinensysteme Prof. Dr. Jörg Luderich",
+   "overall": 51.8,
+   "company": 60.0,
+   "market": 48.0,
+   "risk": 53.3,
+   "stage": "Pre-Seed",
+   "stage_raw": "pre_gruendung",
+   "confidence": 27.0,
+   "ausschluss": "",
+   "first_signal_date_scorer": "2025-07-01",
+   "grants": 1,
+   "grant_amount_eur": 1450286,
+   "programme": "EXIST-Forschungstransfer",
+   "partners": [],
+   "in_databases": false,
+   "founding_year_hint": null,
+   "enrichment_errors": [],
+   "score_drivers": [
+    "Vollzeit-Signal: EXIST-Forschungstransfer (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFNW0397)",
+    "Produkttyp: hardware (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFNW0397)",
+    "Risikomindernd: Bisherige Förderung 1,5 Mio. EUR (EXIST-Forschungstransfer) (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFNW0397)"
+   ],
+   "risks": [
+    "Regulierter Markt, Zulassung nötig (Quelle: https://idw-online.de/de/news880221)",
+    "Dünne Datenlage: 2 unabhängige Quellen (Quelle: https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFNW0397)"
+   ],
+   "why_now": "Noch vor der Gründung; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 0 Monaten",
+   "investment_thesis": "Datenlage zu dünn für eine Hypothese (Confidence 0.27). Hauptrisiko: Regulierter Markt, Zulassung nötig.",
+   "scoring_input": {
+    "country": "usable",
+    "public_grant": "usable",
+    "founded": "missing",
+    "vc_status": "missing",
+    "product_stage": "missing"
+   }
+  }
+ ]
+}

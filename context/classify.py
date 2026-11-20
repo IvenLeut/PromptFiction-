@@ -259,6 +259,45 @@ def _looks_like_org(org: str) -> bool:
                 or (org.isupper() and len(org) >= 2))
 
 
+PERSON_TITLE = re.compile(r"(?<![A-Za-zÄÖÜäöüß])(?:Prof|Dr|Dipl|Ing|PD|apl)\.(?!\w)|(?<![A-Za-zÄÖÜäöüß])Prof(?:essor(?:in)?)?(?![A-Za-zÄÖÜäöüß])")
+PERSON_TOKEN = re.compile(r"[A-ZÄÖÜ][a-zäöüßéèáàç]+(?:-[A-ZÄÖÜ][a-zäöüßéèáàç]+)?")
+ORG_HINT = re.compile(rf"{_W}(?:Deutsche[rn]?|Bahn|Telekom|Energie|Netze?|Systems?|Technolog(?:y|ies|ie)|Solutions|Robotics|"
+                      rf"Medical|Labs?|Industries|Consulting|Engineering|Ventures|Capital|Partners|Stadt|Kreis|Land|Bund|"
+                      rf"Verband|Zentrum|Gesellschaft|Agentur|Amt|Ministerium|Lehrstuhl|Fakultät|Akademie|Kammer|Airlines?|"
+                      rf"Motors?|Automotive|Chemie|Pharma|Bio\w*|Tech\w*|Elektro\w*){_E}")
+
+
+# Common first names: "Siemens Mobility" or "Stadtwerken München" are two capitalised words as well, so a
+# bare two-word name only counts as a person when it starts with a first name (or is a known founder).
+FIRST_NAMES = set("""
+alexander alexandra andre andrea andreas anja anna anne annika benjamin bernd birgit christian christina christine
+christoph claudia daniel daniela david dennis dieter dirk elena elisabeth eva fabian felix florian frank franziska
+frederik friedrich georg gerhard hannah hans heike heinz helmut holger ingo jan jana jens joerg johanna johannes jonas
+julia julian juergen kai karin karl katharina kathrin katrin klaus lars laura lea lena leon lisa lukas manfred manuel
+marc marcel marco maria marie marina mario mark markus martin martina matthias max maximilian michael michaela moritz
+nadine nicole niklas nils nina oliver patrick paul peter philipp ralf ralph rainer robert sabine sandra sarah sascha
+sebastian simon sophie stefan stefanie steffen stephan susanne sven thomas thorsten tim tobias tom torsten ulrich ulrike
+uwe volker werner wolfgang yannick ahmed ali anh belal chen kim li mohamed omar rohan wei yang
+""".split())
+
+
+def _is_person(org: str, founders=()) -> bool:
+    """'Prof. Dr. Jörg Luderich' or 'Jörg Luderich': a person (project lead), never a partner organisation."""
+    if PERSON_TITLE.search(org):
+        return True
+    if any(fold(org) == fold(f) for f in founders):
+        return True
+    tokens = org.split()
+    return (len(tokens) == 2 and all(PERSON_TOKEN.fullmatch(t) for t in tokens) and fold(tokens[0]) in FIRST_NAMES
+            and not (RESEARCH_ORG.search(org) or LEGAL_SUFFIX.search(org) or ORG_HINT.search(org)))
+
+
+def _excluded(org: str, exclude: list[str]) -> bool:
+    """True if the organisation occurs (whole words, folded) in the lead's grant recipient / executing unit text."""
+    needle = fold(org)
+    return bool(needle) and any(re.search(r"(?<![a-z0-9])" + re.escape(needle) + r"(?![a-z0-9])", text) for text in exclude)
+
+
 def _orgs(span: str, own: str = "", strict: bool = False) -> list[str]:
     result = []
     for part in ORG_SPLIT.split(span):
@@ -300,6 +339,7 @@ class Scope:
     def __init__(self, name: str, founders=()):
         self.name_re = name_pattern(name)
         self.surnames = surnames(list(founders or []))
+        self.founders = list(founders or [])
 
     def mentions(self, text: str) -> bool:
         return mentions_lead(fold(text), self.name_re, self.surnames)
@@ -385,7 +425,7 @@ def _stage_winner(values: dict, counts: dict) -> str | None:
     return None if tied else ranked[0][0]
 
 
-def _rules(name: str, signals: list[SourceSignal], result: Lookup, scope: Scope) -> set[str]:
+def _rules(name: str, signals: list[SourceSignal], result: Lookup, scope: Scope, exclude_names=()) -> set[str]:
     """Apply the regex layer; return the set of fields that received a value."""
     hits: dict[str, dict] = defaultdict(lambda: defaultdict(list))   # field -> value -> [(line, signal)]
     partners: dict[str, Partner] = {}
@@ -393,6 +433,7 @@ def _rules(name: str, signals: list[SourceSignal], result: Lookup, scope: Scope)
     competitors: dict[str, str] = {}
     list_evidence: list[Evidence] = []
     pharma_lines: set[str] = set()
+    exclude = [fold(text) for text in exclude_names if text and text.strip()]
 
     def note(field, line, signal):
         list_evidence.append(Evidence(field=field, url=signal.url, finding=line[:1000],
@@ -451,6 +492,8 @@ def _rules(name: str, signals: list[SourceSignal], result: Lookup, scope: Scope)
                     article = re.search(r"\b(?:der|die|das|dem|den)\s*$", cue_text, re.IGNORECASE) is not None
                     for org in _orgs(match[1], name, strict=kind == "_collab" and article):
                         if fold(org) in own_names:      # the publishing university, not a partner
+                            continue
+                        if _is_person(org, scope.founders) or _excluded(org, exclude):   # project lead / own grant recipient
                             continue
                         if kind != "loi" and PILOT_LINE.search(facts):
                             real_kind = "pilot"
@@ -699,10 +742,12 @@ def _model(name: str, signals: list[SourceSignal], missing: tuple[str, ...], mod
 # ------------------------------------------------------------------ entry point
 
 def classify_texts(name: str, signals: list[SourceSignal], *, model: str | None, cache, ask=None,
-                   founders: list[str] = ()) -> Lookup:
+                   founders: list[str] = (), exclude_names: list[str] = ()) -> Lookup:
     """Rules first, then the model for the fields that are still empty (see module docstring).
 
     `founders` (names) widen the scope of texts that are not about the lead to lines naming a founder.
+    `exclude_names` (the lead's grant recipient / executing unit texts) are never partners; neither is any
+    name that looks like a person ("Prof. Dr. Jörg Luderich", "Jörg Luderich").
     `ask(payload) -> dict` replaces the Ollama call (tests); answers are memoised in `cache` under
     model + sha1 of the prompt text. Errors are reported in `Lookup.errors`, never raised.
     """
@@ -710,7 +755,7 @@ def classify_texts(name: str, signals: list[SourceSignal], *, model: str | None,
     if not signals:
         return result
     scope = Scope(name, founders)
-    filled = _rules(name, signals, result, scope)
+    filled = _rules(name, signals, result, scope, exclude_names=exclude_names)
     if model:
         missing = tuple(field for field in MODEL_FIELDS if field not in filled)
         if missing:

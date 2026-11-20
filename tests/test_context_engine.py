@@ -121,7 +121,8 @@ def test_dossier_carries_every_enriched_field_with_source():
     d = to_dossier(lead, load_config())
     assert d["rechtsform"] == {"wert": "UG (haftungsbeschränkt) i.G.", "quelle": U + "impressum"}
     assert d["email"] == {"wert": "info@example.org", "quelle": U + "impressum"}
-    assert d["gruendungsdatum"] == {"wert": "2025", "quelle": U + "news1"}
+    # a press-sentence year is only a hint, never the founding date (see tests/test_scoring_sourced_leads.py)
+    assert d["gruendungsdatum"] is None and d["gruendungsjahr_hinweis"] == {"wert": 2025, "quelle": U + "news1"}
     assert d["foerderung"][0]["summe_eur"] == 900000 and d["foerderung"][0]["quelle"] == U + "fk"
     assert d["team"][0]["papers_im_feld"] == 5 and d["team"][0]["openalex"] == "https://openalex.org/A1"
     assert d["partner"] == [{"name": "Partner AG", "typ": "pilot", "quelle": U + "news1"}]
@@ -131,7 +132,9 @@ def test_dossier_carries_every_enriched_field_with_source():
     assert {s["typ"] for s in d["signals"]} >= {"exist_projekt", "idw", "wayback"}
     r = evaluate(lead)
     assert r.stage_classification == "Pre-Seed" and r.confidence_score > 60
-    assert any("900.000 EUR" in x for x in r.risks) and any("Papers" in x for x in r.score_drivers)
+    # 900 k€ funding is 25 risk points (< texte.risiko_ab), so it reduces risk and is listed as a driver
+    assert any(x.startswith("Risikomindernd: Bisherige Förderung 900.000 EUR") for x in r.score_drivers)
+    assert not any("900.000 EUR" in x for x in r.risks) and any("Papers" in x for x in r.score_drivers)
 
 
 def test_field_terms_and_default_lookups():

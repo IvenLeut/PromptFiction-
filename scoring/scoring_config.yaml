@@ -17,6 +17,7 @@ ausschluss_max_gesamt: 20      # Deckel bei hartem Ausschluss
 htgf_max_alter_monate: 36      # HTGF: Unternehmen höchstens 3 Jahre alt
 exist_max_laufzeit_monate: 36  # angenommene Laufzeit einer EXIST-Förderung ohne Enddatum
 exist_nachlauf_monate: 12      # so lange nach dem Ende zählt EXIST noch als Vollzeit-Signal
+hinweis_max_vor_signal_monate: 24  # Gründungsjahr aus Pressetext: weiter vor dem ersten Signal = ignoriert
 zu_spaet_wenn_in_databases: false   # true = schon ein Crunchbase/Dealroom-Profil gilt als "zu spät"
 confidence_ohne_pflichtfelder: 0.1
 

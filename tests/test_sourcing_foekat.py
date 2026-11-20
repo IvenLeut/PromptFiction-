@@ -92,6 +92,12 @@ def by_name(leads):
     return {lead.name: lead for lead in leads}
 
 
+def hints(lead):
+    """Step-1 flags: the labelled 'Hinweise: …' line in the signal evidence (no longer in prioritization_reason)."""
+    line = next(l for l in lead.signals[0].evidence.splitlines() if l.startswith("Hinweise: "))
+    return line.removeprefix("Hinweise: ").split(", ")
+
+
 @pytest.fixture
 def leads():
     return fx.run(fetch=FixtureFetch(), cache=None, clock=CLOCK).leads
@@ -264,8 +270,9 @@ def test_industry_mapping(leads):
     for name, (industry, sector, field) in expect.items():
         lead = named[name]
         assert (lead.industry, lead.htgf_sector) == (industry, sector), name
-        assert "Branche %s per Regel" % industry.value in lead.prioritization_reason and field in lead.prioritization_reason
-        assert "industry_unclassified" not in lead.prioritization_reason
+        assert "Branche %s" % industry.value in lead.prioritization_reason
+        assert ("aus Projekttitel" if field == "Thema" else "nur aus " + field) in lead.prioritization_reason
+        assert "industry_unclassified" not in hints(lead)
 
 
 def test_industry_default_is_flagged(leads):
@@ -273,7 +280,7 @@ def test_industry_default_is_flagged(leads):
     for name, industry in (("Refactum", Industry.INDUSTRIAL), ("RetentionFox", Industry.AI)):
         lead = named[name]
         assert lead.industry == industry and lead.htgf_sector is None
-        assert "industry_unclassified" in lead.prioritization_reason and "als Standard" in lead.prioritization_reason
+        assert "industry_unclassified" in hints(lead) and "nicht klassifiziert" in lead.prioritization_reason
     stats = fx.run(fetch=FixtureFetch(), cache=None, clock=CLOCK).stats()
     assert stats["industry_defaulted"] == stats["flags"]["industry_unclassified"] > 0
     assert sum(stats["industry"].values()) == stats["leads"] == 45
@@ -281,10 +288,11 @@ def test_industry_default_is_flagged(leads):
 
 def test_raw_lead_contract(leads):
     assert len(leads) == 45 and len({l.id for l in leads}) == 45
-    starts = [l.signals[0].date for l in leads]
-    assert starts == sorted(starts, reverse=True)              # newest project start first
+    info = fx.run(fetch=FixtureFetch(), cache=None, clock=CLOCK).info
+    keys = [(-info[l.id].priority, -l.signals[0].date.toordinal(), l.id) for l in leads]
+    assert keys == sorted(keys)                                # priority desc, newest project start, id
     for lead in leads:
-        fkz = lead.signals[0].evidence.split(";")[0].removeprefix("FKZ ")
+        fkz = lead.signals[0].evidence.splitlines()[0].removeprefix("Förderkennzeichen: ")
         assert lead.id == "foekat-" + fkz.lower()
         assert lead.founders == [] and lead.contact_email is None and lead.website is None and lead.has_vc is None
         assert lead.founding_year is None and lead.founding_month is None and lead.is_demo is False
@@ -296,12 +304,13 @@ def test_raw_lead_contract(leads):
         signal = lead.signals[0]
         assert signal.source == "Förderkatalog" and signal.type == "exist_projekt" and str(signal.url) == detail_url(fkz)
         assert FKZ_REGEX.search(signal.evidence).group(0) == fkz     # step 2 resolves the same grant
-        assert "pre_founding_team" in lead.prioritization_reason and "founding_date_unknown" in lead.prioritization_reason
+        assert "pre_founding_team" in hints(lead) and "founding_date_unknown" in hints(lead)
     hq = by_name(leads)["HoCHQuant"]
     assert hq.location == "Cottbus" and hq.signals[0].date == date(2024, 6, 1)
-    assert "Summe: 876.964,00 €" in hq.signals[0].evidence and "Laufzeit: 01.06.2024 bis 30.09.2026" in hq.signals[0].evidence
-    assert "Programm: EXIST-Forschungstransfer" in hq.signals[0].evidence
-    assert hq.prioritization_reason.startswith("EXIST-Forschungstransfer seit 01.06.2024, 876.964,00 €.")
+    assert "Fördersumme: 876.964,00 EUR" in hq.signals[0].evidence and "Laufzeit: 01.06.2024 bis 30.09.2026" in hq.signals[0].evidence
+    assert "Programm: EXIST-Forschungstransfer" in hq.signals[0].evidence.splitlines()
+    assert hq.prioritization_reason.startswith("Priorität %d: EXIST-Forschungstransfer;" % info[hq.id].priority)
+    assert "876.964 EUR" in hq.prioritization_reason
     press = by_name(leads)["u/press"]
     assert "ehemals „trykk“" in press.description and "EXIST-Gründungsstipendium" in press.description
 
@@ -309,7 +318,7 @@ def test_raw_lead_contract(leads):
 def test_executing_country_unassigned_and_empty_ort(leads):
     named = by_name(leads)
     aeirmed = named["aeirmed"]                                 # executing unit: Staat "nicht zuzuordnen"
-    assert aeirmed.country == "DE" and "executing_country_unassigned" in aeirmed.prioritization_reason
+    assert aeirmed.country == "DE" and "executing_country_unassigned" in hints(aeirmed)
     assert "Staat nicht zuzuordnen" in aeirmed.country_evidence.finding
     empty = next(l for l in leads if l.id == "foekat-03egtbe046")  # executing unit without Ort -> recipient Ort
     assert empty.location == "Berlin"
@@ -330,8 +339,9 @@ def test_verbund_rows_become_one_lead():
     run = fx.build_leads(fx.ExportResult(rows=[b, a]))
     assert len(run.leads) == 1
     lead = run.leads[0]
-    assert lead.id == "foekat-" + row.fkz.lower() and [s.evidence[:16] for s in lead.signals] == ["FKZ " + row.fkz + "A;", "FKZ " + row.fkz + "B;"]
-    assert "verbund" in lead.prioritization_reason and "976.964,00 €" in lead.description
+    assert lead.id == "foekat-" + row.fkz.lower() and [s.evidence.splitlines()[0] for s in lead.signals] == [
+        "Förderkennzeichen: " + row.fkz + "A", "Förderkennzeichen: " + row.fkz + "B"]
+    assert "verbund" in hints(lead) and "976.964 EUR" in lead.prioritization_reason
     named = fx.GrantRow(**{**row.__dict__, "fkz": "03EFXX9001", "projekt": "Verbund HoCHQuant"})
     other = fx.GrantRow(**{**row.__dict__, "fkz": "03EFYY9002", "projekt": "Verbund HoCHQuant"})
     assert len(fx.group_projects([named, other])) == 1
@@ -341,8 +351,8 @@ def test_company_recipient_flag():
     row = rows_of("03EF")[0]
     company = fx.GrantRow(**{**row.__dict__, "fkz": "03EFU9XX01", "recipient": "Beispiel Sensorik GmbH", "executing": "Beispiel Sensorik GmbH"})
     lead = fx.build_leads(fx.ExportResult(rows=[company])).leads[0]
-    assert "recipient_company" in lead.prioritization_reason and "exist_ft_phase2_candidate" in lead.prioritization_reason
-    assert "pre_founding_team" not in lead.prioritization_reason
+    assert "recipient_company" in hints(lead) and "exist_ft_phase2_candidate" in hints(lead)
+    assert "pre_founding_team" not in hints(lead)
     assert lead.founding_year is None and lead.founders == []
     macromedia = next(r for r in rows_of("03EG") if r.recipient == "Macromedia GmbH")
     skz = next(r for r in rows_of("03EF") if r.recipient == "SKZ - KFE gGmbH")
@@ -354,9 +364,9 @@ def test_company_recipient_flag():
 def test_pipeline_discover_accepts_all_leads(leads):
     total = 0
     for industry in Industry:
-        provider = partial(search, fetch=FixtureFetch(), cache=NoCache())
+        provider = partial(search, fetch=FixtureFetch(), cache=NoCache(), include_unclassified=True)
         found = discover(SearchCriteria(industry=industry, limit=200), use_mock=False, provider=provider)
-        assert [l.id for l in found] == [l.id for l in leads if l.industry == industry]
+        assert {l.id for l in found} == {l.id for l in leads if l.industry == industry}
         total += len(found)
     assert total == 45
 

@@ -391,7 +391,12 @@ class Scorer:
             return None
         summe = min(MAX_ZAHL, sum(s for s, _ in mit_summe))
         erster = mit_summe[0][1]
-        return dict(wert=stufe(k["stufen"], summe), aussage="Bisherige Förderung %s EUR" % eur(summe), url=erster["quelle"], datum=iso(erster.get("start")))
+        # Programm nennen: ein Gründungsstipendium (~100–160 k€, 12 Monate) und ein Forschungstransfer (~0,6–1,5 Mio. €,
+        # 18–36 Monate) sind verschiedene Finanzierungslagen, auch wenn die Stufen nur die Summe bewerten.
+        programme = list(dict.fromkeys(clip(text(str(f.get("programm") or "")) or "", 60) for _, f in mit_summe))
+        programme = [p for p in programme if p]
+        zusatz = " (%s)" % ", ".join(programme[:3]) if programme else ""
+        return dict(wert=stufe(k["stufen"], summe), aussage="Bisherige Förderung %s EUR%s" % (eur(summe), zusatz), url=erster["quelle"], datum=iso(erster.get("start")))
 
     def k_datenlage(self, k):
         if not self.signals:
@@ -434,9 +439,36 @@ class Scorer:
             if nur_jahr(v):
                 return min(dt.date(echt.year, 12, 31), self.stichtag), False, url, False
             return echt, False, url, True
+        h = self.hinweis()
+        if h:
+            return min(dt.date(h[0], 12, 31), self.stichtag), True, h[1], False
         for f in self.exist():
             return parse_date(f["start"]), True, f["quelle"], not nur_jahr(f["start"])
         return None, False, None, False
+
+    def hinweis(self):
+        """(jahr, url) aus `gruendungsjahr_hinweis` (Jahr aus einem Pressetext), sonst None.
+
+        Schwächer als ein Register-/Impressumsdatum: zählt nur als Proxy, nie für `zu_spaet`. Liegt das Jahr mehr
+        als 24 Monate vor dem ersten Signal, gilt es als Fremdbezug (anderer Artikel, Namensvetter) und wird ignoriert.
+        """
+        h = self.hinweis_roh()
+        return h if h and not self.hinweis_ignoriert() else None
+
+    def hinweis_roh(self):
+        v, url, _ = fact(self.d.get("gruendungsjahr_hinweis"))
+        if isinstance(v, str) and nur_jahr(v):
+            v = int(v)
+        if isinstance(v, bool) or not isinstance(v, int) or not url or not 1900 <= v <= self.stichtag.year:
+            return None
+        return v, url
+
+    def hinweis_ignoriert(self):
+        """Jahr des Hinweises, wenn es mehr als hinweis_max_vor_signal_monate vor dem ersten Signal liegt."""
+        h = self.hinweis_roh()
+        if h and self.signals and months_between(dt.date(h[0], 12, 31), self.signals[0]["datum"]) > self.cfg.get("hinweis_max_vor_signal_monate", 24):
+            return h[0]
+        return None
 
     def funding(self):
         v, url, _ = fact(self.d.get("funding_meldung"))
@@ -482,6 +514,9 @@ class Scorer:
             return "zu_spaet", "älter als %d Monate (gegründet %s)" % (cfg["htgf_max_alter_monate"], gr.strftime("%m/%Y") if monat else str(gr.year)), gr_url
         if (not rf or rf == "keine") and gr and not proxy:
             return "pre_seed", "gegründet laut Quelle (%s), Rechtsform nicht belegt" % (gr.strftime("%m/%Y") if monat else gr.year), gr_url
+        h = self.hinweis()
+        if (not rf or rf == "keine") and h and gr_url == h[1]:
+            return "pre_seed", "gegründet laut Quelle (Pressetext, %d), Rechtsform nicht belegt" % h[0], h[1]
         if not rf or rf == "keine":
             return "pre_gruendung", "keine Rechtsform belegt", rf_url
         if ig:
@@ -591,6 +626,13 @@ def _score(dossier, cfg, stichtag):
         rec.update(ausschluss_grund="Pflichtangaben fehlen: " + ", ".join(fehlt), offene_punkte=fehlt)
         return rec
 
+    h = s.hinweis()
+    if h and proxy and gr and gr.year == h[0]:
+        rec["offene_punkte"].append("Gründungsjahr %d nur aus Pressetext, nicht für Ausschluss verwendet" % h[0])
+    elif s.hinweis_ignoriert() and not (gr and not proxy):
+        rec["offene_punkte"].append("Gründungsjahr %d aus Pressetext liegt mehr als %d Monate vor dem ersten Signal, ignoriert"
+                                    % (s.hinweis_ignoriert(), cfg.get("hinweis_max_vor_signal_monate", 24)))
+
     neutral = cfg["neutral"] / 100.0
     scores, abdeckung, treffer = {}, {}, {}
     for dim in DIMENSIONEN:
@@ -664,7 +706,10 @@ def _score(dossier, cfg, stichtag):
     now = [STAGE_TEXT[stage]]
     for f in s.exist():
         ende = parse_date(f.get("ende"))
-        if ende and 0 <= months_between(stichtag, ende) <= tx["foerderende_in_monaten"]:
+        if ende and ende < stichtag:  # exist() enthält nur Förderungen, die höchstens exist_nachlauf_monate vorbei sind
+            now.append("%s endete %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
+            break
+        if ende and months_between(stichtag, ende) <= tx["foerderende_in_monaten"]:
             now.append("%s endet %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
             break
     if in_db is False:

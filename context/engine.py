@@ -20,7 +20,8 @@ from context.company import (
 )
 from context.lookup import Lookup
 from context.web import company_pages
-from models import EnrichedLead, Evidence, FounderProfile, RawLead, SourceSignal
+from context.idw import MENTION_SOURCE, fold as idw_fold, name_pattern
+from models import EnrichedLead, Evidence, FounderProfile, Grant, RawLead, SourceSignal
 from research_models import (
     Claim, CompanyResearch, ContextV2, FounderResearch, FundingResearch, MarketMeasure, Period,
     ProductResearch, ResearchStatus, TractionResearch,
@@ -32,7 +33,15 @@ STOPWORDS = set("""für mit und oder der die das des dem den ein eine einer eine
 ohne gegen sowie auch nicht sind wird werden wurde kann können soll sollen haben hat ist sein ihre ihrer seine seiner unsere unser
 entwickelt entwickeln bietet bieten ermöglicht basierend neue neuen neuer innovative innovativ lösung lösungen plattform software system
 systeme technologie unternehmen startup start-up produkt produkte kunden projekt the and for with from that this into using based
-develops developing provides solution solutions platform company customers product products technology""".split())
+develops developing provides solution solutions platform company customers product products technology
+förderempfänger bundesanteil ausführende stelle förderkennzeichen laufzeit projekt exist-gründungsstipendium-projekt
+forschungstransfer gründungsstipendium fkz exist-forschungstransfer exist-gründungsstipendium fördersumme
+öffentliche förderung programm thema""".split())
+CATALOGUE_TYPES = {"exist_projekt", "foerderprojekt"}
+CATALOGUE_LABELS = {
+    "fkz": r"Förderkennzeichen|FKZ", "programme": r"Programm", "thema": r"Thema", "recipient": r"Förderempfänger",
+    "executing": r"Ausführende Stelle", "period": r"Laufzeit", "amount": r"Fördersumme|Summe",
+}
 
 
 LABELS = {
@@ -152,6 +161,78 @@ def field_terms(lead: RawLead, limit: int = 6) -> list[str]:
     return out[:limit]
 
 
+def parse_catalogue(text: str) -> dict | None:
+    """Labelled Förderkatalog text from step 1 -> facts (fkz, programme, recipient, executing, start, end, amount_eur, lines).
+
+    Supports the multi-line format ("Förderkennzeichen: 03EFBW0275" per line) and the older one-line
+    format ("FKZ 03EFBW0275; Programm: ...; Laufzeit: 01.09.2024–30.09.2026; Summe: 972.638,00 €").
+    Returns None unless an FKZ and at least one further label are present.
+    """
+    facts, lines = {}, []
+    for part in re.split(r"\n|;\s+", text or ""):
+        part = " ".join(part.split())
+        for key, labels in CATALOGUE_LABELS.items():
+            match = re.fullmatch(rf"(?:{labels})\s*:?\s+(.+)|(?:{labels})\s*:\s*(.+)", part, re.IGNORECASE)
+            if match and key not in facts:
+                facts[key] = (match[1] or match[2]).strip()
+                lines.append(part)
+                break
+    fkz = re.fullmatch(r"[0-9]{2}[A-Z0-9]{4,12}", (facts.get("fkz") or "").strip(" ."))
+    if not fkz or len(facts) < 2:
+        return None
+    out = {"fkz": fkz[0], "programme": facts.get("programme"), "thema": facts.get("thema"),
+           "recipient": facts.get("recipient"), "executing": facts.get("executing"),
+           "start": None, "end": None, "amount_eur": None, "lines": lines}
+    days = re.findall(r"\d{1,2}\.\d{1,2}\.\d{4}", facts.get("period", ""))
+    try:
+        if days:
+            out["start"] = datetime.strptime(days[0], "%d.%m.%Y").date()
+        if len(days) > 1:
+            out["end"] = datetime.strptime(days[1], "%d.%m.%Y").date()
+    except ValueError:
+        out["start"] = out["end"] = None
+    money = re.search(r"(\d{1,3}(?:\.\d{3})+|\d+)(?:,\d{1,2})?\s*(?:EUR|€|Euro)", facts.get("amount", ""))
+    if money:
+        out["amount_eur"] = int(money[1].replace(".", ""))
+    return out
+
+
+def catalogue_grant(signal: SourceSignal) -> tuple[Grant, Evidence, dict] | None:
+    """A Grant plus its Evidence built from a step-1 catalogue signal; no network involved."""
+    facts = parse_catalogue(signal.evidence) if signal.type in CATALOGUE_TYPES else None
+    if facts is None:
+        return None
+    from context.foekat import programme_for
+    programme = facts["programme"] or programme_for(facts["fkz"], "") or "Förderkatalog"
+    grant = Grant(programme=programme, reference=facts["fkz"], recipient=facts["recipient"],
+                  amount_eur=facts["amount_eur"], start=facts["start"], end=facts["end"], url=signal.url)
+    evidence = Evidence(field="grants", url=signal.url, finding="\n".join(facts["lines"])[:1000],
+                        source="Förderkatalog", source_date=facts["start"])
+    return grant, evidence, facts
+
+
+def _accepts(func, keyword: str) -> bool:
+    """True if the lookup callable takes `keyword` (injected test doubles may predate a new parameter)."""
+    import inspect
+    try:
+        params = inspect.signature(func).parameters.values()
+    except (TypeError, ValueError):
+        return False
+    return any(p.name == keyword or p.kind is inspect.Parameter.VAR_KEYWORD for p in params)
+
+
+def mention_only(signal: SourceSignal) -> bool:
+    """A press round-up that names the lead once (idw "Erwähnung") is context, not a dated signal of the lead."""
+    return signal.source.startswith(MENTION_SOURCE)
+
+
+def _years_before(day: date, years: int) -> date:
+    try:
+        return day.replace(year=day.year - years)
+    except ValueError:
+        return day.replace(year=day.year - years, day=28)
+
+
 def default_lookups(cache=None, model: str | None = None, patents: bool = False) -> dict:
     """The live lookups. Each entry is a callable; missing modules are skipped with an error entry.
 
@@ -239,27 +320,49 @@ def enrich(
             signals.append(original)
     merged = Lookup()
     grants, patents, profiles_by_name = [], [], {}
+    # Earliest dated sourcing signal (e.g. the EXIST project start): bounds namesake hits from the lookups.
+    earliest = min((s.date for s in lead.signals if s.date is not None), default=None)
+    # Step 1 delivers the catalogue row as labelled text: the grant is documented without any lookup (also --light).
+    offline = [hit for s in lead.signals if not lead.is_demo and (hit := catalogue_grant(s))]
+    offline_grants = [grant for grant, _, _ in offline]
+    grant_institution = next((f["recipient"].split(",")[0].strip() for _, _, f in offline if f["recipient"]), None) or None
+    exclude_names = [text for _, _, f in offline for text in (f["recipient"], f["executing"]) if text]
+    namesake_urls = set()
     if lookups and not lead.is_demo:
         cache = lookups.get("cache")
         if lead.website:
             _run(lookups, "imprint", merged, lambda f: f(str(lead.website), cache=cache))
-        reference = next((m.group(0) for s in signals for m in [re.search(r"(?<![A-Za-z0-9])03E[FG][A-Za-z0-9]{3,}", s.evidence)] if m), None)
+        reference = next((f["fkz"] for _, _, f in offline), None) or next(
+            (m.group(0) for s in signals for m in [re.search(r"(?<![A-Za-z0-9])03E[FG][A-Za-z0-9]{3,}", s.evidence)] if m), None)
         institution = merged.fields.get("institution")
-        result = _run(lookups, "grants", merged, lambda f: f(lead.name, institution=institution or lead.location, reference=reference, cache=cache))
+        result = _run(lookups, "grants", merged, lambda f: f(lead.name, institution=grant_institution or institution or lead.location,
+                                                             reference=reference, cache=cache))
         if result:
             grants = list(result[0])
-            institution = institution or next((re.split(r",| - ", g.recipient)[0].strip() for g in grants if g.recipient), None)
-        _run(lookups, "web_history", merged, lambda f: f(str(lead.website) if lead.website else None, lead.name, cache=cache))
+        institution = grant_institution or institution or next(
+            (re.split(r",| - ", g.recipient)[0].strip() for g in grants if g.recipient), None)
+        history_kwargs = {"not_before": earliest} if earliest and _accepts(lookups.get("web_history"), "not_before") else {}
+        _run(lookups, "web_history", merged, lambda f: f(str(lead.website) if lead.website else None, lead.name, cache=cache,
+                                                         **history_kwargs))
         _run(lookups, "idw", merged, lambda f: f(lead.name, institution=institution, founders=list(lead.founders), cache=cache))
         result = _run(lookups, "patents", merged, lambda f: f(lead.name, list(lead.founders), cache=cache))
         patents = list(result[0]) if result else []
-        signals.extend(merged.signals)
+        # A press article from years before the first sourced signal is about a namesake ("procado Consulting",
+        # 2013, for a 2025 EXIST project): it must neither date the lead earlier nor feed the classifier.
+        cutoff = _years_before(earliest, 2) if earliest else None
+        for s in merged.signals:
+            if cutoff and s.type == "idw" and s.date is not None and s.date < cutoff:
+                namesake_urls.add(str(s.url))
+                merged.errors.append("idw: Artikel %s vom %s vor erstem Signal, vermutlich Namensvetter" % (s.url, s.date.isoformat()))
+        signals.extend(s for s in merged.signals if str(s.url) not in namesake_urls)
         terms = field_terms(lead)
         for founder in dict.fromkeys(lead.founders):
             result = _run(lookups, "author", merged, lambda f, n=founder: f(n, institution=institution, field_terms=terms, cache=cache))
             if result and result[0] is not None:
                 profiles_by_name[founder] = result[0]
-    evidence = list(merged.evidence)
+    known = {g.reference for g in grants if g.reference}
+    grants = grants + [g for g in offline_grants if not g.reference or g.reference not in known]   # looked-up grant wins
+    evidence = [e for e in merged.evidence if str(e.url) not in namesake_urls] + [e for _, e, _ in offline]
     # Frozen source excerpts for the replayable scoring handoff, incl. lookup texts (Impressum, idw, Förderkatalog).
     scoring_sources = [signal.model_copy(deep=True) for signal in signals] if not lead.is_demo else None
     evidence_by_key = {}
@@ -307,7 +410,7 @@ def enrich(
             item = record("discovery_signals", signal.evidence[:1000], signal.evidence[:1000], signal)
             if item not in discovery:
                 discovery.append(item)
-        if signal.date is not None:
+        if signal.date is not None and not mention_only(signal):
             record("first_signal_date", signal.date.isoformat(), signal.evidence[:1000], signal)
         for line in statements(signal):
             if len(line) > 1000:
@@ -389,8 +492,9 @@ def enrich(
         # Sourcing's own one-line summaries are not company statements; only real excerpts are classified.
         summaries = {id(s) for s in lead.signals if len(s.evidence) < 200}
         texts = [s for s in signals if id(s) not in summaries]
+        classify_kwargs = {"exclude_names": exclude_names} if exclude_names and _accepts(lookups.get("classify"), "exclude_names") else {}
         _run(lookups, "classify", merged, lambda f: f(lead.name, texts, model=lookups.get("model"), cache=lookups.get("cache"),
-                                                       founders=list(lead.founders)))
+                                                       founders=list(lead.founders), **classify_kwargs))
         evidence.extend(merged.evidence[before:])
         for name in ("product_stage",):  # rules in this file win over the classifier
             if facts[name] and name in merged.fields:
@@ -533,13 +637,35 @@ def enrich(
         extra["grants"] = grants
     if merged.fields.get("contact_email") and not lead.contact_email:
         extra["imprint_email"] = merged.fields["contact_email"]
+    def plausible(year):
+        """A project that started under EXIST in 2025 was not founded in 2013: reject hints > 2 years before it."""
+        if earliest and year < earliest.year - 2:
+            message = "idw: Gründungsjahr %d verworfen (vor erstem Signal)" % year
+            if message not in merged.errors:
+                merged.errors.append(message)
+            return False
+        return True
+
+    extra.pop("founding_year_hint", None)      # set below only after the plausibility checks
     hint = merged.fields.get("founding_year_hint")
+    if isinstance(hint, int) and not plausible(hint):
+        hint = None
     if not isinstance(hint, int):  # "X wurde gegründet" without a year: the article date bounds the founding year
-        folded = lead.name.lower()
+        lead_re = name_pattern(lead.name)       # umlaut-folded, legal form stripped, whole word
+        articles = {str(s.url): s for s in merged.signals if s.type == "idw"}
+
+        def about_lead(url):
+            article = articles.get(str(url))
+            if article is None or lead_re is None:
+                return False
+            title = article.evidence.split("\n", 1)[0]
+            return bool(lead_re.search(idw_fold(title))) or len(lead_re.findall(idw_fold(article.evidence))) >= 2
+
         for e in merged.evidence:
-            if (e.field == "founding_statement" and e.source_date and folded.split()[0] in e.finding.lower()
+            if (e.field == "founding_statement" and e.source_date and lead_re is not None and lead_re.search(idw_fold(e.finding))
                     and re.search(r"(?i)\bgegründet\b|\bGründung (von|der) |was founded|founded in|has been founded", e.finding)
-                    and not re.search(r"(?i)geplant|planen|plant |gegründet werden|soll|wird gegründet|bereitet .* vor|vorbereitet|in Gründung|zu gründen", e.finding)):
+                    and not re.search(r"(?i)geplant|planen|plant |gegründet werden|soll|wird gegründet|bereitet .* vor|vorbereitet|in Gründung|zu gründen", e.finding)
+                    and about_lead(e.url) and plausible(e.source_date.year)):
                 hint = e.source_date.year
                 evidence.append(Evidence(field="founding_year_mention", url=e.url, finding=e.finding, source=e.source, source_date=e.source_date))
                 break
@@ -575,7 +701,8 @@ def enrich(
         product_stage=unambiguous("product_stage") or merged.fields.get("product_stage"),
         funding_status=funding_status,
         vc_status=vc_status,
-        first_signal_date=min((signal.date for signal in signals if signal.date is not None), default=None),
+        first_signal_date=min((signal.date for signal in signals if signal.date is not None and not mention_only(signal)),
+                              default=None),
         founded_on=date.fromisoformat(founding_claim.value) if founding_status == "documented" else None,
         annual_revenue_eur=float(revenue) if revenue is not None else None,
         customer_count=int(customers) if customers is not None else None,
