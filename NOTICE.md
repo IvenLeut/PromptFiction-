@@ -23,6 +23,24 @@ Verfahren Scorecard (Bill Payne), Berkus und Risk Factor Summation in der Umsetz
 Übernommen wurden Faktorlisten und Ausgangsgewichte, kein Quellcode; die Änderungen stehen in
 [`scoring/SCORING.md`](scoring/SCORING.md), Abschnitt „Herkunft des Verfahrens“.
 
+### streamlit-extras (arnaudmiribel), Dashboard-Muster
+
+Die KPI-Karten im Deep Dive (`ui_theme.py`, Regel für `div[data-testid="stMetric"]`) folgen dem Muster
+`style_metric_cards` aus [arnaudmiribel/streamlit-extras](https://github.com/arnaudmiribel/streamlit-extras)
+(`src/streamlit_extras/metric_cards/__init__.py`, Stand Commit `6c1736b`, 30.03.2026), Apache-2.0-Lizenz:
+`st.metric` per CSS über den `data-testid`-Selektor als Karte mit farbiger linker Kante umgestalten, statt eigene
+HTML-Karten zu bauen. Übernommen wurde das Muster (Selektor, linke Akzentkante), kein Code wörtlich; Farben, Radius
+und Abstände sind eigene Werte. Geprüft und verworfen wurden populäre Dashboard-Vorlagen ohne Lizenz
+(z. B. `dataprofessor/population-dashboard`, `Sven-Bo/streamlit-sales-dashboard`): ohne Lizenz keine Übernahme.
+
+### Schriften (SIL Open Font License 1.1)
+
+`assets/fonts/`: Questrial (Copyright 2011 The Questrial Project Authors) und Hanken Grotesk (Copyright 2021
+The Hanken Grotesk Project Authors), latin-Subset von Google Fonts. Lizenztexte liegen daneben
+(`OFL-Questrial.txt`, `OFL-HankenGrotesk.txt`). Sie ersetzen die lizenzpflichtigen Schriften der HTGF-Website
+(ITC Avant Garde Gothic, ESFace), deren Farbwelt und Typografie nur als Inspiration dienen; FounderRadar nutzt
+kein HTGF-Logo und keine HTGF-Marke.
+
 ## Datenquellen
 
 | Quelle | Genutzt in | Nutzungsbedingungen laut Projektdoku |

@@ -5,17 +5,17 @@ import plotly.graph_objects as go
 
 from models import EvaluatedLead
 from ui_theme import (
-    BLACK, CHARCOAL, COMPARISON_LIMIT, FONT, GRID_LIGHT, INK, ORANGE, RUST, SCORE_MAX, STAGE_COLORS, TEAL,
-    TEAL_DARK, WHITE, format_score,
+    BLACK, CHARCOAL, COMPARISON_LIMIT, FONT, GRID_LIGHT, INK, MINT, MUTED, NEUTRAL, ORANGE, RUST, SCORE_MAX,
+    STAGE_COLORS, TEAL, TEAL_DARK, WHITE, format_score,
 )
 
 
-def stage_figure(leads: list[EvaluatedLead]) -> go.Figure:
-    """Donut chart of the stage classification from step 3."""
-    counts = Counter(lead.stage_classification for lead in leads)
-    stages = [stage for stage in STAGE_COLORS if stage in counts]
+def stage_figure(leads: list[EvaluatedLead], labels: list[str] | None = None) -> go.Figure:
+    """Donut chart of the stage classification from step 3 (or of ``labels``, one per lead)."""
+    counts = Counter(labels if labels is not None else (lead.stage_classification for lead in leads))
+    stages = [stage for stage in STAGE_COLORS if stage in counts] + sorted(set(counts) - set(STAGE_COLORS))
     fig = go.Figure(go.Pie(labels=stages, values=[counts[stage] for stage in stages], hole=.76,
-        sort=False, marker=dict(colors=[STAGE_COLORS[stage] for stage in stages], line=dict(color=WHITE, width=4)),
+        sort=False, marker=dict(colors=[STAGE_COLORS.get(stage, NEUTRAL) for stage in stages], line=dict(color=WHITE, width=4)),
         textinfo="none", hovertemplate="%{label}: %{value} Startups (%{percent})<extra></extra>"))
     fig.update_layout(height=300, margin=dict(l=10, r=10, t=10, b=40), paper_bgcolor=WHITE,
         font=dict(family=FONT, color=INK, size=13),
@@ -57,4 +57,44 @@ def profile_figure(lead: EvaluatedLead) -> go.Figure:
     fig.update_layout(height=235, xaxis=dict(range=[0, 115], tickvals=[0, 25, 50, 75, 100], gridcolor=GRID_LIGHT),
                       paper_bgcolor=WHITE, plot_bgcolor=WHITE, margin=dict(l=0, r=10, t=0, b=20),
                       font=dict(color=INK, family=FONT))
+    return fig
+
+
+def backtest_figure(companies: list[dict]) -> go.Figure:
+    """Months of lead time per backtest company (AGENT_TEAM/eval/backtest.json), longest on top.
+
+    Companies outside the headline (aggregator, upper bound) are drawn in grey and named in the hover.
+    """
+    rows = sorted((c for c in companies if c.get("lead_months") is not None), key=lambda c: c["lead_months"])
+    fig = go.Figure(go.Bar(
+        x=[c["lead_months"] for c in rows], y=[c["name"] for c in rows], orientation="h",
+        marker_color=[ORANGE if c.get("in_headline") else NEUTRAL for c in rows],
+        text=[f"{c['lead_months']:.0f}" for c in rows], textposition="outside",
+        customdata=[[c.get("signal_date") or "?", c.get("external_date") or "?",
+                     "Finanzierungsmeldung" if c.get("external_kind") == "finanzierungsmeldung" else "DB-Eintrag",
+                     "" if c.get("in_headline") else " · nicht in der Headline"] for c in rows],
+        hovertemplate="<b>%{y}</b>%{customdata[3]}<br>Förderkatalog-Signal %{customdata[0]}<br>"
+                      "erste %{customdata[2]} %{customdata[1]}<br>%{x:.1f} Monate Vorsprung<extra></extra>"))
+    fig.update_layout(height=max(260, 30 * len(rows) + 60), paper_bgcolor=WHITE, plot_bgcolor=WHITE,
+                      margin=dict(l=0, r=30, t=10, b=30), font=dict(family=FONT, color=INK, size=13),
+                      xaxis=dict(title="Monate Vorsprung", gridcolor=GRID_LIGHT, fixedrange=True, color=MUTED),
+                      yaxis=dict(automargin=True, fixedrange=True),
+                      hoverlabel=dict(bgcolor=INK, font_color=WHITE))
+    return fig
+
+
+def timeline_figure(events: list[tuple]) -> go.Figure:
+    """Dated signals of one lead on a time axis; events are (date, label, source, url, key)."""
+    fig = go.Figure(go.Scatter(
+        x=[e[0] for e in events], y=[0] * len(events), mode="markers",
+        marker=dict(size=[16 if e[4] else 11 for e in events], color=[ORANGE if e[4] else MINT for e in events],
+                    line=dict(color=INK, width=1)),
+        customdata=[[e[1], e[2]] for e in events],
+        hovertemplate="<b>%{x|%d.%m.%Y}</b><br>%{customdata[0]}<br><i>%{customdata[1]}</i><extra></extra>"))
+    fig.update_layout(height=150, paper_bgcolor=WHITE, plot_bgcolor=WHITE, showlegend=False,
+                      margin=dict(l=10, r=10, t=10, b=30), font=dict(family=FONT, color=INK, size=12),
+                      xaxis=dict(showgrid=True, gridcolor=GRID_LIGHT, fixedrange=True, color=MUTED, tickformat="%m/%Y"),
+                      yaxis=dict(visible=False, fixedrange=True, range=[-1, 1]),
+                      hoverlabel=dict(bgcolor=INK, font_color=WHITE))
+    fig.add_hline(y=0, line_color=NEUTRAL, line_width=2)
     return fig

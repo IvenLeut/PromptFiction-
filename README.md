@@ -33,18 +33,30 @@ den Server mit Strg+C beenden und neu starten. Die folgenden Befehle setzen eine
 
 ### Demo-App bedienen
 
-1. Kategorie auf der Startseite wählen und **Analyse starten** drücken. Standard sind fiktive Demo-Daten
-   (30 Startups pro Kategorie); der Schalter **Live-Daten (Förderkatalog)** startet stattdessen die
-   Live-Pipeline mit bis zu 10 echten Leads (Netz nötig, ca. 10–15 s pro Lead).
-2. Sourcing, Kontext und Bewertung laufen automatisch nacheinander.
-3. Das Dashboard zeigt Top 10 oder Top 20: vier KPI-Anzeigen (durchschnittlicher Score, Unternehmensscore,
-   Marktpotenzial, Risiko), einen 3D-Potenzialraum (X Risiko, Y Unternehmensscore, Z Marktpotenzial),
-   die Stage-Verteilung, einen Vergleich der besten zehn, eine anklickbare Ranking-Tabelle und den
-   JSON-Export des Analyselaufs.
-4. Tabellenzeile oder „Startup kennenlernen“ öffnet den Deep Dive: Value Proposition, Investmenthypothese,
-   Score-Profil, Unternehmensdaten, Risiken, Quellen, Gründer und Kontakt. Der Kontaktbutton öffnet einen
-   Mailentwurf und versendet nichts.
-5. **Zurück zur Übersicht** behält die Top-N-Auswahl; **Neue Analyse** verwirft Ergebnisse und Detailauswahl.
+Start (ohne Netz lauffähig): `.venv/bin/python -m streamlit run app.py`, dann http://localhost:8501 öffnen.
+Direktlinks für die Vorführung: `http://localhost:8501/?view=snapshot` öffnet sofort das Snapshot-Dashboard,
+`http://localhost:8501/?startup=foekat-03efmv0034` den Deep Dive des Best Finds (Ymolution).
+
+1. Auf der Startseite die **Datenquelle** wählen und **Analyse starten** drücken:
+   - **Snapshot (echte Leads)**, Standard: eingefrorener echter Lauf über 52 Förderkatalog-Leads mit Kontext
+     (Website, Impressum, OpenAlex, idw, Wayback, Datenbanksuche) und Scoring, Stand 21.11.2026. Lädt in unter
+     einer Sekunde aus `demo_snapshot/` und braucht kein Netz.
+   - **Demo-Fixtures (fiktiv)**: 30 erfundene Startups pro Kategorie.
+   - **Live-Pipeline (Netz)**: bis zu 10 echte Leads pro Kategorie, ca. 10–15 s pro Lead.
+2. Das Dashboard zeigt Filter (Branche, Stage, „Nur ohne DB-Profil“, Top 10/20/50), KPI-Karten, im Snapshot und
+   Live-Modus zusätzlich die Earliness (Backtest-Headline 11/11, Median 21 Monate, n=11 Handauswahl; Anteil ohne
+   DB-Profil; Monate Vorsprung) und im Snapshot den **Best Find** mit Signal-Zeitleiste und Quellen. Dazu
+   3D-Potenzialraum, Stage-Verteilung, Vergleich der besten zehn, die Ranking-Tabelle (Score, Stage, Branche,
+   Website, Gründer, erstes Signal, DB-Check, Vorsprung), den Abschnitt „Noise und Abgelehnt“ und den JSON-Export.
+3. Tabellenzeile, „Startup kennenlernen“ oder „Deep Dive öffnen“ öffnet den Deep Dive: Scores, Earliness-Chips,
+   Signal-Zeitleiste mit Quell-URLs, Team-Karte (Person, Rolle, Herkunft, Publikationen), Investmenthypothese,
+   Risiken, Belege und Kontakt. Der Kontaktbutton öffnet einen Mailentwurf und versendet nichts.
+4. **Zurück zur Übersicht** behält Filter und Top-N; **Neue Analyse** verwirft Ergebnisse und Detailauswahl.
+
+Snapshot neu bauen (nach Änderungen am Scoring; liest `AGENT_TEAM/reports/scratch/loop1/full_dossiers.json`,
+ohne Netz): `.venv/bin/python -m demo_snapshot.build_snapshot` (andere Dossiers mit `--dossiers PFAD`).
+Der Snapshot enthält echte Impressum- und Gründernamen (öffentliche Geschäftsdaten); vor einem Commit ins
+öffentliche Repo entscheidet das Team (siehe `AGENT_TEAM/reports/final_gate.md`, Datenschutz).
 
 Alle Scores liegen zwischen 0 und 100. Höhere Unternehmens- und Marktwerte sind besser, niedrigeres Risiko ist
 besser. KPI-Mittelwerte und Stage-Verteilung beziehen sich auf die sichtbaren Top-N. Fehlende Scores gelten als
@@ -299,5 +311,5 @@ Demo-Laufs: `examples/analysis-demo.json`.
 (Layout, Farben, Typografie), `dashboard.py` / `charts.py` (Visualisierungen, Ranking), `deep_dive.py`
 (Dossier und Kontakt), `market_view.py` (Marktrecherche). Visuelle Referenz: die vom Team bereitgestellte
 HTGF-Ansicht mit großer Typografie, Weißraum, klaren Kennzahlen und dezenten Akzenten; FounderRadar verwendet
-eine eigene Marke. Technik: [Streamlit](https://docs.streamlit.io/develop/api-reference/data/st.dataframe),
+eine eigene Marke (Farben und Schriften: `ui_theme.py`, Herkunft in `NOTICE.md`). Technik: [Streamlit](https://docs.streamlit.io/develop/api-reference/data/st.dataframe),
 [Plotly](https://plotly.com/python/3d-scatter-plots/).

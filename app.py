@@ -1,4 +1,4 @@
-"""Product flow: choose category -> run steps 1–3 -> inspect the dashboard."""
+"""Product flow: choose a data source (snapshot, demo, live) -> run steps 1–3 or load the snapshot -> dashboard."""
 import logging
 
 import streamlit as st
@@ -7,6 +7,8 @@ from dashboard import render_dashboard
 from models import Industry, SearchCriteria
 from pipeline import run_pipeline
 from ui_theme import apply_theme, brand, landing
+
+SOURCES = {"snapshot": "Snapshot (echte Leads)", "demo": "Demo-Fixtures (fiktiv)", "live": "Live-Pipeline (Netz)"}
 
 DEMO_LIMIT = 30
 LIVE_LIMIT = 10  # each live lead takes ~10–15 s of network lookups
@@ -24,8 +26,9 @@ def bump_table_generation():
 def new_analysis():
     """Back to the start page with a fresh ranking state."""
     st.session_state.pop("analysis", None)
+    st.session_state.pop("analysis_meta", None)
     st.query_params.clear()
-    for key in ("top_filter", "portfolio_top_n"):
+    for key in ("top_filter", "portfolio_top_n", "portfolio_industry", "portfolio_stage", "portfolio_no_db"):
         st.session_state.pop(key, None)
     bump_table_generation()
 
@@ -57,37 +60,78 @@ def start_analysis(category: Industry, live: bool):
         st.error("Die Analyse konnte nicht abgeschlossen werden. Bitte erneut versuchen.")
     else:
         st.session_state.analysis = completed
+        st.session_state.analysis_meta = None
         st.query_params.clear()
         bump_table_generation()
         st.rerun()
 
 
+def open_snapshot(keep_query: bool = False):
+    """Load the frozen real run (demo_snapshot/); no network, well under a second.
+
+    With ``keep_query`` a deep link (``?startup=<id>``) survives, so links into the snapshot can be shared.
+    """
+    from demo_snapshot import load_snapshot
+    try:
+        completed, meta = load_snapshot()
+    except Exception:
+        logging.exception("Snapshot not loadable")
+        st.error("Der Snapshot konnte nicht geladen werden. Neu bauen mit "
+                 "`python -m demo_snapshot.build_snapshot` oder Demo-Fixtures wählen.")
+        return
+    st.session_state.analysis = completed
+    st.session_state.analysis_meta = meta
+    if not keep_query:
+        st.query_params.clear()
+    bump_table_generation()
+    st.rerun()
+
+
 run = st.session_state.get("analysis")
+if run is None and (st.query_params.get("view") == "snapshot"
+                    or (st.query_params.get("startup", "").startswith("foekat-")
+                        and st.session_state.get("data_source", "snapshot") == "snapshot")):
+    # Shareable demo links: ?view=snapshot opens the snapshot, ?startup=foekat-… a snapshot deep dive.
+    st.query_params.pop("view", None)
+    open_snapshot(keep_query=True)
 if run is None:
     if st.query_params.get("startup"):
         st.caption("Bitte starte eine Analyse, um die Startup-Details dieser Sitzung zu öffnen.")
-    # Widget state is dropped while the dashboard is shown, so the choice is also kept under "live_mode".
-    saved_live = st.session_state.get("live_mode", False)
-    landing(live=st.session_state.get("live_mode_toggle", saved_live))
-    live = st.toggle("Live-Daten (Förderkatalog)", value=saved_live, key="live_mode_toggle",
-                     help="Aus: fiktive Demo-Daten. An: echte Förderprojekte mit Netzwerkabfragen.")
-    st.session_state.live_mode = live
+    # Widget state is dropped while the dashboard is shown, so the choice is also kept under "data_source".
+    saved = st.session_state.get("data_source", "snapshot")
+    landing(st.session_state.get("data_source_radio", saved))
+    source = st.radio("Datenquelle", list(SOURCES), index=list(SOURCES).index(saved), format_func=SOURCES.get,
+                      horizontal=True, key="data_source_radio",
+                      help="Snapshot: eingefrorener echter Lauf (52 Leads, ohne Netz). Demo: fiktive Daten. "
+                           "Live: echte Förderprojekte mit Netzwerkabfragen.")
+    st.session_state.data_source = source
     with st.form("category_request", border=False):
-        st.markdown("#### Welches Technologiefeld möchtest du entdecken?")
-        category = st.radio("Kategorie", list(Industry), format_func=lambda x: x.value,
-                            horizontal=True, label_visibility="collapsed")
-        if live:
-            st.caption(f"Deutschland · bis zu {LIVE_LIMIT} Förderkatalog-Leads pro Kategorie · "
-                       "Dauer ca. 10–15 Sekunden pro Lead")
+        if source == "snapshot":
+            st.markdown("#### 52 echte Gründungsvorhaben aus dem Förderkatalog")
+            st.caption("Alle Branchen · Deutschland · Stand 21.11.2026 · Filter nach Branche, Stage und DB-Profil im Dashboard")
+            category = None
         else:
-            st.caption("Deutschland · 30 Demo-Startups pro Kategorie · Top 10 oder 20 im Ergebnis")
+            st.markdown("#### Welches Technologiefeld möchtest du entdecken?")
+            category = st.radio("Kategorie", list(Industry), format_func=lambda x: x.value,
+                                horizontal=True, label_visibility="collapsed")
+            if source == "live":
+                st.caption(f"Deutschland · bis zu {LIVE_LIMIT} Förderkatalog-Leads pro Kategorie · "
+                           "Dauer ca. 10–15 Sekunden pro Lead")
+            else:
+                st.caption("Deutschland · 30 Demo-Startups pro Kategorie · Top 10 oder 20 im Ergebnis")
         start = st.form_submit_button("Analyse starten", type="primary", width="stretch")
     if start:
-        start_analysis(category, live)
+        if source == "snapshot":
+            open_snapshot()
+        else:
+            start_analysis(category, source == "live")
     st.stop()
 
-meta, action = st.columns([5, 1])
-mode = "LIVE-ANALYSE" if run.mode == "live" else "DEMO-ANALYSE"
-meta.caption(f"{run.criteria.industry.value.upper()}  /  DEUTSCHLAND  /  {mode}")
+meta = st.session_state.get("analysis_meta")
+snapshot = bool(meta and meta.get("kind") == "snapshot")
+meta_col, action = st.columns([5, 1])
+mode = "SNAPSHOT · ECHTE LEADS" if snapshot else "LIVE-ANALYSE" if run.mode == "live" else "DEMO-ANALYSE"
+category = "ALLE BRANCHEN" if snapshot else run.criteria.industry.value.upper()
+meta_col.caption(f"{category}  /  DEUTSCHLAND  /  {mode}")
 action.button("Neue Analyse", on_click=new_analysis, width="stretch")
-render_dashboard(run.result, analysis=run)
+render_dashboard(run.result, analysis=run, meta=meta)

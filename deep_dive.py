@@ -1,16 +1,26 @@
 """Dedicated startup page; no scoring or sourcing logic."""
 from collections.abc import Callable
+from datetime import date
 from html import escape
 
 import streamlit as st
 
-from charts import profile_figure
-from dashboard import contact_url, industry_label, priority_line, source_link_markdown
+from charts import profile_figure, timeline_figure
+from dashboard import (
+    contact_url, db_status, founder_names, industry_label, lead_meta, lead_time_months, priority_line,
+    source_link_markdown, stage_label, website_of,
+)
 from market_view import render_company_research, render_market
 from models import EvaluatedLead
 from ui_theme import (
-    QUESTION_PREVIEW, UNKNOWN, fact, format_date, format_number, format_score, heading, md_escape,
+    QUESTION_PREVIEW, UNKNOWN, chips, fact, format_date, format_number, format_score, heading, md_escape,
 )
+
+# Evidence fields whose document date marks an own event on the signal timeline (others repeat the grant).
+_TIMELINE_FIELDS = {"idw": "Pressemeldung (idw)", "first_web_capture": "Erste Wayback-Aufnahme der Website",
+                    "web_capture_before_project": "Website schon vor Projektstart archiviert",
+                    "first_db_date": "Erstes Datenbankprofil (Wayback)", "founding_statement": "Gründungsmeldung"}
+_BACKGROUND = {"tech": "Technik/Forschung", "business": "Business", "beides": "Technik und Business"}
 
 
 def _questions(lead: EvaluatedLead) -> list[str]:
@@ -40,7 +50,7 @@ def sourced_signals(lead: EvaluatedLead) -> list[tuple[str, str, str | None]]:
         rows.append(("Startup-Datenbanken", f"Profil gefunden{since}",
                      str(lead.database_urls[0]) if lead.database_urls else None))
     elif lead.in_databases is False:
-        rows.append(("Startup-Datenbanken", "Kein Profil in Crunchbase/Dealroom gefunden", None))
+        rows.append(("Startup-Datenbanken", db_status(lead)[0][0].upper() + db_status(lead)[0][1:], None))
     else:
         rows.append(("Startup-Datenbanken", "Nicht geprüft", None))
     rows.append(("Erstes datiertes Signal",
@@ -49,11 +59,118 @@ def sourced_signals(lead: EvaluatedLead) -> list[tuple[str, str, str | None]]:
     return rows
 
 
-def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None]):
-    """Profile, diligence, sources and contact of one lead."""
+def signal_timeline(lead: EvaluatedLead, as_of: date | None = None) -> list[tuple[date, str, str, str | None, bool]]:
+    """Dated signals of a live lead, oldest first: (date, label, source, url, is_key_signal).
+
+    Sources: grants (start = our discovery signal, end), dated step-1 signals, press releases and Wayback
+    captures from the evidence, the first database entry and the founding date. Deduplicated by date and label.
+    """
+    events: list[tuple[date, str, str, str | None, bool]] = []
+    for grant in lead.grants:
+        amount = f", {format_number(grant.amount_eur, ' EUR')}" if grant.amount_eur is not None else ""
+        if grant.start:
+            events.append((grant.start, f"Förderbeginn {grant.programme}{amount} (Frühsignal)", "Förderkatalog",
+                           str(grant.url), True))
+        if grant.end:
+            ended = as_of is not None and grant.end <= as_of
+            events.append((grant.end, f"Förderung {'endete' if ended else 'endet'} – Anschlussfinanzierung steht an",
+                           "Förderkatalog", str(grant.url), False))
+    for signal in lead.signals:
+        if signal.date and not any(e[0] == signal.date and e[2] == "Förderkatalog" for e in events):
+            events.append((signal.date, f"{signal.source}: {signal.type.replace('_', ' ')}", signal.source,
+                           str(signal.url), not events))
+    for evidence in lead.evidence:
+        label = _TIMELINE_FIELDS.get(evidence.field or "")
+        if label and evidence.document_date:
+            headline = evidence.finding.strip().splitlines()[0][:140] if evidence.field == "idw" else ""
+            events.append((evidence.document_date, f"{label}: {headline}" if headline else label,
+                           evidence.source, str(evidence.url), False))
+    if lead.first_web_capture and not any("Wayback" in e[1] for e in events):
+        events.append((lead.first_web_capture, _TIMELINE_FIELDS["first_web_capture"], "Wayback", None, False))
+    if lead.first_db_date and not any(e[0] == lead.first_db_date and "Datenbank" in e[1] for e in events):
+        events.append((lead.first_db_date, "Erstes Datenbankprofil", "Datenbank",
+                       str(lead.database_urls[0]) if lead.database_urls else None, False))
+    if lead.founded_on:
+        events.append((lead.founded_on, "Gründung", "Dossier", None, False))
+    unique = {}
+    for event in sorted(events, key=lambda e: (e[0], not e[4])):
+        unique.setdefault((event[0], event[1]), event)
+    return list(unique.values())
+
+
+def _render_signals_and_team(lead: EvaluatedLead, meta: dict | None, as_of: date | None):
+    """Earliness facts, signal timeline and team card of a live lead (HTGF criteria: earliness, team)."""
+    extra = lead_meta(lead, meta)
+    status, kind = db_status(lead)
+    months = lead_time_months(lead, meta, as_of)
+    tags = [(f"Erstes Signal {format_date(lead.first_signal_date)}" if lead.first_signal_date else "Erstes Signal unbekannt", ""),
+            (status, kind)]
+    if months is not None:
+        tags.append((f"{months} Monate Vorsprung", "good" if lead.in_databases is not True else ""))
+    if extra.get("noise_class"):
+        tags.append(("Noise-Filter: unauffällig" if extra["noise_class"] == "vc_potenzial"
+                     else f"Noise: {extra['noise_class']}", "" if extra["noise_class"] == "vc_potenzial" else "warn"))
+    st.markdown(chips(tags), unsafe_allow_html=True)
+    if extra.get("why_now"):
+        st.markdown(f"**Warum jetzt:** {md_escape(extra['why_now'])}")
+    timeline, team = st.columns([1.4, 1], gap="large")
+    with timeline:
+        st.subheader("Signal-Zeitleiste")
+        events = signal_timeline(lead, as_of)
+        if events:
+            st.plotly_chart(timeline_figure(events), width="stretch", theme=None, key="signal_timeline",
+                            config={"displayModeBar": False})
+            items = []
+            for day, label, source, url, key in events:
+                link = (f' <a href="{escape(url, quote=True)}" target="_blank" rel="noopener">{escape(source)}</a>'
+                        if url else f" <small>{escape(source)}</small>")
+                items.append(f'<li class="{"fr-key" if key else ""}"><time>{format_date(day)}</time>'
+                             f'<span>{escape(label)}{link}</span></li>')
+            st.markdown(f'<ul class="fr-tl">{"".join(items)}</ul>', unsafe_allow_html=True)
+        else:
+            st.caption("Keine datierten Signale dokumentiert.")
+    with team:
+        st.subheader("Team")
+        st.markdown(_team_card(lead), unsafe_allow_html=True)
+        website = website_of(lead)
+        if website:
+            st.caption(f"Website: {md_escape(website)}" + (" (im Kontext-Schritt zugeordnet)" if not lead.website else ""))
+        if lead.legal_form or lead.register_id:
+            st.caption(md_escape(" · ".join(x for x in (lead.legal_form, lead.register_id) if x)))
+
+
+def _team_card(lead: EvaluatedLead) -> str:
+    """HTML cards per person: name, role, origin (institution), profile mix and research link."""
+    profiles = {p.name: p for p in lead.founder_profiles}
+    people = []
+    for name in founder_names(lead):
+        profile = profiles.get(name)
+        role = (profile.role if profile else None) or ("Geschäftsführung" if name in lead.managing_directors else "Rolle offen")
+        origin = (profile.institution if profile else None) or "Herkunft offen"
+        lines = [f"<b>{escape(name)}</b>", f"<small>{escape(role)}</small>", f"<small>{escape(origin)}</small>"]
+        if profile and profile.background:
+            lines.append(f"<small>Profil: {escape(_BACKGROUND.get(profile.background, profile.background))}</small>")
+        if profile and profile.works_total:
+            lines.append(f"<small>{profile.works_total} Publikationen</small>")
+        if profile and (profile.openalex_url or profile.source_url):
+            url = str(profile.openalex_url or profile.source_url)
+            lines.append(f'<a href="{escape(url, quote=True)}" target="_blank" rel="noopener">Quelle</a>')
+        people.append('<div class="fr-person">' + "".join(lines) + "</div>")
+    if not people:
+        institution = next((g.recipient for g in lead.grants if g.recipient), None)
+        text = "Noch keine Person namentlich belegt."
+        if institution:
+            text += f" Projektträger: {institution}."
+        return f'<div class="fr-person"><small>{escape(text)}</small></div>'
+    return '<div class="fr-team">' + "".join(people) + "</div>"
+
+
+def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None], meta: dict | None = None,
+                     as_of: date | None = None):
+    """Profile, signals, team, diligence, sources and contact of one lead."""
     st.button("Zurück zur Übersicht", on_click=back, key="back_to_portfolio")
     heading("Portfolio / Startup Deep Dive", lead.name,
-            f"{industry_label(lead)} · {lead.location or 'Standort unbekannt'} · {lead.stage_classification}")
+            f"{industry_label(lead)} · {lead.location or 'Standort unbekannt'} · {stage_label(lead, meta)}")
     if priority := priority_line(lead):
         st.caption(md_escape(priority))
     st.markdown("**Produkt / Value Proposition**")
@@ -64,6 +181,8 @@ def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None]):
             [lead.overall_score, lead.company_score, lead.market_potential_score, lead.risk_score]):
         column.metric(label, UNKNOWN if score is None else f"{format_score(score)} / 100")
     st.caption("Scores und Stage-Einordnung aus Schritt 3. Alle Werte: 0–100; niedrigeres Risiko ist besser.")
+    if not lead.is_demo:
+        _render_signals_and_team(lead, meta, as_of)
     main, contact = st.columns([2.2, 1], gap="large")
     with main:
         st.markdown('<div class="fr-thesis"><div class="fr-eyebrow">Investmenthypothese</div>'
@@ -168,14 +287,14 @@ def _render_contact(lead: EvaluatedLead):
     """Founder contact, website and dossier export."""
     with st.container(border=True):
         st.subheader("Gründer kontaktieren")
-        st.write(md_escape(", ".join(lead.founders) or "Gründer noch unbekannt"))
+        st.write(md_escape(", ".join(founder_names(lead)) or "Gründer noch unbekannt"))
         fact("E-Mail", lead.contact_email or "Noch nicht verfügbar")
         mailto = contact_url(lead)
         if mailto:
             st.link_button("Kontakt aufnehmen", mailto, type="primary", width="stretch")
             st.caption("Öffnet einen E-Mail-Entwurf. Kein automatischer Versand.")
-        if lead.website:
-            st.link_button("Unternehmenswebsite", str(lead.website), width="stretch")
+        if website_of(lead):
+            st.link_button("Unternehmenswebsite", website_of(lead), width="stretch")
         else:
             st.caption("Noch keine Website vorhanden.")
         fact("Entdeckt über", lead.source_name or UNKNOWN)

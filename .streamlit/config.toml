@@ -1,7 +1,20 @@
+# Palette and fonts: see ui_theme.py (HTGF-inspired warm neutrals, own FounderRadar brand).
+# Fonts are free OFL look-alikes bundled in assets/fonts/ and injected by ui_theme.apply_theme();
+# the names below fall back to the system sans serif until that CSS has loaded.
 [theme]
 base = "light"
-primaryColor = "#d64724"
+primaryColor = "#000000"
 backgroundColor = "#ffffff"
-secondaryBackgroundColor = "#f4f5f6"
-textColor = "#221f19"
-font = "sans serif"
+secondaryBackgroundColor = "#f7f6f5"
+textColor = "#313131"
+linkColor = "#000000"
+borderColor = "#e4e0da"
+font = "Hanken Grotesk, sans-serif"
+headingFont = "Questrial, sans-serif"
+baseRadius = "1rem"
+
+[client]
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false

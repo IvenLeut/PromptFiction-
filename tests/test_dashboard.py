@@ -44,14 +44,24 @@ def test_contact_draft_and_validation():
         lead.founding_month = 13
 
 
+def choose_source(app, source):
+    """Pick the data source on the start page ("snapshot" is the default)."""
+    radio = next(x for x in app.radio if x.label == "Datenquelle")
+    assert radio.value == "snapshot"
+    radio.set_value(source).run()
+    assert not app.exception
+    return app
+
+
 def start_app(category=None):
     from streamlit.testing.v1 import AppTest
     app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=30).run()
     assert not app.exception
     assert not app.dataframe
     assert not app.get("plotly_chart")
+    choose_source(app, "demo")
     if category:
-        app.radio[0].set_value(category)
+        next(x for x in app.radio if x.label == "Kategorie").set_value(category)
     next(b for b in app.button if b.label == "Analyse starten").click().run()
     assert not app.exception
     return app
@@ -81,7 +91,7 @@ def test_dashboard_filters_and_detail():
     assert not app.query_params.get("startup")
     next(x for x in app.button if x.label == "Neue Analyse").click().run()
     assert not app.dataframe
-    app.radio[0].set_value(Industry.CLIMATE)
+    next(x for x in app.radio if x.label == "Kategorie").set_value(Industry.CLIMATE)
     next(x for x in app.button if x.label == "Analyse starten").click().run()
     assert all(x.industry == Industry.CLIMATE for x in app.session_state.analysis.result.leads)
     assert len(app.dataframe[0].value) == 10
@@ -172,9 +182,7 @@ def start_live_app(monkeypatch, run=None, error=None):
 
     monkeypatch.setattr(pipeline, "run_pipeline", fake_run_pipeline)
     app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=30).run()
-    toggle = next(x for x in app.toggle if x.label == "Live-Daten (Förderkatalog)")
-    assert toggle.value is False
-    toggle.set_value(True).run()
+    choose_source(app, "live")
     next(b for b in app.button if b.label == "Analyse starten").click().run()
     assert not app.exception
     return app, calls
