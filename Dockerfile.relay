@@ -1,0 +1,10 @@
+FROM python:3.14-slim
+WORKDIR /app
+COPY requirements-demo.txt .
+RUN pip install --no-cache-dir -r requirements-demo.txt
+COPY . .
+ENV FOUNDERRADAR_RELAY_HOST=0.0.0.0 PORT=8077 FOUNDERRADAR_RELAY_DB=/state/usage.sqlite3
+RUN mkdir -p /state && chown 10001:10001 /state
+USER 10001:10001
+EXPOSE 8077
+CMD ["python", "-m", "mvp.ai_relay"]

@@ -29,6 +29,14 @@ class MarketObservation(Contract):
     source: Source
 
 
+class TeamEvidence(Contract):
+    name: str
+    role: str
+    biography: str
+    source: Source
+    profile_url: str | None = None
+
+
 class Dossier(Contract):
     id: str
     name: str
@@ -38,6 +46,7 @@ class Dossier(Contract):
     facts: dict[str, Fact] = Field(default_factory=dict)
     sources: list[Source] = Field(default_factory=list)
     market_comparisons: list[MarketObservation] = Field(default_factory=list)
+    team_evidence: list[TeamEvidence] = Field(default_factory=list)
     identity_status: str = 'unresolved'
     earliest_founding: date | None = None
     latest_founding: date | None = None

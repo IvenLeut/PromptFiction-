@@ -3,17 +3,15 @@ from datetime import date
 from email import policy
 from email.message import EmailMessage
 from html import escape
-import json
-import os
 
 import plotly.graph_objects as go
 import streamlit as st
 
 from analyst_store import OUTREACH, load_history, save_decision
-from mvp.briefs import (
-    CHECKED, DEFAULT_MODEL, brief_for, catalog_entry, editorial_input, generate_draft,
-    http_url, mailto, report_html, saved_draft,
-)
+from mvp.briefs import CHECKED, brief_for, catalog_entry, http_url, mailto, report_html
+from mvp.ai import load_insight
+from mvp.insights_view import findings, insight_control, insight_origin, render_claim, team_cards
+from mvp.showcase import metrics, sector_icon
 
 OUTREACH_LABELS = dict(zip(OUTREACH, (
     "Noch nicht kontaktiert", "Entwurf vorbereitet", "Kontaktiert", "Antwort erhalten", "Gespräch vereinbart"
@@ -52,15 +50,29 @@ def score_chart(item):
     st.plotly_chart(figure, width="stretch", config={"displayModeBar": False})
 
 
-def overview_tab(item, brief, run):
+def overview_tab(item, brief, run, insight):
     st.subheader("Kurzbeschreibung")
-    st.write(brief.summary)
+    if insight:
+        insight_origin(item, insight)
+        render_claim(insight.result.analysis.summary, insight)
+    else:
+        st.write(brief.summary)
     if brief.sources:
         label, url = brief.sources[0]
         if http_url(url):
             st.link_button(label, url)
+    findings(item, brief, insight)
     st.subheader("Investmenthypothese")
-    st.write(brief.thesis)
+    if insight:
+        render_claim(insight.result.analysis.thesis, insight)
+    else:
+        st.write(brief.thesis)
+    st.subheader("Fazit und nächster Schritt")
+    if insight:
+        render_claim(insight.result.analysis.conclusion, insight)
+    else:
+        callout("Gespräch vorbereiten" if item.queue == "ranked" else "Zuerst belegen",
+                brief.why if item.queue == "ranked" else brief.gate)
     st.subheader("Was im Erstgespräch geklärt werden muss")
     st.write(brief.question)
     st.caption(brief.gate)
@@ -88,15 +100,18 @@ def overview_tab(item, brief, run):
                     st.link_button(label, url)
     st.download_button(
         "FounderRadar Deep Dive herunterladen",
-        report_html(item, brief, run.options.as_of),
+        report_html(item, brief, run.options.as_of, insight=insight),
         file_name=f"FounderRadar-{item.dossier.id}-Deep-Dive.html",
         mime="text/html",
     )
 
 
-def market_tab(item, brief):
+def market_tab(item, brief, insight):
     st.subheader("Einstiegsmarkt")
     st.write(brief.segment)
+    if insight:
+        st.caption("Markteinordnung der Projekt-KI")
+        render_claim(insight.result.analysis.market, insight)
     left, right = st.columns(2)
     with left, st.container(border=True):
         st.markdown("**Wer entscheidet und bezahlt?**")
@@ -131,29 +146,6 @@ def market_tab(item, brief):
         st.write(description)
         if http_url(url):
             st.link_button("Signal prüfen", url)
-    with st.expander("Redaktion mit OpenAI"):
-        key = st.session_state.get("fr_openai_key") or os.environ.get("OPENAI_API_KEY", "")
-        model = st.session_state.get("fr_openai_model") or os.environ.get("FOUNDERRADAR_OPENAI_MODEL", DEFAULT_MODEL)
-        st.caption("Der Entwurf nutzt öffentliche Belege. Modelleinstellungen findest du unter Daten & Einrichtung.")
-        if st.button("KI-Entwurf aus Belegen erstellen", disabled=not key, key=f"gen-{item.dossier.id}"):
-            try:
-                with st.spinner("OpenAI erstellt den Entwurf …"):
-                    generate_draft(item, brief, key, model)
-            except (ValueError, OSError) as error:
-                st.error(str(error))
-        draft = saved_draft(item, brief, model)
-        if draft:
-            sources = json.loads(editorial_input(item, brief))["sources"]
-            st.caption(f"KI-Entwurf · {model} · Aussagen vor Übernahme mit den Quellen abgleichen")
-            for label, section in (
-                ("Unternehmen", draft.company), ("Markt", draft.market),
-                ("Investmenthypothese", draft.hypothesis), ("Erstgespräch", draft.first_call),
-            ):
-                st.markdown(f"**{label}**")
-                st.text(section.text)
-                for reference in dict.fromkeys(section.evidence_ids):
-                    source = sources[reference]
-                    st.link_button(f"{reference} · {source['title']}", source["url"])
 
 
 def evidence_tab(item, brief):
@@ -254,9 +246,9 @@ def decision_form(item, saved, decisions):
 def company_detail(item, run, saved, statuses, decision_labels, default_contact=False):
     dossier = item.dossier
     brief = brief_for(item, live=bool(run.counts.get("live_profiles")))
+    insight = load_insight(dossier.id)
     st.markdown('<div class="fr-kicker">FounderRadar / Deep Dive</div>', unsafe_allow_html=True)
-    st.title(dossier.name)
-    st.write(brief.headline)
+    st.title(f"{sector_icon(dossier)} {dossier.name}")
     provenance = {
         "fresh": "Aus aktuell geprüften Quellen abgeleitet",
         "failed": "Firmenwebsite konnte nicht bestätigt werden",
@@ -265,21 +257,24 @@ def company_detail(item, run, saved, statuses, decision_labels, default_contact=
     if brief.editorial:
         provenance = f"Redaktioneller Referenzstand · {CHECKED}"
     st.caption(f"{statuses[item.queue]} · {', '.join(dossier.sectors) or 'Branche offen'} · {provenance}")
-    left, middle, right = st.columns(3)
-    left.metric("Screening", f"{item.score:.1f}/100" if item.score is not None else "Offen")
-    middle.metric("Belegte Merkmale", f"{round(item.coverage * 6)} von 6")
-    right.metric("Kontaktstatus", OUTREACH_LABELS.get(saved.get("outreach_status"), OUTREACH_LABELS[OUTREACH[0]]))
-    callout("Warum jetzt sprechen?" if item.queue == "ranked" else "Nächster Prüfschritt",
-            brief.why if item.queue == "ranked" else brief.gate)
-    tabs = st.tabs(["Kurzprofil", "Markt & Wettbewerb", "Score & Quellen", "Kontakt & Aufgaben"],
+    metrics([
+        ("Screening", f"{item.score:.1f} / 100" if item.score is not None else "Offen",
+         "Deterministische Bewertung", "good" if item.score is not None else "watch"),
+        ("Belegte Merkmale", f"{round(item.coverage * 6)} von 6", "Abdeckung der Recherche", "neutral"),
+        ("Kontaktstatus", OUTREACH_LABELS.get(saved.get("outreach_status"), OUTREACH_LABELS[OUTREACH[0]]), "", "neutral"),
+    ])
+    insight_control(item)
+    tabs = st.tabs(["Kurzprofil", "Team", "Markt & Wettbewerb", "Score & Quellen", "Kontakt & Aufgaben"],
                    default="Kontakt & Aufgaben" if default_contact else "Kurzprofil",
                    key=f"fr-tabs-{dossier.id}-{int(default_contact)}")
     with tabs[0]:
-        overview_tab(item, brief, run)
+        overview_tab(item, brief, run, insight)
     with tabs[1]:
-        market_tab(item, brief)
+        team_cards(item, insight)
     with tabs[2]:
-        evidence_tab(item, brief)
+        market_tab(item, brief, insight)
     with tabs[3]:
+        evidence_tab(item, brief)
+    with tabs[4]:
         draft_email(item, brief, saved)
         decision_form(item, saved, decision_labels)

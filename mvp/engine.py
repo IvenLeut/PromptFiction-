@@ -53,8 +53,11 @@ def load_last():
     current = load_current()
     if current:
         return current
-    path = ROOT / 'data/mvp/demo-run.json'
-    return Run.model_validate_json(path.read_bytes()) if path.exists() else None
+    for filename in ("jury-reference.json", "demo-run.json"):
+        path = ROOT / "data/mvp" / filename
+        if path.exists():
+            return Run.model_validate_json(path.read_bytes())
+    return None
 
 
 def known_company(record, web):
@@ -250,12 +253,14 @@ def run(options: RunOptions, progress=lambda *args:None, *, web=None, cancelled=
             completed.add(record['id']);checkpoint_save()
         if options.live_discovery:
             from mvp.briefs import collect_market_comparisons
-            progress(88, "Öffentliche Vergleichsangebote für die Marktanalyse abrufen")
+            from mvp.team import collect_team_references
+            progress(88, "Öffentliche Markt- und Teamquellen prüfen")
             for dossier in dossiers:
                 if cancelled():
                     raise InterruptedError("Analyse angehalten. Firmenrecherche bleibt gespeichert.")
                 if dossier.refresh_status == "fresh":
                     collect_market_comparisons(dossier, web)
+                    collect_team_references(dossier, web)
         requests=getattr(web,'network_calls',web.calls)
         warnings.extend(f"Quelle nicht abrufbar: {e['url']} ({e['error']})" for e in web.errors)
         input_hash=hashlib.sha256(json.dumps([d.model_dump(mode='json') for d in dossiers],sort_keys=True).encode()).hexdigest()

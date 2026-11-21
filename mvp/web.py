@@ -72,7 +72,15 @@ class Web:
         links = [u for u in first['links'] if canonical_host(u) == host and not urlsplit(u).fragment
                  and re.search(r'impress|imprint|legal|about|ueber|über|unternehmen|produkt|product|technolog|solution|team', u, re.I)
                  and not re.search(r'privacy|datenschutz|\.pdf|\?', u, re.I)]
-        links.sort(key=lambda u: (not bool(re.search(r'impress|imprint|legal', u, re.I)), len(u), u))
+        def page_priority(url):
+            path = urlsplit(url).path
+            if re.search(r'impress|imprint|legal', path, re.I):
+                return 0
+            if re.search(r'team|about|ueber|über|unternehmen', path, re.I):
+                return 1
+            return 2
+
+        links.sort(key=lambda u: (page_priority(u), len(u), u))
         if not any(re.search(r'impress|imprint|legal', u, re.I) for u in links):
             links.insert(0, urljoin(first['url'], '/impressum'))
         pages = [first]

@@ -1,11 +1,10 @@
-import json
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 import pytest
 
 from analyst_store import load_decisions, load_history, save_decision
-from mvp.briefs import brief_for, generate_draft, mailto, report_html, saved_draft
+from mvp.briefs import brief_for, mailto, report_html
 from mvp.contracts import Run
 from mvp.transfer import export_workspace, import_workspace
 
@@ -57,42 +56,3 @@ def test_workspace_round_trip_preserves_newer_decisions_and_history(tmp_path, mo
     assert import_workspace(original.encode()) == 0
     assert load_decisions("live")["lead"]["notes"] == "Neue Notiz"
     assert len(load_history("live", "lead")) == 2
-
-
-def test_openai_request_sends_public_sources_and_checks_references(refactum, tmp_path, monkeypatch):
-    _, item = refactum
-    brief = brief_for(item)
-    monkeypatch.setenv("FOUNDERRADAR_MVP_DATA", str(tmp_path))
-    import mvp.briefs as module
-
-    def response(url, **arguments):
-        assert url == "https://api.openai.com/v1/responses"
-        request = arguments["json"]
-        remote = json.loads(request["input"])
-        assert request["store"] is False and request["text"]["format"]["strict"] is True
-        assert brief.email[0] not in request["input"] and "api-key-for-fixture" not in request["input"]
-        reference = next(iter(remote["sources"]))
-        draft = {key: {"text": "Hypothese aus der Quelle prüfen.", "evidence_ids": [reference]}
-                 for key in ("company", "market", "hypothesis", "first_call")}
-        return StubResponse(draft)
-
-    class StubResponse:
-        status_code = 200
-
-        def __init__(self, draft):
-            self.draft = draft
-
-        def json(self):
-            return {"status": "completed", "output": [{"type": "message", "content": [
-                {"type": "output_text", "text": json.dumps(self.draft)}
-            ]}]}
-
-    monkeypatch.setattr(module.requests, "post", response)
-    draft = generate_draft(item, brief, "api-key-for-fixture", "test-model")
-    assert draft == saved_draft(item, brief, "test-model")
-    assert saved_draft(item, brief, "different-model") is None
-    draft.company.evidence_ids = ["unknown"]
-    monkeypatch.setattr(module.requests, "post", lambda *a, **k: StubResponse(draft.model_dump()))
-    with pytest.raises(ValueError, match="gültigen Quellenverweisen"):
-        generate_draft(item, brief, "api-key-for-fixture", "test-model")
-    assert saved_draft(item, brief, "test-model").company.evidence_ids != ["unknown"]

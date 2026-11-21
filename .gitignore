@@ -8,6 +8,9 @@ dist/
 # Virtuelle Umgebungen und lokale Umgebungsvariablen
 .venv/
 .fr-runtime/
+/jury-access.json
+/.relay-state/
+/ai-relay.env
 /runtime-packages/
 venv/
 env/

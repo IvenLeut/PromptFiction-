@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from free_discovery.core import founding_claims, industries, company_key, identity_match
 from mvp.contracts import Dossier, Fact, Source
 from mvp.web import canonical_host, excerpt, normalized
+from mvp.team import extract_team
 
 PATTERNS = {
  'technology': r'\b(?:sensor\w* fusion|machine learning|deep learning|computer vision|syntheti\w* data|synthetische\w* Daten|algorithm\w*|neural\w*|semiconductor\w*|halbleiter\w*|quantum\w*|quanten\w*|photon\w*|robot\w*|API|SaaS|künstliche\w* Intelligenz|AI[- ](?:enabled|driven|powered)|KI[- ](?:basiert\w*|gestützt\w*)|electrolys\w*|elektrolys\w*|carbon\w*|catalys\w*|katalys\w*|biosensor\w*|biomarker\w*|natural fiber composites|naturfaserverstärkt\w*|prepreg\w*|computer[- ]aided|3D[- ](?:mouse|Maus)|WebRTC|Ende[- ]zu[- ]Ende[- ]Verschlüsselung|large language model\w*)\b',
@@ -88,6 +89,7 @@ def extract(dossier: Dossier, pages: list[dict]):
         value=' '.join(line.split()[:23])+(' …' if len(line.split())>23 else '')
         add_fact(dossier,'description',value,page,match,'company_self_description')
     extract_contact(dossier, pages)
+    extract_team(dossier, pages)
     return dossier
 
 
