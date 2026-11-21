@@ -41,7 +41,9 @@ def main():
         startup=subprocess.STARTUPINFO();startup.dwFlags|=subprocess.STARTF_USESHOWWINDOW;startup.wShowWindow=0
     with (storage/'server.log').open('a',encoding='utf-8') as log:
         process=subprocess.Popen([sys.executable,'-m','streamlit','run',str(ROOT/'cockpit.py'),
-            '--server.address=127.0.0.1',f'--server.port={port}','--server.headless=true','--browser.gatherUsageStats=false'],
+            '--server.address=127.0.0.1',f'--server.port={port}','--server.headless=true','--browser.gatherUsageStats=false',
+            '--theme.base=light','--theme.primaryColor=#17624d','--theme.backgroundColor=#ffffff',
+            '--theme.secondaryBackgroundColor=#f3f7f5','--theme.textColor=#171b19'],
             cwd=ROOT,env=env,stdout=log,stderr=log,stdin=subprocess.DEVNULL,startupinfo=startup,
             creationflags=subprocess.CREATE_NO_WINDOW if os.name=='nt' else 0)
     for _ in range(90):

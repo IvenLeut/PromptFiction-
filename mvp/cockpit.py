@@ -2,13 +2,17 @@
 import csv
 import io
 import json
-from datetime import date
+import os
+import plotly.graph_objects as go
 import streamlit as st
-from analyst_store import load_decisions,save_decision,load_history
-from cockpit_style import theme
+from analyst_store import db_path, load_decisions
+from mvp.briefs import DEFAULT_MODEL, brief_for
+from mvp.detail import OUTREACH_LABELS, company_detail
+from mvp.style import apply_theme
+from mvp.transfer import export_workspace, import_workspace
 from models import Industry
 from mvp.contracts import RunOptions
-from mvp.engine import load_last
+from mvp.engine import data_dir, load_last
 from mvp.jobs import Jobs
 from mvp.scoring import CONFIG
 
@@ -31,18 +35,21 @@ def csv_export(rows):
 
 
 def rows_for(items, decisions):
-    return [{'Unternehmen':a.dossier.name,'Branche':', '.join(a.dossier.sectors),'Score':a.score,
+    return [{'Unternehmen':a.dossier.name,'Score':a.score,'Kurzprofil':brief.headline,'Kontaktstatus':
+      OUTREACH_LABELS.get(decisions.get(a.dossier.id,{}).get('outreach_status'), 'Noch nicht kontaktiert'),
+      'Branche':', '.join(a.dossier.sectors),
       'Offene Score-Spanne':f'{a.score:.1f}–{a.score_upper:.1f}' if a.score is not None and a.score_upper is not None else 'Offen',
       'Risiko / Prüfbedarf':a.risk,'Marktpotenzialscore':a.market_score,'Unternehmensscore':a.company_score,
-      'Stage':a.stage,'Produkt / Value Proposition':a.dossier.facts['description'].value if 'description' in a.dossier.facts else 'Beschreibung noch offen',
-      'Investmenthypothese':a.hypothesis,'Datenabdeckung':round(a.coverage*100),
+      'Stage':a.stage,'Produkt / Value Proposition':brief.summary,
+      'Investmenthypothese':brief.thesis,'Gesprächsanlass':brief.why,'Datenabdeckung':round(a.coverage*100),
       'Status':QUEUES[a.queue],'Entscheidung':DECISIONS.get(decisions.get(a.dossier.id,{}).get('decision','Pending Review'),'Offen'),
-      'HTGF-Profil':a.htgf_fit,'Website':a.dossier.website,'ID':a.dossier.id} for a in items]
+      'HTGF-Profil':a.htgf_fit,'Website':a.dossier.website,'ID':a.dossier.id} for a, brief in [(x,brief_for(x)) for x in items]]
 
 
-def open_company(identity):
+def open_company(identity, contact=False):
     st.session_state.mvp_company=identity
     st.session_state.mvp_page='Unternehmensanalyse'
+    st.session_state.fr_contact_tab=contact
 
 
 @st.fragment(run_every='2s')
@@ -66,8 +73,9 @@ def progress_panel():
 
 
 def controls():
+    st.markdown('<div class="fr-kicker">FounderRadar / Deal Sourcing</div>', unsafe_allow_html=True)
     st.title('Frühe Technologieunternehmen finden')
-    st.write('Projektspuren auflösen, Unternehmensquellen prüfen und eine nachvollziehbare Gesprächspriorität berechnen.')
+    st.write('Recherchiere junge Technologieunternehmen und bereite das nächste Gründergespräch vor.')
     with st.container(border=True):
         left,right=st.columns([2,1])
         sectors=left.multiselect('Branchen',[i.value for i in Industry],default=[i.value for i in Industry])
@@ -80,7 +88,7 @@ def controls():
         if st.button('Analyse starten',type='primary',disabled=not sectors or state['status']=='running',width='stretch'):
             jobs().start(RunOptions(sectors=sectors,max_age_months=age,mode=mode,project_budget=budget,limit=limit))
             st.rerun()
-        st.caption('Live = neue Webseitenabrufe auf Basis des vorhandenen Discovery-Pools. Kein KI-Modell. Förderbeginn gilt nie als Firmengründung.')
+        st.caption('Live prüft öffentliche Seiten. Der Pitch-Modus berechnet die gespeicherten Belege erneut.')
 
 
 def overview(run,decisions):
@@ -92,16 +100,29 @@ def overview(run,decisions):
     if not top:st.info('Noch keine ausreichend belegten Firmen im Suchprofil. Die offene Recherche zeigt genau, was fehlt.')
     for col,a in zip(st.columns(3),top):
         with col,st.container(border=True):
+            brief=brief_for(a)
             st.markdown('**'+a.dossier.name+'**')
-            st.metric('Screening-Score',f'{a.score:.1f} / 100')
-            st.caption(f'{round(a.coverage*6)}/6 Screening-Merkmale belegt · {a.stage}')
-            st.write(a.dossier.facts.get('description').value if a.dossier.facts.get('description') else a.hypothesis)
+            st.caption(f'{a.score:.1f} / 100 · {brief.headline}')
+            st.write(brief.why)
             st.button('Unternehmen prüfen',key='open-'+a.dossier.id,on_click=open_company,args=(a.dossier.id,),width='stretch')
-    st.caption('Score = belegte Untergrenze der Gesprächspriorität. Offene Dimensionen bleiben als Spanne sichtbar. Datenabdeckung ist keine Trefferwahrscheinlichkeit.')
+    ranked=[a for a in run.assessments if a.queue=='ranked'][:run.options.limit]
+    if ranked:
+        st.subheader('Gesprächspriorität und offene Nachweise')
+        ranked.reverse()
+        names = [a.dossier.name for a in ranked]
+        chart = go.Figure()
+        chart.add_bar(name='Belegt', y=names, x=[a.score for a in ranked], orientation='h', marker_color='#17624d')
+        chart.add_bar(name='Noch offen', y=names, x=[round((a.score_upper or a.score)-a.score,1) for a in ranked],
+                      orientation='h', marker_color='#a6d4bf')
+        chart.update_layout(barmode='stack', height=max(240, 38*len(ranked)+86), xaxis_range=[0,100],
+                            margin=dict(l=0,r=8,t=8,b=25), yaxis=dict(automargin=True),
+                            legend=dict(orientation='h',y=-.15))
+        st.plotly_chart(chart, width='stretch', config={'displayModeBar':False})
 
 
 def longlist(run,decisions):
     st.title('Longlist')
+    st.caption('Unternehmen finden, Belege prüfen und den Kontaktstatus verfolgen.')
     a,b,c=st.columns([1.1,1,1.5])
     group=a.selectbox('Ergebnisgruppe',list(QUEUES),format_func=QUEUES.get)
     shortlist=b.checkbox('Nur Shortlist')
@@ -115,10 +136,13 @@ def longlist(run,decisions):
     if rows:
         st.dataframe(rows,hide_index=True,width='stretch',column_config={
             'Score':st.column_config.NumberColumn(format='%.1f'),
+            'Kurzprofil':st.column_config.TextColumn(width='medium'),
             'Datenabdeckung':st.column_config.ProgressColumn(min_value=0,max_value=100,format='%d%%'),
             'Website':st.column_config.LinkColumn(), 'ID':None},height=380)
         selected=st.selectbox('Unternehmen öffnen',visible,format_func=lambda x:x.dossier.name)
-        st.button('Analyse und nächste Schritte',on_click=open_company,args=(selected.dossier.id,),type='primary')
+        left,right=st.columns(2)
+        left.button('Deep Dive öffnen',on_click=open_company,args=(selected.dossier.id,),type='primary')
+        right.button('Erstkontakt vorbereiten',on_click=open_company,args=(selected.dossier.id,True))
         st.download_button('Longlist als CSV',csv_export(rows),file_name='FounderRadar-Longlist.csv',mime='text/csv')
     else:st.info('Keine Unternehmen in dieser Ansicht.')
     if group!='ranked':
@@ -131,67 +155,19 @@ def longlist(run,decisions):
         st.download_button('Projektprotokoll exportieren',json.dumps(run.project_audit,ensure_ascii=False,indent=2),file_name='FounderRadar-Projektprotokoll.json',mime='application/json')
 
 
-def detail(run,decisions):
-    st.title('Unternehmensanalyse')
-    if not run.assessments:st.info('Noch keine Ergebnisse.');return
-    ids=[a.dossier.id for a in run.assessments]
-    current=st.session_state.get('mvp_company',ids[0])
-    identity=st.selectbox('Unternehmen',ids,index=ids.index(current) if current in ids else 0,
-        format_func=lambda x:next(a.dossier.name for a in run.assessments if a.dossier.id==x))
-    st.session_state.mvp_company=identity
-    item=next(a for a in run.assessments if a.dossier.id==identity);d=item.dossier
-    st.subheader(d.name)
-    st.caption(f'{QUEUES[item.queue]} · {item.htgf_fit}')
-    if d.website:st.link_button('Unternehmenswebsite',d.website)
-    c1,c2,c3=st.columns(3)
-    c1.metric('Screening-Score',f'{item.score:.1f}' if item.score is not None else 'Offen')
-    c2.metric('Screening-Merkmale belegt',f'{round(item.coverage*6)} / 6')
-    c3.metric('Belegte Quellen',len(d.sources))
-    tabs=st.tabs(['Einordnung','Bewertung & Belege','Quellen','Nächste Schritte'])
-    with tabs[0]:
-        st.write(item.hypothesis)
-        st.write('**Stage:** '+item.stage)
-        st.write('**Risiko / Prüfbedarf:** '+item.risk)
-        st.write('**Gründung:** '+(str(d.earliest_founding) if d.earliest_founding==d.latest_founding and d.earliest_founding else f'{d.earliest_founding} bis {d.latest_founding}' if d.earliest_founding else 'Offen'))
-        st.caption(d.founding_basis or 'Kein Gründungsnachweis gefunden.')
-        if d.project_ids:st.write('**Projektzuordnung:** '+', '.join(d.project_ids))
-        if item.reasons:st.warning('\n\n'.join(dict.fromkeys(item.reasons)))
-        for step in item.next_steps:st.write('• '+step)
-    with tabs[1]:
-        st.dataframe([{'Kriterium':c.label,'Gewicht':c.weight,'Punkte':c.points,'Regel':c.reason} for c in item.criteria],hide_index=True,width='stretch')
-        st.caption('Score = 0,40 × Produkt + 0,35 × Kunde/Nutzen + 0,25 × Entwicklungsnachweis. Offene Kriterien bleiben unbelegt; die Untergrenze enthält nur belegte Beiträge. Unternehmensscore = Produkt & Technologie.')
-        if item.score_upper is not None:st.info(f'Belegte Untergrenze: {item.score:.1f} · Obergrenze bei offenen Kriterien: {item.score_upper:.1f}. Keine statistische Erfolgswahrscheinlichkeit.')
-        for c in item.criteria:
-            with st.expander(c.label,expanded=True):
-                if not c.facts:st.write('Keine Belege.');continue
-                for key in c.facts:
-                    f=d.facts[key]
-                    st.write(f'**{key}:** {f.value}')
-                    st.caption('Quellenausschnitt: '+f.quote)
-                    st.link_button('Beleg öffnen',f.source_url)
-    with tabs[2]:
-        st.caption('Website-Aussagen sind Selbstauskünfte. Abrufdatum und Herkunft bleiben erhalten; ein Hochschulförderprojekt ist keine Finanzierungsrunde der Firma.')
-        st.dataframe([{'Quelle':s.title,'URL':s.url,'Abgerufen':s.retrieved_at,'Art':s.kind} for s in d.sources],hide_index=True,width='stretch',column_config={'URL':st.column_config.LinkColumn()})
-        st.download_button('Unternehmensdossier als JSON',item.model_dump_json(indent=2),file_name=d.id+'.json',mime='application/json')
-    with tabs[3]:
-        saved=decisions.get(identity,{})
-        with st.form('decision-'+identity):
-            choices=list(DECISIONS)
-            decision=st.selectbox('Entscheidung',choices,index=choices.index(saved.get('decision','Pending Review')),format_func=DECISIONS.get)
-            reason=st.text_area('Begründung',value=saved.get('reason',''))
-            notes=st.text_area('Notizen',value=saved.get('notes',''))
-            action=st.text_input('Nächster Schritt',value=saved.get('next_action',item.next_steps[0] if item.next_steps else ''))
-            owner=st.text_input('Verantwortlich',value=saved.get('analyst_name',''))
-            due=st.date_input('Fällig am',value=date.fromisoformat(saved['due_date']) if saved.get('due_date') else None)
-            task=st.selectbox('Aufgabenstatus',['Open','Done'],index=1 if saved.get('task_status')=='Done' else 0,format_func=lambda x:'Offen' if x=='Open' else 'Erledigt')
-            if st.form_submit_button('Entscheidung und Aufgabe speichern',type='primary'):
-                try:
-                    save_decision('live',identity,decision,notes,reason,action,owner,due.isoformat() if due else '',task_status=task)
-                    st.success('Gespeichert.');st.rerun()
-                except ValueError as ex:st.error(str(ex))
-        history=load_history('live',identity)
-        if history:
-            with st.expander('Änderungsverlauf'):st.dataframe(history,hide_index=True,width='stretch')
+def detail(run, decisions):
+    if not run.assessments:
+        st.info("Noch keine Unternehmen im aktuellen Lauf.")
+        return
+    companies = {item.dossier.id: item for item in run.assessments}
+    identities = list(companies)
+    current = st.session_state.get("mvp_company")
+    identity = st.selectbox("Unternehmen", identities,
+                            index=identities.index(current) if current in companies else 0,
+                            format_func=lambda key: companies[key].dossier.name)
+    st.session_state.mvp_company = identity
+    company_detail(companies[identity], run, decisions.get(identity, {}), QUEUES, DECISIONS,
+                   default_contact=st.session_state.get("fr_contact_tab", False))
 
 
 def activities(run,decisions):
@@ -201,8 +177,14 @@ def activities(run,decisions):
         s=decisions.get(a.dossier.id,{})
         if not s:continue
         rows.append({'Unternehmen':a.dossier.name,'Entscheidung':DECISIONS.get(s['decision'],s['decision']),
+            'Kontakt':OUTREACH_LABELS.get(s.get('outreach_status'), 'Noch nicht kontaktiert'),
             'Nächster Schritt':s.get('next_action',''),'Verantwortlich':s.get('analyst_name',''),'Fällig':s.get('due_date',''),'Status':s.get('task_status','Open')})
-    if rows:st.dataframe(rows,hide_index=True,width='stretch');st.download_button('Aufgaben exportieren',csv_export(rows),'FounderRadar-Aufgaben.csv','text/csv')
+    if rows:
+        st.dataframe(rows,hide_index=True,width='stretch')
+        st.download_button('Aufgaben exportieren',csv_export(rows),'FounderRadar-Aufgaben.csv','text/csv')
+        followups=[a for a in run.assessments if a.dossier.id in decisions]
+        selected=st.selectbox('Wiedervorlage öffnen',followups,format_func=lambda a:a.dossier.name)
+        st.button('Kontakt & Aufgabe öffnen', on_click=open_company, args=(selected.dossier.id,True))
     else:st.info('Öffnen Sie ein Unternehmen, speichern Sie eine Entscheidung und legen Sie den nächsten Schritt fest.')
 
 
@@ -214,7 +196,7 @@ def methodology(run):
     st.write('**Datenabdeckung:** Sechs Merkmale: Technologie, Produkt, Kunde, Nutzen, Entwicklungsnachweis, Team. Drei belegte Merkmale entsprechen 50 %. Das ist keine Genauigkeit und kein Erfolgsversprechen.')
     st.write('**HTGF-Profil:** Pre-Seed/Seed, Technologiebezug, Deutschland und höchstens drei Jahre. Euer voreingestellter Suchfilter ist enger: 24 Monate. Rundengröße und Kapitalbedarf werden im Gespräch geprüft; eine frühere Seed-Finanzierung führt nicht automatisch zum Ausschluss.')
     st.link_button('Öffentliche HTGF-Kriterien','https://www.htgf.de/')
-    st.caption('Regelversion '+CONFIG['version']+' · Keine offizielle HTGF-Scorecard · KI-Aufrufe: 0')
+    st.caption('Regelversion '+CONFIG['version']+' · Internes Screening · Berechnung ohne KI')
     if run:
         st.json({'Analyse':run.id,'Stichtag':str(run.options.as_of),'Modus':run.options.mode,'Discovery-Stand':run.source_snapshot_date,'Eingabe-Hash':run.input_hash,'Zähler':run.counts})
         with st.expander(f'Quellenhinweise und Abruffehler ({len(run.warnings)})'):
@@ -222,22 +204,48 @@ def methodology(run):
         st.download_button('Gesamten Analyselauf exportieren',run.model_dump_json(indent=2),'FounderRadar-Analyse.json','application/json')
 
 
+def workspace():
+    st.title('Daten & Einrichtung')
+    st.subheader('Dein lokaler Arbeitsstand')
+    st.write('Jede entpackte Kopie hat ihre eigenen Analyseläufe, Notizen, Entscheidungen und Wiedervorlagen.')
+    st.caption('Entscheidungen, Aufgaben und Kontaktverlauf')
+    st.code(str(db_path()), language=None)
+    st.caption('Ergebnisse, Rechercheprotokoll und KI-Entwürfe')
+    st.code(str(data_dir()), language=None)
+    st.download_button('Arbeitsstand sichern', export_workspace(), 'FounderRadar-Arbeitsstand.json', 'application/json')
+    st.caption('Die Sicherung enthält Notizen, Aufgaben und Kontaktstatus. Analyseläufe werden unter Modell & Quellen separat exportiert.')
+    archive = st.file_uploader('Arbeitsstand aus JSON übernehmen', type=['json'])
+    if archive and st.button('Arbeitsstand importieren'):
+        try:
+            count=import_workspace(archive.getvalue())
+        except (ValueError, OSError):
+            st.error('Die Datei konnte nicht importiert werden. Verwende eine gültige FounderRadar-Sicherung bis 15 MB.')
+        else:
+            st.success(f'{count} Entscheidungen übernommen. Neuere lokale Einträge haben Vorrang.')
+    st.subheader('OpenAI für redaktionelle Deep Dives')
+    st.write('Hinterlege bei Bedarf einen Schlüssel für diese Browsersitzung. Die OpenAI-Analyse wird im jeweiligen Deep Dive manuell gestartet.')
+    st.text_input('OpenAI API-Key', type='password', value=st.session_state.get('fr_openai_key', ''), key='fr_openai_key_input')
+    st.text_input('OpenAI Modell', value=st.session_state.get('fr_openai_model', os.environ.get('FOUNDERRADAR_OPENAI_MODEL',DEFAULT_MODEL)),
+                  key='fr_openai_model_input')
+    st.session_state.fr_openai_key=st.session_state.fr_openai_key_input
+    st.session_state.fr_openai_model=st.session_state.fr_openai_model_input.strip() or DEFAULT_MODEL
+    if st.session_state.fr_openai_key or os.environ.get('OPENAI_API_KEY'):
+        st.caption('API-Key verfügbar · Modell '+st.session_state.fr_openai_model)
+    st.link_button('OpenAI API-Dokumentation', 'https://developers.openai.com/api/docs/quickstart')
+
+
 def main():
-    st.set_page_config(page_title='FounderRadar | Early Stage Cockpit',page_icon='◉',layout='wide')
-    theme()
-    st.markdown('''<style>[data-testid="stHeader"]{display:block!important;background:transparent}
-    [data-testid="stToolbar"]{display:flex!important}
-    [data-testid="stToolbar"] button:not([data-testid="stExpandSidebarButton"]){display:none!important}
-    [data-testid="stMainBlockContainer"]{padding-top:3.5rem!important}</style>''',unsafe_allow_html=True)
+    st.set_page_config(page_title='FounderRadar | Research Cockpit',page_icon='◉',layout='wide')
+    apply_theme()
     if 'mvp_run' not in st.session_state:
         st.session_state.mvp_run=load_last()
         st.session_state.mvp_loaded_run=st.session_state.mvp_run.id if st.session_state.mvp_run else None
     run=st.session_state.mvp_run
     decisions=load_decisions('live')
     with st.sidebar:
-        st.markdown('## FounderRadar')
-        st.caption('EARLY STAGE · RESEARCH COCKPIT')
-        page=st.radio('Arbeitsbereich',['Start & Übersicht','Longlist','Unternehmensanalyse','Aufgaben','Modell & Quellen'],key='mvp_page')
+        st.markdown('<div class="fr-brand">Founder<span>Radar</span></div>', unsafe_allow_html=True)
+        st.caption('Research Cockpit')
+        page=st.radio('Arbeitsbereich',['Start & Übersicht','Longlist','Unternehmensanalyse','Aufgaben','Modell & Quellen','Daten & Einrichtung'],key='mvp_page')
         st.divider()
         st.caption('Deutschland · fünf Technologiebranchen')
         if run:
@@ -252,6 +260,7 @@ def main():
             st.caption('Darunter sehen Sie den gespeicherten letzten Lauf. „Analyse starten“ erstellt einen neuen Lauf.')
             overview(run,decisions)
     elif page=='Modell & Quellen':methodology(run)
+    elif page=='Daten & Einrichtung':workspace()
     elif not run:st.info('Starten Sie zuerst eine Analyse unter „Start & Übersicht“.')
     elif page=='Longlist':longlist(run,decisions)
     elif page=='Unternehmensanalyse':detail(run,decisions)

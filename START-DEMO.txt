@@ -1,0 +1,52 @@
+FOUNDER RADAR · RESEARCH COCKPIT
+
+STARTEN UND TEILEN
+Windows: Das gesamte ZIP entpacken und im Ordner Start-FounderRadar.cmd doppelklicken.
+Python 3.11 oder neuer muss vorhanden sein. Die erste Einrichtung lädt Pakete aus dem Internet.
+Der Browser öffnet die lokale App. Jede Person startet ihre eigene entpackte Kopie.
+Zum Teilen die Original-ZIP verwenden. Darin liegen die Recherche-Eingaben und öffentliche Demo-Belege.
+
+PITCH-ABLAUF
+1. Start & Übersicht öffnen und Gespeicherte Fakten neu berechnen auswählen.
+2. Analyse starten. Das Cockpit berechnet die Longlist aus mitgelieferten Belegen.
+3. Unter Longlist einen Deep Dive öffnen, zum Beispiel REFACTUM oder Fibryx.
+4. Gesprächsanlass, Kurzbeschreibung und Investmenthypothese besprechen.
+5. Markt & Wettbewerb öffnen. Einstiegssegment, Kaufprozess, Vergleichsangebote und
+   das Umsatzszenario zeigen. Szenario-Zahlen sind frei eingegebene Annahmen.
+6. Kontakt & Aufgaben öffnen. Nachricht anpassen und im Standard-Mailprogramm öffnen.
+   Falls kein Mailprogramm verknüpft ist, den Entwurf als .eml laden.
+7. Entscheidung, tatsächlichen Kontaktstatus und Wiedervorlage in der App speichern.
+8. Optional Quellen live prüfen starten. Die Recherche prüft öffentliche Quellen
+   im vorhandenen Kandidatenpool. Je nach Erreichbarkeit dauert das einige Minuten.
+
+DATEN
+Entscheidungen, Notizen, Wiedervorlagen, Kontaktstatus und Verlauf stehen in
+data/screening.sqlite3. Daten & Einrichtung zeigt die konkreten Speicherorte.
+Einzelne Arbeitsstände über Daten & Einrichtung als JSON sichern. Die Sicherung
+enthält auch Notizen. Beim Import bleiben neuere lokale Einträge vorrangig.
+Der jüngste Analyselauf, Laufhistorie, Rechercheprotokoll, Cache und OpenAI-Entwürfe
+liegen unter data/mvp/. Analyseläufe können unter Modell & Quellen als JSON und
+die Longlist als CSV heruntergeladen werden. Deep Dives sind druckbare HTML-Berichte.
+Für eine vollständige Übernahme der Recherchehistorie beim Wechsel der App-Version
+den laufenden Quellenabruf abschließen und die Ordner data/mvp/runs und
+data/mvp/deep-dives sowie data/mvp/latest.json aus der eigenen Kopie übernehmen.
+
+OPTIONAL OPENAI
+Unter Daten & Einrichtung den eigenen API-Key in das Passwortfeld eingeben.
+Er gilt für die laufende Browsersitzung. Alternativ vor dem Start die
+Umgebungsvariable OPENAI_API_KEY setzen. Das Standardmodell ist gpt-5-mini.
+Im Deep Dive unter Markt & Wettbewerb → Redaktion mit OpenAI den Entwurf starten.
+OpenAI erhält einen Auszug aus öffentlichen Quellen und Marktnotizen. Private
+Entscheidungen, Notizen und Kontakt-Adressen gehen nicht in diese Anfrage ein.
+Der Entwurf wird lokal abgelegt und neben dem recherchierten Dossier angezeigt.
+Die App überprüft, ob die Quellenverweise existieren. Aussagen bitte am Beleg prüfen.
+Live-Recherche, Scoring, Speicherung und E-Mail-Entwurf funktionieren ohne KI-Key.
+Der Mail-Shortcut legt einen Entwurf an. Senden erfolgt im Mailprogramm.
+
+METHODE
+Die mitgelieferte Longlist enthält acht recherchierte Firmenprofile. Auf andere
+Unternehmen wendet das Cockpit ein allgemeines Profil auf Basis der vorliegenden
+öffentlichen Belege an. Das Screening bleibt bei 40 % Produkt und Technologie,
+35 % Kunde und Nutzen sowie 25 % Entwicklungsnachweis. Die belegte Untergrenze
+bestimmt den Rang. Das Altersfenster beträgt in der Voreinstellung 24 Monate.
+Die fünf bestehenden AnalysisRun-JSONs stehen unter data/mvp/analysis/.

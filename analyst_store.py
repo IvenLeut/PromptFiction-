@@ -10,11 +10,16 @@ DECISIONS = ("Contact", "Watchlist", "Reject")
 OUTREACH = ("Not contacted", "Draft prepared", "Contacted", "Replied", "Meeting scheduled")
 
 
+def db_path():
+    return Path(os.environ.get("FOUNDERRADAR_DB", str(Path(__file__).parent / "data" / "screening.sqlite3")))
+
+
 @contextmanager
 def _connect():
-    path = Path(os.environ.get("FOUNDERRADAR_DB", str(Path(__file__).parent / "data" / "screening.sqlite3")))
+    path = db_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     connection = sqlite3.connect(path, timeout=15)
+    connection.execute("BEGIN IMMEDIATE")
     connection.execute("""CREATE TABLE IF NOT EXISTS decisions (
         namespace TEXT NOT NULL, lead_id TEXT NOT NULL, decision TEXT NOT NULL,
         notes TEXT NOT NULL, reason TEXT NOT NULL, updated_at TEXT NOT NULL,
@@ -30,6 +35,7 @@ def _connect():
     connection.execute("""CREATE TABLE IF NOT EXISTS decision_history (
         id INTEGER PRIMARY KEY AUTOINCREMENT, namespace TEXT NOT NULL,
         lead_id TEXT NOT NULL, updated_at TEXT NOT NULL, snapshot TEXT NOT NULL)""")
+    connection.commit()
     try:
         with connection:
             yield connection

@@ -239,12 +239,15 @@ def test_default_cockpit_navigation_and_persistence(tmp_path,monkeypatch):
     app=AppTest.from_file(str(ROOT/'cockpit.py'),default_timeout=30).run()
     assert not app.exception and app.title[0].value=='Frühe Technologieunternehmen finden'
     next(b for b in app.button if b.label=='Unternehmen prüfen').click().run()
-    assert not app.exception and app.title[0].value=='Unternehmensanalyse'
+    assert not app.exception and app.title[0].value==assessment.dossier.name
+    assert any('Im Mailprogramm öffnen' in markdown.value for markdown in app.markdown)
     next(x for x in app.selectbox if x.label=='Entscheidung').set_value('Watchlist')
     next(x for x in app.text_area if x.label=='Begründung').set_value('Prototyp im Erstgespräch prüfen')
+    next(x for x in app.selectbox if x.label=='Kontaktstatus').set_value('Draft prepared')
     next(x for x in app.button if x.label=='Entscheidung und Aufgabe speichern').click().run()
     from analyst_store import load_decisions
     assert load_decisions('live')['fixture-1']['decision']=='Watchlist'
+    assert load_decisions('live')['fixture-1']['outreach_status']=='Draft prepared'
     next(x for x in app.radio if x.label=='Arbeitsbereich').set_value('Longlist').run()
     assert not app.exception and len(app.dataframe[0].value)==1
     next(x for x in app.radio if x.label=='Arbeitsbereich').set_value('Aufgaben').run()

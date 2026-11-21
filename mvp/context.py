@@ -5,9 +5,11 @@ No label/value formatting, market-size guesses or language model are required.
 """
 import re
 from datetime import date
+from urllib.parse import unquote, urlsplit
+from bs4 import BeautifulSoup
 from free_discovery.core import founding_claims, industries, company_key, identity_match
 from mvp.contracts import Dossier, Fact, Source
-from mvp.web import excerpt, normalized
+from mvp.web import canonical_host, excerpt, normalized
 
 PATTERNS = {
  'technology': r'\b(?:sensor\w* fusion|machine learning|deep learning|computer vision|syntheti\w* data|synthetische\w* Daten|algorithm\w*|neural\w*|semiconductor\w*|halbleiter\w*|quantum\w*|quanten\w*|photon\w*|robot\w*|API|SaaS|künstliche\w* Intelligenz|AI[- ](?:enabled|driven|powered)|KI[- ](?:basiert\w*|gestützt\w*)|electrolys\w*|elektrolys\w*|carbon\w*|catalys\w*|katalys\w*|biosensor\w*|biomarker\w*|natural fiber composites|naturfaserverstärkt\w*|prepreg\w*|computer[- ]aided|3D[- ](?:mouse|Maus)|WebRTC|Ende[- ]zu[- ]Ende[- ]Verschlüsselung|large language model\w*)\b',
@@ -70,7 +72,29 @@ def extract(dossier: Dossier, pages: list[dict]):
         match=re.search(re.escape(line),page['text'])
         value=' '.join(line.split()[:23])+(' …' if len(line.split())>23 else '')
         add_fact(dossier,'description',value,page,match,'company_self_description')
+    extract_contact(dossier, pages)
     return dossier
+
+
+def extract_contact(dossier, pages):
+    """Collect public general business inboxes published by the same company."""
+    if not dossier.website:
+        return
+    host = canonical_host(dossier.website)
+    allowed = re.compile(r"(?:info|hello|kontakt|contact|hallo|office|team)@[a-z0-9.-]+\.[a-z]{2,63}", re.I)
+    ordered = sorted(pages, key=lambda page: not bool(re.search(r"impress|imprint|contact|kontakt", page["url"], re.I)))
+    for page in ordered:
+        if canonical_host(page["url"]) != host:
+            continue
+        soup = BeautifulSoup(page.get("html", ""), "html.parser")
+        addresses = [unquote(urlsplit(anchor["href"]).path)
+                     for anchor in soup.find_all("a", href=re.compile(r"^mailto:", re.I))]
+        addresses.extend(re.findall(r"[a-z0-9._%+\-]+@[a-z0-9.-]+\.[a-z]{2,63}", page["text"], re.I))
+        for address in addresses:
+            if allowed.fullmatch(address) and address.casefold().split("@", 1)[1] == host:
+                dossier.facts["contact_email"] = Fact(value=address, source_url=page["url"], quote=address,
+                                                      basis="public_business_contact")
+                return
 
 
 def extract_founding(dossier, pages):
