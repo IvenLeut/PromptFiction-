@@ -10,15 +10,15 @@
     "gruendungsmonat": 10,
     "gruendung_ist_proxy": true,
     "risiko_score": 38.5,
-    "marktpotenzial_score": 86.3,
+    "marktpotenzial_score": 82.3,
     "team_score": 84.0,
-    "gesamt_score": 76.7,
-    "confidence": 0.79,
+    "gesamt_score": 75.7,
+    "confidence": 0.75,
     "stage": "in_gruendung",
     "produktbeschreibung": "Kontraktwerk prüft Lieferverträge im Maschinenbau automatisch auf Haftungsrisiken. Einkäufer laden Verträge hoch und erhalten in Minuten eine Liste kritischer Klauseln.",
     "value_proposition": "Kontraktwerk prüft Lieferverträge im Maschinenbau automatisch auf Haftungsrisiken.",
-    "investmenthypothese": "Wir investieren, weil: 2 belegte Partner; stärkster: Dummy Maschinenbau 2 (pilot); Dummy Gründerin A: 4 Papers im Produktfeld. Nächster Meilenstein: der erste zahlende Kunde. Hauptrisiko: Keine Schutzrechte.",
-    "why_now": "Gerade in Gründung; EXIST-Gründungsstipendium endete 09/2026; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 5 Monaten",
+    "investmenthypothese": "Wir investieren, weil: 2 belegte Partner; stärkster: Dummy Maschinenbau 2 (pilot), Organisation nicht bestätigt (Proxy); Dummy Gründerin A: 4 Papers im Produktfeld. Nächster Meilenstein: der erste zahlende Kunde. Hauptrisiko: Keine Schutzrechte.",
+    "why_now": "Gerade in Gründung; EXIST-Gründungsstipendium endete 09/2026; laut Sourcing kein Datenbankprofil gefunden; jüngstes Signal vor 5 Monaten",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
     "status": "bewertet",
@@ -75,10 +75,10 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "traktion",
-        "aussage": "2 belegte Partner; stärkster: Dummy Maschinenbau 2 (pilot)",
+        "aussage": "2 belegte Partner; stärkster: Dummy Maschinenbau 2 (pilot), Organisation nicht bestätigt (Proxy)",
         "url": "https://example.org/kontraktwerk/referenzen",
         "datum": null,
-        "punkte": 95.0
+        "punkte": 83.8
       },
       {
         "dimension": "marktpotenzial",
@@ -210,10 +210,10 @@
           "proxy": false
         },
         "traktion": {
-          "punkte": 95.0,
+          "punkte": 83.8,
           "gewicht": 0.35,
           "belegt": true,
-          "proxy": false
+          "proxy": true
         },
         "skalierbarkeit": {
           "punkte": 100.0,
@@ -311,7 +311,7 @@
     "produktbeschreibung": "OsteoPrint druckt patientenspezifische Knochenimplantate aus resorbierbarem Material. Chirurgen bestellen das Implantat auf Basis von CT-Daten.",
     "value_proposition": "OsteoPrint druckt patientenspezifische Knochenimplantate aus resorbierbarem Material.",
     "investmenthypothese": "Wir investieren, weil: Dummy Ärztin E: 11 Papers im Produktfeld; 3 Gründer mit Technik und Business. Nächster Meilenstein: ein erster Pilot. Hauptrisiko: Regulierter Markt, Zulassung nötig.",
-    "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 06/2026; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 8 Monaten",
+    "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 06/2026; laut Sourcing kein Datenbankprofil gefunden; jüngstes Signal vor 8 Monaten",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
     "status": "bewertet",
@@ -368,7 +368,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "traktion",
-        "aussage": "1 belegte Partner; stärkster: Dummy-Klinikum Berlin (forschungspartner)",
+        "aussage": "1 belegter Partner; stärkster: Dummy-Klinikum Berlin (forschungspartner)",
         "url": "https://example.org/osteoprint/partner",
         "datum": null,
         "punkte": 50.0
@@ -596,15 +596,15 @@
     "gruendungsmonat": 4,
     "gruendung_ist_proxy": true,
     "risiko_score": 47.5,
-    "marktpotenzial_score": 63.9,
+    "marktpotenzial_score": 62.2,
     "team_score": 75.5,
-    "gesamt_score": 64.6,
-    "confidence": 0.58,
+    "gesamt_score": 64.1,
+    "confidence": 0.55,
     "stage": "pre_gruendung",
     "produktbeschreibung": "FerroSense entwickelt einen magnetischen Sensor, der Risse in Stahlträgern ohne Demontage erkennt. Ein Laborprototyp misst an Probekörpern.",
     "value_proposition": "FerroSense entwickelt einen magnetischen Sensor, der Risse in Stahlträgern ohne Demontage erkennt.",
-    "investmenthypothese": "Wir investieren, weil: Dummy Forscher C: 14 Papers im Produktfeld; 1 belegte Partner; stärkster: Dummy Brückenbetreiber (loi). Nächster Meilenstein: ein Prototyp beim Anwender. Hauptrisiko: Reifegrad: labor_prototyp.",
-    "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 12/2026; laut Sourcing in keiner Datenbank gefunden; jüngstes Signal vor 9 Monaten",
+    "investmenthypothese": "Wir investieren, weil: Dummy Forscher C: 14 Papers im Produktfeld; Vollzeit-Signal: EXIST-Forschungstransfer. Nächster Meilenstein: ein Prototyp beim Anwender. Hauptrisiko: Reifegrad: labor_prototyp.",
+    "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 12/2026; laut Sourcing kein Datenbankprofil gefunden; jüngstes Signal vor 9 Monaten",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
     "status": "bewertet",
@@ -661,10 +661,10 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "traktion",
-        "aussage": "1 belegte Partner; stärkster: Dummy Brückenbetreiber (loi)",
+        "aussage": "1 belegter Partner; stärkster: Dummy Brückenbetreiber (loi), Organisation nicht bestätigt (Proxy)",
         "url": "https://example.org/idw/news-dummy-2",
         "datum": null,
-        "punkte": 70.0
+        "punkte": 65.0
       },
       {
         "dimension": "marktpotenzial",
@@ -796,10 +796,10 @@
           "proxy": false
         },
         "traktion": {
-          "punkte": 70.0,
+          "punkte": 65.0,
           "gewicht": 0.35,
           "belegt": true,
-          "proxy": false
+          "proxy": true
         },
         "skalierbarkeit": {
           "punkte": 50.0,
@@ -1816,10 +1816,10 @@
     "gruendungsmonat": 2,
     "gruendung_ist_proxy": false,
     "risiko_score": 41.3,
-    "marktpotenzial_score": 66.5,
+    "marktpotenzial_score": 62.1,
     "team_score": 67.5,
     "gesamt_score": 20.0,
-    "confidence": 0.43,
+    "confidence": 0.38,
     "stage": "zu_spaet",
     "produktbeschreibung": "ScaleBatt baut Batteriespeicher für Gewerbebetriebe und hat eine Finanzierungsrunde abgeschlossen.",
     "value_proposition": "ScaleBatt baut Batteriespeicher für Gewerbebetriebe und hat eine Finanzierungsrunde abgeschlossen.",
@@ -1881,10 +1881,10 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "traktion",
-        "aussage": "1 belegte Partner; stärkster: Dummy Gewerbekunde (kunde)",
+        "aussage": "1 belegter Partner; stärkster: Dummy Gewerbekunde (kunde), Organisation nicht bestätigt (Proxy)",
         "url": "https://example.org/scalebatt/kunden",
         "datum": null,
-        "punkte": 100.0
+        "punkte": 87.5
       },
       {
         "dimension": "marktpotenzial",
@@ -2024,10 +2024,10 @@
           "proxy": false
         },
         "traktion": {
-          "punkte": 100.0,
+          "punkte": 87.5,
           "gewicht": 0.35,
           "belegt": true,
-          "proxy": false
+          "proxy": true
         },
         "skalierbarkeit": {
           "punkte": 40.0,

@@ -120,3 +120,42 @@ Vorsicht: 30 Labels, alle `agent_vorschlag`, unbestätigt. Jede Änderung ist fa
 - Die Gewichte bleiben vorläufig, bis das Team die Labels bestätigt hat.
 
 **Nachtrag Matcher-Abstimmung:** Der Matcher filtert die Müllnamen jetzt in `context/imprint.py`; der Filter im Scorer bleibt zur Sicherheit. Weil context für Katalog-Leads `works_in_field` bewusst leer lässt, zählt für `forscher_match` ersatzweise `works_total` eines OpenAlex-Profils mit `match_confidence` ≥ 0,5: als gedämpfter Proxy, ohne Malus, unsichere Zuordnung bleibt neutral. Test: `test_total_works_count_as_weak_researcher_proxy`. Behoben ist außerdem ein Fehler im Namensabgleich: Ziffern zählen jetzt mit, damit die Pseudonyme „Person 01/02 …“ nicht zu einer Person verschmelzen; Test `test_name_dedup_keeps_distinct_people`. Die Kennzahlen sind unverändert (online 0,32, offline 0,22), die Beispiele neu erzeugt, beide Läufe deterministisch. Die Suite steht bei **787 passed**. `web_capture_before_project` wertet der Scorer nicht aus; es ist kein Signal, und das ist gewollt.
+
+## Fix-Runde nach dem Final Gate (M1, M2, M3, m3)
+
+Die Gewichte sind **nicht** geändert (0,40/0,25/0,35 wartet auf das Team). Gemessen auf `AGENT_TEAM/reports/scratch/gate/dossiers.json`, Stichtag 2026-11-21: vorher `gate/sc/`, nachher `scratch/scorer/gate_fix/`.
+
+| Befund | Fix | vorher → nachher (52 Leads) |
+|---|---|---|
+| M1 Müll-Partner | Fördergeber, Programme und generische Phrasen werden verworfen, zerschnittene Namen über das Zitat wieder zusammengesetzt. Voll zählt ein Partner nur mit Rechtsform oder bekannter Einrichtung (auch direkt hinter dem Namen im Zitat), sonst als Proxy. `to_dossier` reicht das Partner-Zitat durch | Traktion belegt 4 → 2 (SideroGaIn/FCM GmbH voll, SIMBA „Fraunhofer-Institut für Software- und Systemtechnik ISST“ als Forschungspartner); BotFellows „Global Partners“ und SpinMagIC „Federal Ministry …“ fallen weg |
+| M2 VP-Platzhalter | VP und Produktbeschreibung extraktiv aus `website_text`. Ursache, dass es vorher nicht ging: `clean()` hatte die Zeilenumbrüche entfernt. Lange Institutsnamen werden nicht mehr mitten im Wort gekürzt (SECARA) | Platzhalter-Ende 49 → 31 (alle 20 Website-Leads außer BEHtec mit Lorem-ipsum-Seite haben eine VP aus der Website); offline 733: 711, weil offline kein Website-Text vorliegt |
+| M3 DB-Aussage | Formulierung nach Art der Prüfung (Wayback / Datenbanksuche / Treffer). Bei einem Treffer ohne Datum ist `earliness_delta_monate` leer plus offener Punkt. `to_dossier` bevorzugt eine Nicht-Wayback-Quelle; Format mit dem Matcher abgestimmt (Evidence `in_databases`, Quelle „Datenbanksuche (Brave)“) | „nicht gefunden“ 48 → 0, jetzt „kein archiviertes Crunchbase-/Dealroom-Profil (Wayback)“ |
+| m3 Team/Meilenstein | Hat das Team nur eine Person aus dem Impressum, wird sie in der komplementaer-Aussage genannt; mehrere heißen „Personen in der Geschäftsführung (Impressum)“. „Wiederholbarer Vertrieb“ nur mit belegtem Kunden oder bestätigtem Reifegrad, sonst „ein belegter zahlender Kunde“. Grammatik „1 belegter Partner“ | Widerspruch Name/„nicht namentlich“ 5 → 0; „wiederholbarer Vertrieb“ 7 → 0 |
+
+**Kennzahlen** (`precision.py`, 30 ungeprüfte Labels):
+
+| | Gate vorher | nach Fix |
+|---|---|---|
+| Spearman | 0,41 | 0,44 |
+| P@10 talk | 67 % | 83 % |
+| P@30 talk | 47 % | 47 % |
+
+- Top 10 nach Fix: DyNAtrix 68,0 · iNSyT 67,1 · BotFellows 64,9 · SideroGaIn 64,8 · Ymolution 64,5 · Metubiq 62,9 · SA-Dynamics 62,9 · AutonomIQ 62,5 · VersatileRobotics 62,2 · SpinMagIC 61,9.
+- BotFellows fällt ohne den Müll-Partner von 69,2 auf 64,9, das entspricht der Schätzung im Gate (≈ 64,8).
+- Offline über 733 Leads unverändert: 47,1–58,2, 89 Werte, Spearman 0,22.
+- Schema: 0 Fehler, Evidence ohne URL weiterhin 0 ungekennzeichnet.
+- Determinismus: Gate- und 733er-Lauf sind beim zweiten Lauf byte-identisch.
+- Suite: **807 passed** (inkl. neuer Tests anderer Agents).
+- Neue Tests in `tests/test_scoring_differentiation.py` (jetzt 45):
+  - `test_funders_and_generic_phrases_are_not_traction`
+  - `test_value_proposition_from_website_text`
+  - `test_long_institution_name_is_not_cut_mid_word`
+  - `test_why_now_names_the_kind_of_database_check`
+  - `test_team_texts_agree_and_milestone_needs_customers`
+- Angepasst: die `why_now`-Erwartung in `test_scoring_sourced_leads.py` (Wayback-Formulierung).
+- Beispiele neu erzeugt.
+
+**Offen:**
+- Die echte DB-Suche des Matchers ist erst nach einem neuen Online-Lauf messbar.
+- Die Website-VP ist extraktiv und klingt teils nach Werbetext („It’s time to find your answer.“). Die Entscheidung, ob ein Modell umformulieren darf, liegt beim Team.
+- SIMBAs Partnerzitat handelt von einem Fraunhofer-Projekt ohne erkennbaren SIMBA-Bezug. Das kann nur die Klassifikation in context lösen (matcher).

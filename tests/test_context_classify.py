@@ -549,3 +549,31 @@ def test_siderogain_pilot_plant_with_fcm_and_one_granted_patent():
     assert len(findings(result, "patents")) == len(set(findings(result, "patents")))
     assert result.fields.get("product_type") in {None, "hardware"}
     assert "regulated_market" not in result.fields
+
+
+# ----------------------------------------------------------------- final gate M1: no junk partners
+
+def test_generic_trusted_by_phrase_is_no_customer():
+    # BotFellows homepage: "Trusted by Global Partners" became the customer "Global Partners".
+    assert "partners" not in run(sig("Trusted by Global Partners"), name="BotFellows").fields
+    assert "partners" not in run(sig("Trusted by leading brands"), name="BotFellows").fields
+
+
+def test_funding_notice_names_no_design_partner():
+    # SpinMagIC homepage: the EXIST/ESF notice gave two design partners (the Ministry and "Climate Protection").
+    line = ("The European Union, together with the Federal Ministry for Economic Affairs and Climate Protection, supports the "
+            "“Start-ups from Science (EXIST)” program in Germany via the European Social Fund Plus (ESF Plus).")
+    assert "partners" not in run(sig(line + "\nSpinMagIC builds portable EPR sensors."), name="SpinMagIC").fields
+    assert "partners" not in run(sig("SpinMagIC arbeitet zusammen mit dem Bundesministerium für Wirtschaft und Klimaschutz."),
+                                 name="SpinMagIC").fields
+
+
+def test_institute_name_with_und_is_not_cut():
+    # SIMBA: "Fraunhofer-Institut für Software- und Systemtechnik ISST" was cut into "... für Software" + "Systemtechnik ISST".
+    result = run(sig("SIMBA entsteht in Zusammenarbeit mit dem Fraunhofer-Institut für Software- und Systemtechnik ISST."),
+                 name="SIMBA")
+    assert [(p.name, p.kind) for p in result.fields["partners"]] == [
+        ("Fraunhofer-Institut für Software- und Systemtechnik ISST", "forschungspartner")]
+    # A plain enumeration is still split.
+    plain = run(sig("Kunden wie Vonovia und LEG Immobilien nutzen die Software."))
+    assert [p.name for p in plain.fields["partners"]] == ["Vonovia", "LEG Immobilien"]

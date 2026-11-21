@@ -138,10 +138,10 @@ def test_exist_without_founders_reads_sensibly():
     assert r["investmenthypothese"].startswith("Datenlage zu dünn für eine Hypothese")
     assert "Wir investieren" not in r["investmenthypothese"]
     assert r["why_now"] == ("Noch vor der Gründung; EXIST-Forschungstransfer endete 09/2026; "
-                            "in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 13 Monaten")
+                            "kein archiviertes Crunchbase-/Dealroom-Profil (Wayback); jüngstes Signal vor 13 Monaten")
     future = lead.model_copy(update={"grants": [lead.grants[0].model_copy(update={"end": date(2027, 9, 30)})]})
     assert run(future)[0]["why_now"] == ("Noch vor der Gründung; EXIST-Forschungstransfer endet 09/2027; "
-                                         "in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 13 Monaten")
+                                         "kein archiviertes Crunchbase-/Dealroom-Profil (Wayback); jüngstes Signal vor 13 Monaten")
 
 
 # 6 -----------------------------------------------------------------------------------------------

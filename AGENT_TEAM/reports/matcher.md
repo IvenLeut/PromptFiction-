@@ -49,7 +49,10 @@ Agent `matcher`, 21.11.2026, Branch `agents/data-quality-fixes`. Nichts committe
 | `context/engine.py` | Matcher vor den Lookups; `website` an Impressum/Wayback; Evidence `website_text`; `default_lookups(match, match_threshold)`; `_site_confirms_project` → Wayback; OpenAlex für Impressum-GF → `founder_profiles` |
 | `context/__main__.py` | `--no-match`, `--match-threshold` |
 | `context/wayback.py` | `site_confirmed`/`confirmed_years`: keine Namensvetter-Regel, wenn die Website FKZ/EXIST nennt; frühe Aufnahme nur als Evidence `web_capture_before_project` |
-| `context/imprint.py` | Nicht-Namen und Vertreter öffentlicher Körperschaften werden nicht zu `managing_directors` |
+| `context/imprint.py` | Nicht-Namen und Vertreter öffentlicher Körperschaften werden nicht zu `managing_directors`; Fließtext nach Namen abgeschnitten; Name vor nachgestellter Rolle; Gastinstitut-Zeilen (c/o, Institut) ohne Rechtsform |
+| `context/dbsearch.py` | neu: Startup-Datenbanksuche über Brave-API |
+| `context/classify.py` | keine Fördergeber/generischen Phrasen als Partner; Institutsnamen mit „und“ nicht zerschneiden |
+| `tests/test_context_dbsearch.py`, `tests/test_context_classify.py`, `tests/test_context_imprint.py` | Regressionstests der Gate-Fälle |
 | `context/lookup.py` | `SOURCE_WEBSITE_MATCH = "Website-Abgleich"`, `SOURCE_PROJECT_PAGE = "Projektseite (Hochschule)"` |
 | `context/cache.py`, `context/ENRICHMENT.md` | Doku (Cache-Ebene, Modulzeile, Grenzen, API-Key) |
 | `models.py` | **`EnrichedLead.matched_website: HttpUrl \| None = None`** am Ende des Modells |
@@ -162,6 +165,21 @@ siderogain.de ist eine Verkaufsseite (1.470 USD) und wird als Parking verworfen.
 
 **API-Verbrauch** für diesen Nachtrag: 8 neue Brave-Requests (getrennte Schreibweisen), insgesamt etwa 101. OpenAlex: höchstens 33 Personen × 1 Aufruf, Wiederholläufe aus dem Cache.
 
+## Nachtrag 2: Fix-Runde nach dem Final Gate (`final_gate.md`)
+
+| Befund | Fix (Datei) | Wirkung im erneuten Online-Lauf (52 Gate-Leads) | Test |
+|---|---|---|---|
+| **M1** Müll-Partner | `context/classify.py`: Fördergeber (Ministerium/Ministry, Federal, EU, ESF, EXIST, Projektträger, BMWK/BMWE/BMBF …) und generische Phrasen („Global Partners“, „leading brands“) sind nie Partner. Zeilen mit Förderhinweis („supports“, „gefördert“, ESF) liefern keine `gemeinsam mit`-Partner. Kein Trennen an „und/and“ nach einer Wortellipse („Software- und“) oder einem „für/for/of + Substantiv“. | BotFellows: „Global Partners“ (kunde) → –; SpinMagIC: 2× Ministerium (design_partner) → –; SIMBA: 2 Bruchstücke → 1× „Fraunhofer-Institut für Software- und Systemtechnik ISST“ (forschungspartner); SideroGaIn (Freiberger Compound Materials, pilot) bleibt | `test_generic_trusted_by_phrase_is_no_customer`, `test_funding_notice_names_no_design_partner`, `test_institute_name_with_und_is_not_cut` |
+| **M3** DB-Prüfung | neu `context/dbsearch.py` + `context/engine._check_databases`: echte Suche über die Brave-API, 1 Anfrage je Lead (`"<Name>" (site:dealroom.co OR site:crunchbase.com OR site:pitchbook.com OR site:tracxn.com)`). Ein Profil zählt nur mit Name im Titel und Bezug zum Lead. Format mit `scorer` abgestimmt (`source="Datenbanksuche (Brave)"`, URL = Profil bzw. neutrale Such-URL). | 6 Leads jetzt `in_databases=True` mit Profil-URL: BotFellows (Tracxn), iNSyT (PitchBook), Metubiq (PitchBook), Smarobix (Tracxn), Tentris (Tracxn), Rement (Crunchbase). 45 geprüft ohne Profil. HydroPURE bleibt beim archivierten Wayback-Profil. Verworfene Namensvetter, z. B. crunchbase insyt (Social-App), assurances-secara, autonomiq (US-Testing-Firma), BOTfriends | `tests/test_context_dbsearch.py` (8 Tests) |
+| **m1** Ymolution, 2. GF fehlt | `context/imprint.py` `_split_names`: Fließtext nach dem Namen wird abgeschnitten („… Hentschker explain why …“). | Reder → Reder + Hentschker | `test_director_names_are_cut_before_prose` |
+| **m2** DyNAtrix e.V. des Gastinstituts | `_legal_form` ignoriert Zeilen mit „c/o …“ oder Hochschul- bzw. Institutsnamen. Die Rolle kommt aus der Klammer im Impressum (`engine._imprint_role`). | `legal_form` e.V. → –; Rolle „Geschäftsführung (Impressum)“ → „Project Leader (Impressum)“ | `test_host_institute_legal_form_is_ignored`, `test_imprint_role_in_brackets_is_kept` |
+| **m7** SpinMagIC „Founded by:“ | **Kein Fehler:** Auf der Seite folgt „Founded by:“ nur „based on a resolution of the German Bundestag“. Das ist die Logozeile des BMWK („Funded by“), es stehen keine Namen dort; auch die Unterseiten nennen keine Gründer. Nebenbefund Pulse-of-Production (GmbH ohne GF) behoben: „Vertreten durch:“ / „Philipp Niemietz Geschäftsführer“ (Rolle nach dem Namen). | Pulse-of-Production: – → Philipp Niemietz | `test_name_before_trailing_role_label` |
+
+- **Manuell geprüft:** alle 6 DB-Treffer. Snippet bzw. Titel nennen Ort, Deutschland, EXIST oder LMU oder dieselben Produktbegriffe wie die Website.
+- **Grenze der DB-Suche:** Sie ist bewusst streng; es zählt nur, was der Snippet belegt. Das Dealroom-Profil von BotFellows und das Tracxn-Profil von iNSyT fanden sich im Ergebnis, ihr Snippet bestätigte aber nichts. Sie werden deshalb nicht gezählt; für den Lead reicht ein Profil.
+- **API-Verbrauch** dieser Runde: etwa 70 Brave-Requests (52 DB-Suchen Gate-Lauf, 16 DB-Suchen Prüflauf, wenige Matcher-Nachfragen), insgesamt etwa 170 im Monat.
+- **Rohdaten:** `AGENT_TEAM/reports/scratch/matcher/gate_fix_dossiers.json`, `gate_fix_sc/`.
+
 ## Bekannte Grenzen
 
 - **Schlüssellose Suche ist für einen Batch nicht tragfähig.** Brave-HTML verträgt etwa eine Anfrage pro Minute, DuckDuckgo sperrt schnell. Mit API-Key ist ein Volllauf über 733 Leads möglich (ca. 1.300 Requests).
@@ -175,7 +193,7 @@ siderogain.de ist eine Verkaufsseite (1.470 USD) und wird als Parking verworfen.
 
 ## Tests
 
-`.venv/bin/python -m pytest -q`: **785 passed** (ganze Suite einschließlich der parallelen Änderungen von `scorer`/`evaluator`), davon 39 in `tests/test_context_website_match.py`:
+`.venv/bin/python -m pytest -q`: **807 passed** (ganze Suite einschließlich der parallelen Änderungen von `scorer`/`evaluator`), davon 39 in `tests/test_context_website_match.py`:
 - Treffer über die Suche, über Domain-Raten, über einen Projektquellen-Link und über die Über-uns-Seite
 - Namensvetter (Restaurant, simba.de-Impressum, sensai.io-Themenstämme)
 - Parking (siderogain.de-Fixture, Platzhaltertext)

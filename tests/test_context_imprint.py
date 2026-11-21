@@ -304,3 +304,26 @@ def test_default_fetch_passes_the_cache_to_context_web(monkeypatch):
     result = imprint_lookup(SITE, cache=marker)
     assert result.errors == ["impressum: nicht gefunden"]
     assert seen and all(cache is marker and site == "example.org" for _, site, cache in seen)
+
+
+# --- final gate m1/m2 and Pulse-of-Production ------------------------------------------------------
+
+def test_director_names_are_cut_before_prose():
+    # Ymolution: "Managing Directors Dr. Alexander Reder and Dr. Christian Hentschker explain why ..." gave only Reder.
+    parsed = parse_imprint("In just a few minutes, Managing Directors Dr. Alexander Reder and Dr. Christian Hentschker "
+                           "explain why the antibody revolution is a necessity.")
+    assert parsed["managing_directors"][0] == ["Alexander Reder", "Christian Hentschker"]
+
+
+def test_host_institute_legal_form_is_ignored():
+    # DyNAtrix: "c/o Leibniz-Institut für Polymerforschung Dresden e.V." is the host institute, not the project's form.
+    parsed = parse_imprint("Site Notice\nDynamic Matrices Startup Project\nc/o Leibniz-Institut für Polymerforschung Dresden e.V.\n"
+                           "Hohe Straße 6\n01069 Dresden\nRepresented by:\nDr. Elisha Krieg (Project Leader, EXIST EFT Project)")
+    assert "legal_form" not in parsed and parsed["managing_directors"][0] == ["Elisha Krieg"]
+    assert parse_imprint("Impressum\nSECARA GmbH\nc/o Marcus Lehnertz\nRehmplatz 10")["legal_form"][0] == "GmbH"
+
+
+def test_name_before_trailing_role_label():
+    # Pulse-of-Production: "Vertreten durch:" / "Philipp Niemietz Geschäftsführer" gave no director.
+    parsed = parse_imprint("Impressum\nPulse of Production GmbH\n52070 Aachen\nVertreten durch:\nPhilipp Niemietz Geschäftsführer\nKontakt")
+    assert parsed["managing_directors"][0] == ["Philipp Niemietz"]

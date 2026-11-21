@@ -408,3 +408,89 @@ def test_name_dedup_keeps_distinct_people():
     profile = [FounderProfile(name="Person %02d" % i, source_url="https://openalex.org/A%d" % i) for i in (1, 2, 3)]
     profile.append(FounderProfile(name="person 01", source_url="https://openalex.org/A9"))  # gleiche Person, andere Schreibweise
     assert [t["name"] for t in to_dossier(lead(founder_profiles=profile), CFG)["team"]] == ["Person 01", "Person 02", "Person 03"]
+
+
+# --- Final Gate M1–M3, m3 --------------------------------------------------------------------------------------------
+def partner_lead(*partner):
+    from models import Partner
+    return gegruendet(partners=[Partner(name=n, kind=k, quote=q, url="https://firma.example/") for n, k, q in partner])
+
+
+def test_funders_and_generic_phrases_are_not_traction():
+    """M1: BotFellows "Global Partners", SpinMagIC Bundesministerium als design_partner, SIMBA zerschnittener Institutsname."""
+    for p in [("Global Partners", "kunde", "Trusted by Global Partners")],                                   \
+             [("Federal Ministry for Economic Affairs", "design_partner", "The European Union, together with the Federal "
+               "Ministry for Economic Affairs and Climate Protection"),
+              ("Climate Protection", "design_partner", "together with the Federal Ministry for Economic Affairs and Climate Protection")], \
+             [("EXIST", "design_partner", "gefördert durch EXIST")], [("Our Customers", "kunde", "Our Customers")]:
+        r = run(partner_lead(*p))
+        assert not teil(r, "marktpotenzial", "traktion")["belegt"], p
+        assert "belegte Partner" not in r["investmenthypothese"] and "belegter Partner" not in r["investmenthypothese"]
+    zitat = "In Zusammenarbeit mit dem Fraunhofer-Institut für Software- und Systemtechnik ISST und der TU Dortmund"
+    r = run(partner_lead(("Fraunhofer-Institut für Software", "forschungspartner", zitat),
+                         ("Systemtechnik ISST", "design_partner", zitat)))
+    e = next(e for e in r["evidence"] if e["kriterium"] == "traktion")
+    assert e["aussage"] == "1 belegter Partner; stärkster: Fraunhofer-Institut für Software- und Systemtechnik ISST (forschungspartner)"
+    # Firma mit Rechtsform zählt voll, ein unbekannter Name nur als Proxy
+    voll = teil(run(partner_lead(("Freiberger Compound Materials GmbH", "pilot", "Pilotanlage mit Freiberger Compound Materials GmbH"))),
+                "marktpotenzial", "traktion")
+    proxy = teil(run(partner_lead(("Acme Robotics", "pilot", "Pilot mit Acme Robotics"))), "marktpotenzial", "traktion")
+    assert voll["punkte"] == 85.0 and not voll["proxy"] and proxy["proxy"] and 50 < proxy["punkte"] < 85
+    zitat_rf = teil(run(partner_lead(("Freiberger Compound Materials", "pilot",
+                                      "Gemeinsam mit dem Halbleiterhersteller Freiberger Compound Materials (FCM) GmbH übertrug"))),
+                    "marktpotenzial", "traktion")
+    assert zitat_rf["punkte"] == 85.0 and not zitat_rf["proxy"]
+
+
+def test_value_proposition_from_website_text():
+    """M2: Website-Text liegt vor -> extraktive VP statt Katalog-Platzhalter; Navigation, CTA, Förderhinweis raus."""
+    text = ("Pulse of Production | Fertigung verstehen\nKontakt\nWerkzeugprobleme erkennen, bevor sie Stillstand verursachen.\n"
+            "Werkzeug-\nprobleme erkennen, bevor sie Stillstand verursachen.\nEchtzeitüberwachung Ihrer Umform- und Stanzwerkzeuge – "
+            "ohne Eingriff in die Maschinensteuerung.\nDemo anfragen →\nGefördert durch das Bundesministerium für Wirtschaft im Programm EXIST.")
+    r = run(lead(evidence=[website(text)]))
+    assert r["value_proposition"] == ("Werkzeugprobleme erkennen, bevor sie Stillstand verursachen. Echtzeitüberwachung Ihrer Umform- "
+                                      "und Stanzwerkzeuge – ohne Eingriff in die Maschinensteuerung.")
+    assert len(r["value_proposition"]) <= 200 and "EXIST" not in r["produktbeschreibung"] and "Kontakt" not in r["produktbeschreibung"]
+    # Baukasten-Seite mit Lorem ipsum: Katalog-Fakten statt Blindtext
+    lorem = run(lead(evidence=[website("Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nNulla euismod condimentum felis vitae efficitur.")]))
+    assert "Lorem" not in lorem["value_proposition"] and "Nulla" not in lorem["value_proposition"]
+    # echte Beschreibung hat Vorrang vor der Website
+    assert run(lead(description="Chip-ESR-Sensor für Lebensmittel.", evidence=[website(text)]))["value_proposition"] == "Chip-ESR-Sensor für Lebensmittel."
+
+
+def test_long_institution_name_is_not_cut_mid_word():
+    stelle = ("Rheinisch-Westfälische Technische Hochschule Aachen - Lehrstuhl für Heterogene Katalyse und Technische Chemie, "
+              "Aachen, Nordrhein-Westfalen")
+    r = run(lead(stelle=stelle, empf="Rheinisch-Westfälische Technische Hochschule Aachen, Aachen, Nordrhein-Westfalen"))
+    assert r["value_proposition"].startswith("„QuantSense“ – EXIST-Forschungstransfer-Vorhaben aus Lehrstuhl für Heterogene Katalyse und Technische Chemie;")
+    assert "Technische…" not in r["value_proposition"] + r["produktbeschreibung"]
+
+
+def db_ev(url, finding="x", source="Wayback CDX"):
+    return ev("in_databases", url, finding, source)
+
+
+def test_why_now_names_the_kind_of_database_check():
+    """M3: Wayback prüft nur archivierte Profil-Slugs; nur eine echte Suche darf "nicht gefunden" sagen."""
+    wb = run(lead(in_databases=False, evidence=[db_ev("https://web.archive.org/cdx/search/cdx?url=dealroom.co/companies/x")]))
+    assert "kein archiviertes Crunchbase-/Dealroom-Profil (Wayback)" in wb["why_now"] and "nicht gefunden" not in wb["why_now"]
+    such = run(lead(in_databases=False, evidence=[db_ev("https://web.archive.org/cdx/x"),
+                                                  db_ev("https://search.brave.com/search?q=x", "kein Profil gefunden", "Datenbanksuche (Brave)")]))
+    assert "nicht gefunden (Datenbanksuche)" in such["why_now"]
+    treffer = run(lead(in_databases=True, evidence=[db_ev("https://app.dealroom.co/companies/quantsense", "Profil", "Datenbanksuche (Brave)")]))
+    assert "bereits mit Datenbankprofil gelistet (app.dealroom.co)" in treffer["why_now"]
+    assert treffer["earliness_delta_monate"] is None  # Profil ohne Datum: kein "noch nicht gelistet bis heute"
+    assert any("Earliness nicht berechenbar" in p for p in treffer["offene_punkte"])
+
+
+def test_team_texts_agree_and_milestone_needs_customers():
+    """m3: name_gruender gesetzt -> komplementaer-Text nennt die Person; erste_kunden aus einer Quelle -> kein 'wiederholbarer Vertrieb'."""
+    r = run(gegruendet(managing_directors=["Anna Beispiel"]))
+    e = next(e for e in r["evidence"] if e["kriterium"] == "komplementaer")
+    assert r["name_gruender"] == "Anna Beispiel" and "Anna Beispiel laut Impressum" in e["aussage"]
+    assert "nicht namentlich" not in e["aussage"]
+    einzeln = gegruendet(product_stage="erste_kunden", evidence=[ev("product_stage", "https://firma.example/p", "pricing", "Unternehmenswebsite")])
+    h = run(einzeln)["investmenthypothese"]
+    assert "wiederholbarer Vertrieb" not in h
+    assert "1 belegter Partner" in next(e["aussage"] for e in run(partner_lead(("Beispiel GmbH", "kunde", "Kunde Beispiel GmbH")))["evidence"]
+                                        if e["kriterium"] == "traktion")

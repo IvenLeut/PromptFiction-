@@ -13,6 +13,7 @@ import collections
 import importlib.util
 import json
 import statistics
+import sys
 from pathlib import Path
 
 _spec = importlib.util.spec_from_file_location("eval_precision", Path(__file__).with_name("precision.py"))
@@ -25,6 +26,21 @@ def _num(x):
         return float(x)
     except (TypeError, ValueError):
         return None
+
+
+def resolve_id(raw: str, known) -> str | None:
+    """Map a user-given id to a lead_id: exact, case-insensitive, or with the 'foekat-' prefix added
+    ('03EFMV0034', '03efmv0034', 'foekat-03efmv0034' -> 'foekat-03efmv0034'). None if nothing matches."""
+    raw = (raw or "").strip()
+    if not raw:
+        return None
+    if raw in known:
+        return raw
+    lower = {k.lower(): k for k in known}
+    for cand in (raw.lower(), "foekat-" + raw.lower()):
+        if cand in lower:
+            return lower[cand]
+    return None
 
 
 def analyse(rows: list[dict], labels: dict, ids: list[str] | None = None) -> dict:
@@ -97,8 +113,9 @@ def analyse(rows: list[dict], labels: dict, ids: list[str] | None = None) -> dic
     pos = {r["lead_id"]: i + 1 for i, r in enumerate(ranked)}
     by_id = {r["lead_id"]: r for r in rows}
     picks = {}
-    for i in ids or []:
-        r = by_id.get(i)
+    for raw in ids or []:
+        i = resolve_id(raw, by_id)
+        r = by_id.get(i) if i else None
         if r:
             picks[i] = {"rank": pos[i], "of": n, "name": r.get("name_unternehmen"), "gesamt": r.get("gesamt_score"),
                         "team": r.get("team_score"), "markt": r.get("marktpotenzial_score"),
@@ -117,7 +134,12 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     rows = json.loads(Path(a.scores).read_text(encoding="utf-8"))
     labels, _ = P.load_labels(a.labels)
-    res = analyse(rows, labels, [i for i in a.ids.split(",") if i])
+    ids = [i for i in a.ids.split(",") if i.strip()]
+    known = {r["lead_id"] for r in rows}
+    for i in ids:
+        if resolve_id(i, known) is None:
+            print("Warnung: lead_id %r nicht in %s" % (i, a.scores), file=sys.stderr)
+    res = analyse(rows, labels, ids)
     print(json.dumps({k: res[k] for k in ("coverage", "distribution", "picks")}, ensure_ascii=False, indent=1))
     print("Kriterien (Spearman vs. Label, Ø talk vs. Rest, Belegquote):")
     for k, v in sorted(res["criteria"].items(), key=lambda kv: -(kv[1]["spearman_vs_label"] or -9)):

@@ -239,3 +239,142 @@ Danach dieses Gate mit denselben Befehlen wiederholen; die Befehle stehen oben, 
 6. **Datenschutz:** Scores und Scratch enthalten echte Impressum-Namen (öffentliche Geschäftsdaten). Die Beispiele
    im Repo sind pseudonymisiert. Entscheiden, ob Scores mit Klarnamen ins Repo dürfen; bis dahin Scratch nicht
    committen (H1).
+
+---
+
+# Gate 2 (Wiederholung nach der Fix-Runde), 21.11.2026
+
+Geprüft habe ich `origin/agents/data-quality-fixes` @ ff884ff plus die Fix-Runde im Arbeitsbaum, darunter das neue
+`context/dbsearch.py`, die Partner-Filter, die Website-VP und `why_now` nach Prüfart. Produktcode habe ich nicht
+angefasst, nichts committet. Rohdaten liegen in `AGENT_TEAM/reports/scratch/gate2/` (Duplikate gelöscht).
+
+## Urteil Gate 2
+
+**GATE BESTANDEN, ohne Auflagen für Agents.**
+- Alle Befunde aus Gate 1, die Agents beheben konnten (H1, M1–M3, m1–m6), sind erledigt. m7 war kein Fehler.
+- Neu gefunden habe ich drei MINOR (n1–n3). Sie sind optional und blockieren weder einen Push noch eine Demo.
+- Offen bleiben nur Entscheidungen des Teams (M4, Labels, Gewichte, Merge, Datenschutz).
+
+## Frischmessung
+
+| Prüfung | Ergebnis |
+|---|---|
+| Suite, zweimal | **807 passed / 807 passed** (10 s); `AGENT_TEAM/eval` 13 passed |
+| Online-Kontext, 52 Leads | Exit 0, aus dem Cache (2 s). Ein zweiter Kontextlauf ist ohne Zeitstempel identisch (0 Diff-Zeilen) |
+| Scoring zweimal (online), Offline-733 zweimal | jeweils byte-identisch (json, csv) |
+| Schema | 0 Fehler (52, 733, `examples/scoring`, `examples/context/scores`) |
+| Evidence ohne URL und ohne Kennzeichnung / Längenlimits | 0 / max. 200 · 296 · 400 |
+| Offline 733 | 47,1 / 54,1 / 58,2, 89 verschiedene Werte, 733× `pre_gruendung` (unverändert, offline gibt es keinen Website-Text) |
+| Beispiele | kiutra `zu_spaet` 20,0; Siderogain `pre_seed` 71,2 |
+| Pipeline / Streamlit | `run_pipeline(use_mock=True)`: demo 30/30. Module importierbar. `AppTest(app.py)`: 0 Exceptions, 0 Fehler |
+
+| Online, 52 Leads | Gate 1 | **Gate 2** |
+|---|---|---|
+| Spearman (30 unbestätigte Agent-Labels) | 0,41 | **0,42** |
+| P@10 talk (Abdeckung) | 67 % (4/6) | **71 % (5/7)** |
+| P@30 talk / talk+maybe / Noise | 47 / 93 / 7 % | 47 / 93 / 7 % |
+| Website / Gründer / Papers belegt | 38,5 / 30,8 / 26,9 % | 38,5 / **32,7** / **28,8** % |
+| `in_databases = true` | 1,9 % | **13,5 %** (7) |
+| VP-Platzhalter | 49/52 | **31/52**; alle 20 Website-Leads außer BEHtec (Lorem-ipsum-Seite) haben eine VP aus der Website |
+| Belegte Traktion (davon Müll) | 4 (3) | **2 (0)** |
+| Spanne Gesamtscore | 53,4–69,2 | 53,4–68,0 (40 verschiedene Werte) |
+
+Zirkularität der Labels (Gate 1, Abschnitt 1) gilt weiter. Die Zahlen sind ein Hinweis, keine Kalibrierung.
+
+**Online-Top-10:**
+1. DyNAtrix
+2. iNSyT
+3. BotFellows (64,9, vorher 69,2 mit Müll-Partner)
+4. SideroGaIn
+5. **Ymolution** (64,7)
+6. Metubiq
+7. SA-Dynamics
+8. Pulse-of-Production
+9. AutonomIQ
+10. **Versatile Robotics**
+
+SpinMagIC (11) und SIMBA verlieren ihre Müll-Partner und fallen aus den Top 10. **SECARA steht auf 14.**
+
+## Status der Gate-1-Befunde
+
+| Befund | Status | Beleg |
+|---|---|---|
+| H1 Commit-Hygiene | **erledigt** | `.gitignore:53` `.venv` (ohne Slash), `git check-ignore` greift. Commit ff884ff enthält weder Scratch noch `.venv`/`.claude` (0 Dateien aus `reports/scratch` versioniert); alle drei stehen als ignoriert (`!!`) |
+| M1 Müll-Partner | **erledigt** | „Global Partners“, beide Ministerien und die ISST-Bruchstücke sind weg. SIMBA: „Fraunhofer-Institut für Software- und Systemtechnik ISST“ als Forschungspartner (50, vorher 80). SideroGaIn: Freiberger Compound Materials (pilot, 85) bleibt. Test-Probe: „Siemens und Bosch“, „BASF, Covestro und Evonik“, „Klinikum rechts der Isar und Charité“ werden weiter richtig getrennt (siehe aber n3) |
+| M2 VP-Platzhalter | **erledigt** (Qualität siehe n1) | 49 → 31. SECARA wird nicht mehr mitten im Wort gekürzt |
+| M3 DB-Aussage | **erledigt** | 0 Aussagen „nicht gefunden“ ohne Prüfart; 45× „… nicht gefunden (Datenbanksuche)“; 6 echte Profiltreffer mit URL, `earliness_delta` bei Treffern ohne Datum leer |
+| M4 Best Find nur im Teillauf | **offen (Team)** | Offline steht Ymolution weiter auf 297 von 733. Den Longlist-Lauf muss das Team freigeben (Quota: laut matcher etwa 170 Brave-Anfragen im Monat verbraucht, Gate 2 kam auf 4 dazu) |
+| m1 Ymolution, 2. GF | **erledigt** | `name_gruender` = Alexander Reder; Christian Hentschker |
+| m2 DyNAtrix e.V. | **erledigt** | `legal_form` leer, Rolle „Project Leader (Impressum)“ |
+| m3 Team-Widerspruch, Meilenstein | **erledigt** | „nicht namentlich“ bei vorhandenem Namen: 0; „wiederholbarer Vertrieb“: 0 |
+| m4 `best_find.md` | **erledigt** (Rundungsdrift) | Ränge und Datum der Landesförderung (29.10.2026) nachgetragen. Gate-2-Ränge sind Ymolution 5, Versatile 10, SECARA 14 (dort steht 6/11/14) |
+| m5 Headline-Zahlen | **erledigt** | Lesehinweise in `evaluator.md` und `evaluator_online.md` |
+| m6 `coverage.py --ids` | **erledigt** | IDs ohne `foekat-` werden aufgelöst, `picks` ist gefüllt; neuer `test_coverage.py` |
+| m7 SpinMagIC „Founded by“ | **kein Fehler** | Geprüft: Auf „Founded by:“ folgt nur die BMWK-Logozeile („based on a resolution of the German Bundestag“). Nebenbefund Pulse-of-Production: GF Philipp Niemietz jetzt da |
+
+## Stichproben
+
+**DB-Treffer (2 von 6, Brave):**
+- **Metubiq → PitchBook 969457-15:** richtig. Titel „Metubiq 2026 Company Profile“, „headquartered in Kassel, Germany“.
+- **Rement → Crunchbase `organization/rement`:** richtig. Beschreibung „resource recovery technology for concrete
+  waste“, dazu das Crunchbase-Personenprofil von CEO Robert Schleinhege.
+- Schon in Gate 1 bestätigt: BotFellows (Tracxn) und iNSyT (PitchBook).
+- Laut matcher verworfene Namensvetter: insyt (Social-App), autonomiq (US-Firma), BOTfriends. Ein Fehltreffer ist mir
+  nicht begegnet.
+
+**Website-VPs (2 von 20 gegen `website_text`):**
+- **Ymolution:** „We develop fully synthetic nano-antibodies (VHH): without a single laboratory animal, with
+  unmatched precision and in weeks instead of months.“ Das ist ein wörtlicher Satz von ymolution.com/en und eine
+  gute VP.
+- **iNSyT:** „Applications – Coatings & thin Layers Get insights in dynamics of objects down to the nanoscale …“. Der
+  zweite Teil stimmt, davor steht aber ein **Menüpunkt** der Navigation (n1).
+
+## Neue Befunde (alle MINOR, optional)
+
+**n1 – Website-VP übernimmt teils Navigations- oder CTA-Text bzw. nur den Problemsatz.** Fix: scorer,
+`scoring/engine.py` (VP-Extraktion aus `website_text`).
+- **Fälle:**
+  - iNSyT: Menüpunkt „Applications – Coatings & thin Layers“ vor dem Satz.
+  - Metubiq: „… explore our core technology.“ (CTA).
+  - MillionMolecules: „It's time to find your answer.“
+  - SpinMagIC: nur der Problemsatz „Free radicals are a critical indicator …“; der Nutzen steht erst im übernächsten
+    Satz („Our cutting-edge quantum sensor enables precise, real-time monitoring …“).
+  - Bei SA-Dynamics und SONOJET fehlt der Punkt zwischen Headline und Unterzeile.
+- Werbe- oder Cookie-Text kam nicht vor.
+- **Fix-Idee:** Zeilen verwerfen, die im Menüblock mehrfach vorkommen oder mit „Applications –/Home/Contact“
+  beginnen. CTA-Verben (explore, discover, find out, contact) abwerten. Einen Satz mit „we/our/unser“ + Verb
+  bevorzugen.
+
+**n2 – HydroPURE: positive DB-Aussage mit der URL einer negativen Suche.** Fix: scorer (`evaluation/engine.py`).
+- `evaluation/engine.py:233-235` nimmt als `in_databases_quelle` die erste Nicht-Wayback-Evidence `in_databases`.
+- Bei HydroPURE ist das die Brave-Suche mit dem Ergebnis „kein Profil“. `in_databases = true` stammt aber aus
+  Wayback (crunchbase `organization/hydropure`, 2024-10-01).
+- Folge: `why_now` = „bereits mit Datenbankprofil gelistet (search.brave.com)“.
+- Die Quellen widersprechen sich, und der Wayback-Slug könnte ein Namensvetter sein; der Matcher hatte
+  hydropure.ae schon als Namensvetter verworfen.
+- **Fix:** Nur Evidence mit positivem Befund (Profil-URL) als Quelle nehmen. Bei einem Widerspruch zwischen Brave
+  (kein Profil) und Wayback (Slug-Profil) einen offenen Punkt „Namensvetter prüfen“ setzen.
+
+**n3 – Partner-Splitter verschmilzt nach „für/of + Substantiv“ zu viel.** Fix: matcher,
+`context/classify.py:317-330`.
+- `_orgs("Fraunhofer-Institut für Lasertechnik ILT und BMW")` liefert einen einzigen Partner, BMW geht verloren.
+- `_orgs("Bank of America and Siemens Energy")` liefert ebenfalls einen.
+- **Fix:** Nur zusammenhalten, wenn links eine Wortellipse („Software-“) steht oder rechts kein eigenständiger
+  Organisationsname folgt (z. B. ein Kürzel oder eine Rechtsform direkt danach).
+- Im aktuellen Lauf ohne Wirkung, weil nur 2 Partner belegt sind.
+
+**Kein Befund:**
+- Gründer-Rollen sind plausibel („Geschäftsführung (Impressum)“, DyNAtrix „Project Leader (Impressum)“). Keine
+  Müllnamen in `name_gruender`.
+- Stage passt in allen Top 10, Metubiq ist richtig `in_gruendung`.
+- Ein DB-Profil allein setzt kein `zu_spaet`. Das ist richtig, denn Tracxn nennt BotFellows und iNSyT „unfunded“;
+  `why_now` sagt „Vorsprung prüfen“.
+
+## Nur das menschliche Team (unverändert)
+
+1. Labels bestätigen und die ungelabelten Top-10-Leads labeln (BotFellows, SideroGaIn, Metubiq).
+2. Gewichte 0,40/0,25/0,35 gegen den Output-Vertrag 0,35/0,35/0,30 freigeben oder zurücknehmen.
+3. Best Find von Hand prüfen (Ymolution, SECARA, Versatile-Pre-Seed).
+4. Quota für den Online-Lauf über die Longlist freigeben (M4).
+5. Merge entscheiden und das Feld `models.py` `matched_website` abstimmen.
+6. Klarnamen in den Scores (Datenschutz).

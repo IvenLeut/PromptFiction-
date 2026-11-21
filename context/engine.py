@@ -281,7 +281,8 @@ def default_lookups(cache=_DEFAULT_CACHE, model: str | None = None, patents: boo
                                ("web_history", "context.wayback", "web_history_lookup"), ("classify", "context.classify", "classify_texts"),
                                ("author", "context.openalex", "author_lookup"), ("idw", "context.idw", "idw_lookup"),
                                ("patents", "context.patents", "patent_lookup"),
-                               ("website_match", "context.website_match", "match_lookup")):
+                               ("website_match", "context.website_match", "match_lookup"),
+                               ("databases", "context.dbsearch", "database_lookup")):
         if (name == "patents" and not patents) or (name == "website_match" and not match):
             found[name] = None
             continue
@@ -328,7 +329,7 @@ def _run(lookups: dict, name: str, merged: Lookup, call):
     """Run one lookup; a failing lookup becomes an error entry instead of aborting the lead."""
     func = lookups.get(name)
     if func is None:
-        if name not in ("patents", "website_match"):
+        if name not in ("patents", "website_match", "databases"):
             merged.errors.append("%s: Modul nicht verfügbar" % name)
         return None
     try:
@@ -354,6 +355,7 @@ class _LookupHits:
     namesake_urls: set[str] = dc_field(default_factory=set)
     directors: list[str] = dc_field(default_factory=list)      # Impressum managing directors (lead without founders)
     imprint_url: str | None = None
+    imprint_text: str = ""
 
 
 def _run_lookups(lead: RawLead, lookups: dict, signals: list[SourceSignal], offline: list, earliest: date | None,
@@ -384,6 +386,7 @@ def _run_lookups(lead: RawLead, lookups: dict, signals: list[SourceSignal], offl
             history_kwargs["confirmed_years"] = EXIST_CONFIRMED_YEARS    # "EXIST" alone vouches only for a recent domain
     _run(lookups, "web_history", merged, lambda f: f(website, lead.name, cache=cache,
                                                      **history_kwargs))
+    _check_databases(lead, lookups, merged, signals, website, offline, cache)
     _run(lookups, "idw", merged, lambda f: f(lead.name, institution=institution, founders=list(lead.founders), cache=cache))
     result = _run(lookups, "patents", merged, lambda f: f(lead.name, list(lead.founders), cache=cache))
     hits.patents = list(result[0]) if result else []
@@ -400,6 +403,7 @@ def _run_lookups(lead: RawLead, lookups: dict, signals: list[SourceSignal], offl
         directors = merged.fields.get("managing_directors") or []
         hits.directors = [d for d in dict.fromkeys(directors) if isinstance(d, str) and d.strip()][:MAX_DIRECTOR_LOOKUPS]
         hits.imprint_url = merged.fields.get("imprint_url")
+        hits.imprint_text = next((sig.evidence for sig in merged.signals if sig.type == "impressum"), "")
         # No field terms: a catalogue lead's terms are only its project name, which made every count 0 ("0 Papers im
         # Produktfeld") although the person publishes in the field. Without terms works_in_field stays unknown
         # (neutral in scoring) and the lookup costs one OpenAlex call instead of two.
@@ -791,13 +795,24 @@ def _founder_profiles(facts: _Facts, founders: list[str], profiles: dict[str, Fo
     return out
 
 
+IMPRINT_ROLE = re.compile(r"\(\s*(Project Lead(?:er)?|Projektleit(?:er|erin|ung)|Teamleit(?:er|erin|ung)|Team Lead|"
+                          r"Principal Investigator|CEO|CTO|COO|CFO|Gründer(?:in)?|Co-?Founder|Founder)\b", re.IGNORECASE)
+
+
+def _imprint_role(name: str, text: str) -> str:
+    """'Dr. Elisha Krieg (Project Leader, EXIST EFT Project)' -> 'Project Leader (Impressum)'; default: managing director."""
+    surname = name.split()[-1] if name.split() else name
+    match = re.search(re.escape(surname) + r"\s*" + IMPRINT_ROLE.pattern, text or "", re.IGNORECASE)
+    return "%s (Impressum)" % match[1] if match else DIRECTOR_ROLE
+
+
 def _director_profiles(hits: _LookupHits) -> list[FounderProfile]:
     """Managing directors from the Impressum as team profiles: OpenAlex data if matched, source = Impressum URL."""
     out = []
     for name in hits.directors:
         base = hits.profiles.get(name)
         values = base.model_dump() if base else {"name": name}
-        values["role"] = DIRECTOR_ROLE
+        values["role"] = _imprint_role(name, hits.imprint_text)
         values["source_url"] = values.get("source_url") or hits.imprint_url
         out.append(FounderProfile(**values))
     return out
@@ -829,6 +844,42 @@ def _match_website(lead: RawLead, lookups: dict, offline: list, merged: Lookup) 
     result = _run(lookups, "website_match", merged, lambda f: f(lead.name, cache=lookups.get("cache"), **lead_context(lead, facts)))
     lookup = result[1] if isinstance(result, tuple) else result
     return (lookup.fields.get("matched_website") if lookup is not None else None) or None
+
+
+def _check_databases(lead: RawLead, lookups: dict, merged: Lookup, signals: list[SourceSignal], website: str | None,
+                     offline: list, cache) -> None:
+    """Startup-database search (context/dbsearch.py) after Wayback; it decides `in_databases` where it ran.
+
+    A confirmed live profile sets True (and adds its URLs); a search without profile sets False unless Wayback found
+    an archived profile. Its Evidence goes first, so the scorer reads the real search, not the Wayback CDX query.
+    """
+    if not lookups.get("databases"):
+        return
+    from context.web import site_key
+    facts = offline[0][2] if offline else {}
+    text = "\n".join(s.evidence for s in signals if s.type == "website" and website and site_key(str(s.url)) == site_key(website))
+    db = Lookup()
+    try:
+        db = lookups["databases"](lead.name, website=website, location=lead.location,
+                                  institution=facts.get("executing") or facts.get("recipient"), website_text=text, cache=cache)
+    except Exception as exc:  # noqa: BLE001 - a failing lookup must not kill the dossier
+        logger.exception("Lookup databases failed")
+        merged.errors.append("databases: %s" % type(exc).__name__)
+        return
+    merged.errors.extend(db.errors)
+    found = db.fields.get("in_databases")
+    if found is None:
+        return
+    if found is True or merged.fields.get("in_databases") is not True:
+        merged.fields["in_databases"] = found
+        if found:
+            merged.fields["database_urls"] = list(dict.fromkeys([*db.fields.get("database_urls", []),
+                                                                 *map(str, merged.fields.get("database_urls") or [])]))
+        merged.evidence[:0] = db.evidence
+    else:
+        merged.evidence.extend(db.evidence)
+    if "databases" not in merged.fields.setdefault("_sources", []):
+        merged.fields["_sources"].append("databases")
 
 
 def _site_confirms_project(signals: list[SourceSignal], website: str | None, reference: str | None) -> str | None:

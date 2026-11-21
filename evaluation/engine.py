@@ -182,7 +182,7 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
         if name and _namekey(name) not in {_namekey(t["name"]) for t in team}:
             team.append({"name": name, "rolle": "Geschäftsführung", "quelle": gf_url, "herkunft": "impressum"})
 
-    partner = [{"name": x.name, "typ": x.kind, "quelle": str(x.url)} for x in lead.partners]
+    partner = [{"name": x.name, "typ": x.kind, "quelle": str(x.url)} | ({"zitat": x.quote} if x.quote else {}) for x in lead.partners]
     if lead.customer_count and src("customer_count"):
         partner.append({"name": "%d Kunden" % lead.customer_count, "typ": "kunde", "quelle": src("customer_count")})
     ip = None
@@ -230,7 +230,9 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
                          if "website_text" in by_field and not by_field["website_text"].source.startswith("Ollama-Zitat") else None),
         "funding_meldung": funding,
         "in_databases": lead.in_databases if src("in_databases") or lead.in_databases is None else None,
-        "in_databases_quelle": src("in_databases"),
+        # echte Datenbankprüfung (nicht Wayback) hat Vorrang als Quelle; Wayback-Quelle sonst wie bisher
+        "in_databases_quelle": next((str(e.url) for e in lead.evidence if e.field == "in_databases"
+                                     and "web.archive.org" not in str(e.url)), None) or src("in_databases"),
         "first_db_date": lead.first_db_date.isoformat() if lead.first_db_date and src("first_db_date") else None,
         "match_confidence": lead.match_confidence,
         "signals": signals,

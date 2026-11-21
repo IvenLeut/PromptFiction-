@@ -11,6 +11,22 @@ Nach dem Faktencheck (`AGENT_TEAM/reports/fact_check.md`) überarbeitet: Bei der
 Daten mit Konfidenz „hoch“. Fünf Labels sind korrigiert. Beim Best Find ist InhalPlus gestrichen (finanziert),
 Versatile Robotics steht mit offener Prüffrage, neu empfohlen ist Ymolution, Alternative ist SECARA.
 
+> **So sind die Precision-Zahlen zu lesen (Final Gate, m5)**
+> - **Basis:** Alle P@k- und Spearman-Werte beruhen auf **30 unbestätigten Agent-Labels** (10 talk / 19 maybe /
+>   1 no, `quelle_label=agent_vorschlag`). Mit `--nur-bestaetigt` gibt es noch keine Zahl.
+> - **Abdeckung immer mitnennen:** Gezählt werden nur gelabelte Leads in den Top k.
+>   - „P@10 67 %“ im Gate-Endstand heißt 4 von 6 gelabelten Leads; 4 der Top 10 sind ungelabelt (BotFellows,
+>     SideroGaIn, SpinMagIC, Metubiq).
+>   - „P@30 47 %“ bezieht sich auf 50 % Abdeckung.
+> - **Zirkularität:** Die Labels entstanden aus Websuche, und der Score belohnt ebenfalls Web-Präsenz.
+>   - Gelabelte Leads mit Website sind öfter „talk“: Gate-Endstand 6/10, ohne Website 4/20; mein Online-Lauf 5/9
+>     gegenüber 5/21.
+>   - Der Gate-Spearman von 0,41 misst also teils die Übereinstimmung beim öffentlichen Fußabdruck, nicht die
+>     Investmentqualität.
+>   - Belastbar wird er erst mit Labels, die das Team unabhängig vom Web-Fußabdruck bestätigt.
+> - **Backtest:** Der Earliness-Backtest (11/11, Median 21 Monate) hängt nicht von den Labels ab. Er ist eine
+>   Handauswahl mit Survivorship- und Namensbias (siehe unten).
+
 1. **Earliness:** **11/11 früh erkannt, Median 21 Monate** (Spanne 8–40) zwischen EXIST-Projektbeginn im
    Förderkatalog und erster öffentlicher Finanzierungsmeldung bzw. erster archivierter Crunchbase-/Dealroom-Seite.
    **n=11 ist eine Handauswahl bekannter Ausgründungen**, 4 davon im HTGF-Portfolio. Nicht in der Headline, aber in

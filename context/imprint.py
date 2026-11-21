@@ -245,10 +245,18 @@ def parse_imprint(text: str) -> dict:
     return out
 
 
+# Address lines of a host: "c/o <institute>", or a university/research institute line. Their e.V./AG/KöR is the
+# host's legal form (DyNAtrix: "c/o Leibniz-Institut für Polymerforschung Dresden e.V.", final gate m2).
+HOST_INSTITUTION = re.compile(r"^\s*c/o\b|\b(?:Universit[äa]t|University|Hochschule|Institut\b|Institute\b|-Institut|Fraunhofer|"
+                              r"Helmholtz|Leibniz|Max-Planck|Forschungszentrum|Universitätsklinikum)", re.I)
+
+
 def _legal_form(lines):
     """Return (company_name, label, line, index) for the first line naming a legal form."""
     best = None
     for idx, line in enumerate(lines):
+        if HOST_INSTITUTION.search(line):
+            continue  # "c/o Leibniz-Institut ... e.V.": the host institute of a spin-off project, not its legal form
         if REGISTER.search(line) and "HRB" in line and not any(p.search(line) for n, p in LEGAL_FORMS if n != "AG"):
             continue  # register lines ("AG Charlottenburg HRB ...") are not company-name lines
         for label, pattern in LEGAL_FORMS:
@@ -353,13 +361,16 @@ def _directors(lines):
         if label.startswith("vertreten") and re.search(r"\b(?:Gesellschaft|GmbH|Komplementär|persönlich haftende)", rest, re.I) and not _split_names(rest):
             continue
         found = _split_names(rest)
+        if not found and not rest.strip(" :-–"):
+            # Role after the name: "Philipp Niemietz Geschäftsführer" (often below a bare "Vertreten durch:")
+            found = _split_names(line[:match.start("label")])
         used = [line]
         if not found and not rest.strip(" :-–"):
             # Names on the following lines until something that is not a name.
             while i < len(lines) and len(found) < 6:
                 nxt = lines[i]
                 if DIRECTOR_LABEL.search(nxt):
-                    break  # handled by the outer loop with its own label
+                    break  # handled by the outer loop with its own label (also "Name Geschäftsführer")
                 part = _split_names(nxt)
                 if not part or re.search(r"\d|@|:", nxt):
                     break
@@ -389,6 +400,10 @@ def _split_names(text):
         tokens = part.replace("·", " ").split()
         for n, token in enumerate(tokens):  # cut at address or label tokens glued to the name line
             if re.search(r"\d|@|§", token) or ADDRESS_WORD.search(token):
+                tokens = tokens[:n]
+                break
+        for n, token in enumerate(tokens):  # prose after the name: "Dr. Christian Hentschker explain why ..."
+            if n >= 2 and token[:1].islower() and token.lower() not in NAME_PARTICLES:
                 tokens = tokens[:n]
                 break
         part = " ".join(tokens).strip(" .,:;-–")

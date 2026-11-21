@@ -91,6 +91,12 @@ katalog:
   fach_ohne_tech: '(kunsthochschule|kunst|design|musik|sport|p(ä|ae)dagog|didaktik|sozial|theolog|philosoph|geschichte|sprach|literatur|medien)'
   # Gruppe der ausführenden Stelle benannt (Lehrstuhl, Institut, Professur ...).
   forschungsgruppe: '(lehrstuhl|institut|professur|fachgebiet|arbeitsgruppe|forschungsgruppe|abteilung|zentrum|labor|\bl f(ü|ue)r\b)'
+  # Partner/Kunden aus der Textklassifikation (Final Gate M1): verwerfen, wenn Fördergeber/Programm/Behörde ...
+  partner_verwerfen: '(ministry|ministerium|bundesministerium|\bbm(bf|wk|we|wi|ftr|uv|el|g)\b|european union|europäische union|eu-kommission|european commission|\besf\b|\befre\b|horizon|\bexist\b|projektträger|\bptj\b|förder|funding|funded|climate protection|klimaschutz|bundesamt|landesministerium|staatsministerium|\bdfg\b|\bbmbf\b)'
+  # ... oder nur eine generische Phrase ist ("Global Partners", "Our Customers", "Brands")
+  partner_generisch: '((our|unsere|global|trusted|leading|top|many|viele|zahlreiche|namhafte)\s+)*(partners?|customers?|clients?|brands?|kunden|partner(n|innen)?|unternehmen|companies|industry partners|industriepartner)'
+  # stark nur mit Rechtsform oder als bekannte Organisation (Forschungseinrichtung, Hochschule, Klinik, Konzernname mit Rechtsform)
+  partner_organisation: '(\b(gmbh|ag|se|kg|kgaa|ug|e\.\s?v\.|inc|ltd|llc|corp|sa|s\.a\.|bv|b\.v\.|plc|oy|ab|as|spa)\b|fraunhofer|max-planck|helmholtz|leibniz|universit|hochschule|klinikum|charit|institut\b|institute\b)'
   gruendungsservice: '(gr(ü|ue)ndungsservice|gr(ü|ue)nderservice|gr(ü|ue)ndungszentrum|gr(ü|ue)nderzentrum|gr(ü|ue)nderinstitut|entrepreneurship|startup|start-up|transfer)'
 
 texte:
@@ -98,6 +104,11 @@ texte:
   risiko_ab: 0.5               # Risikokriterium ab diesem Wert kann Hauptrisiko sein
   hypothese_min_confidence: 0.4
   foerderende_in_monaten: 12   # why_now nennt ein Förderende, wenn es so nah ist
+  # Value Proposition / Produktbeschreibung aus website_text (nur bei Platzhalter-Beschreibung): inhaltliche Sätze
+  website_min_woerter: 6
+  website_max_zeichen: 220
+  website_verwerfen: '(cookie|datenschutz|privacy|impressum|imprint|skip to|zum inhalt|\bkontakt\b|\bcontact\b|newsletter|gef(ö|oe)rdert|funded|f(ö|oe)rder|\bexist\b|european union|europ(ä|ae)ische union|bundesministerium|federal ministry|©|all rights|alle rechte|^\s*(welcome|willkommen)|get in touch|demo anfragen|learn more|mehr erfahren|read more|weiterlesen|\blogin\b|anmelden|karriere|careers|\bjobs\b|we are hiring|wir suchen|buy now|jetzt kaufen|try now|jetzt testen|book a demo|request a demo|shop now|zum shop|be the first|lorem ipsum|dolor sit amet|something went wrong|submitting the form|thank you! your submission|javascript)'
+
 
 # Jedes Kriterium liefert 0..1. Bei team/marktpotenzial ist 1 = gut, bei risiko ist 1 = hohes Risiko.
 kriterien:

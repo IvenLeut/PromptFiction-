@@ -101,7 +101,8 @@ def is_url(u):
 def clean(x, tiefe=0):
     """Dossier entschärfen: kaputte Zeichen und Steuerzeichen raus, nur str-Schlüssel, begrenzte Tiefe und Länge."""
     if isinstance(x, str):
-        return re.sub(r"[\x00-\x1f\x7f]", " ", x.encode("utf-8", "replace").decode("utf-8"))[:20000]
+        # Zeilenumbrüche bleiben (Website-Text ist zeilenweise); alle Textspalten werden später mit clip() eingeebnet
+        return re.sub(r"[\x00-\x09\x0b-\x1f\x7f]", " ", x.encode("utf-8", "replace").decode("utf-8"))[:20000]
     if isinstance(x, (bool, int, float)) or x is None:
         return x
     if tiefe >= 8:
@@ -425,21 +426,25 @@ class Scorer:
             ef = next((e for e in self.katalog_exist() if e["art"] == "ef"), None)
             if (not sp or sp[0] < 2) and ef:  # Richtlinie: EXIST-Forschungstransfer fördert Forschungsteams
                 return dict(wert=self.proxy(k["werte"]["forschungsteam"]), proxy=True, url=ef["url"], datum=iso(ef["start"].isoformat()),
-                            aussage="EXIST-Forschungstransfer fördert Forschungsteams, Gründer noch nicht namentlich belegt")
+                            aussage=("%s laut Impressum in der Geschäftsführung, Teamgröße offen; EXIST-Forschungstransfer fördert Forschungsteams"
+                                     % self.team[0]["name"]) if nur_impressum else
+                                    "EXIST-Forschungstransfer fördert Forschungsteams, Gründer noch nicht namentlich belegt")
             if not sp or sp[0] < 2:
                 return None
             n, monate, e = sp
             return dict(wert=k["werte"]["foerderung_ab_drei" if n >= 3 else "foerderung_ab_zwei"], url=e["url"], datum=iso(e["start"].isoformat()),
-                        aussage="Stipendium %s EUR über %d Monate: nach EXIST-Obergrenzen mind. %d geförderte Personen" % (eur(e["summe"]), monate, n))
+                        aussage=("%s laut Impressum in der Geschäftsführung; " % self.team[0]["name"] if nur_impressum else "")
+                        + "Stipendium %s EUR über %d Monate: nach EXIST-Obergrenzen mind. %d geförderte Personen" % (eur(e["summe"]), monate, n))
         n, mix = len(self.team), self.mix()
+        wer = "Personen in der Geschäftsführung (Impressum)" if all(m.get("herkunft") == "impressum" for m in self.team) else "Gründer"
         if n == 1:
             key, aussage = "solo", "Ein Gründer belegt"
         elif mix is True:
-            key, aussage = "mehrere_mit_mix", "%d Gründer mit Technik und Business" % n
+            key, aussage = "mehrere_mit_mix", "%d %s mit Technik und Business" % (n, wer)
         elif mix is False:
-            key, aussage = "mehrere_ohne_business", "%d Gründer, kein Business-Profil" % n
+            key, aussage = "mehrere_ohne_business", "%d %s, kein Business-Profil" % (n, wer)
         else:
-            key, aussage = "mehrere_mix_unbekannt", "%d Gründer, Profil-Mix unbekannt" % n
+            key, aussage = "mehrere_mix_unbekannt", "%d %s, Profil-Mix unbekannt" % (n, wer)
         return dict(wert=k["werte"][key], aussage=aussage, url=self.team[0]["_url"])
 
     def exist(self):
@@ -507,14 +512,45 @@ class Scorer:
             return None
         return dict(wert=stufe(k["stufen"], v), aussage="Marktvolumen %s EUR" % eur(v), url=url, datum=datum)
 
+    def partner_geprueft(self, k):
+        """Partner mit Quelle -> (stark, schwach). Verworfen: Fördergeber, Programme, generische Phrasen ("Global Partners"),
+        Bruchstücke eines an "und/and" zerschnittenen Namens. Stark: Name mit Rechtsform oder bekannte Organisation;
+        sonst schwach (zählt nur als Proxy)."""
+        kat = self.cfg["katalog"]
+        roh = [p for p in dicts(self.d.get("partner")) if isinstance(p.get("typ"), str) and p["typ"] in k["werte"]
+               and is_url(p.get("quelle")) and text(p.get("name"))]
+        # an "und/and" zerschnittene Namen wieder zusammensetzen: "<links> und <rechts>" steht so im Zitat
+        voll, rechts_teile = {}, set()
+        for p in roh:
+            for o in roh:
+                if o is not p:
+                    m = re.search(re.escape(text(p["name"])) + r"(-?\s+(und|and|&)\s+)" + re.escape(text(o["name"])), str(p.get("zitat") or ""))
+                    if m:
+                        voll[id(p)] = text(p["name"]) + m.group(1) + text(o["name"])
+                        rechts_teile.add(id(o))
+        stark, schwach = [], []
+        for p in roh:
+            name = voll.get(id(p), text(p["name"]))
+            if id(p) in rechts_teile or re.search(kat["partner_verwerfen"], name, re.I) or re.fullmatch(kat["partner_generisch"], name, re.I):
+                continue
+            # Organisation bestätigt: Rechtsform/Einrichtung im Namen oder direkt dahinter im Zitat ("… Materials (FCM) GmbH")
+            nach = re.search(re.escape(name) + r"([^.;]{0,25})", str(p.get("zitat") or ""))
+            bekannt = re.search(kat["partner_organisation"], name + " " + (nach.group(1) if nach else ""), re.I)
+            (stark if bekannt else schwach).append(dict(p, name=name))
+        return stark, schwach
+
     def k_traktion(self, k):
-        ok = [p for p in dicts(self.d.get("partner")) if isinstance(p.get("typ"), str) and p["typ"] in k["werte"] and is_url(p.get("quelle"))]
+        stark, schwach = self.partner_geprueft(k)
+        ok, proxy = (stark, False) if stark else (schwach, True)
         if not ok:
             return None
         best = max(ok, key=lambda p: (k["werte"][p["typ"]], text(p.get("name")) or "", p["quelle"]))
         wert = min(1.0, k["werte"][best["typ"]] + (k["bonus_ab_zwei"] if len(ok) >= 2 else 0))
-        return dict(wert=wert, aussage="%d belegte Partner; stärkster: %s (%s)" % (len(ok), clip(text(best.get("name")) or "ohne Namen", 60), best["typ"]),
-                    url=best["quelle"], datum=iso(best.get("datum")))
+        n = len(ok)
+        aussage = "%d %s; stärkster: %s (%s)" % (n, "belegter Partner" if n == 1 else "belegte Partner",
+                                                  clip(text(best.get("name")) or "ohne Namen", 60), best["typ"])
+        return dict(wert=self.proxy(wert) if proxy else wert, proxy=proxy, url=best["quelle"], datum=iso(best.get("datum")),
+                    aussage=aussage + (", Organisation nicht bestätigt" if proxy else ""))
 
     def fach_produkttyp(self):
         """Produkttyp-Proxy aus dem Fachgebiet: (typ, treffer, url) oder None."""
@@ -840,6 +876,13 @@ class Scorer:
             return "pre_seed", "Rechtsform %s; Reifegrad %s nur aus einer Quelle, für seed nicht ausreichend" % (rf, self.reifegrad()[0]), rf_url
         return "pre_seed", "Rechtsform %s" % rf, rf_url
 
+    def db_pruefung(self):
+        """'wayback' | 'suche' | None: Art der Datenbankprüfung nach Host der Quelle (web.archive.org = nur Wayback-Snapshots)."""
+        q = self.d.get("in_databases_quelle")
+        if not is_url(q):
+            return None
+        return "wayback" if host(q).endswith("web.archive.org") else "suche"
+
     def email(self, website):
         """Nur generisches Postfach auf der Domain der eigenen Website, mit Quelle."""
         v, url, _ = fact(self.d.get("email"))
@@ -923,6 +966,8 @@ def _score(dossier, cfg, stichtag):
         rec.update(ausschluss_grund="Pflichtangaben fehlen: " + ", ".join(fehlt), offene_punkte=fehlt)
         return rec
     _hinweis_punkte(s, rec)
+    if rec["in_databases"] is True and rec["earliness_delta_monate"] is None and rec["first_signal_date"]:
+        rec["offene_punkte"].append("Datenbankprofil vorhanden, Eintragsdatum unbekannt – Earliness nicht berechenbar")
     scores, abdeckung, treffer = _bewerte_dimensionen(s, rec)
     gruende = _einordnung(s, rec, scores, abdeckung)
     rec["investmenthypothese"] = clip(_investmenthypothese(s, rec, treffer, gruende), 400)
@@ -944,8 +989,8 @@ def _stammdaten(s, rec):
     if first_db and first_db > stichtag:
         first_db = None
     delta = None
-    if first_signal:  # DB-Eintrag vor dem ersten Signal heißt: kein Vorsprung
-        delta = max(0, months_between(first_signal, first_db or stichtag))
+    if first_signal and not (in_db is True and not first_db):  # Profil ohne Datum: Vorsprung unbekannt, nicht "bis heute"
+        delta = max(0, months_between(first_signal, first_db or stichtag))  # DB-Eintrag vor dem ersten Signal: kein Vorsprung
     rec.update({
         "name_gruender": ";".join(clip(n, 80) for n in (leiter or [m["name"] for m in s.team])), "email": s.email(website), "website": website,
         "branche": s.branche, "gruendungsjahr": gr.year if gr else None, "gruendungsmonat": gr.month if gr and monat else None,
@@ -967,14 +1012,45 @@ def _katalog_satzteile(s):
     inst, gruppe = kurz_stelle(e["stelle"] or e["empfaenger"])
     if not inst and e["empfaenger"]:
         inst = e["empfaenger"].split(",")[0]
-    wo = (clip(gruppe, 110) + (" (%s)" % clip(inst, 70) if inst else "")) if gruppe else clip(inst or "", 110)
+    # lange Institutionsnamen ("Rheinisch-Westfälische Technische Hochschule Aachen") nicht mitten im Wort abschneiden:
+    # mit Gruppe (Lehrstuhl) reicht die Gruppe, die Institution nur, wenn sie kurz ist
+    wo = (clip(gruppe, 110) + (" (%s)" % inst if inst and len(inst) <= 45 else "")) if gruppe else clip(inst or "", 110)
     return titel, clip(e["programm"] or "Förderprojekt", 60), wo, e
 
 
+def _website_saetze(s):
+    """Inhaltliche Sätze aus dem belegten Website-Text (extraktiv, Reihenfolge der Seite): ohne Navigation, Seitentitel,
+    Cookie-/Rechtstext, Förderhinweis und Handlungsaufforderung. -> Liste (leer ohne Website-Text mit Quelle)."""
+    wt, url, _ = fact(s.d.get("website_text"))
+    tx = s.cfg["texte"]
+    if not isinstance(wt, str) or not url or re.search(r"(?i)lorem ipsum", wt):  # Baukasten-Platzhalterseite
+        return []
+    out, gesehen = [], set()
+    wt = re.sub(r"(\w)-\s*\n\s*(?=[a-zäöüß])", r"\1", wt)  # Silbentrennung am Zeilenende: "Werkzeug-\nprobleme"
+    for zeile in re.split(r"\s*\n\s*", wt):
+        if re.search(r"\s[|·]\s|\s[—–]\s.*\s[—–|]\s", zeile):  # Seitentitel "Firma | Claim"
+            continue
+        for satz in saetze(zeile):
+            satz = satz.strip(" →•-–")
+            buchstaben = [c for c in satz if c.isalpha()]
+            if (len(satz.split()) < tx["website_min_woerter"] or len(satz) > tx["website_max_zeichen"] or satz[:1].islower()
+                    or re.search(tx["website_verwerfen"], satz, re.I)
+                    or (buchstaben and sum(c.isupper() for c in buchstaben) > 0.6 * len(buchstaben))):
+                continue
+            key = satz.lower()
+            if key not in gesehen:
+                gesehen.add(key)
+                out.append(satz)
+    return out
+
+
 def _produktbeschreibung(s):
-    """Echter Beschreibungstext: die ersten zwei Sätze. Platzhalter des Sourcings: belegte Fakten der Katalogseite."""
+    """Echter Beschreibungstext: die ersten zwei Sätze. Platzhalter des Sourcings: Website-Text, sonst die Katalogseite."""
     if not s.ist_platzhalter():
         return " ".join(saetze(s.rohtext)[:2])
+    web = _website_saetze(s)
+    if web:
+        return clip(" ".join(web[:2]), 300)
     teile = _katalog_satzteile(s)
     if not teile:
         return s.rohtext
@@ -990,8 +1066,15 @@ def _produktbeschreibung(s):
 
 
 def _value_proposition(s):
+    """Ein Satz Problem -> Lösung -> Nutzen, nur extraktiv: erster inhaltlicher Satz, ein kurzer zweiter wird angehängt."""
     if not s.ist_platzhalter():
         return (saetze(s.rohtext) or [""])[0]
+    web = _website_saetze(s)
+    if web:
+        vp = web[0]
+        if len(web) > 1 and len(vp) < 100 and len(vp) + len(web[1]) + 1 <= 200:
+            vp += " " + web[1]
+        return vp
     teile = _katalog_satzteile(s)
     if not teile:
         return s.rohtext
@@ -1095,7 +1178,12 @@ def _investmenthypothese(s, rec, treffer, gruende):
     reife = s.reifegrad()[0]
     fe = s.foerderende()
     if reife:
-        meilenstein = "Nächster Meilenstein: %s." % NAECHSTER_MEILENSTEIN[reife]
+        kunde = any(p["typ"] == "kunde" for p in s.partner_geprueft(cfg["kriterien"]["marktpotenzial"]["traktion"])[0])
+        if reife == "erste_kunden" and not (kunde or s.reifegrad_bestaetigt()):
+            # "erste Kunden" nur aus einer Textstelle: wiederholbarer Vertrieb wäre ein Schritt zu weit
+            meilenstein = "Nächster Meilenstein: ein belegter zahlender Kunde."
+        else:
+            meilenstein = "Nächster Meilenstein: %s." % NAECHSTER_MEILENSTEIN[reife]
     elif fe and fe[0] >= 0 and rec["stage"] in ("pre_gruendung", "in_gruendung"):
         meilenstein = "Wenn bis Förderende %s die Gründung gelingt, ist das Team ein Pre-Seed-Kandidat." % fe[1]["ende"].strftime("%m/%Y")
     else:
@@ -1137,8 +1225,14 @@ def _why_now(s, rec):
         fe = s.foerderende()
         if fe and fe[0] < -s.cfg["exist_nachlauf_monate"]:  # lange vorbei: Gründung oder Abbruch, Status offen
             now.append("%s lief bis %s – Status prüfen" % (clip(fe[1]["programm"] or "EXIST", 60), fe[1]["ende"].strftime("%m/%Y")))
+    pruefung = s.db_pruefung()
     if rec["in_databases"] is False:
-        now.append("in Crunchbase/Dealroom nicht gefunden" if s.d.get("in_databases_quelle") else "laut Sourcing in keiner Datenbank gefunden")
+        # Nur eine echte Datenbanksuche darf "nicht gefunden" sagen; Wayback prüft nur archivierte Profil-Slugs
+        now.append({"suche": "in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche)",
+                    "wayback": "kein archiviertes Crunchbase-/Dealroom-Profil (Wayback)"}.get(pruefung, "laut Sourcing kein Datenbankprofil gefunden"))
+    elif rec["in_databases"] is True and rec["stage"] != "zu_spaet":
+        q = s.d.get("in_databases_quelle")
+        now.append("bereits mit Datenbankprofil gelistet%s – Vorsprung prüfen" % (" (%s)" % host(q) if is_url(q) else " laut Sourcing"))
     now.append("jüngstes Signal %s" % vor_monaten(months_between(s.signals[-1]["datum"], stichtag)))
     return "; ".join(now)
 

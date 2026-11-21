@@ -299,10 +299,43 @@ def _excluded(org: str, exclude: list[str]) -> bool:
     return bool(needle) and any(re.search(r"(?<![a-z0-9])" + re.escape(needle) + r"(?![a-z0-9])", text) for text in exclude)
 
 
+# Funders, ministries and programmes: a funding notice ("The European Union, together with the Federal Ministry for
+# Economic Affairs and Climate Protection, supports the EXIST programme") names no partner or customer.
+FUNDER = re.compile(r"Ministeri|Ministry|Bundesministerium|Federal\b|Bundestag|Bundesregierung|Government|\bBMWK\b|\bBMWE\b|"
+                    r"\bBMBF\b|\bBMFTR\b|\bBMWi\b|European Union|Europäische[rn]? Union|\bEU\b|\bESF\b|Social Fund|Sozialfonds|"
+                    r"\bEXIST\b|Projektträger|\bPtJ\b|Förderprogramm|funding programme|Climate Protection|Klimaschutz", re.IGNORECASE)
+FUNDING_LINE = re.compile(r"\b(?:supports?|supported|funded|funding|fördert|gefördert|Förderung|unterstützt (?:durch|von))\b|"
+                          r"\bESF\b|Social Fund|Sozialfonds", re.IGNORECASE)
+# Words that make a phrase generic ("Trusted by Global Partners", "leading brands"), never a named organisation.
+GENERIC_WORDS = {"global", "leading", "international", "internationale", "internationalen", "führende", "führenden", "namhafte",
+                 "namhaften", "renommierte", "renommierten", "zahlreiche", "zahlreichen", "many", "top", "major", "world",
+                 "worldwide", "weltweit", "partners", "partner", "partnern", "customers", "customer", "clients", "kunden",
+                 "brands", "marken", "companies", "unternehmen", "teams", "industry", "industrie", "our", "unsere", "unseren",
+                 "innovative", "great", "best", "trusted", "selected", "ausgewählte", "ausgewählten", "and", "und", "&"}
+
+
+def _split_orgs(span: str) -> list[str]:
+    """Split an enumeration at ", ", "und/and/sowie/&" and "/", but keep one name together when the left part is a
+    German compound ellipsis ("Software- und Systemtechnik") or ends in a "für/for/of + noun" phrase
+    ("Institut für Software- und Systemtechnik ISST", "Ministry for Economic Affairs and Climate Protection")."""
+    parts, last = [], 0
+    for sep in ORG_SPLIT.finditer(span):
+        left = span[last:sep.start()]
+        conj = sep[0].strip().lower() in {"und", "and", "sowie", "&"}
+        if conj and (left.endswith("-") or re.search(r"\b(?:für|for|of)\s+(?:\S+\s+){0,2}\S+$", span[:sep.start()].split(",")[-1])):
+            continue
+        parts.append(span[last:sep.start()])
+        last = sep.end()
+    parts.append(span[last:])
+    return parts
+
+
 def _orgs(span: str, own: str = "", strict: bool = False) -> list[str]:
     result = []
-    for part in ORG_SPLIT.split(span):
+    for part in _split_orgs(span):
         org = _clean_org(part)
+        if org and (FUNDER.search(org) or all(w.casefold().strip(".,") in GENERIC_WORDS for w in org.split())):
+            continue
         if org and not _is_self(org, own) and (not strict or _looks_like_org(org)) \
                 and org.casefold() not in {o.casefold() for o in result}:
             result.append(org)
@@ -486,7 +519,7 @@ def _rules(name: str, signals: list[SourceSignal], result: Lookup, scope: Scope,
                 pharma_lines.add(line.casefold())
             # partners
             for kind, pattern in PARTNER_RES:
-                if kind == "_collab" and not line_about:
+                if kind == "_collab" and (not line_about or FUNDING_LINE.search(facts)):
                     continue
                 for match in pattern.finditer(facts):
                     cue_text = match[0][:match.start(1) - match.start()]

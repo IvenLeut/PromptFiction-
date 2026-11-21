@@ -677,3 +677,10 @@ def test_imprint_drops_non_names_and_university_representatives():
                          ).get("managing_directors") is None
     names, _ = parse_imprint("Impressum\nGeschäftsführer: Dr. Erika Musterfrau, Max Beispiel")["managing_directors"]
     assert names == ["Erika Musterfrau", "Max Beispiel"]
+
+
+def test_imprint_role_in_brackets_is_kept():
+    from context.engine import DIRECTOR_ROLE, _imprint_role
+    text = "Represented by:\nDr. Elisha Krieg (Project Leader, EXIST EFT Project)"
+    assert _imprint_role("Elisha Krieg", text) == "Project Leader (Impressum)"      # DyNAtrix, final gate m2
+    assert _imprint_role("Max Beispiel", "Geschäftsführer: Max Beispiel") == DIRECTOR_ROLE

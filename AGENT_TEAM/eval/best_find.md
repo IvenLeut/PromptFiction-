@@ -20,15 +20,24 @@ gesucht (Websuche und Brave Search API). Was dabei herauskam, steht in der Zeile
 | 3 (offene Prüffrage) | Versatile Robotics (03EFBY0327) | Finanzierung strittig, vor dem Pitch nachfragen |
 | gestrichen | InhalPlus (03EFNI0124) | **finanziert**: NBank Capital, 500.000 EUR Pre-Seed am 16.10.2026, für ein Best Find zu spät |
 
-Score-Rang heute (offline/`--light`, Stichtag 21.11.2026): Baseline HEAD fda6207 ergibt 53,7 für alle 139 Leads im
-Gleichstandsblock. Im WIP-Scoring des `scorer` steht Ymolution auf 171, SECARA auf 16 und Versatile auf 219 von 733.
+**Score-Ränge nach dem Gate-Endstand** (`AGENT_TEAM/reports/final_gate.md`, Stichtag 21.11.2026):
+
+| Kandidat | online (Matcher + Impressum + OpenAlex), Rang von 52 | offline/`--light`, Rang von 733 |
+|---|---|---|
+| Ymolution | **6** (64,5) | 297 (14 Leads gleichauf) |
+| Versatile Robotics | 11 (62,2) | 65 |
+| SECARA | 14 (61,0) | 6 |
+
+Den Online-Lauf gibt es bisher nur für die Top 52 nach Priorität. Damit die Engine Ymolution auch in der Longlist
+findet, braucht es einen Online-Lauf über die Longlist oder mindestens die Top 200 (Gate M4). Die Ränge stammen aus
+dem Gate-Endstand; ältere Werte (171/16/219 bzw. 9/15/48) sind überholt.
 
 ---
 
 ## 1. Ymolution (FKZ 03EFMV0034): Empfehlung für „Your Best Find“
 
 Ausgründung der Unimedizin Greifswald. Ymolution stellt Nano-Antikörper ohne Tierversuche her, aus synthetischen
-Genbibliotheken im bakteriellen System. Rang 30 der Fundliste.
+Genbibliotheken im bakteriellen System. Rang 30 der Fundliste (Priorität), online Score-Rang 6 von 52.
 
 | Datum | Signal | Quelle |
 |---|---|---|
@@ -36,14 +45,15 @@ Genbibliotheken im bakteriellen System. Rang 30 der Fundliste.
 | 04/2025 | Innovationspreis der BioRegionen Deutschlands, erstes Projekt aus Mecklenburg-Vorpommern | https://www.medizin.uni-greifswald.de/fileadmin/user_upload/Marketing/Pressemitteilungen/PM_Innovationspreis_Ymolution.pdf |
 | 08.01.2026 | Ymolution gegründet. **Die Unimedizin Greifswald ist Gesellschafterin**, nach eigener Aussage zum ersten Mal bei einer Ausgründung (PM vom 14.01.2026) | https://www.unimedizin-greifswald.de/fileadmin/user_upload/Marketing/Pressemitteilungen/PM-Ymolution-Gr%C3%BCndung.pdf |
 | 29.01.2026 | Erste Wayback-Aufnahme von ymolution.com | https://web.archive.org/web/20260129101905/https://www.ymolution.com/ |
-| o. D. | Rund 1,34 Mio. EUR Förderung für Unimedizin und Ymolution (Krebsforschung; laut Such-Snippet, die Seite war nicht abrufbar, Datum und Anteil offen) | https://www.tagesschau.de/inland/regional/mecklenburgvorpommern/millionenfoerderung-fuer-greifswalder-krebsforschung,mvregiogreifswald-6120.html |
+| 29.10.2026 | **Landesförderung Mecklenburg-Vorpommern, rund 1,34 Mio. EUR** für ein gemeinsames Forschungsprojekt von Unimedizin und Ymolution (neue Ansätze in der Krebstherapie). Das Datum stammt aus dem Seitenzeitstempel der Meldung (Brave-API `page_age`; die Seite selbst ist per WebFetch gesperrt). Anteil von Ymolution offen. Öffentliche Mittel, keine Beteiligung | https://www.ndr.de/nachrichten/mecklenburg-vorpommern/vorpommern/millionenfoerderung-fuer-greifswalder-krebsforschung,mvregiogreifswald-6120.html (gleichlautend tagesschau.de) |
 | heute | Impressum: Ymolution GmbH, Greifswald, HRB 23103 AG Stralsund, GF Dr. Alexander Reder, Dr. Christian Hentschker | https://www.ymolution.com/impressum |
 | heute | Website: „Wir suchen strategische Investoren und institutionelle Partner für die Finanzierungsrunde 2026“ | https://www.ymolution.com/ |
-| heute | Finanzierung: keine VC- oder Angel-Meldung gefunden (Gegensuche „Ymolution Investor Finanzierung“), kein archiviertes Crunchbase-/Dealroom-Profil in Wayback | Gegensuche, CDX-Check |
+| heute | Finanzierung: weiterhin nur öffentliche Mittel (EXIST, Land MV) plus Unimedizin als Gesellschafterin. Keine VC- oder Angel-Meldung gefunden (Gegensuchen 21.11.2026), kein archiviertes Crunchbase-/Dealroom-Profil in Wayback | Gegensuche, CDX-Check |
 
 **Team:** Dr. Alexander Reder, Dr. Christian Hentschker, Marc Schaffer, Jan Meiering.
 **Warum jetzt anrufen:** Die GmbH gibt es seit Januar 2026, die EXIST-Förderung endete am 30.06.2026, und laut
-eigener Website läuft die Investorensuche für 2026. Eine Plattform für Forschungsreagenzien, Diagnostik und
+eigener Website läuft die Investorensuche für 2026. Die Landesförderung von Ende Oktober 2026 senkt das
+Forschungsrisiko, ersetzt aber kein Eigenkapital. Eine Plattform für Forschungsreagenzien, Diagnostik und
 Therapie spricht einen großen Antikörpermarkt an. Greifswald liegt weit weg von den VC-Zentren, also dürfte es
 wenig Konkurrenz um den Deal geben.
 **Offen:** Paper oder Patent zum Verfahren wurden nicht gefunden. Geschäftsmodell (Service oder Plattform) und
@@ -52,7 +62,7 @@ Anteil der Unimedizin klären.
 ## 2. SECARA (FKZ 03EFNW0408): saubere Alternative
 
 RWTH-Ausgründung aus dem Umfeld von catalaix/ITMC. SECARA recycelt technische Kunststoffe (Polyamide, Polycarbonat)
-durch katalytische Depolymerisation zu Monomeren, die sich direkt wieder einsetzen lassen. Rang 14 der Fundliste.
+durch katalytische Depolymerisation zu Monomeren, die sich direkt wieder einsetzen lassen. Rang 14 der Fundliste (Priorität), online Score-Rang 14 von 52.
 
 | Datum | Signal | Quelle |
 |---|---|---|
@@ -75,7 +85,7 @@ Prozess-IP (RWTH/catalaix).
 ## 3. Versatile Robotics (FKZ 03EFBY0327): offene Prüffrage, keine Empfehlung
 
 DLR-Ausgründung aus dem Institut für Robotik und Mechatronik. Versatile Robotics entwickelt Regelungssoftware,
-mit der Roboter schnell und trotzdem sicher mit Menschen zusammenarbeiten. Priorität 90 (Rang 5 der Fundliste).
+mit der Roboter schnell und trotzdem sicher mit Menschen zusammenarbeiten. Priorität 90 (Rang 5 der Fundliste), online Score-Rang 11 von 52.
 
 | Datum | Signal | Quelle |
 |---|---|---|

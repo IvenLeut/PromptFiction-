@@ -20,6 +20,20 @@ Stand 21.11.2026, 04:26–04:36 Uhr. Branch `agents/data-quality-fixes`, nichts 
 - **Auswertung:** `precision.py` und `coverage.py`. Die JSON-Ergebnisse liegen in `online/precision_*.json` und
   `online/coverage_*.json`.
 
+> **So sind die Zahlen zu lesen (Final Gate, m5)**
+> - **Veraltet:** Die Messung unten stammt aus dem Stand **vor** der Kalibrierung. Der Gate-Endstand
+>   (`final_gate.md`, Abschnitt 1) ergibt Spearman 0,41, P@10 67 % und P@30 47 %. Ränge der Best-Find-Kandidaten im
+>   Endstand: Ymolution 6, Versatile Robotics 11, SECARA 14 von 52.
+> - **Basis:** Alle Werte beruhen auf **30 unbestätigten Agent-Labels**.
+> - **Abdeckung:** P@k zählt nur gelabelte Leads in den Top k, deshalb steht die Abdeckung immer dabei. „P@10 67 %“ im
+>   Endstand heißt 4 von 6 gelabelten.
+> - **Zirkularität:** Die Labels entstanden aus Websuche, der Score belohnt Web-Präsenz.
+>   - Gelabelte Leads mit Website sind öfter „talk“: in diesem Lauf 5/9, ohne Website 5/21; im Gate-Endstand 6/10
+>     gegenüber 4/20.
+>   - Die positiven Korrelationen hier (z. B. `datenlage`, Website-getriebene Stage) und die Gewichtsvorschläge in
+>     Abschnitt 3 können diese Zirkularität verstärken.
+>   - Erst mit bestätigten Labels umsetzen bzw. prüfen.
+
 ## 1. Precision@k und Kalibrierung (52 Leads, 30 Agent-Labels: 10 talk / 19 maybe / 1 no)
 
 | | offline/light | **online** |
@@ -154,6 +168,9 @@ bestätigen und die 5 ungelabelten Top-10-Leads labeln. Danach mit
 `precision.py online/sc/scores.json --nur-bestaetigt` neu messen.
 
 ## 4. Best-Find-Kandidaten im Online-Ranking
+
+*Gate-Endstand (gilt): Ymolution online 6, Versatile Robotics 11, SECARA 14 von 52. Offline/`--light` über 733
+Leads: 297 (14-fach gleichauf), 65 und 6. Die Tabelle unten zeigt den Stand vor der Kalibrierung.*
 
 | Lead | offline Rang (von 52) | **online Rang** | Score online | Stage online | Grund |
 |---|---|---|---|---|---|
