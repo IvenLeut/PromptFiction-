@@ -601,3 +601,22 @@ def test_website_vp_skips_menus_and_calls_to_action(text, erwartet):
     vp = run(lead(evidence=[website(text)]))["value_proposition"]
     assert vp.startswith(erwartet), vp
     assert not re.search(r"(?i)applications –|explore|skip to|learn more", vp)
+
+
+def test_openalex_fallback_tech_is_no_proof_of_missing_business():
+    """Prüfung Runde 1, MAJOR 1: tech nur aus "ab 5 Arbeiten" (OpenAlex) -> Mix unbekannt (0,6), kein "ohne Business"."""
+    oa = [ev("founder_profiles", "https://openalex.org/A1", "Alexander Reder: background tech aus OpenAlex (40 Arbeiten)", "OpenAlex"),
+          ev("founder_profiles", "https://openalex.org/A2", "Chris Hentschel: background tech aus OpenAlex (12 Arbeiten)", "OpenAlex")]
+    profile = [fp("Alexander Reder", "Geschäftsführung (Impressum)", "tech", url=IMP), fp("Chris Hentschel", "Geschäftsführung (Impressum)", "tech", url=IMP)]
+    r, t, e = komp(gegruendet(founder_profiles=profile, evidence=oa))
+    assert t["punkte"] == 60.0 and "Profil-Mix unbekannt" in e["aussage"]
+    assert not any("Business-Profil im Team nicht belegt" in p for p in r["offene_punkte"])
+    # einer ausdrücklich (Rolle "CTO"), einer nur OpenAlex: weiterhin offen
+    gemischt = [fp("Alexander Reder", "CTO (LinkedIn)", "tech"), fp("Chris Hentschel", "Geschäftsführung (Impressum)", "tech", url=IMP)]
+    assert komp(gegruendet(founder_profiles=gemischt, evidence=oa[1:]))[1]["punkte"] == 60.0
+    # beide ausdrücklich tech: "ohne Business" wie bisher
+    explizit = [fp("Alexander Reder", "CTO (LinkedIn)", "tech"), fp("Chris Hentschel", "Co-Founder & Head of Engineering (LinkedIn)", "tech")]
+    assert komp(gegruendet(founder_profiles=explizit))[1]["punkte"] == 50.0
+    # tech aus OpenAlex + ausdrücklicher Business-Co-Founder: Mix belegt
+    mix = [fp("Alexander Reder", "Geschäftsführung (Impressum)", "tech", url=IMP), fp("Eva Kauf", "CFO & Co-Founder (LinkedIn)", "business")]
+    assert komp(gegruendet(founder_profiles=mix, evidence=oa[:1]))[1]["punkte"] == 100.0

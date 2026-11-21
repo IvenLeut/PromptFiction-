@@ -41,3 +41,7 @@ Deliverables: Demo + **Best Find**. Output-Vertrag: `~/.claude/skills/goal/SKILL
 | Runde | Ebene | Urteil | Wirkung | Brave |
 |---|---|---|---|---|
 | 0 | Basis: Website-Matching, DB-Prüfung, Kalibrierung (Gate 1+2) | – | siehe `reports/final_gate.md` | ~170 |
+| 1 | Team-Zusammensetzung (LinkedIn-Snippets, idw/Presse); CV-Bewertung vorab verworfen (Snippets ohne Werdegang) | NACHBESSERN (nur MAJOR 1: kein Malus aus OpenAlex-Fallback), dann Loop beendet (Deadline) | Personen 17→24/52, Mix 0→5/52 (Ziel 30/10 verfehlt), Precision Zuordnung 80 % streng, Spearman 0,40; `reports/loop/round-1-check.md` | 115 |
+
+**Loop beendet am 21.11.2026** wegen Deadline; Fokus wechselt auf das Demo-Dashboard. Nächste sinnvolle Ebene laut
+Stratege: Firmensignale aus LinkedIn-Post-Snippets (Runde 2, nicht gestartet).

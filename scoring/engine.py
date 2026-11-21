@@ -419,7 +419,9 @@ class Scorer:
         if "beides" in h or ("tech" in h and "business" in h):
             return True
         gr = self.gruender()
-        if gr and all(m.get("hintergrund") == "tech" for m in gr) and "business" not in h:
+        # "ohne Business" nur mit ausdrücklichem Tech-Hintergrund (Rolle/Ausbildung) aller Gründer; ein tech aus dem
+        # OpenAlex-Fallback (Publikationen) sagt nichts über fehlende kaufmännische Verantwortung -> Mix bleibt offen
+        if gr and all(m.get("hintergrund") == "tech" and m.get("hintergrund_quelle") != "openalex" for m in gr) and "business" not in h:
             return False
         return None
 

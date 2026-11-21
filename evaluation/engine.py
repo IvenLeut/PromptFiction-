@@ -211,6 +211,9 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
         rechtsform = {"wert": lead.legal_form + (" i.G." if lead.in_formation else ""), "quelle": src("legal_form")}
 
     team = []
+    # Hintergrund "tech" nur aus dem OpenAlex-Fallback (>= 5 Arbeiten), nicht aus Rolle oder Ausbildung (context-Evidence)
+    openalex_tech = {_namekey(m.group(1)) for e in lead.evidence if e.field == "founder_profiles" and (e.source or "").startswith("OpenAlex")
+                     for m in [re.match(r"\s*(.+?):\s*background tech aus OpenAlex", e.finding or "")] if m}
     for p in lead.founder_profiles:
         url = str(p.source_url) if p.source_url else src("founder_profiles") or quelle
         herkuenfte, gruender = _rollen(p.role)
@@ -222,7 +225,8 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
                      "papers_gesamt": p.works_total, "match_confidence": p.match_confidence,
                      "hintergrund": p.background, "vorerfahrung": list(p.prior_experience),
                      # Herkunft der Person aus context ("Rolle (Impressum|LinkedIn|Presse|Website)"); ohne Suffix: "kontext"
-                     "herkunft": herkuenfte[0] if herkuenfte else "kontext", "herkuenfte": herkuenfte or ["kontext"]}
+                     "herkunft": herkuenfte[0] if herkuenfte else "kontext", "herkuenfte": herkuenfte or ["kontext"],
+                     "hintergrund_quelle": "openalex" if p.background == "tech" and _namekey(p.name) in openalex_tech else "rolle"}
                     | ({"gruender": gruender} if gruender is not None else {}))
     for name in lead.founders:
         if name not in {t["name"] for t in team}:

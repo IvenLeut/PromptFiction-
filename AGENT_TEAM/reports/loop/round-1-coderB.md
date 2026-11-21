@@ -88,3 +88,26 @@ Presse, Website. „Teammitglied (…)“ ist kein Gründer. `background` ∈ te
   Sinn-Check. Bei Ymolution ergibt das 0,5 statt 0,6 (−0,8 Gesamtpunkte) und einen Prüfpunkt. Der CEO Reder hat
   vermutlich trotzdem kaufmännische Verantwortung, nur ist sie nicht belegt.
 - Die Website-VP ist teils Werbesprache. Eine Umformulierung durch ein Modell bleibt eine Team-Entscheidung.
+
+## Korrektur nach Prüfbericht Runde 1 (MAJOR 1)
+
+Ein `tech`-Hintergrund nur aus dem OpenAlex-Fallback (context-Evidence „<Name>: background tech aus OpenAlex“) setzt in
+`to_dossier` `hintergrund_quelle = openalex` und begründet kein „ohne Business“ mehr. Der Mix bleibt dann unbekannt (0,6).
+„ohne Business“ verlangt jetzt einen ausdrücklichen Tech-Hintergrund aus Rolle oder Ausbildung bei allen Gründern. Ein
+OpenAlex-tech zusammen mit einem ausdrücklichen Business-Co-Founder ergibt weiterhin „Mix belegt“.
+
+Volllauf `scratch/loop1/full_dossiers.json` (52 Leads, Stichtag 2026-11-21), komplementaer-Punkte / Gesamt / Rang:
+
+| Lead | vorher | nachher |
+|---|---|---|
+| iNSyT | 50 / 66,3 / 3 | 60 / 67,1 / 3 |
+| Ymolution | 50 / 63,9 / 5 | 60 / 64,7 / 5 |
+| Metubiq | 50 / 62,1 / 12 | 60 / 62,9 / 8 |
+| BEHtec | 50 / 58,5 / 24 | 60 / 59,3 / 20 |
+| LayerPerformance | 50 / 58,3 / 26 | 60 / 59,1 / 21 |
+
+- **K2 sinkt von 5/52 auf 0/52.** Alle fünf Treffer beruhten auf dem OpenAlex-Fallback; im Volllauf ist kein Business-
+  und kein ausdrücklicher Tech-Hintergrund aller Gründer belegt.
+- K4 ist unverändert: Spearman 0,40 gesamt, 0,21 ohne Website, 0,32 mit Website.
+- Test `test_openalex_fallback_tech_is_no_proof_of_missing_business`; Suite 833 passed.
+- Volllauf und 733er-Lauf sind deterministisch, Schema 0 Fehler, Beispiele neu erzeugt.
