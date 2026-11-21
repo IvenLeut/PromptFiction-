@@ -5,7 +5,7 @@ Branch `agents/iven-companies` (von main @ 3a1e7de). Lokal committet, **nicht ge
 | Commit | Inhalt |
 |---|---|
 | `5430ef2` | Merge `f798e7b` (= `origin/feature/founderradar-investment-cockpit`, 8 Commits) |
-| (folgt) | Reproduktions-Check, Adapter, Kategorie „Höheres Risiko“, Snapshot-Build, Tests, dieser Bericht |
+| `bfaeae5` | Reproduktions-Check, Adapter, Kategorie „Höheres Risiko“, Snapshot-Build, Tests, dieser Bericht |
 
 ## Ergebnis
 
