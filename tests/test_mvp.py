@@ -193,7 +193,11 @@ def test_live_pipeline_replay_and_resume(tmp_path,monkeypatch):
     assert len(calls)==21 and result.counts['companies']==21
     assert json.loads((tmp_path/'checkpoint.json').read_text(encoding='utf-8'))['complete']
     monkeypatch.setattr(engine,'load_last',lambda:result)
-    replay=engine.run(options.model_copy(update={'mode':'replay'}))
+    from pydantic import create_model
+    ReloadedOptions=create_model('RunOptions',**{k:(v.annotation,...) for k,v in RunOptions.model_fields.items()})
+    foreign_options=ReloadedOptions.model_validate(options.model_copy(update={'mode':'replay'}).model_dump(mode='json'))
+    assert not isinstance(foreign_options,RunOptions)
+    replay=engine.run(foreign_options)
     assert [(a.dossier.id,a.score,a.queue) for a in result.assessments]==[(a.dossier.id,a.score,a.queue) for a in replay.assessments]
     assert replay.counts['web_requests']==0 and replay.llm_calls==0
     from models import AnalysisRun

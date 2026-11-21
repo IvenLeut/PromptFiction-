@@ -118,6 +118,9 @@ def refresh_resolved(dossier, web):
 
 
 def run(options: RunOptions, progress=lambda *args:None, *, web=None, cancelled=lambda:False):
+    # Streamlit may reload contract classes while a cached worker still exists.
+    # Cross that boundary with validated values, never Python class identity.
+    options=RunOptions.model_validate(options.model_dump(mode='json') if hasattr(options,'model_dump') else options)
     raw=(ROOT/'data/combined-discovery.json').read_bytes()
     pool=DiscoverySnapshot.model_validate_json(raw)
     projects=[c for c in pool.candidates if 'foekat' in c.providers]
@@ -193,8 +196,8 @@ def run(options: RunOptions, progress=lambda *args:None, *, web=None, cancelled=
     progress(94,'Belege prüfen und Scorecard berechnen')
     before=len(dossiers);dossiers=deduplicate(dossiers)
     assessments=ranked([assess(d,options) for d in dossiers])
-    result=Run(id=uuid4().hex[:16],options=options,input_hash=input_hash,source_snapshot_date=source_date,
-        assessments=assessments,project_audit=project_audit,warnings=warnings,
+    result=Run(id=uuid4().hex[:16],options=options.model_dump(mode='json'),input_hash=input_hash,source_snapshot_date=source_date,
+        assessments=[a.model_dump(mode='json') for a in assessments],project_audit=project_audit,warnings=warnings,
         counts={'pool':len(pool.candidates),'projects':len(projects),'projects_attempted':sum(a['status']!='not_processed' for a in project_audit),
           'projects_resolved':sum(a['status']=='resolved' for a in project_audit),'projects_this_run':len(planned_ids) if options.mode=='live' else 0,'companies':len(dossiers),'duplicates':before-len(dossiers),
           'ranked':sum(a.queue=='ranked' for a in assessments),'research':sum(a.queue=='research' for a in assessments),
