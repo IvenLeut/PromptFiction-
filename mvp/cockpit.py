@@ -12,7 +12,7 @@ from mvp.style import apply_theme
 from mvp.transfer import export_workspace, import_workspace
 from models import Industry
 from mvp.contracts import RunOptions
-from mvp.engine import data_dir, load_last
+from mvp.engine import data_dir, load_current
 from mvp.jobs import Jobs
 from mvp.scoring import CONFIG
 
@@ -34,16 +34,19 @@ def csv_export(rows):
     return ('\ufeff'+target.getvalue()).encode('utf-8')
 
 
-def rows_for(items, decisions):
-    return [{'Unternehmen':a.dossier.name,'Score':a.score,'Kurzprofil':brief.headline,'Kontaktstatus':
+def rows_for(items, decisions, *, live=False):
+    return [{'Unternehmen':a.dossier.name,'Status':QUEUES[a.queue],'Score':a.score,'Kurzprofil':brief.headline,
+      'Offener Nachweis':a.reasons[0] if a.reasons else '',
+      'Quellenstand':{'fresh':'Live geprüft','failed':'Website nicht bestätigt','snapshot':'Gespeicherte Belege'}.get(a.dossier.refresh_status,'Offen'),
+      'Kontaktstatus':
       OUTREACH_LABELS.get(decisions.get(a.dossier.id,{}).get('outreach_status'), 'Noch nicht kontaktiert'),
       'Branche':', '.join(a.dossier.sectors),
       'Offene Score-Spanne':f'{a.score:.1f}–{a.score_upper:.1f}' if a.score is not None and a.score_upper is not None else 'Offen',
       'Risiko / Prüfbedarf':a.risk,'Marktpotenzialscore':a.market_score,'Unternehmensscore':a.company_score,
       'Stage':a.stage,'Produkt / Value Proposition':brief.summary,
       'Investmenthypothese':brief.thesis,'Gesprächsanlass':brief.why,'Datenabdeckung':round(a.coverage*100),
-      'Status':QUEUES[a.queue],'Entscheidung':DECISIONS.get(decisions.get(a.dossier.id,{}).get('decision','Pending Review'),'Offen'),
-      'HTGF-Profil':a.htgf_fit,'Website':a.dossier.website,'ID':a.dossier.id} for a, brief in [(x,brief_for(x)) for x in items]]
+      'Entscheidung':DECISIONS.get(decisions.get(a.dossier.id,{}).get('decision','Pending Review'),'Offen'),
+      'HTGF-Profil':a.htgf_fit,'Website':a.dossier.website,'ID':a.dossier.id} for a, brief in [(x,brief_for(x, live=live)) for x in items]]
 
 
 def open_company(identity, contact=False):
@@ -60,7 +63,7 @@ def progress_panel():
         st.caption('Recherche läuft im Hintergrund. Sie können währenddessen den letzten Ergebnisstand prüfen.')
         if st.button('Analyse anhalten',key='stop-analysis'):jobs().cancel();st.rerun()
     elif state['status']=='done' and state.get('result_id') != st.session_state.get('mvp_loaded_run'):
-        st.session_state.mvp_run=load_last()
+        st.session_state.mvp_run=load_current()
         st.session_state.mvp_loaded_run=state['result_id']
         st.rerun()
     elif state['status'] in {'failed','interrupted'}:
@@ -77,18 +80,13 @@ def controls():
     st.title('Frühe Technologieunternehmen finden')
     st.write('Recherchiere junge Technologieunternehmen und bereite das nächste Gründergespräch vor.')
     with st.container(border=True):
-        left,right=st.columns([2,1])
-        sectors=left.multiselect('Branchen',[i.value for i in Industry],default=[i.value for i in Industry])
-        age=right.selectbox('Gründung innerhalb',[24,36],format_func=lambda n:f'{n} Monate'+(' · euer Suchprofil' if n==24 else ' · HTGF-Altersgrenze'))
-        a,b,c=st.columns([1.5,1,1])
-        mode=a.selectbox('Analysemodus',['live','replay'],format_func=lambda m:'Quellen live prüfen' if m=='live' else 'Gespeicherte Fakten neu berechnen')
-        budget=b.selectbox('Projekt-Recherchebudget',[0,6,12,30,60],index=2,help='So viele Projektspuren werden zusätzlich zur bestehenden Firmenliste untersucht. Der Rest bleibt sichtbar offen.')
-        limit=c.selectbox('Longlist anzeigen',[5,10,15],index=2)
+        sectors=st.multiselect('Branchen',[i.value for i in Industry],default=[i.value for i in Industry])
+        st.caption('Suchprofil: Deutschland · Gründung in den letzten 24 Monaten')
         state=jobs().snapshot()
-        if st.button('Analyse starten',type='primary',disabled=not sectors or state['status']=='running',width='stretch'):
-            jobs().start(RunOptions(sectors=sectors,max_age_months=age,mode=mode,project_budget=budget,limit=limit))
+        if st.button('Live-Analyse starten',type='primary',disabled=not sectors or state['status']=='running',width='stretch'):
+            jobs().start(RunOptions.cockpit_live(sectors=sectors))
             st.rerun()
-        st.caption('Live prüft öffentliche Seiten. Der Pitch-Modus berechnet die gespeicherten Belege erneut.')
+        st.caption('FounderRadar lädt aktuelle Quellen, prüft Projektspuren und berechnet die Firmenprofile im Hintergrund.')
 
 
 def overview(run,decisions):
@@ -100,7 +98,7 @@ def overview(run,decisions):
     if not top:st.info('Noch keine ausreichend belegten Firmen im Suchprofil. Die offene Recherche zeigt genau, was fehlt.')
     for col,a in zip(st.columns(3),top):
         with col,st.container(border=True):
-            brief=brief_for(a)
+            brief=brief_for(a, live=bool(run.counts.get('live_profiles')))
             st.markdown('**'+a.dossier.name+'**')
             st.caption(f'{a.score:.1f} / 100 · {brief.headline}')
             st.write(brief.why)
@@ -124,29 +122,29 @@ def longlist(run,decisions):
     st.title('Longlist')
     st.caption('Unternehmen finden, Belege prüfen und den Kontaktstatus verfolgen.')
     a,b,c=st.columns([1.1,1,1.5])
-    group=a.selectbox('Ergebnisgruppe',list(QUEUES),format_func=QUEUES.get)
+    groups = {'all': 'Alle passenden und offenen', **QUEUES}
+    group=a.selectbox('Ergebnisgruppe',list(groups),format_func=groups.get)
     shortlist=b.checkbox('Nur Shortlist')
     query=c.text_input('Unternehmen suchen')
-    items=[x for x in run.assessments if x.queue==group and query.casefold() in x.dossier.name.casefold()
+    items=[x for x in run.assessments if (x.queue==group or (group=='all' and x.queue!='excluded'))
+           and query.casefold() in x.dossier.name.casefold()
            and (not shortlist or decisions.get(x.dossier.id,{}).get('decision') in {'Watchlist','Contact'})]
-    limit=run.options.limit if group=='ranked' else len(items)
-    visible=items[:limit]
-    st.caption(f'{len(visible)} von {len(items)} Firmen · Rangfolge: Score, Datenabdeckung, stabile Unternehmens-ID. Mehrfachbranchen werden nur einmal gezählt.')
-    rows=rows_for(visible,decisions)
+    st.caption(f'{len(items)} Firmen · Bewertete Firmen zuerst, offene Nachweise in derselben Liste.')
+    rows=rows_for(items, decisions, live=bool(run.counts.get('live_profiles')))
     if rows:
         st.dataframe(rows,hide_index=True,width='stretch',column_config={
             'Score':st.column_config.NumberColumn(format='%.1f'),
             'Kurzprofil':st.column_config.TextColumn(width='medium'),
             'Datenabdeckung':st.column_config.ProgressColumn(min_value=0,max_value=100,format='%d%%'),
             'Website':st.column_config.LinkColumn(), 'ID':None},height=380)
-        selected=st.selectbox('Unternehmen öffnen',visible,format_func=lambda x:x.dossier.name)
+        selected=st.selectbox('Unternehmen öffnen',items,format_func=lambda x:x.dossier.name + ' · ' + QUEUES[x.queue])
         left,right=st.columns(2)
         left.button('Deep Dive öffnen',on_click=open_company,args=(selected.dossier.id,),type='primary')
         right.button('Erstkontakt vorbereiten',on_click=open_company,args=(selected.dossier.id,True))
         st.download_button('Longlist als CSV',csv_export(rows),file_name='FounderRadar-Longlist.csv',mime='text/csv')
     else:st.info('Keine Unternehmen in dieser Ansicht.')
-    if group!='ranked':
-        for item in visible:
+    if group in {'research','excluded'}:
+        for item in items:
             with st.expander(item.dossier.name):
                 for reason in item.reasons:st.write('• '+reason)
     with st.expander('Projekt-Recherche: kompletter Bestand'):
@@ -190,13 +188,19 @@ def activities(run,decisions):
 
 def methodology(run):
     st.title('Modell & Quellen')
-    st.write('**1. Finden:** Bestehender Discovery-Pool aus GLEIF/Open Data und Förderkatalog. Projektnamen werden mit Hochschulverweisen und Firmenimpressen abgeglichen.')
+    st.write('**1. Finden** · Aktuelle deutsche LEI-Einträge ergänzen den Förderkatalog. Pro Lauf werden weitere Projektspuren und eine begrenzte Auswahl neuer LEI-Firmen geprüft. Die Rechtsform und das Gründungsfenster werden unabhängig vom Produkt belegt.')
     st.write('**2. Kontext:** Öffentliche Unternehmensseiten liefern belegte Screening-Merkmale. Fehlende und widersprüchliche Angaben bleiben offen.')
     st.write('**3. Bewerten:** Produkt & Technologie 40 %, Kunde & Nutzen 35 %, Entwicklungsnachweis 25 %. Die Rangfolge nutzt die belegte Untergrenze bei festen Gewichten. Die Obergrenze addiert die noch offenen Gewichte. Mindestens Produkt, technischer Ansatz und Kundentyp müssen vorliegen. Das Intervall ist keine statistische Prognose.')
     st.write('**Datenabdeckung:** Sechs Merkmale: Technologie, Produkt, Kunde, Nutzen, Entwicklungsnachweis, Team. Drei belegte Merkmale entsprechen 50 %. Das ist keine Genauigkeit und kein Erfolgsversprechen.')
-    st.write('**HTGF-Profil:** Pre-Seed/Seed, Technologiebezug, Deutschland und höchstens drei Jahre. Euer voreingestellter Suchfilter ist enger: 24 Monate. Rundengröße und Kapitalbedarf werden im Gespräch geprüft; eine frühere Seed-Finanzierung führt nicht automatisch zum Ausschluss.')
+    st.write('**Suchprofil** · Gründung in Deutschland innerhalb von 24 Monaten. Wenn ein Nachweis fehlt, bleibt die Firma mit offenem Prüfpunkt in der Longlist.')
+    st.write('**Live-Kommentare** · Unternehmensseiten liefern Produkt-, Kunden- und Entwicklungssignale. Regeln formulieren daraus Gesprächsanlass und Prüfhypothese. Abrufbare Vergleichsangebote werden als eigene Marktquellen angezeigt. Die Marktgröße bleibt Gegenstand des Umsatzszenarios.')
     st.link_button('Öffentliche HTGF-Kriterien','https://www.htgf.de/')
     st.caption('Regelversion '+CONFIG['version']+' · Internes Screening · Berechnung ohne KI')
+    with st.expander('Gespeicherte Belege für eine Offline-Vorführung'):
+        st.caption('Diese Option berechnet vorhandene Quellen erneut und kennzeichnet den Lauf als offline.')
+        if st.button('Offline neu berechnen', disabled=jobs().snapshot()['status']=='running'):
+            jobs().start(RunOptions(mode='replay', sectors=run.options.sectors if run else RunOptions().sectors))
+            st.rerun()
     if run:
         st.json({'Analyse':run.id,'Stichtag':str(run.options.as_of),'Modus':run.options.mode,'Discovery-Stand':run.source_snapshot_date,'Eingabe-Hash':run.input_hash,'Zähler':run.counts})
         with st.expander(f'Quellenhinweise und Abruffehler ({len(run.warnings)})'):
@@ -238,8 +242,10 @@ def main():
     st.set_page_config(page_title='FounderRadar | Research Cockpit',page_icon='◉',layout='wide')
     apply_theme()
     if 'mvp_run' not in st.session_state:
-        st.session_state.mvp_run=load_last()
+        st.session_state.mvp_run=load_current()
         st.session_state.mvp_loaded_run=st.session_state.mvp_run.id if st.session_state.mvp_run else None
+    if st.session_state.mvp_run is None:
+        jobs().start_initial(RunOptions.cockpit_live())
     run=st.session_state.mvp_run
     decisions=load_decisions('live')
     with st.sidebar:
@@ -251,17 +257,22 @@ def main():
         if run:
             st.caption('Letzter Lauf: '+run.created_at[:16].replace('T',' ')+' UTC')
             st.caption('Stichtag: '+str(run.options.as_of))
-            st.caption('Quellen live abgerufen' if run.options.mode=='live' else 'Aus gespeicherten Fakten neu berechnet')
+            st.caption('Live-Analyse abgeschlossen' if run.options.mode=='live' else 'Aus gespeicherten Fakten neu berechnet')
         st.caption('Interne Screening-Hilfe nach öffentlichen HTGF-Kriterien.')
     progress_panel()
     if page=='Start & Übersicht':
         controls()
         if run:
-            st.caption('Darunter sehen Sie den gespeicherten letzten Lauf. „Analyse starten“ erstellt einen neuen Lauf.')
+            st.caption('Ergebnisse des zuletzt abgeschlossenen Laufs')
+            if run.options.mode == 'live' and run.counts.get('live_profiles'):
+                st.write(f"{run.counts['web_requests']} Abrufversuche · {run.counts['gleif_records']} LEI-Einträge gelesen · "
+                         f"{run.counts['gleif_new']} neue Firmen zur Prüfung")
             overview(run,decisions)
+        elif jobs().snapshot()['status']=='running':
+            st.info('Deine erste Live-Analyse läuft. Die Longlist erscheint nach der Berechnung.')
     elif page=='Modell & Quellen':methodology(run)
     elif page=='Daten & Einrichtung':workspace()
-    elif not run:st.info('Starten Sie zuerst eine Analyse unter „Start & Übersicht“.')
+    elif not run:st.info('Hier erscheinen die Ergebnisse, sobald eine Analyse abgeschlossen ist.')
     elif page=='Longlist':longlist(run,decisions)
     elif page=='Unternehmensanalyse':detail(run,decisions)
     else:activities(run,decisions)

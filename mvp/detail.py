@@ -11,7 +11,7 @@ import streamlit as st
 
 from analyst_store import OUTREACH, load_history, save_decision
 from mvp.briefs import (
-    CHECKED, DEFAULT_MODEL, brief_for, editorial_input, generate_draft,
+    CHECKED, DEFAULT_MODEL, brief_for, catalog_entry, editorial_input, generate_draft,
     http_url, mailto, report_html, saved_draft,
 )
 
@@ -77,6 +77,15 @@ def overview_tab(item, brief, run):
             st.write("Projektzuordnung · " + ", ".join(dossier.project_ids))
         for reason in dict.fromkeys(item.reasons):
             st.write("• " + reason)
+    editorial = catalog_entry(item.dossier)
+    if editorial and not brief.editorial:
+        with st.expander(f"Redaktioneller Referenzstand vom {CHECKED}"):
+            st.write(editorial["summary"])
+            st.write(editorial["thesis"])
+            st.write(editorial["segment"])
+            for label, url in editorial["sources"]:
+                if http_url(url):
+                    st.link_button(label, url)
     st.download_button(
         "FounderRadar Deep Dive herunterladen",
         report_html(item, brief, run.options.as_of),
@@ -102,6 +111,8 @@ def market_tab(item, brief):
             st.write(comparison)
             if http_url(url):
                 st.link_button("Vergleichsquelle öffnen", url)
+    if item.dossier.market_comparisons:
+        st.caption("Vergleichsangebote geben die öffentliche Beschreibung des jeweiligen Anbieters wieder.")
     st.subheader("Marktgröße von unten schätzen")
     st.write(brief.sizing)
     with st.expander("Eigenes Umsatzszenario rechnen"):
@@ -164,6 +175,8 @@ def evidence_tab(item, brief):
             for label, url in brief.sources if http_url(url) and brief.editorial]
     rows.extend({"Quelle": s.title, "URL": s.url, "Herkunft": s.kind, "Abruf": s.retrieved_at}
                 for s in item.dossier.sources if http_url(s.url))
+    rows.extend({"Quelle": m.name, "URL": m.source.url, "Herkunft": "Marktvergleich", "Abruf": m.source.retrieved_at}
+                for m in item.dossier.market_comparisons)
     if rows:
         st.dataframe(rows, hide_index=True, width="stretch", column_config={"URL": st.column_config.LinkColumn()})
     st.download_button("Score und Belege als JSON", item.model_dump_json(indent=2),
@@ -240,12 +253,18 @@ def decision_form(item, saved, decisions):
 
 def company_detail(item, run, saved, statuses, decision_labels, default_contact=False):
     dossier = item.dossier
-    brief = brief_for(item)
+    brief = brief_for(item, live=bool(run.counts.get("live_profiles")))
     st.markdown('<div class="fr-kicker">FounderRadar / Deep Dive</div>', unsafe_allow_html=True)
     st.title(dossier.name)
     st.write(brief.headline)
-    provenance = f"Redaktionell recherchiert · {CHECKED}" if brief.editorial else "Aus öffentlichen Belegen abgeleitet"
-    st.caption(f"{statuses[item.queue]} · {', '.join(dossier.sectors)} · {provenance}")
+    provenance = {
+        "fresh": "Aus aktuell geprüften Quellen abgeleitet",
+        "failed": "Firmenwebsite konnte nicht bestätigt werden",
+        "snapshot": "Aus gespeicherten Quellen abgeleitet",
+    }.get(dossier.refresh_status, "Aus verfügbaren Quellen abgeleitet")
+    if brief.editorial:
+        provenance = f"Redaktioneller Referenzstand · {CHECKED}"
+    st.caption(f"{statuses[item.queue]} · {', '.join(dossier.sectors) or 'Branche offen'} · {provenance}")
     left, middle, right = st.columns(3)
     left.metric("Screening", f"{item.score:.1f}/100" if item.score is not None else "Offen")
     middle.metric("Belegte Merkmale", f"{round(item.coverage * 6)} von 6")

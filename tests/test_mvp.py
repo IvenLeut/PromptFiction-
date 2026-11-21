@@ -233,11 +233,17 @@ def test_default_cockpit_navigation_and_persistence(tmp_path,monkeypatch):
     monkeypatch.setenv('FOUNDERRADAR_UI','mvp')
     monkeypatch.setenv('FOUNDERRADAR_MVP_DATA',str(tmp_path))
     assessment=assess(dossier(),RunOptions(as_of=AS_OF))
+    pending=dossier()
+    pending.id='fixture-open'
+    pending.name='Firma mit offenen Nachweisen'
+    pending.facts.pop('technology')
+    open_assessment=assess(pending,RunOptions(as_of=AS_OF))
     sample=Run(id='ui-test',options=RunOptions(as_of=AS_OF),input_hash='a'*64,source_snapshot_date='2026-11-21',
-        assessments=[assessment],project_audit=[],warnings=[],counts={'ranked':1,'research':0,'excluded':0,'projects_resolved':0,'projects':733,'projects_attempted':0})
+        assessments=[assessment,open_assessment],project_audit=[],warnings=[],counts={'ranked':1,'research':1,'excluded':0,'projects_resolved':0,'projects':733,'projects_attempted':0})
     write_json(tmp_path/'latest.json',sample.model_dump(mode='json'))
     app=AppTest.from_file(str(ROOT/'cockpit.py'),default_timeout=30).run()
     assert not app.exception and app.title[0].value=='Frühe Technologieunternehmen finden'
+    assert not {'Projekt-Recherchebudget','Gründung innerhalb'}.intersection(w.label for w in app.selectbox)
     next(b for b in app.button if b.label=='Unternehmen prüfen').click().run()
     assert not app.exception and app.title[0].value==assessment.dossier.name
     assert any('Im Mailprogramm öffnen' in markdown.value for markdown in app.markdown)
@@ -249,7 +255,7 @@ def test_default_cockpit_navigation_and_persistence(tmp_path,monkeypatch):
     assert load_decisions('live')['fixture-1']['decision']=='Watchlist'
     assert load_decisions('live')['fixture-1']['outreach_status']=='Draft prepared'
     next(x for x in app.radio if x.label=='Arbeitsbereich').set_value('Longlist').run()
-    assert not app.exception and len(app.dataframe[0].value)==1
+    assert not app.exception and list(app.dataframe[0].value['Status'])==['Bewertbar','Recherche offen']
     next(x for x in app.radio if x.label=='Arbeitsbereich').set_value('Aufgaben').run()
     assert not app.exception and len(app.dataframe[0].value)==1
     next(x for x in app.radio if x.label=='Arbeitsbereich').set_value('Modell & Quellen').run()

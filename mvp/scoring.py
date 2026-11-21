@@ -32,7 +32,10 @@ def assess(d: Dossier, options: RunOptions) -> Assessment:
         excluded.append('Gründung außerhalb des gewählten Zeitfensters.')
     elif d.earliest_founding < boundary or d.latest_founding > options.as_of:
         pending.append('Gründungszeitraum überschneidet die Suchgrenze.')
-    if not set(d.sectors).intersection(options.sectors): excluded.append('Keine belegte Zuordnung zu den gewählten Branchen.')
+    if not d.sectors:
+        pending.append('Branchenzuordnung noch offen.')
+    elif not set(d.sectors).intersection(options.sectors):
+        excluded.append('Belegte Branche außerhalb der Auswahl.')
     if 'inactive' in facts: excluded.append('Hinweis auf Liquidation oder eingestellten Geschäftsbetrieb.')
     if 'late_round' in facts: excluded.append('Spätere Finanzierungsrunde belegt; außerhalb des Erstinvestment-Profils.')
     if 'service_business' in facts:

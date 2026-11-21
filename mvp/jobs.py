@@ -28,6 +28,11 @@ class Jobs:
     def snapshot(self):
         with self.lock:return dict(self.state)
 
+    def start_initial(self, options):
+        with self.lock:
+            if self.state['status'] == 'idle' and not (data_dir() / 'latest.json').exists():
+                self.start(options)
+
     def start(self, options):
         with self.lock:
             if self.future and not self.future.done():raise ValueError('Es läuft bereits eine Analyse.')

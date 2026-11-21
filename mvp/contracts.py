@@ -23,6 +23,12 @@ class Fact(Contract):
     basis: str = 'rule_extraction'
 
 
+class MarketObservation(Contract):
+    name: str
+    text: str
+    source: Source
+
+
 class Dossier(Contract):
     id: str
     name: str
@@ -31,6 +37,7 @@ class Dossier(Contract):
     sectors: list[str] = Field(default_factory=list)
     facts: dict[str, Fact] = Field(default_factory=dict)
     sources: list[Source] = Field(default_factory=list)
+    market_comparisons: list[MarketObservation] = Field(default_factory=list)
     identity_status: str = 'unresolved'
     earliest_founding: date | None = None
     latest_founding: date | None = None
@@ -73,6 +80,11 @@ class RunOptions(Contract):
     mode: Literal['live', 'replay'] = 'live'
     limit: int = Field(default=15, ge=5, le=50)
     project_budget: int = Field(default=12, ge=0, le=733)
+    live_discovery: bool = False
+
+    @classmethod
+    def cockpit_live(cls, **settings):
+        return cls(live_discovery=True, **settings)
 
 
 class Run(Contract):

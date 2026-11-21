@@ -13,6 +13,7 @@ from pathlib import Path
 from uuid import uuid4
 from mvp.contracts import Dossier, Fact, Run, RunOptions, Source
 from mvp.context import extract, extract_founding, verify_known_identity
+from mvp.live_discovery import find_candidates, find_company_pages
 from mvp.resolver import institutional_index, plan_projects, resolve
 from mvp.scoring import assess, ranked
 from mvp.web import Web, canonical_host
@@ -43,9 +44,16 @@ def write_json(path, payload):
         temp.unlink(missing_ok=True)
 
 
-def load_last():
+def load_current():
     path=data_dir()/'latest.json'
-    if not path.exists():path=ROOT/'data/mvp/demo-run.json'
+    return Run.model_validate_json(path.read_bytes()) if path.exists() else None
+
+
+def load_last():
+    current = load_current()
+    if current:
+        return current
+    path = ROOT / 'data/mvp/demo-run.json'
     return Run.model_validate_json(path.read_bytes()) if path.exists() else None
 
 
@@ -54,13 +62,24 @@ def known_company(record, web):
     when=date.fromisoformat(record['founded_on'])
     d.earliest_founding=d.latest_founding=when
     d.founding_basis=record['founding_basis']
-    timestamp=max((p['retrieved_at'] for p in record['page_evidence']),default='2026-11-20')
-    d.sources.append(Source(url=record['source_url'],title='GLEIF Identität (gespeicherter Quellenstand)',retrieved_at=timestamp,
-                            sha256=hashlib.sha256(json.dumps(record,sort_keys=True).encode()).hexdigest(),kind='identity_snapshot'))
-    d.facts['country']=Fact(value='DE',source_url=record['country_source'],quote=record['city']+', DE',basis='gleif_snapshot')
-    d.facts['founding']=Fact(value=when.isoformat(),source_url=record['source_url'],quote='entity.creationDate: '+when.isoformat(),basis='gleif_snapshot')
-    d.facts['register']=Fact(value=record.get('registration') or '',source_url=record['source_url'],quote=record.get('registration') or '',basis='gleif_snapshot')
-    pages=web.company_pages(d.website)
+    live = "retrieved_at" in record
+    timestamp = record["retrieved_at"] if live else max(
+        (p['retrieved_at'] for p in record['page_evidence']), default='2026-11-20'
+    )
+    basis = "gleif_live" if live else "gleif_snapshot"
+    d.sources.append(Source(url=record['source_url'],title='GLEIF Identität · Live' if live else 'GLEIF Identität · Quellenstand',
+                            retrieved_at=timestamp,sha256=hashlib.sha256(json.dumps(record,sort_keys=True).encode()).hexdigest(),
+                            kind='identity_live' if live else 'identity_snapshot'))
+    d.facts['country']=Fact(value='DE',source_url=record['country_source'],quote=(record['city'] or '')+', DE',basis=basis)
+    d.facts['founding']=Fact(value=when.isoformat(),source_url=record['source_url'],quote='entity.creationDate: '+when.isoformat(),basis=basis)
+    if record.get('registration'):
+        d.facts['register']=Fact(value=record['registration'],source_url=record['source_url'],quote=record['registration'],basis=basis)
+    if d.website:
+        pages = web.company_pages(d.website)
+    elif live:
+        d.website, pages = find_company_pages(record, web)
+    else:
+        pages = []
     d.refresh_status='fresh' if pages else 'failed'
     if verify_known_identity(record,pages): d.identity_status='verified'
     else: d.issues.append('Aktuelles Impressum stimmt nicht eindeutig mit gespeicherter Identität überein oder ist nicht erreichbar.')
@@ -124,9 +143,10 @@ def run(options: RunOptions, progress=lambda *args:None, *, web=None, cancelled=
     raw=(ROOT/'data/combined-discovery.json').read_bytes()
     pool=DiscoverySnapshot.model_validate_json(raw)
     projects=[c for c in pool.candidates if 'foekat' in c.providers]
-    project_audit=[{'project_id':p.lead.id,'project_name':p.lead.name,'status':'not_processed','reason':'Außerhalb des begrenzten Recherchebudgets dieses Laufs.'} for p in projects]
+    project_audit=[{'project_id':p.lead.id,'project_name':p.lead.name,'status':'not_processed','reason':'Wartet auf automatische Quellenprüfung.'} for p in projects]
     warnings=['Quellen decken nur einen Teil deutscher Gründungen ab. Keine Vollständigkeitsbehauptung.',
               'HTGF-Profil ist eine interne Screening-Hilfe nach öffentlichen Kriterien. Keine offizielle HTGF-Bewertung.']
+    discovery_counts = {"gleif_records": 0, "gleif_new": 0, "gleif_next_page": 1, "live_profiles": 0}
     if options.mode=='replay':
         previous=load_last()
         if not previous:raise ValueError('Noch kein gespeicherter Quellenstand vorhanden. Zuerst einen Live-Lauf starten.')
@@ -137,6 +157,8 @@ def run(options: RunOptions, progress=lambda *args:None, *, web=None, cancelled=
         requests=0
         input_hash=previous.input_hash
         source_date=previous.source_snapshot_date
+        discovery_counts["live_profiles"] = previous.counts.get("live_profiles", 0)
+        discovery_counts["gleif_next_page"] = previous.counts.get("gleif_next_page", 1)
     else:
         web=web or Web(data_dir()/'cache',refresh=True)
         checkpoint_path=data_dir()/'checkpoint.json'
@@ -147,6 +169,30 @@ def run(options: RunOptions, progress=lambda *args:None, *, web=None, cancelled=
                 checkpoint=saved
                 web.refresh=False
                 warnings.append('Unterbrochener Lauf fortgesetzt; bereits gespeicherte Quellen werden weiterverwendet.')
+        previous=load_last()
+        records=json.loads((ROOT/'data/open-discovery/export/qualified.json').read_text(encoding='utf-8'))
+        extra_records=checkpoint.get("extra_records", [])
+        if options.live_discovery:
+            discovery_counts["live_profiles"] = 1
+            progress(3, "Neue deutsche Rechtsträger bei GLEIF abrufen")
+            if checkpoint:
+                discovery_counts.update(checkpoint.get("discovery_counts", {}))
+                warnings.extend(checkpoint.get("discovery_warnings", []))
+            else:
+                known={record["id"] for record in records}
+                if previous:
+                    known.update(item.dossier.id for item in previous.assessments)
+                next_page = (previous.counts.get("gleif_next_page", 1)
+                             if previous and previous.options.as_of == options.as_of else 1)
+                discovery_counts["gleif_next_page"] = next_page
+                try:
+                    extra_records, read_count, following = find_candidates(web, options, known, next_page)
+                except (OSError, ValueError, KeyError, TypeError) as error:
+                    warnings.append(f"GLEIF-Live-Abruf nicht verfügbar ({type(error).__name__}). Fortsetzung mit vorhandenen Spuren.")
+                else:
+                    discovery_counts.update(gleif_records=read_count, gleif_new=len(extra_records), gleif_next_page=following)
+        if cancelled():
+            raise InterruptedError('Analyse angehalten.')
         routes=institutional_index(projects,web,progress) if options.project_budget else {}
         planned=plan_projects(projects,routes)
         dossiers=[Dossier.model_validate(x) for x in checkpoint.get('dossiers',[])]
@@ -154,19 +200,24 @@ def run(options: RunOptions, progress=lambda *args:None, *, web=None, cancelled=
         audits={a['project_id']:a for a in project_audit}
         # Continue the unresolved queue across runs instead of repeatedly probing
         # the same first twelve projects. Re-resolve known matches as well.
-        previous=load_last()
         if previous:
             for a in previous.project_audit:
                 if a['project_id'] in audits:audits[a['project_id']]=a
         for a in checkpoint.get('project_audit',[]):audits[a['project_id']]=a
         processed={a['project_id'] for a in audits.values() if a['status']=='unresolved' and a.get('resolver_version')==2}
-        planned.sort(key=lambda p: (p.lead.id in processed,not bool(routes.get(p.lead.id))))
+        if options.live_discovery:
+            planned.sort(key=lambda p: (audits[p.lead.id]['status']!='not_processed', not bool(routes.get(p.lead.id))))
+        else:
+            planned.sort(key=lambda p: (p.lead.id in processed,not bool(routes.get(p.lead.id))))
         planned_ids=checkpoint.get('planned_ids') or [p.lead.id for p in planned[:options.project_budget]]
         project_map={p.lead.id:p for p in projects}
         planned=[project_map[identity] for identity in planned_ids]
         def checkpoint_save(complete=False):
             write_json(checkpoint_path,{'complete':complete,'options':options.model_dump(mode='json'),'planned_ids':planned_ids,
-                'completed':sorted(completed),'dossiers':[d.model_dump(mode='json') for d in dossiers],'project_audit':list(audits.values())})
+                'completed':sorted(completed),'dossiers':[d.model_dump(mode='json') for d in dossiers],'project_audit':list(audits.values()),
+                'extra_records':extra_records,'discovery_counts':discovery_counts,
+                'discovery_warnings':[message for message in warnings if message.startswith("GLEIF-Live-Abruf")]})
+        checkpoint_save()
         for i,p in enumerate(planned[:options.project_budget]):
             if p.lead.id in completed:continue
             if cancelled():raise InterruptedError('Analyse angehalten; vorhandene Quellen bleiben im Cache.')
@@ -175,20 +226,36 @@ def run(options: RunOptions, progress=lambda *args:None, *, web=None, cancelled=
             if d:dossiers.append(d)
             completed.add(p.lead.id);checkpoint_save()
         if previous:
+            resolved_projects = {identity for dossier in dossiers for identity in dossier.project_ids}
+            current_ids = {dossier.id for dossier in dossiers}
             for assessment in previous.assessments:
                 old=assessment.dossier
-                if old.project_ids and old.id not in completed and not set(old.project_ids).intersection(planned_ids):
+                if old.id in completed or old.id in current_ids:
+                    continue
+                if old.project_ids and not set(old.project_ids).intersection(resolved_projects):
                     if cancelled():raise InterruptedError('Analyse angehalten; Quellenstand gespeichert.')
                     dossiers.append(refresh_resolved(old,web))
                     completed.add(old.id);checkpoint_save()
+                elif options.live_discovery and not old.project_ids and any(s.kind == "identity_live" for s in old.sources):
+                    continued = old.model_copy(deep=True, update={"refresh_status": "snapshot"})
+                    dossiers.append(continued)
+                    completed.add(old.id);checkpoint_save()
         project_audit=list(audits.values())
-        records=json.loads((ROOT/'data/open-discovery/export/qualified.json').read_text(encoding='utf-8'))
+        records += extra_records
         for i,record in enumerate(records):
             if record['id'] in completed:continue
             if cancelled():raise InterruptedError('Analyse angehalten; vorhandene Quellen bleiben im Cache.')
-            progress(50+int(40*i/max(1,len(records))),'Unternehmensquellen prüfen: '+record['name'])
+            progress(50+int(36*i/max(1,len(records))),'Unternehmensquellen prüfen: '+record['name'])
             dossiers.append(known_company(record,web))
             completed.add(record['id']);checkpoint_save()
+        if options.live_discovery:
+            from mvp.briefs import collect_market_comparisons
+            progress(88, "Öffentliche Vergleichsangebote für die Marktanalyse abrufen")
+            for dossier in dossiers:
+                if cancelled():
+                    raise InterruptedError("Analyse angehalten. Firmenrecherche bleibt gespeichert.")
+                if dossier.refresh_status == "fresh":
+                    collect_market_comparisons(dossier, web)
         requests=getattr(web,'network_calls',web.calls)
         warnings.extend(f"Quelle nicht abrufbar: {e['url']} ({e['error']})" for e in web.errors)
         input_hash=hashlib.sha256(json.dumps([d.model_dump(mode='json') for d in dossiers],sort_keys=True).encode()).hexdigest()
@@ -202,7 +269,7 @@ def run(options: RunOptions, progress=lambda *args:None, *, web=None, cancelled=
           'projects_resolved':sum(a['status']=='resolved' for a in project_audit),'projects_this_run':len(planned_ids) if options.mode=='live' else 0,'companies':len(dossiers),'duplicates':before-len(dossiers),
           'ranked':sum(a.queue=='ranked' for a in assessments),'research':sum(a.queue=='research' for a in assessments),
           'excluded':sum(a.queue=='excluded' for a in assessments),'web_requests':requests,
-          'cache_hits':getattr(web,'cache_hits',0) if options.mode=='live' else 0})
+          'cache_hits':getattr(web,'cache_hits',0) if options.mode=='live' else 0, **discovery_counts})
     write_json(data_dir()/'runs'/f'{result.id}.json',result.model_dump(mode='json'))
     from mvp.handoff import analysis_run
     from models import Industry

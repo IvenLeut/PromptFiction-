@@ -4,6 +4,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, urljoin
+import requests
 from bs4 import BeautifulSoup
 from free_discovery.network import Fetcher, parse_html
 from mvp.contracts import Source
@@ -29,9 +30,8 @@ class Web:
         self.errors = []
         self.seen = {}
 
-    def page(self, url, kind='company'):
-        if url in self.seen:
-            return self.seen[url]
+    def record(self, url, *, api=False):
+        url = requests.Request('GET', url).prepare().url
         # A new live run retries transient failures and refreshes yesterday's pages.
         path = self.root / (hashlib.sha256(url.encode()).hexdigest() + '.json')
         if self.refresh and path.exists() and not self.offline:
@@ -39,7 +39,12 @@ class Web:
         self.calls += 1
         if path.exists():self.cache_hits+=1
         elif not self.offline:self.network_calls+=1
-        rec = self.fetcher.get(url, timeout=7, max_bytes=2_000_000)
+        return self.fetcher.get(url, api=api, timeout=12 if api else 7, max_bytes=3_000_000 if api else 2_000_000)
+
+    def page(self, url, kind='company'):
+        if url in self.seen:
+            return self.seen[url]
+        rec = self.record(url)
         parsed = parse_html(rec['text'], rec['url'])
         soup = BeautifulSoup(rec['text'], 'html.parser')
         title = soup.title.get_text(' ', strip=True) if soup.title else canonical_host(url)
