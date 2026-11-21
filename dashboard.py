@@ -342,7 +342,9 @@ def render_dashboard(result: ResearchResult, analysis: AnalysisRun | None = None
 
     The overview has three views: "Radar" (scores, earliness, best find, ranking; the default), "Screening"
     (fund fit, analyst status and filters from the cockpit branch) and "Investment-Cockpit" (cockpit.py:
-    overview, dealflow, company brief, activities). All three read the same run; decisions are shared."""
+    overview, dealflow, company brief, activities). All three read the same run; decisions are shared.
+    Inside "Radar" a second category, "Höheres Risiko" (iven_view.py), shows Iven's registered companies with his
+    own ranking and deep dive (``?iven=<id>``); it is never mixed into our ranking."""
     # deep_dive imports helpers from this module, so it is imported here, not at module level.
     from deep_dive import render_deep_dive
 
@@ -351,6 +353,16 @@ def render_dashboard(result: ResearchResult, analysis: AnalysisRun | None = None
         st.info("Für diese Kategorie liegen noch keine bewerteten Startups vor. Starte eine neue Analyse.")
         return
     namespace = decision_namespace(result, analysis)
+    import iven_view   # category "Höheres Risiko": Iven's registered companies, own rule set, never merged
+    if iven_id := st.query_params.get(iven_view.QUERY_KEY):
+        iven = iven_view.load()
+        company = next((c for c in (iven or {}).get("companies", []) if c["id"] == iven_id), None)
+        if company is not None:
+            iven_view.render_deep_dive(company, iven, early_leads=result.leads)
+            return
+        st.warning("Diese Firma ist in Ivens Referenzlauf nicht vorhanden.")
+        st.button("Zurück zur Übersicht", on_click=iven_view.back)
+        return
     requested_id = st.query_params.get("startup")
     if requested_id:
         lead = next((x for x in result.leads if x.id == requested_id), None)
@@ -373,6 +385,10 @@ def render_dashboard(result: ResearchResult, analysis: AnalysisRun | None = None
             return
         from cockpit import render_workspace
         render_workspace(analysis)
+        return
+    iven = iven_view.load()
+    if iven_view.category_switch(iven) == iven_view.CATEGORY_RISK:
+        iven_view.render_overview(iven)
         return
     live = bool(analysis and analysis.mode == "live")
     snapshot = bool(meta and meta.get("kind") == "snapshot")

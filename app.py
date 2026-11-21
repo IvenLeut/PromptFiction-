@@ -95,7 +95,7 @@ def open_snapshot(keep_query: bool = False):
 
 
 run = st.session_state.get("analysis")
-if run is None and (st.query_params.get("view") == "snapshot"
+if run is None and (st.query_params.get("view") == "snapshot" or st.query_params.get("iven")
                     or (st.query_params.get("startup", "").startswith("foekat-")
                         and st.session_state.get("data_source", "snapshot") == "snapshot")):
     # Shareable demo links: ?view=snapshot opens the snapshot, ?startup=foekat-… a snapshot deep dive.
@@ -118,6 +118,8 @@ if run is None:
         if source == "snapshot":
             st.markdown("#### 52 echte Gründungsvorhaben aus dem Förderkatalog")
             st.caption("Alle Branchen · Deutschland · Stand 21.11.2026 · Filter nach Branche, Stage und DB-Profil im Dashboard")
+            st.caption("Zusätzlich im Dashboard: Kategorie „Höheres Risiko“ mit 34 bereits gegründeten Firmen "
+                       "aus Ivens Firmen-Suche (eigenes Regelwerk, getrenntes Ranking).")
             category = None
         else:
             st.markdown("#### Welches Technologiefeld möchtest du entdecken?")

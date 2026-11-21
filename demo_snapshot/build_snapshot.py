@@ -9,6 +9,9 @@ Steps: the step-2 dossiers (a `ContextResult`) are scored with the same live pat
 AnalysisRun contract has no place for (detailed stage, why-now, noise class), the earliness backtest
 (`AGENT_TEAM/eval/backtest.json`) and the best find (`AGENT_TEAM/eval/best_find.md`). Re-run after the
 scoring changes; the files are plain JSON and can be diffed.
+
+`main` also writes `iven_companies.json` (demo_snapshot/iven_adapter.py): Iven's 34 registered companies
+from `data/mvp/jury-reference.json`, shown as the separate category "Höheres Risiko". Never merged with ours.
 """
 from __future__ import annotations
 
@@ -173,6 +176,11 @@ def main(argv=None):
     date.fromisoformat(args.stichtag)
     analysis_path, meta_path = build(args.dossiers.resolve(), args.out, args.stichtag)
     print(f"{analysis_path} ({analysis_path.stat().st_size // 1024} KB), {meta_path}")
+    # Second, separate dataset: Iven's company search (category "Höheres Risiko"), values copied 1:1.
+    from demo_snapshot.iven_adapter import IVEN_PATH, REFERENCE, build_iven
+    if REFERENCE.exists():
+        iven_path = build_iven(REFERENCE, args.out / IVEN_PATH.name)
+        print(f"{iven_path} ({iven_path.stat().st_size // 1024} KB)")
 
 
 if __name__ == "__main__":
