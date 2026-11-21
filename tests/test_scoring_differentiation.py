@@ -3,6 +3,7 @@
 Befunde 21.11.2026: 733 Leads lagen bei 48,7–53,7 (6 Werte); kiutra (gegr. 2018, in DBs) war `seed` statt `zu_spaet`.
 """
 import copy
+import re
 import json
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -487,10 +488,116 @@ def test_team_texts_agree_and_milestone_needs_customers():
     """m3: name_gruender gesetzt -> komplementaer-Text nennt die Person; erste_kunden aus einer Quelle -> kein 'wiederholbarer Vertrieb'."""
     r = run(gegruendet(managing_directors=["Anna Beispiel"]))
     e = next(e for e in r["evidence"] if e["kriterium"] == "komplementaer")
-    assert r["name_gruender"] == "Anna Beispiel" and "Anna Beispiel laut Impressum" in e["aussage"]
+    assert r["name_gruender"] == "Anna Beispiel" and e["aussage"].startswith("Anna Beispiel (Geschäftsführung), Teamgröße offen")
     assert "nicht namentlich" not in e["aussage"]
     einzeln = gegruendet(product_stage="erste_kunden", evidence=[ev("product_stage", "https://firma.example/p", "pricing", "Unternehmenswebsite")])
     h = run(einzeln)["investmenthypothese"]
     assert "wiederholbarer Vertrieb" not in h
     assert "1 belegter Partner" in next(e["aussage"] for e in run(partner_lead(("Beispiel GmbH", "kunde", "Kunde Beispiel GmbH")))["evidence"]
                                         if e["kriterium"] == "traktion")
+
+
+# --- Loop Runde 1 (Coder B): Team-Zusammensetzung, n2, n1 --------------------------------------------------------------
+def fp(name, role, background=None, url=None, **kw):
+    from models import FounderProfile
+    return FounderProfile(name=name, role=role, background=background,
+                          source_url=url or "https://www.linkedin.com/in/%s/" % name.lower().replace(" ", "-"), **kw)
+
+
+def komp(x):
+    r = run(x)
+    return r, teil(r, "team", "komplementaer"), next(e for e in r["evidence"] if e["kriterium"] == "komplementaer")
+
+
+def test_linkedin_founder_and_imprint_director_merge_without_duplicate():
+    x = gegruendet(managing_directors=["Anna Beispiel", "Ben Muster"],
+                   founder_profiles=[fp("Anna Beispiel", "Geschäftsführung (Impressum); CTO & Co-Founder (LinkedIn)", "tech")])
+    team = to_dossier(x, CFG)["team"]
+    assert [t["name"] for t in team] == ["Anna Beispiel", "Ben Muster"]
+    assert team[0]["herkuenfte"] == ["impressum", "linkedin"] and team[0]["gruender"] is True
+    r, t, e = komp(x)
+    assert e["aussage"].startswith("2 Personen in der Geschäftsführung, Profil-Mix unbekannt: "
+                                   "Anna Beispiel (Geschäftsführung / CTO & Co-Founder, Tech), Ben Muster (Geschäftsführung)")
+    assert t["punkte"] == 60.0  # Mix unbekannt bleibt 0,6, Ben ohne Hintergrund ist kein "ohne Business"
+
+
+def test_business_cofounder_is_a_strength():
+    x = gegruendet(founder_profiles=[fp("Eva Kauf", "CEO & Co-Founder (LinkedIn)", "business"),
+                                     fp("Tom Technik", "CTO & Co-Founder (LinkedIn)", "tech")])
+    r, t, e = komp(x)
+    assert t["punkte"] == 100.0 and not t["proxy"]
+    assert "Business-Profil: Eva Kauf" in e["aussage"] and e["url"] == "https://www.linkedin.com/in/eva-kauf/"
+    assert "Technik und Business" in r["investmenthypothese"]
+    assert not any("Business-Profil im Team nicht belegt" in p for p in r["offene_punkte"])
+
+
+def test_without_business_only_when_all_founders_are_proven_tech():
+    alle_tech = gegruendet(founder_profiles=[fp("A Eins", "CTO (LinkedIn)", "tech"), fp("B Zwei", "Co-Founder (LinkedIn)", "tech")])
+    r, t, e = komp(alle_tech)
+    assert t["punkte"] == 50.0 and "kein Business-Profil" in e["aussage"]
+    assert "Business-Profil im Team nicht belegt – prüfen" in r["offene_punkte"]
+    halb = gegruendet(founder_profiles=[fp("A Eins", "CTO (LinkedIn)", "tech"), fp("B Zwei", "CEO (LinkedIn)")])  # CEO allein: offen
+    r, t, _ = komp(halb)
+    assert t["punkte"] == 60.0 and not any("Business-Profil im Team" in p for p in r["offene_punkte"])
+
+
+def test_team_members_count_for_mix_not_for_n():
+    x = gegruendet(founder_profiles=[fp("A Eins", "CTO & Co-Founder (LinkedIn)", "tech"), fp("B Zwei", "Co-Founder (Presse)", "tech",
+                                                                                            url="https://idw-online.de/de/news9"),
+                                     fp("C Drei", "Teammitglied (LinkedIn)", "business")])
+    r, t, e = komp(x)
+    assert e["aussage"].startswith("2 Gründer mit Technik und Business") and "Business-Profil: C Drei" in e["aussage"]
+    assert t["punkte"] == 100.0 and r["name_gruender"] == "A Eins;B Zwei"  # Teammitglied nicht in name_gruender
+    nur_mitglieder = gegruendet(founder_profiles=[fp("C Drei", "Teammitglied (LinkedIn)", "business")])
+    assert run(nur_mitglieder)["name_gruender"] == ""
+    nur_mitglied = gegruendet(founder_profiles=[fp("A Eins", "Geschäftsführung (Impressum)", url=IMP),
+                                                fp("C Drei", "Teammitglied (LinkedIn)", "business")])
+    _, t, e = komp(nur_mitglied)
+    assert t["proxy"] and e["aussage"].startswith("A Eins (Geschäftsführung), Teamgröße offen")  # n = 1, aber kein "solo"
+
+
+def test_single_person_is_solo_only_when_a_source_says_so():
+    for role in ("Gründer (Presse)", "CEO (LinkedIn)", "Geschäftsführung (Impressum)", None):  # None: OpenAlex-Profil aus context
+        _, t, _ = komp(gegruendet(founder_profiles=[fp("A Eins", role, "tech")]))
+        assert t["punkte"] > 50, role
+    _, t, e = komp(gegruendet(founder_profiles=[fp("A Eins", "Alleingründer (Presse)", "tech")]))
+    assert t["punkte"] == 20.0 and e["aussage"] == "Ein Gründer belegt: A Eins"
+
+
+def test_database_hit_needs_a_profile_url_and_conflicts_are_flagged():
+    """n2 HydroPURE: Wayback-Slug gefunden, Brave-Datenbanksuche ohne Profil -> keine Such-URL als Fundstelle, Konflikt offen."""
+    wb = "https://web.archive.org/web/20241001082459/https://www.crunchbase.com/organization/quantsense"
+    brave = "https://search.brave.com/search?q=%22QuantSense%22+site%3Adealroom.co"
+    x = lead(in_databases=True, first_db_date=date(2024, 10, 1), database_urls=[wb],
+             evidence=[db_ev(wb, "Crunchbase-Profil im Webarchiv"), db_ev(brave, "kein Profil", "Datenbanksuche (Brave)")])
+    d = to_dossier(x, CFG)
+    assert d["in_databases_quelle"] == wb and d["in_databases_konflikt"] is True
+    r = run(x)
+    assert "search.brave.com" not in r["why_now"] and "Namensvetter prüfen" in r["why_now"]
+    assert any("Namensvetter prüfen" in p for p in r["offene_punkte"])
+    treffer = lead(in_databases=True, database_urls=["https://app.dealroom.co/companies/quantsense"],
+                   evidence=[db_ev("https://app.dealroom.co/companies/quantsense", "Profil", "Datenbanksuche (Brave)")])
+    d = to_dossier(treffer, CFG)
+    assert d["in_databases_quelle"] == "https://app.dealroom.co/companies/quantsense" and d["in_databases_konflikt"] is False
+    assert "(app.dealroom.co)" in run(treffer)["why_now"]
+
+
+@pytest.mark.parametrize("text,erwartet", [
+    ("iNSyT solutions – Observing without Disturbing Skip to content\nHome\nApplications\nApplications – Coatings & thin Layers\n"
+     "Contact\nHome\nApplications\nApplications – Coatings & thin Layers\nContact\nNanoscale dynamics, made visible\n"
+     "Get insights in dynamics of objects down to the nanoscale in real time – and in their native environment.\nLearn More\n"
+     "Our real-time, non-invasive technology brings unseen processes to light — faster, simpler, and more precise than ever before",
+     "Our real-time, non-invasive technology brings unseen processes to light"),
+    ("metubiq - Measure Everywhere\nTechnology\nMastering vibration for uncompromised accuracy.\n"
+     "From understanding vibration effects to dynamic signal correction and seamless machine integration—explore our core technology.\n"
+     "Vibration CorrectionReliable measurement in dynamic environments Influence of VibrationsHow environmental vibrations corrupt data\n"
+     "Laboratory Precision on the Shop Floor\nGain early access to our latest measurement technology and work directly with our team.",
+     "Gain early access to our latest measurement technology"),
+    ("SpinMagIC - Home\nHome About News Contacts\nWe bring EPR to people\nFree radicals are a critical indicator of material degradation.\n"
+     "Our cutting-edge quantum sensor enables precise, real-time monitoring of free radicals throughout your processes.",
+     "Our cutting-edge quantum sensor enables precise, real-time monitoring"),
+])
+def test_website_vp_skips_menus_and_calls_to_action(text, erwartet):
+    vp = run(lead(evidence=[website(text)]))["value_proposition"]
+    assert vp.startswith(erwartet), vp
+    assert not re.search(r"(?i)applications –|explore|skip to|learn more", vp)

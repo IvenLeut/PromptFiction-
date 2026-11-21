@@ -35,7 +35,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "2 Gründer mit Technik und Business",
+        "aussage": "2 Gründer mit Technik und Business: Dummy Gründer B (Gründer, Business), Dummy Gründerin A (Geschäftsführerin, Tech); Business-Profil: Dummy Gründer B",
         "url": "https://example.org/kontraktwerk/team",
         "datum": null,
         "punkte": 100.0
@@ -99,7 +99,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "wettbewerb",
-        "aussage": "1 belegte Wettbewerber: Dummy Wettbewerber X",
+        "aussage": "1 belegter Wettbewerber: Dummy Wettbewerber X",
         "url": "https://example.com/marktstudie-vertragssoftware",
         "datum": null,
         "punkte": 70.0
@@ -310,7 +310,7 @@
     "stage": "pre_seed",
     "produktbeschreibung": "OsteoPrint druckt patientenspezifische Knochenimplantate aus resorbierbarem Material. Chirurgen bestellen das Implantat auf Basis von CT-Daten.",
     "value_proposition": "OsteoPrint druckt patientenspezifische Knochenimplantate aus resorbierbarem Material.",
-    "investmenthypothese": "Wir investieren, weil: Dummy Ärztin E: 11 Papers im Produktfeld; 3 Gründer mit Technik und Business. Nächster Meilenstein: ein erster Pilot. Hauptrisiko: Regulierter Markt, Zulassung nötig.",
+    "investmenthypothese": "Wir investieren, weil: Dummy Ärztin E: 11 Papers im Produktfeld; 3 Gründer mit Technik und Business: Dummy Ingenieur F (CTO, Tech), Dummy Kauffrau G (Gründerin, Business), Dummy Ärztin E (Geschäftsführerin, Tech); Business-Profil: Dummy Kauffrau G. Nächster Meilenstein: ein erster Pilot. Hauptrisiko: Regulierter Markt, Zulassung nötig.",
     "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 06/2026; laut Sourcing kein Datenbankprofil gefunden; jüngstes Signal vor 8 Monaten",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
@@ -328,8 +328,8 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "3 Gründer mit Technik und Business",
-        "url": "https://example.net/openalex/F1",
+        "aussage": "3 Gründer mit Technik und Business: Dummy Ingenieur F (CTO, Tech), Dummy Kauffrau G (Gründerin, Business), Dummy Ärztin E (Geschäftsführerin, Tech); Business-Profil: Dummy Kauffrau G",
+        "url": "https://example.org/osteoprint/team",
         "datum": null,
         "punkte": 100.0
       },
@@ -621,7 +621,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "2 Gründer, kein Business-Profil",
+        "aussage": "2 Gründer, alle mit Tech-Hintergrund, kein Business-Profil: Dummy Forscher C (Projektleitung, Tech), Dummy Forscherin D (Mitglied, Tech)",
         "url": "https://example.net/openalex/C1",
         "datum": null,
         "punkte": 50.0
@@ -870,7 +870,8 @@
       "Kein Beleg für: Marktvolumen",
       "Kein Beleg für: Skalierbarkeit (Produkttyp)",
       "Kein Beleg für: Wettbewerber",
-      "Kein Beleg für: Regulatorik"
+      "Kein Beleg für: Regulatorik",
+      "Business-Profil im Team nicht belegt – prüfen"
     ],
     "first_signal_date": "2025-04-01",
     "earliness_delta_monate": 19,
@@ -1528,7 +1529,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "Ein Gründer belegt",
+        "aussage": "Ein Gründer belegt: Dummy Inhaber H",
         "url": "https://example.org/pixelfreunde/impressum",
         "datum": null,
         "punkte": 20.0
@@ -1841,7 +1842,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "2 Gründer mit Technik und Business",
+        "aussage": "2 Gründer mit Technik und Business: Dummy Gründer I (CEO, Business), Dummy Gründerin J (CTO, Tech); Business-Profil: Dummy Gründer I",
         "url": "https://example.org/scalebatt/team",
         "datum": null,
         "punkte": 100.0
@@ -2150,7 +2151,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "Ein Gründer belegt",
+        "aussage": "Ein Gründer belegt: Dummy Entwickler K",
         "url": "https://example.org/github/wetterbot",
         "datum": null,
         "punkte": 20.0
@@ -2463,7 +2464,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "2 Gründer, kein Business-Profil",
+        "aussage": "2 Gründer, alle mit Tech-Hintergrund, kein Business-Profil: Dummy Chemiker M (Geschäftsführer, Tech), Dummy Chemikerin L (Geschäftsführerin, Tech)",
         "url": "https://example.org/altgarde/impressum",
         "datum": null,
         "punkte": 50.0
@@ -2721,7 +2722,8 @@
       "Kein Beleg für: Tech-Tiefe (Programm und Fachgebiet)",
       "Kein Beleg für: Regulatorik",
       "Kein Beleg für: Schutzrechte (IP)",
-      "Kein Beleg für: bisherige Förderung"
+      "Kein Beleg für: bisherige Förderung",
+      "Business-Profil im Team nicht belegt – prüfen"
     ],
     "first_signal_date": "2026-04-01",
     "earliness_delta_monate": 7,

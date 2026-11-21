@@ -159,3 +159,13 @@ Die Gewichte sind **nicht** geändert (0,40/0,25/0,35 wartet auf das Team). Geme
 - Die echte DB-Suche des Matchers ist erst nach einem neuen Online-Lauf messbar.
 - Die Website-VP ist extraktiv und klingt teils nach Werbetext („It’s time to find your answer.“). Die Entscheidung, ob ein Modell umformulieren darf, liegt beim Team.
 - SIMBAs Partnerzitat handelt von einem Fraunhofer-Projekt ohne erkennbaren SIMBA-Bezug. Das kann nur die Klassifikation in context lösen (matcher).
+
+## Loop Runde 1 (Coder B)
+
+Bericht: `AGENT_TEAM/reports/loop/round-1-coderB.md`.
+
+- Herkunft und Gründer/Teammitglied je Person.
+- Komplementär-Regel ohne Abzug aus fehlenden Daten; Business-Co-Founder als Stärke.
+- n2: DB-Fundstelle nur positiv, Konflikt Wayback-Slug gegen Suche führt zu „Namensvetter prüfen“.
+- n1: Website-VP ohne Menü- und CTA-Text.
+- Gewichte unverändert. Suite 831 passed, deterministisch.

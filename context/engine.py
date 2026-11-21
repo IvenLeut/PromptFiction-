@@ -42,6 +42,9 @@ from scoring_input import build_scoring_input
 
 logger = logging.getLogger(__name__)
 EXIST_CONFIRMED_YEARS = 3   # an EXIST mention on the site explains a Wayback capture at most this long before the project
+MAX_TEAM_OPENALEX = 3       # OpenAlex lookups for new persons from the team lookup per lead
+OPENALEX_TECH_WORKS = 5     # an OpenAlex profile with this many works counts as tech background (agreed with scorer)
+SOURCE_OPENALEX_LABEL = "OpenAlex"
 MAX_DIRECTOR_LOOKUPS = 3    # OpenAlex lookups for Impressum managing directors per lead (1 call each, ~100 calls/day without key)
 DIRECTOR_ROLE = "Geschäftsführung (Impressum)"
 WEBSITE_TEXT_CHARS = 5000   # Evidence field="website_text" for the scorer's noise filter
@@ -282,7 +285,8 @@ def default_lookups(cache=_DEFAULT_CACHE, model: str | None = None, patents: boo
                                ("author", "context.openalex", "author_lookup"), ("idw", "context.idw", "idw_lookup"),
                                ("patents", "context.patents", "patent_lookup"),
                                ("website_match", "context.website_match", "match_lookup"),
-                               ("databases", "context.dbsearch", "database_lookup")):
+                               ("databases", "context.dbsearch", "database_lookup"),
+                               ("team", "context.team", "team_lookup")):
         if (name == "patents" and not patents) or (name == "website_match" and not match):
             found[name] = None
             continue
@@ -329,7 +333,7 @@ def _run(lookups: dict, name: str, merged: Lookup, call):
     """Run one lookup; a failing lookup becomes an error entry instead of aborting the lead."""
     func = lookups.get(name)
     if func is None:
-        if name not in ("patents", "website_match", "databases"):
+        if name not in ("patents", "website_match", "databases", "team"):
             merged.errors.append("%s: Modul nicht verfügbar" % name)
         return None
     try:
@@ -356,6 +360,8 @@ class _LookupHits:
     directors: list[str] = dc_field(default_factory=list)      # Impressum managing directors (lead without founders)
     imprint_url: str | None = None
     imprint_text: str = ""
+    team: list[FounderProfile] = dc_field(default_factory=list)   # context/team.py
+    oa_tech: set[str] = dc_field(default_factory=set)               # names with background 'tech' from OpenAlex
 
 
 def _run_lookups(lead: RawLead, lookups: dict, signals: list[SourceSignal], offline: list, earliest: date | None,
@@ -411,7 +417,59 @@ def _run_lookups(lead: RawLead, lookups: dict, signals: list[SourceSignal], offl
             result = _run(lookups, "author", merged, lambda f, n=director: f(n, institution=institution, field_terms=[], cache=cache))
             if result and result[0] is not None:
                 hits.profiles[director] = result[0]
+    if lookups.get("team"):
+        _run_team(lead, lookups, merged, signals, website, hits, institution, cache)
+    _openalex_background(hits, merged)
     return hits
+
+
+def _team_texts(signals: list[SourceSignal], website: str | None, merged: Lookup, cache) -> list[tuple[str, str, str]]:
+    """(text, url, origin) already at hand for the team lookup: idw articles, website pages, project pages (cache)."""
+    from context.web import FETCH_ERRORS, fetch as web_fetch, site_key
+    texts = [(s.evidence, str(s.url), "Presse") for s in signals if s.type == "idw" and not mention_only(s)]
+    texts += [(s.evidence, str(s.url), "Website") for s in signals
+              if s.type == "website" and website and site_key(str(s.url)) == site_key(website)]
+    for url in list(dict.fromkeys(str(e.url) for e in merged.evidence if e.field == "project_page"))[:2]:
+        try:
+            _, page = web_fetch(url, site_key(url), cache=cache)
+        except FETCH_ERRORS:
+            continue
+        texts.append(("\n".join(page.lines), url, "Presse"))
+    return texts
+
+
+def _run_team(lead: RawLead, lookups: dict, merged: Lookup, signals: list[SourceSignal], website: str | None,
+              hits: "_LookupHits", institution: str | None, cache) -> None:
+    """Team composition (context/team.py); new persons (max. MAX_TEAM_OPENALEX) get the OpenAlex lookup."""
+    known = list(dict.fromkeys(lead.founders)) or list(hits.directors)
+    try:
+        profiles, found = lookups["team"](lead.name, website=website, location=lead.location, institution=institution,
+                                          known_names=known, texts=_team_texts(signals, website, merged, cache), cache=cache)
+    except Exception as exc:  # noqa: BLE001 - a failing lookup must not kill the dossier
+        logger.exception("Lookup team failed")
+        merged.errors.append("team: %s" % type(exc).__name__)
+        return
+    merged.evidence.extend(found.evidence)
+    merged.errors.extend(found.errors)
+    hits.team = list(profiles)
+    if profiles and "team" not in merged.fields.setdefault("_sources", []):
+        merged.fields["_sources"].append("team")
+    from context.team import name_key
+    known_keys = {name_key(k) for k in known}
+    new = [p.name for p in profiles if name_key(p.name) not in known_keys][:MAX_TEAM_OPENALEX]
+    for person in new:
+        result = _run(lookups, "author", merged, lambda f, n=person: f(n, institution=institution, field_terms=[], cache=cache))
+        if result and result[0] is not None:
+            hits.profiles[person] = result[0]
+
+
+def _openalex_background(hits: "_LookupHits", merged: Lookup) -> None:
+    """OpenAlex fallback agreed with scorer: >= OPENALEX_TECH_WORKS works -> background 'tech', with its own Evidence."""
+    for name, profile in hits.profiles.items():
+        if profile.openalex_url and (profile.works_total or 0) >= OPENALEX_TECH_WORKS:
+            hits.oa_tech.add(name)
+            merged.evidence.append(Evidence(field="founder_profiles", url=profile.openalex_url, source=SOURCE_OPENALEX_LABEL,
+                                            finding="%s: background tech aus OpenAlex (%d Arbeiten)" % (name, profile.works_total)))
 
 
 def _press_namesakes(merged: Lookup, earliest: date | None) -> set[str]:
@@ -818,6 +876,30 @@ def _director_profiles(hits: _LookupHits) -> list[FounderProfile]:
     return out
 
 
+def _team_profiles(base: list[FounderProfile], hits: "_LookupHits") -> list[FounderProfile]:
+    """Merge the team lookup into founder/Impressum profiles by name; add new persons; OpenAlex data and fallback."""
+    from context.team import name_key
+    out = [p.model_copy() for p in base]
+    index = {name_key(p.name): i for i, p in enumerate(out)}
+    for t in hits.team:
+        key = name_key(t.name)
+        if key in index:
+            p = out[index[key]]
+            roles = [r for r in (p.role or "").split("; ") if r]
+            if not t.role.startswith("Teammitglied") or not roles:
+                roles += [r for r in t.role.split("; ") if r not in roles]
+            out[index[key]] = p.model_copy(update={"role": "; ".join(roles) or None, "background": p.background or t.background,
+                                                   "institution": p.institution or t.institution})
+            continue
+        values = t.model_dump()
+        if (oa := hits.profiles.get(t.name)) is not None:
+            values.update({k: getattr(oa, k) for k in ("openalex_url", "works_total", "works_in_field", "match_confidence")})
+            values["institution"] = values.get("institution") or oa.institution
+        index[key] = len(out)
+        out.append(FounderProfile(**values))
+    return [p.model_copy(update={"background": "tech"}) if p.background is None and p.name in hits.oa_tech else p for p in out]
+
+
 def _lookup_questions(questions: list[str], extra: dict) -> list[str]:
     """Adjust the questions to what the lookups found (grant covers capital need; legal form, IP, partners)."""
     questions = [q for q in questions if not (q.startswith("Welchen Kapitalbedarf") and extra.get("grants"))]
@@ -1001,7 +1083,7 @@ def enrich(
         evidence=evidence,
         context_v2=context,
         scoring_sources=scoring_sources,
-        founder_profiles=_founder_profiles(facts, founders, hits.profiles) + _director_profiles(hits),
+        founder_profiles=_team_profiles(_founder_profiles(facts, founders, hits.profiles) + _director_profiles(hits), hits),
         **{field: facts.value(field) for field in LABELS},
         **round_terms,
         research_questions=questions,

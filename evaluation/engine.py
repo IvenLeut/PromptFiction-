@@ -74,8 +74,56 @@ def _personenname(name: str) -> str | None:
     return name
 
 
+_HERKUNFT = {"impressum": "impressum", "linkedin": "linkedin", "presse": "presse", "website": "website"}
+_GRUENDERROLLE = re.compile(r"(?i)(co-?founder|founder|gr(ü|ue)nder|mitgr(ü|ue)nder|\bceo\b|\bcto\b|\bcoo\b|\bcfo\b|\bcbo\b|"
+                            r"gesch(ä|ae)ftsf(ü|ue)hr|managing director|project leader)")
+
+
+def _rollen(role: str | None) -> tuple[list[str], bool | None]:
+    """'Geschäftsführung (Impressum); CTO & Co-Founder (LinkedIn)' -> (['impressum', 'linkedin'], True).
+
+    Gründer, wenn irgendeine Rolle eine Gründerrolle ist; nur "Teammitglied (…)" -> False; ohne Herkunfts-Suffix -> None
+    (unbekannt, wie bisher)."""
+    herk, gr, bekannt = [], False, False
+    for teil in (role or "").split(";"):
+        m = re.search(r"\(([^()]*)\)\s*$", teil.strip())
+        h = _HERKUNFT.get(m.group(1).strip().lower()) if m else None
+        if h:
+            bekannt = True
+            herk.append(h) if h not in herk else None
+        if _GRUENDERROLLE.search(teil) and not re.search(r"(?i)teammitglied", teil):
+            gr = True
+    return herk, (gr if bekannt else None)
+
+
 def _namekey(name: str) -> str:
     return re.sub(r"[^0-9a-zäöüß]", "", name.lower())
+
+
+def _db_art(url: str) -> str:
+    """Art einer in_databases-Fundstelle: 'profil' (Profilseite oder archivierter Profil-Snapshot) oder 'suche' bzw.
+    'wayback_suche' (Suche bzw. CDX-Abfrage, also nur die Abfrage, kein Profil)."""
+    u = url.lower()
+    if "search.brave.com" in u or "/search?" in u:
+        return "suche"
+    if "web.archive.org/cdx" in u:
+        return "wayback_suche"
+    return "profil"
+
+
+def _db_quelle(lead: EnrichedLead) -> tuple[str | None, bool]:
+    """(Quelle für in_databases, Konflikt). Ein positiver Befund braucht eine Profil-URL (nie eine Such-URL); ein
+    negativer nennt die Suche, sonst die Wayback-Abfrage. Konflikt: Wayback-Slug gefunden, Datenbanksuche ohne Profil."""
+    ev = [(str(e.url), _db_art(str(e.url)), e.source) for e in lead.evidence if e.field == "in_databases"]
+    if lead.in_databases is True:
+        profile = [str(u) for u in lead.database_urls] + [u for u, art, _ in ev if art == "profil"]
+        quelle = next((u for u in profile if "web.archive.org" not in u), None) or next(iter(profile), None)
+        such_negativ = any(art == "suche" for _, art, _ in ev)
+        nur_wayback = bool(profile) and all("web.archive.org" in u for u in profile)
+        return quelle, bool(nur_wayback and such_negativ)
+    if lead.in_databases is False:
+        return next((u for u, art, _ in ev if art == "suche"), None) or next((u for u, _, _ in ev), None), False
+    return next((u for u, _, _ in ev), None), False
 
 
 def _katalog_zeile(lead: EnrichedLead, url: str, label: str) -> str | None:
@@ -110,7 +158,8 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     | branche | str or None | `htgf_sector`, else `industry` unless unclassified |
     | rechtsform | fact | `legal_form` (+ " i.G." if `in_formation`) |
     | gruendungsdatum, gruendungsjahr_hinweis | fact | `founded_on`/`founding_year[_month]`, `founding_year_hint` |
-    | team | [{name, rolle, institut, quelle, openalex, papers_im_feld, hintergrund, vorerfahrung}] | `founder_profiles`, `founders` |
+    | team | [{name, rolle, institut, quelle, openalex, papers_im_feld, papers_gesamt, match_confidence, hintergrund, vorerfahrung, herkunft, herkuenfte, gruender}] | `founder_profiles` (Herkunft aus dem Rollen-Suffix "(Impressum|LinkedIn|Presse|Website)", sonst "kontext"; `gruender` False nur bei "Teammitglied (…)"), `founders`, `managing_directors` |
+    | in_databases_quelle, in_databases_konflikt | str, bool | Profil-URL bei Treffer (nie eine Such-URL); Konflikt = nur Wayback-Slug und Datenbanksuche ohne Profil |
     | reifegrad, produkt_typ, regulierter_markt, ip | fact | `product_stage` (via REIFE), `product_type`, `regulated_market`, `patents`/`ip_status` |
     | markt | {zielkunde, modell, volumen_eur: fact} | `target_customers`, `business_model`, `market_size_eur` |
     | partner | [{name, typ, quelle}] | `partners`, `customer_count` |
@@ -138,6 +187,7 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
         return str(e.url) if e and not e.source.startswith("Ollama-Zitat") else None
 
     reife = REIFE.get((lead.product_stage or "").strip().lower())
+    db_quelle, db_konflikt = _db_quelle(lead)
     if lead.founded_on and src("founded_on"):
         gruendung = {"wert": lead.founded_on.isoformat(), "quelle": src("founded_on")}
     elif lead.founding_year:
@@ -163,24 +213,27 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     team = []
     for p in lead.founder_profiles:
         url = str(p.source_url) if p.source_url else src("founder_profiles") or quelle
-        aus_impressum = "impressum" in (p.role or "").lower()  # context: role "Geschäftsführung (Impressum)"
-        name = _personenname(p.name) if aus_impressum else p.name
+        herkuenfte, gruender = _rollen(p.role)
+        name = _personenname(p.name) if "impressum" in herkuenfte else p.name
         if not name or _namekey(name) in {_namekey(t["name"]) for t in team}:
             continue
         team.append({"name": name, "rolle": p.role or "Gründer", "institut": p.institution, "quelle": url,
                      "openalex": str(p.openalex_url) if p.openalex_url else None, "papers_im_feld": p.works_in_field,
                      "papers_gesamt": p.works_total, "match_confidence": p.match_confidence,
-                     "hintergrund": p.background, "vorerfahrung": list(p.prior_experience)}
-                    | ({"herkunft": "impressum"} if aus_impressum else {}))
+                     "hintergrund": p.background, "vorerfahrung": list(p.prior_experience),
+                     # Herkunft der Person aus context ("Rolle (Impressum|LinkedIn|Presse|Website)"); ohne Suffix: "kontext"
+                     "herkunft": herkuenfte[0] if herkuenfte else "kontext", "herkuenfte": herkuenfte or ["kontext"]}
+                    | ({"gruender": gruender} if gruender is not None else {}))
     for name in lead.founders:
         if name not in {t["name"] for t in team}:
-            team.append({"name": name, "rolle": "Gründer", "quelle": quelle})
+            team.append({"name": name, "rolle": "Gründer", "quelle": quelle, "herkunft": "sourcing", "herkuenfte": ["sourcing"], "gruender": True})
     # Geschäftsführung aus dem Impressum (öffentliche Geschäftsdaten), wenn context kein Profil zu dieser Person hat.
     gf_url = src_rule("managing_directors") or (str(lead.imprint_url) if lead.imprint_url else None)
     for name in lead.managing_directors if gf_url else []:
         name = _personenname(name)
         if name and _namekey(name) not in {_namekey(t["name"]) for t in team}:
-            team.append({"name": name, "rolle": "Geschäftsführung", "quelle": gf_url, "herkunft": "impressum"})
+            team.append({"name": name, "rolle": "Geschäftsführung", "quelle": gf_url, "herkunft": "impressum",
+                         "herkuenfte": ["impressum"], "gruender": True})
 
     partner = [{"name": x.name, "typ": x.kind, "quelle": str(x.url)} | ({"zitat": x.quote} if x.quote else {}) for x in lead.partners]
     if lead.customer_count and src("customer_count"):
@@ -230,9 +283,8 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
                          if "website_text" in by_field and not by_field["website_text"].source.startswith("Ollama-Zitat") else None),
         "funding_meldung": funding,
         "in_databases": lead.in_databases if src("in_databases") or lead.in_databases is None else None,
-        # echte Datenbankprüfung (nicht Wayback) hat Vorrang als Quelle; Wayback-Quelle sonst wie bisher
-        "in_databases_quelle": next((str(e.url) for e in lead.evidence if e.field == "in_databases"
-                                     and "web.archive.org" not in str(e.url)), None) or src("in_databases"),
+        "in_databases_quelle": db_quelle,
+        "in_databases_konflikt": db_konflikt,
         "first_db_date": lead.first_db_date.isoformat() if lead.first_db_date and src("first_db_date") else None,
         "match_confidence": lead.match_confidence,
         "signals": signals,

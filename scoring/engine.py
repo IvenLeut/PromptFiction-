@@ -243,6 +243,14 @@ def wort_in(wort, s):
 VERNEINUNG = re.compile(r"(?i)(?<!\w)(kein\w*|nicht|ohne|no|not|non)(?!\w)")
 
 
+def rolle_kurz(m):
+    """Rolle ohne Herkunfts-Suffix: 'CTO & Co-Founder (LinkedIn)' -> 'CTO & Co-Founder'; mehrere Rollen mit ' / '."""
+    teile = [re.sub(r"\s*\([^()]*\)\s*$", "", t.strip()) for t in str(m.get("rolle") or "").split(";")]
+    teile = list(dict.fromkeys(t for t in teile if t))
+    hg = {"tech": "Tech", "business": "Business", "beides": "Tech + Business"}.get(m.get("hintergrund"))
+    return clip(" / ".join(teile) or "Rolle offen", 50) + (", %s" % hg if hg else "")
+
+
 def wort_unverneint(wort, s):
     """Ganzes Wort, mindestens einmal ohne Verneinung in den drei Wörtern davor ("keine Agentur" zählt nicht)."""
     for m in re.finditer(r"(?<!\w)%s(?!\w)" % re.escape(wort), s):
@@ -397,14 +405,21 @@ class Scorer:
         return dict(wert=self.proxy(stufe(k["gesamt_stufen"], best[0])), proxy=True, url=best[2],
                     aussage="%s: %d Publikationen insgesamt (OpenAlex, Feldbezug offen)" % (best[1], best[0]))
 
+    def gruender(self):
+        """Gründer bzw. Geschäftsführung; Teammitglieder ohne Gründerrolle (`gruender: false`) zählen nicht für n."""
+        return [m for m in self.team if m.get("gruender") is not False]
+
     def mix(self):
+        """True = Technik und Business belegt (auch durch ein Teammitglied), False = alle Gründer mit belegtem
+        Tech-Hintergrund und niemand mit Business-Profil, None = offen. Fehlende Angaben ergeben nie False."""
         v, url, _ = fact(self.d.get("mix_tech_business"))
         if isinstance(v, bool) and url:
             return v
         h = [m.get("hintergrund") for m in self.team]
         if "beides" in h or ("tech" in h and "business" in h):
             return True
-        if self.team and all(x == "tech" for x in h):
+        gr = self.gruender()
+        if gr and all(m.get("hintergrund") == "tech" for m in gr) and "business" not in h:
             return False
         return None
 
@@ -419,33 +434,42 @@ class Scorer:
         return None
 
     def k_komplementaer(self, k):
-        # Eine Geschäftsführerin im Impressum heißt nicht "Solo-Gründerin": dann wie ohne Team (Förderdaten)
-        nur_impressum = len(self.team) == 1 and self.team[0].get("herkunft") == "impressum"
-        if not self.team or nur_impressum:
+        gr = self.gruender()
+        einzeln = gr[0] if len(gr) == 1 else None
+        solo_beleg = einzeln is not None and (not einzeln.get("herkunft") or re.search(
+            r"(?i)allein\s*gr(ü|ue)nder|einzelgr(ü|ue)nder|solo[- ]?founder|sole founder", str(einzeln.get("rolle") or "")))
+        # Eine einzelne gefundene Person (Impressum, LinkedIn, Presse …) ist kein Beleg für eine Solo-Gründung; "solo" nur
+        # bei ausdrücklicher Angabe oder in einem handgepflegten Dossier ohne Herkunft. Sonst wie ohne Team (Förderdaten).
+        if not gr or (einzeln is not None and not solo_beleg):
+            wer = ("%s (%s), Teamgröße offen; " % (einzeln["name"], rolle_kurz(einzeln)) if einzeln is not None
+                   else "%d Teammitglied(er) ohne Gründerrolle belegt; " % len(self.team) if self.team else "")
             sp = self.stipendium_personen()
             ef = next((e for e in self.katalog_exist() if e["art"] == "ef"), None)
             if (not sp or sp[0] < 2) and ef:  # Richtlinie: EXIST-Forschungstransfer fördert Forschungsteams
                 return dict(wert=self.proxy(k["werte"]["forschungsteam"]), proxy=True, url=ef["url"], datum=iso(ef["start"].isoformat()),
-                            aussage=("%s laut Impressum in der Geschäftsführung, Teamgröße offen; EXIST-Forschungstransfer fördert Forschungsteams"
-                                     % self.team[0]["name"]) if nur_impressum else
-                                    "EXIST-Forschungstransfer fördert Forschungsteams, Gründer noch nicht namentlich belegt")
+                            aussage=wer + ("EXIST-Forschungstransfer fördert Forschungsteams" if wer else
+                                           "EXIST-Forschungstransfer fördert Forschungsteams, Gründer noch nicht namentlich belegt"))
             if not sp or sp[0] < 2:
                 return None
             n, monate, e = sp
             return dict(wert=k["werte"]["foerderung_ab_drei" if n >= 3 else "foerderung_ab_zwei"], url=e["url"], datum=iso(e["start"].isoformat()),
-                        aussage=("%s laut Impressum in der Geschäftsführung; " % self.team[0]["name"] if nur_impressum else "")
-                        + "Stipendium %s EUR über %d Monate: nach EXIST-Obergrenzen mind. %d geförderte Personen" % (eur(e["summe"]), monate, n))
-        n, mix = len(self.team), self.mix()
-        wer = "Personen in der Geschäftsführung (Impressum)" if all(m.get("herkunft") == "impressum" for m in self.team) else "Gründer"
+                        aussage=wer + "Stipendium %s EUR über %d Monate: nach EXIST-Obergrenzen mind. %d geförderte Personen" % (eur(e["summe"]), monate, n))
+        n, mix = len(gr), self.mix()
         if n == 1:
-            key, aussage = "solo", "Ein Gründer belegt"
-        elif mix is True:
-            key, aussage = "mehrere_mit_mix", "%d %s mit Technik und Business" % (n, wer)
+            return dict(wert=k["werte"]["solo"], aussage="Ein Gründer belegt: %s" % einzeln["name"], url=einzeln["_url"])
+        personen = ", ".join("%s (%s)" % (m["name"], rolle_kurz(m)) for m in gr[:4]) + (" …" if n > 4 else "")
+        wer = "Personen in der Geschäftsführung" if all(m.get("herkunft") == "impressum" for m in gr) else "Gründer"
+        if mix is True:
+            biz = next((m for m in self.team if m.get("hintergrund") in ("business", "beides")), None)
+            key, url = "mehrere_mit_mix", (biz or gr[0])["_url"]
+            aussage = "%d %s mit Technik und Business: %s" % (n, wer, personen)
+            if biz:
+                aussage += "; Business-Profil: %s" % biz["name"]
         elif mix is False:
-            key, aussage = "mehrere_ohne_business", "%d %s, kein Business-Profil" % (n, wer)
+            key, url, aussage = "mehrere_ohne_business", gr[0]["_url"], "%d %s, alle mit Tech-Hintergrund, kein Business-Profil: %s" % (n, wer, personen)
         else:
-            key, aussage = "mehrere_mix_unbekannt", "%d %s, Profil-Mix unbekannt" % (n, wer)
-        return dict(wert=k["werte"][key], aussage=aussage, url=self.team[0]["_url"])
+            key, url, aussage = "mehrere_mix_unbekannt", gr[0]["_url"], "%d %s, Profil-Mix unbekannt: %s" % (n, wer, personen)
+        return dict(wert=k["werte"][key], aussage=aussage, url=url)
 
     def exist(self):
         """Belegte EXIST-Förderungen, früheste zuerst."""
@@ -592,7 +616,7 @@ class Scorer:
         if not ok:
             return None
         key = "viele" if len(ok) >= k["viele_ab"] else "wenige"
-        return dict(wert=k["werte"][key], aussage="%d belegte Wettbewerber: %s" % (len(ok), clip(", ".join(n for n, _ in ok[:3]), 120)), url=ok[0][1])
+        return dict(wert=k["werte"][key], aussage="%d %s: %s" % (len(ok), "belegter Wettbewerber" if len(ok) == 1 else "belegte Wettbewerber", clip(", ".join(n for n, _ in ok[:3]), 120)), url=ok[0][1])
 
     def foerderende(self):
         """(monate_bis_ende, eintrag) der EXIST-Förderung, die am spätesten endet; None ohne belegtes Enddatum."""
@@ -829,7 +853,8 @@ class Scorer:
             if bestaetigt:
                 return "älter als %d Monate (gegründet %d laut Pressetext, bestätigt durch %s)" % (maxm, h[0], " und ".join(bestaetigt)), h[1]
         db = voll(self.d.get("first_db_date"))
-        if (cfg["zu_spaet_wenn_alter_db_eintrag"] and self.d.get("in_databases") is True and db and db <= self.stichtag
+        if (cfg["zu_spaet_wenn_alter_db_eintrag"] and self.d.get("in_databases") is True and not self.d.get("in_databases_konflikt")
+                and db and db <= self.stichtag
                 and months_between(db, self.stichtag) > maxm
                 and (not self.signals or months_between(db, self.signals[0]["datum"]) <= cfg["hinweis_max_vor_signal_monate"])):
             q = self.d.get("in_databases_quelle")
@@ -839,7 +864,7 @@ class Scorer:
     def hinweis_bestaetigung(self):
         rf = self.rechtsform()[0]
         out = ["Rechtsform %s" % rf] if rf and rf != "keine" else []
-        if self.d.get("in_databases") is True:
+        if self.d.get("in_databases") is True and not self.d.get("in_databases_konflikt"):
             out.append("Datenbankeintrag")
         return out
 
@@ -966,9 +991,13 @@ def _score(dossier, cfg, stichtag):
         rec.update(ausschluss_grund="Pflichtangaben fehlen: " + ", ".join(fehlt), offene_punkte=fehlt)
         return rec
     _hinweis_punkte(s, rec)
+    if rec["in_databases"] is True and s.d.get("in_databases_konflikt"):
+        rec["offene_punkte"].append("Datenbankprofil nur als archivierter Slug, Datenbanksuche ohne Treffer – Namensvetter prüfen")
     if rec["in_databases"] is True and rec["earliness_delta_monate"] is None and rec["first_signal_date"]:
         rec["offene_punkte"].append("Datenbankprofil vorhanden, Eintragsdatum unbekannt – Earliness nicht berechenbar")
     scores, abdeckung, treffer = _bewerte_dimensionen(s, rec)
+    if s.mix() is False and len(s.gruender()) >= 2:  # nur wenn das Fehlen belegt ist, nie aus fehlenden Daten
+        rec["offene_punkte"].append("Business-Profil im Team nicht belegt – prüfen")
     gruende = _einordnung(s, rec, scores, abdeckung)
     rec["investmenthypothese"] = clip(_investmenthypothese(s, rec, treffer, gruende), 400)
     rec["why_now"] = _why_now(s, rec)
@@ -992,7 +1021,8 @@ def _stammdaten(s, rec):
     if first_signal and not (in_db is True and not first_db):  # Profil ohne Datum: Vorsprung unbekannt, nicht "bis heute"
         delta = max(0, months_between(first_signal, first_db or stichtag))  # DB-Eintrag vor dem ersten Signal: kein Vorsprung
     rec.update({
-        "name_gruender": ";".join(clip(n, 80) for n in (leiter or [m["name"] for m in s.team])), "email": s.email(website), "website": website,
+        # name_gruender ohne Teammitglieder (gruender: false)
+        "name_gruender": ";".join(clip(n, 80) for n in (leiter or [m["name"] for m in s.gruender()])), "email": s.email(website), "website": website,
         "branche": s.branche, "gruendungsjahr": gr.year if gr else None, "gruendungsmonat": gr.month if gr and monat else None,
         "gruendung_ist_proxy": bool(gr and proxy), "produktbeschreibung": clip(_produktbeschreibung(s), 300),
         "value_proposition": clip(_value_proposition(s), 200),
@@ -1019,21 +1049,27 @@ def _katalog_satzteile(s):
 
 
 def _website_saetze(s):
-    """Inhaltliche Sätze aus dem belegten Website-Text (extraktiv, Reihenfolge der Seite): ohne Navigation, Seitentitel,
-    Cookie-/Rechtstext, Förderhinweis und Handlungsaufforderung. -> Liste (leer ohne Website-Text mit Quelle)."""
+    """Inhaltliche Sätze aus dem belegten Website-Text (extraktiv, Reihenfolge der Seite). Verworfen: wiederholte Zeilen
+    (Menüs), Seitentitel, Überschriften im Title Case ohne Satzzeichen, zusammengeklebte Menüeinträge, Versalien,
+    Cookie-/Rechtstext, Förderhinweis, Handlungsaufforderung. -> Liste (leer ohne Website-Text mit Quelle)."""
     wt, url, _ = fact(s.d.get("website_text"))
     tx = s.cfg["texte"]
     if not isinstance(wt, str) or not url or re.search(r"(?i)lorem ipsum", wt):  # Baukasten-Platzhalterseite
         return []
     out, gesehen = [], set()
     wt = re.sub(r"(\w)-\s*\n\s*(?=[a-zäöüß])", r"\1", wt)  # Silbentrennung am Zeilenende: "Werkzeug-\nprobleme"
-    for zeile in re.split(r"\s*\n\s*", wt):
-        if re.search(r"\s[|·]\s|\s[—–]\s.*\s[—–|]\s", zeile):  # Seitentitel "Firma | Claim"
+    zeilen = re.split(r"\s*\n\s*", wt)
+    mehrfach = {z for z in zeilen if z and len(z.split()) < 6 and zeilen.count(z) >= 2}  # kurze Menüzeilen in Kopf- und Fußnavigation
+    for zeile in zeilen:
+        if zeile in mehrfach or re.search(r"\s[|·]\s|\s[—–]\s.*\s[—–|]\s", zeile):  # Menü, Seitentitel "Firma | Claim"
             continue
         for satz in saetze(zeile):
             satz = satz.strip(" →•-–")
             buchstaben = [c for c in satz if c.isalpha()]
-            if (len(satz.split()) < tx["website_min_woerter"] or len(satz) > tx["website_max_zeichen"] or satz[:1].islower()
+            woerter = re.findall(r"[A-Za-zÄÖÜäöüß][\w'’-]+", satz)
+            if (len(woerter) < tx["website_min_woerter"] or len(satz) > tx["website_max_zeichen"] or satz[:1].islower()
+                    or (not re.search(r"[.!?]$", satz) and sum(w[0].isupper() for w in woerter) >= 0.6 * len(woerter))
+                    or len(re.findall(r"[a-zäöüß][A-ZÄÖÜ][a-zäöüß]", satz)) >= 2
                     or re.search(tx["website_verwerfen"], satz, re.I)
                     or (buchstaben and sum(c.isupper() for c in buchstaben) > 0.6 * len(buchstaben))):
                 continue
@@ -1044,11 +1080,19 @@ def _website_saetze(s):
     return out
 
 
+def _website_reihenfolge(s):
+    """Ein Satz "we/wir + Produktverb" bzw. "our/unser + Produktwort" (Aussage über das eigene Produkt, nicht über das
+    Team) aus den ersten sechs zuerst, dann der Rest in Seitenreihenfolge."""
+    web = _website_saetze(s)
+    eigen = next((x for x in web[:6] if re.search(s.cfg["texte"]["website_eigenaussage"], x)), None)
+    return ([eigen] + [x for x in web if x != eigen]) if eigen else web
+
+
 def _produktbeschreibung(s):
     """Echter Beschreibungstext: die ersten zwei Sätze. Platzhalter des Sourcings: Website-Text, sonst die Katalogseite."""
     if not s.ist_platzhalter():
         return " ".join(saetze(s.rohtext)[:2])
-    web = _website_saetze(s)
+    web = _website_reihenfolge(s)
     if web:
         return clip(" ".join(web[:2]), 300)
     teile = _katalog_satzteile(s)
@@ -1069,10 +1113,10 @@ def _value_proposition(s):
     """Ein Satz Problem -> Lösung -> Nutzen, nur extraktiv: erster inhaltlicher Satz, ein kurzer zweiter wird angehängt."""
     if not s.ist_platzhalter():
         return (saetze(s.rohtext) or [""])[0]
-    web = _website_saetze(s)
+    web = _website_reihenfolge(s)
     if web:
         vp = web[0]
-        if len(web) > 1 and len(vp) < 100 and len(vp) + len(web[1]) + 1 <= 200:
+        if len(web) > 1 and len(vp) < 100 and re.search(r"[.!?]$", vp + web[1]) and len(vp) + len(web[1]) + 1 <= 200:
             vp += " " + web[1]
         return vp
     teile = _katalog_satzteile(s)
@@ -1230,9 +1274,12 @@ def _why_now(s, rec):
         # Nur eine echte Datenbanksuche darf "nicht gefunden" sagen; Wayback prüft nur archivierte Profil-Slugs
         now.append({"suche": "in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche)",
                     "wayback": "kein archiviertes Crunchbase-/Dealroom-Profil (Wayback)"}.get(pruefung, "laut Sourcing kein Datenbankprofil gefunden"))
+    elif rec["in_databases"] is True and s.d.get("in_databases_konflikt"):
+        now.append("Crunchbase-/Dealroom-Slug im Webarchiv, Datenbanksuche ohne Profil – Namensvetter prüfen")
     elif rec["in_databases"] is True and rec["stage"] != "zu_spaet":
         q = s.d.get("in_databases_quelle")
-        now.append("bereits mit Datenbankprofil gelistet%s – Vorsprung prüfen" % (" (%s)" % host(q) if is_url(q) else " laut Sourcing"))
+        wo = " (archiviertes Profil, Wayback)" if is_url(q) and host(q).endswith("web.archive.org") else " (%s)" % host(q) if is_url(q) else " laut Sourcing"
+        now.append("bereits mit Datenbankprofil gelistet%s – Vorsprung prüfen" % wo)
     now.append("jüngstes Signal %s" % vor_monaten(months_between(s.signals[-1]["datum"], stichtag)))
     return "; ".join(now)
 

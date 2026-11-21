@@ -106,8 +106,10 @@ texte:
   foerderende_in_monaten: 12   # why_now nennt ein Förderende, wenn es so nah ist
   # Value Proposition / Produktbeschreibung aus website_text (nur bei Platzhalter-Beschreibung): inhaltliche Sätze
   website_min_woerter: 6
+  # bevorzugter VP-Satz: Aussage über das eigene Produkt ("we develop", "our sensor", "unsere Software")
+  website_eigenaussage: '(?i)\b(we|wir)\s+(develop|build|deliver|make|enable|provide|recycle|offer|bring|produce|turn|entwickeln|bauen|liefern|ermöglichen|bieten|recyceln|machen|produzieren)\w*|\b(our|unser\w*)\s+([\w,-]+\s+){0,3}(software|technolog\w*|sensor\w*|product\w*|produkt\w*|platform|plattform|solution\w*|lösung\w*|process|verfahren|system\w*|device|gerät\w*|method\w*|aerosol\w*|material\w*)\b'
   website_max_zeichen: 220
-  website_verwerfen: '(cookie|datenschutz|privacy|impressum|imprint|skip to|zum inhalt|\bkontakt\b|\bcontact\b|newsletter|gef(ö|oe)rdert|funded|f(ö|oe)rder|\bexist\b|european union|europ(ä|ae)ische union|bundesministerium|federal ministry|©|all rights|alle rechte|^\s*(welcome|willkommen)|get in touch|demo anfragen|learn more|mehr erfahren|read more|weiterlesen|\blogin\b|anmelden|karriere|careers|\bjobs\b|we are hiring|wir suchen|buy now|jetzt kaufen|try now|jetzt testen|book a demo|request a demo|shop now|zum shop|be the first|lorem ipsum|dolor sit amet|something went wrong|submitting the form|thank you! your submission|javascript)'
+  website_verwerfen: '(cookie|datenschutz|privacy|impressum|imprint|skip to|zum inhalt|\bkontakt\b|\bcontact\b|newsletter|gef(ö|oe)rdert|funded|f(ö|oe)rder|\bexist\b|european union|europ(ä|ae)ische union|bundesministerium|federal ministry|©|all rights|alle rechte|^\s*(welcome|willkommen)|get in touch|demo anfragen|learn more|mehr erfahren|read more|weiterlesen|\blogin\b|anmelden|karriere|careers|\bjobs\b|we are hiring|wir suchen|buy now|jetzt kaufen|try now|jetzt testen|book a demo|request a demo|shop now|zum shop|be the first|lorem ipsum|dolor sit amet|something went wrong|submitting the form|thank you! your submission|javascript|\bexplore\b|\bdiscover\b|entdecken sie|see applications|c/o |\(linkedin\)|co-founder|mitgründer|looking for|wir suchen|you own)'
 
 
 # Jedes Kriterium liefert 0..1. Bei team/marktpotenzial ist 1 = gut, bei risiko ist 1 = hohes Risiko.

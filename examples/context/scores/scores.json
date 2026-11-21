@@ -35,7 +35,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "4 Gründer, Profil-Mix unbekannt",
+        "aussage": "4 Gründer, Profil-Mix unbekannt: Person 03 (Gründer), Person 08 (Gründer), Person 13 (Gründer), Person 14 (Gründer)",
         "url": "https://openalex.org/A0000000005",
         "datum": null,
         "punkte": 60.0
@@ -331,7 +331,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "4 Gründer, Profil-Mix unbekannt",
+        "aussage": "4 Gründer, Profil-Mix unbekannt: Person 02 (Gründer), Person 04 (Gründer), Person 05 (Gründer), Person 11 (Gründer)",
         "url": "https://openalex.org/A0000000001",
         "datum": null,
         "punkte": 60.0
@@ -605,9 +605,9 @@
     "gruendung_ist_proxy": true,
     "risiko_score": 45.0,
     "marktpotenzial_score": 55.4,
-    "team_score": 45.5,
-    "gesamt_score": 51.3,
-    "confidence": 0.51,
+    "team_score": 53.0,
+    "gesamt_score": 54.3,
+    "confidence": 0.47,
     "stage": "pre_gruendung",
     "produktbeschreibung": "EXIST-Forschungstransfer der BTU Cottbus-Senftenberg: Herstellung hochreiner Materialien in Quantenqualität (quantum grade materials) für Quantentechnologien.",
     "value_proposition": "EXIST-Forschungstransfer der BTU Cottbus-Senftenberg: Herstellung hochreiner Materialien in Quantenqualität (quantum grade materials) für Quantentechnologien.",
@@ -629,10 +629,10 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "Ein Gründer belegt",
-        "url": "https://openalex.org/A0000000003",
-        "datum": null,
-        "punkte": 20.0
+        "aussage": "Person 12 (Gründer), Teamgröße offen; EXIST-Forschungstransfer fördert Forschungsteams (Proxy)",
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
+        "datum": "2024-06-01",
+        "punkte": 57.5
       },
       {
         "dimension": "team",
@@ -772,10 +772,10 @@
           "proxy": false
         },
         "komplementaer": {
-          "punkte": 20.0,
+          "punkte": 57.5,
           "gewicht": 0.2,
           "belegt": true,
-          "proxy": false
+          "proxy": true
         },
         "vollzeit": {
           "punkte": 100.0,
@@ -927,7 +927,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "3 Gründer, Profil-Mix unbekannt",
+        "aussage": "3 Gründer, Profil-Mix unbekannt: Person 01 (Gründer), Person 06 (Gründer), Person 15 (Gründer)",
         "url": "https://openalex.org/A0000000008",
         "datum": null,
         "punkte": 60.0
