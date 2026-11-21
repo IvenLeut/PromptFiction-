@@ -1,4 +1,6 @@
-# FounderRadar an die Jury übergeben
+# FounderRadar mit optionalem KI-Relay bereitstellen
+
+Für die Code-Abgabe mit Ergebnisansicht und Präsentation auf dem eigenen Rechner gilt `ABGABE.txt`. Die folgende Anleitung gilt für eine separate Bereitstellung, bei der die Jury selbst neue KI-Auswertungen über einen zentralen Dienst erstellt.
 
 Die Jury erhält **ein entpackbares Windows-ZIP mit dem befristeten Zugang zur Projekt-KI**. Im ZIP liegen das Cockpit, der öffentliche Referenzlauf, die Rechenregeln und Python für Windows x64/ARM64. Die Paketinstallation beim Erststart und die externe Projekt-KI benötigen Internet. Eigene Entscheidungen und Analyseverläufe speichert jede Kopie lokal.
 

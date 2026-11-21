@@ -79,6 +79,20 @@ class RelayAccess:
     token: str = field(repr=False)
 
 
+@dataclass(frozen=True)
+class LocalAccess:
+    key: str = field(repr=False)
+    model: str = MODEL_DEFAULT
+
+
+def analysis_access():
+    key = os.environ.get("FOUNDERRADAR_LOCAL_AI_KEY", "").strip()
+    if key:
+        model = os.environ.get("FOUNDERRADAR_PROJECT_MODEL", "").strip() or MODEL_DEFAULT
+        return LocalAccess(key, model)
+    return relay_access()
+
+
 def relay_access():
     file = ROOT / "jury-access.json"
     try:
@@ -249,8 +263,7 @@ def load_insight(identity):
     return None
 
 
-def refresh_insight(identity, data, access):
-    validate_input(data)
+def relay_result(data, access):
     try:
         response = requests.post(
             access.endpoint + "/v1/founderradar/insights",
@@ -273,6 +286,15 @@ def refresh_insight(identity, data, access):
         validate_insight(result.analysis, data)
     except ValueError as error:
         raise ValueError("Der Projektserver lieferte keinen gültigen Quellenstand.") from error
+    return result
+
+
+def refresh_insight(identity, data, access):
+    validate_input(data)
+    if isinstance(access, LocalAccess):
+        result = provider_result(data, access.key, access.model)
+    else:
+        result = relay_result(data, access)
     saved = SavedInsight(fingerprint=fingerprint(data), evidence=data.evidence, result=result)
     write_json(insight_file(identity, data_dir()), saved.model_dump(mode="json"))
     return saved

@@ -129,3 +129,30 @@ def test_provider_uses_only_openai_responses_with_project_model(monkeypatch):
         })
     monkeypatch.setattr(ai.requests, "post", post)
     assert ai.provider_result(research(), "dedicated", "project-model").model == "project-model"
+
+
+def test_local_demo_uses_only_its_project_key_and_saves_result(tmp_path, monkeypatch):
+    monkeypatch.setenv("FOUNDERRADAR_MVP_DATA", str(tmp_path))
+    monkeypatch.setenv("OPENAI_API_KEY", "generic-key")
+    monkeypatch.setenv("FOUNDERRADAR_LOCAL_AI_KEY", "local-demo-key")
+    monkeypatch.setenv("FOUNDERRADAR_PROJECT_MODEL", "project-model")
+    monkeypatch.setenv("FOUNDERRADAR_AI_URL", "https://jury.invalid")
+    monkeypatch.setenv("FOUNDERRADAR_JURY_TOKEN", "relay-key")
+
+    def post(url, **kwargs):
+        assert url == ai.API_URL
+        assert kwargs["headers"]["Authorization"] == "Bearer local-demo-key"
+        assert kwargs["json"]["model"] == "project-model"
+        return SimpleNamespace(status_code=200, json=lambda: {
+            "status": "completed",
+            "output": [{"type": "message", "content": [
+                {"type": "output_text", "text": result().analysis.model_dump_json()}
+            ]}],
+        })
+
+    monkeypatch.setattr(ai.requests, "post", post)
+    access = ai.analysis_access()
+    assert "local-demo-key" not in repr(access)
+    saved = ai.refresh_insight("local-demo-company", research(), access)
+    assert ai.load_insight("local-demo-company") == saved
+    assert "local-demo-key" not in ai.insight_file("local-demo-company", tmp_path).read_text(encoding="utf-8")

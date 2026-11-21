@@ -3,7 +3,7 @@ from html import escape
 
 import streamlit as st
 
-from mvp.ai import InsightJobs, fingerprint, input_for, load_insight, relay_access
+from mvp.ai import InsightJobs, analysis_access, fingerprint, input_for, load_insight
 from mvp.briefs import http_url
 from mvp.showcase import finding_card
 
@@ -15,7 +15,7 @@ def insight_jobs():
 
 @st.fragment(run_every=2.0)
 def insight_control(item):
-    access = relay_access()
+    access = analysis_access()
     identity = item.dossier.id
     status, note = insight_jobs().status(identity)
     marker = f"fr-ai-marker-{identity}"

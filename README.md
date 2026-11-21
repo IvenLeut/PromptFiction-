@@ -1,15 +1,20 @@
 ﻿# FounderRadar
 
+## Abgabe und Demo
+
+- [Start- und Testanleitung](START-UND-TESTANLEITUNG.md) für Start, Score-Neuberechnung und echten KI-Test.
+- [Pitch-Tutorial](PITCH-TUTORIAL.md) für die Vorführung auf dem eigenen Rechner.
+- [Ergebnisse](Ergebnisse/ERGEBNISSE.html) nach dem Klonen lokal im Browser öffnen.
+
 ## Bedienbares Early-Stage-MVP (2026-11-21)
 
 **Windows:** ZIP vollständig entpacken und `Start-FounderRadar.cmd` doppelklicken.
 Python 3.11+ wird benötigt; die getesteten Pakete werden beim ersten Start installiert.
 Alternativ: `python -m streamlit run cockpit.py`.
 
-Branchen und Gründungsfenster wählen, **Analyse starten**, anschließend
-**Longlist → Unternehmensanalyse → Nächste Schritte**. Live ruft öffentliche Webseiten
-ab und löst Projektspuren aus dem bestehenden Discovery-Pool zu Firmen auf.
-**Gespeicherte Fakten neu berechnen** berechnet die Scorecard ohne Internet erneut.
+Das Suchprofil umfasst Deutschland und die letzten 24 Monate. **Live-Recherche starten**
+ruft öffentliche Webseiten ab und löst Projektspuren zu Firmen auf.
+**Score jetzt berechnen** berechnet die Scorecard aus dem gespeicherten Quellenstand.
 
 Scorecard: Produkt/Technologie 40 %, Kunde/Nutzen 35 %, Entwicklungsnachweis 25 %.
 Fehlende Werte bleiben offen. Die Rangfolge verwendet die belegte Untergrenze;

@@ -1,0 +1,25 @@
+FOUNDER RADAR | CODE UND ERGEBNISSE
+
+Ausfuehrliche Schritte in START-UND-TESTANLEITUNG.md.
+Demo-Ablauf und Sprechertext in PITCH-TUTORIAL.md.
+
+Fuer die Jury
+1. Entpackt das ZIP und oeffnet Ergebnisse\ERGEBNISSE.html.
+2. Dort stehen Longlist, Firmenprofile und Analyselauf. Die HTML-Berichte
+   koennen direkt im Browser geoeffnet werden.
+3. Der Quellcode liegt im selben Ordner. Das Cockpit laesst sich unter Windows
+   ueber Start-FounderRadar.cmd oeffnen. Die erste Einrichtung braucht Internet.
+
+Fuer die Praesentation auf eurem eigenen Windows-Rechner
+1. Start-Live-KI.cmd doppelklicken. Den OpenAI-Projektschluessel einmal verdeckt
+   eingeben. Das Fenster waehrend der Demo offen lassen.
+2. Im Cockpit Score jetzt berechnen auswaehlen, in der Longlist z.B.
+   REFACTUM GmbH oeffnen und KI-Auswertung erstellen bzw. aktualisieren waehlen.
+3. Die KI erstellt aus oeffentlichen Belegen Kurzprofil, Staerken, Risiken,
+   Investmenthypothese, Markt, Fazit und Teamkarten, soweit belegt.
+   Der Screening-Score folgt weiterhin den Rechenregeln im Code.
+4. Ergebnisse-aktualisieren.cmd exportiert den aktuellen Lauf und vorhandene
+   KI-Auswertungen zum selben Quellenstand in den Ordner Ergebnisse.
+
+Die Live-KI ruft die OpenAI API direkt von eurem lokalen Rechner auf. Das ZIP
+enthaelt keinen Schluessel. Fuer reine Ergebnisansicht braucht die Jury keinen Key.

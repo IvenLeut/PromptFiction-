@@ -34,12 +34,12 @@ den laufenden Quellenabruf abschließen und die Ordner data/mvp/runs und
 data/mvp/insights sowie data/mvp/latest.json aus der eigenen Kopie übernehmen.
 
 PROJEKT-KI
-Ein freigegebenes Jury-ZIP enthält bereits den befristeten Zugang zum Projekt-Relay.
-Im Deep Dive KI-Auswertung erstellen wählen. Das Cockpit speichert die Auswertung
+Für die Präsentation Start-Live-KI.cmd doppelklicken und den OpenAI-Projektschlüssel
+verdeckt eingeben. Im Deep Dive KI-Auswertung erstellen wählen. Das Cockpit speichert die Auswertung
 mit Modell, Datum und Quellenlinks. Sie enthält zwei Hauptstärken, zwei Prüfrisiken,
 eine bedingte Investmenthypothese, Markteinordnung und Teamkarten bei Belegen.
-Der Operator richtet Server und Versandpaket nach JURY-HANDOFF.md ein. Den
-OpenAI-Projektschlüssel ausschließlich auf diesem Server hinterlegen.
+Für die Abgabe Ergebnisse\ERGEBNISSE.html öffnen. Ergebnisse-aktualisieren.cmd
+exportiert den aktuellen Quellenstand und vorhandene KI-Auswertungen.
 Bei einer Störung bleibt die letzte erfolgreiche Auswertung sichtbar.
 Recherche, Score-Neuberechnung und Export sind eigenständige Funktionen.
 Der Mail-Shortcut legt einen Entwurf an. Senden erfolgt im Mailprogramm.

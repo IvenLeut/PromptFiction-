@@ -1,4 +1,4 @@
-param([switch]$UsePortablePython)
+param([switch]$UsePortablePython, [switch]$LiveAI, [switch]$ExportResults, [string]$Python)
 
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $PSScriptRoot
@@ -43,8 +43,10 @@ function Get-PortablePython {
     return $python
 }
 
-$venvPython = Join-Path $PSScriptRoot '.venv\Scripts\python.exe'
-if (-not (Test-Path -LiteralPath $venvPython)) {
+$venvPython = if ($Python) { (Resolve-Path -LiteralPath $Python).Path } else {
+    Join-Path $PSScriptRoot '.venv\Scripts\python.exe'
+}
+if (-not $Python -and -not (Test-Path -LiteralPath $venvPython)) {
     $basePython = $null
     if (-not $UsePortablePython) {
         $localPython = Join-Path $env:LOCALAPPDATA 'Python\bin\python.exe'
@@ -65,11 +67,35 @@ $requirements = Join-Path $PSScriptRoot 'requirements-demo.txt'
 $marker = Join-Path $PSScriptRoot '.venv\founderradar-dependencies.sha256'
 $digest = (Get-FileHash -LiteralPath $requirements -Algorithm SHA256).Hash
 $installed = if (Test-Path -LiteralPath $marker) { (Get-Content -LiteralPath $marker -Raw).Trim() } else { '' }
-if ($installed -ne $digest) {
+if (-not $Python -and $installed -ne $digest) {
     Write-Host 'FounderRadar: getestete Pakete installieren (nur beim ersten Start oder Update) ...'
     & $venvPython -m pip install -r $requirements
     if ($LASTEXITCODE -ne 0) { throw 'Installation fehlgeschlagen. Internetverbindung prüfen und erneut starten.' }
     Set-Content -LiteralPath $marker -Value $digest
 }
-& $venvPython (Join-Path $PSScriptRoot 'launch_founderradar.py')
-if ($LASTEXITCODE -ne 0) { throw 'FounderRadar konnte nicht gestartet werden. Siehe data\mvp\server.log.' }
+if ($ExportResults) {
+    & $venvPython -m mvp.export_jury (Join-Path $PSScriptRoot 'Ergebnisse')
+    if ($LASTEXITCODE -ne 0) { throw 'Ergebnisse konnten nicht exportiert werden.' }
+    Start-Process -FilePath (Join-Path $PSScriptRoot 'Ergebnisse\ERGEBNISSE.html')
+    exit 0
+}
+
+if ($LiveAI) {
+    $secret = Read-Host 'OpenAI-Projektschluessel hier einfuegen (sk-...)' -AsSecureString
+    $handle = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secret)
+    try {
+        $env:FOUNDERRADAR_LOCAL_AI_KEY = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($handle).Trim()
+    } finally {
+        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($handle)
+        $secret.Dispose()
+    }
+    if ($env:FOUNDERRADAR_LOCAL_AI_KEY -notmatch '^sk-[a-zA-Z0-9_-]{16,}$') {
+        throw 'Bitte einen gueltigen OpenAI-Projektschluessel eingeben.'
+    }
+}
+try {
+    & $venvPython (Join-Path $PSScriptRoot 'launch_founderradar.py')
+    if ($LASTEXITCODE -ne 0) { throw 'FounderRadar konnte nicht gestartet werden. Siehe data\mvp\server.log.' }
+} finally {
+    if ($LiveAI) { Remove-Item Env:FOUNDERRADAR_LOCAL_AI_KEY -ErrorAction SilentlyContinue }
+}
