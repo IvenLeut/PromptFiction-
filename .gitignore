@@ -48,3 +48,5 @@ scoring_out/
 .idea/
 .vscode/
 *.swp
+
+/data/

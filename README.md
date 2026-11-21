@@ -1,5 +1,18 @@
 ﻿# FounderRadar
 
+## Kombinierte Suche und Investment-Cockpit
+
+Die Standard-Pipeline verwendet jetzt den gespeicherten kombinierten Discovery-Lauf
+aus Open Data und EXIST. Firmen mit passendem Gründungsdatum und offene Forschungsprojekte
+bleiben getrennt. Keine KI erforderlich; bis zu 200 Kandidaten je Branche.
+Die nachfolgenden Förderkatalog-Befehle bleiben als eigenständiger Suchweg verfügbar.
+Für direkten Förderkatalog-Betrieb `FOUNDERRADAR_SOURCING=foekat` setzen.
+
+**Setup, Datenvertrag, Grenzen und Cockpit-Anschluss:** [COMBINED_DISCOVERY.md](docs/COMBINED_DISCOVERY.md).
+Das vorhandene Investment-Cockpit startet mit `python -m streamlit run cockpit.py`.
+Gespeicherte Ergebnisse werden über `FOUNDERRADAR_ANALYSIS_DIR` ohne neue Recherche geladen.
+
+
 FounderRadar sucht frühe Deep-Tech-Gründungsvorhaben in Deutschland und bewertet sie für ein VC-Screening.
 Vier Module laufen nacheinander: Sourcing aus dem Förderkatalog des Bundes, Kontext aus öffentlichen Quellen,
 regelbasiertes Scoring und ein Streamlit-Dashboard mit Ranking und Deep Dive. Jede Angabe trägt ihre Quell-URL;

@@ -52,13 +52,18 @@ class FounderProfile(Contract):
     qualifications: str | None = None
     # Enrichment (context step). Each value is backed by its own URL; None = not found, never guessed.
     institution: str | None = None
-    background: Literal["tech", "business", "beides"] | None = None
+    background: str | None = None
     prior_experience: list[Literal["fruehere_gruendung", "industrie"]] = Field(default_factory=list)
     openalex_url: HttpUrl | None = None
     works_total: int | None = Field(default=None, ge=0)
     works_in_field: int | None = Field(default=None, ge=0)
     match_confidence: float | None = Field(default=None, ge=0, le=1)
     source_url: HttpUrl | None = None
+
+    # Additive compatibility with the investment cockpit.
+    relevant_experience: str | None = None
+    distinctive_skills: str | None = None
+    evidence: list[Evidence] = Field(default_factory=list)
 
 
 class Grant(Contract):
@@ -111,9 +116,22 @@ class RawLead(Contract):
     htgf_sector: Literal["digital_tech", "industrial_deep_tech", "climate_tech",
                          "life_sciences", "chemie_materialien"] | None = None
 
+    # Additive compatibility with the investment cockpit.
+    discovery_source: str | None = None
+    discovered_at: datetime | None = None
+    initial_signal: str | None = None
+
 
 # Step 2 output (context). Sections below are grouped by comment only; the field order is part of the
 # contract (see module docstring) and therefore not regrouped.
+class FundingEvent(Contract):
+    announced_on: Date | None = None
+    amount_eur: float | None = Field(default=None, ge=0, allow_inf_nan=False)
+    investors: list[str] = Field(default_factory=list)
+    evidence: list[Evidence] = Field(default_factory=list)
+
+
+
 class EnrichedLead(RawLead):
     # --- Step-1 fields are inherited from RawLead. ---
     # --- Evidence and context_v2 / scoring handoff (context owner) ---
@@ -134,7 +152,7 @@ class EnrichedLead(RawLead):
     round_size_eur: int | None = Field(default=None, gt=0)
     asking_pre_money_eur: int | None = Field(default=None, gt=0)
     research_questions: list[str] = Field(default_factory=list)
-    funding_status: Literal["vc_backed", "non_vc_funded", "unfunded", "funded", "conflicting", "unknown"] = "unknown"
+    funding_status: Literal["Bootstrapped", "Grant-funded", "Pre-Seed", "Seed", "Later", "Unknown", "vc_backed", "non_vc_funded", "unfunded", "funded", "conflicting", "unknown"] = "unknown"
     vc_status: Literal["confirmed", "reported_none", "conflicting", "unknown"] = "unknown"
     first_signal_date: Date | None = None
     # --- Enrichment for scoring (scoring owner) ---
@@ -154,7 +172,7 @@ class EnrichedLead(RawLead):
     product_type: Literal["software", "plattform", "hardware", "hardware_software", "wirkstoff"] | None = None
     regulated_market: bool | None = None
     market_size_eur: int | None = Field(default=None, ge=0)
-    business_model: Literal["b2b", "b2c", "b2b2c"] | None = None
+    business_model: str | None = None
     competitors: list[str] = Field(default_factory=list)
     in_databases: bool | None = None                   # Crunchbase/Dealroom profile found
     first_db_date: Date | None = None
@@ -174,8 +192,25 @@ class EnrichedLead(RawLead):
     annual_revenue_eur: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     traction_notes: str | None = None
 
+    # Additive compatibility with the investment cockpit.
+    problem_statement: str | None = None
+    product_mechanics: str | None = None
+    product_maturity: Literal["Idea", "Prototype", "MVP", "Market", "Unknown"] = "Unknown"
+    target_market: str | None = None
+    technology_advantage: str | None = None
+    differentiation: str | None = None
+    traction_evidence: list[Evidence] = Field(default_factory=list)
+    funding_events: list[FundingEvent] = Field(default_factory=list)
+
 
 # Step 3 output of the evaluator (evaluation/engine.py or demo), merged with the dossier.
+class InvestmentArgument(Contract):
+    statement: str
+    rationale: str
+    evidence: list[Evidence] = Field(default_factory=list)
+
+
+
 class EvaluationScores(Contract):
     overall_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
     company_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
@@ -190,6 +225,21 @@ class EvaluationScores(Contract):
     confidence_score: float | None = Field(default=None, ge=0, le=100)
     investment_thesis: str
     risks: list[str] = Field(default_factory=list)
+
+    # Additive compatibility with the investment cockpit.
+    evaluation_v2: dict | None = None
+    technology_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    why_contact_now: str | None = None
+    key_strengths: list[InvestmentArgument] = Field(default_factory=list, max_length=3)
+    key_risks: list[InvestmentArgument] = Field(default_factory=list, max_length=3)
+    score_rationales: dict[str, str] = Field(default_factory=dict)
+    fund_fit_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    team_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    hard_exclusions: list[str] = Field(default_factory=list)
+    eligibility_status: Literal["Eligible", "Excluded", "Unknown"] = "Unknown"
+    fund_fit_rationale: str | None = None
+    team_rationale: str | None = None
+    earliness_rationale: str | None = None
 
 
 # Step 3 result row: dossier + scores; ranked by pipeline.ranking_key.
@@ -225,3 +275,5 @@ class AnalysisRun(Contract):
     discovered_count: int = Field(ge=0)
     enriched_count: int = Field(ge=0)
     result: ResearchResult
+    # Additive sourcing provenance. No investment metrics are produced in step 1.
+    discovery: dict | None = None

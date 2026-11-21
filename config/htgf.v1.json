@@ -1,0 +1,12 @@
+{
+  "version": "2026-11-20.1",
+  "scope": "Initial Pre-Seed / Seed screening; not the HTGF growth portfolio mandate",
+  "source": "https://www.htgf.de/",
+  "checked_on": "2026-11-20",
+  "max_age_years": 3,
+  "stages": ["Pre-Seed", "Seed", "Pre-incorporation", "In formation"],
+  "sectors": ["Digital Tech", "Industrial / DeepTech", "ClimateTech", "Life Sciences", "Chemistry"],
+  "initial_sweet_spot_eur": 800000,
+  "ticket_note": "800,000+ EUR is a flexible sweet spot, not a hard minimum or maximum.",
+  "disclaimer": "Internal heuristic based on public criteria; not an official HTGF assessment."
+}

@@ -152,7 +152,9 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     return {
         "lead_id": lead.id,
         "name_unternehmen": {"wert": lead.name, "quelle": quelle},
-        "beschreibung_rohtext": {"wert": lead.description, "quelle": quelle},
+        "beschreibung_rohtext": {"wert": lead.description, "quelle": next(
+            (str(s.url) for s in lead.signals if s.type == "technology_self_description"
+             and lead.description == s.evidence), quelle)},
         "deutschland_beleg": {"wert": ce.finding, "quelle": str(ce.url)} if ce else None,
         "website": str(lead.website) if lead.website else None,
         "email": _sourced(lead.contact_email, quelle) or _sourced(lead.imprint_email, src("contact_email")),
@@ -255,6 +257,7 @@ def _scores(r: dict, lead: EnrichedLead | None) -> dict:
     fragen = list(dict.fromkeys((list(lead.research_questions) if lead else []) + r["offene_punkte"]))
     beschreibung = (lead.description or lead.name) if lead else r["lead_id"]
     return dict(
+        evaluation_v2=r,
         overall_score=r["gesamt_score"], company_score=r["team_score"],
         market_potential_score=r["marktpotenzial_score"], risk_score=r["risiko_score"],
         stage_classification=STAGE_LABEL.get(r["stage"], "Unbekannt"),

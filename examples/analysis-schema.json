@@ -793,6 +793,43 @@
           "default": null,
           "title": "Htgf Sector"
         },
+        "discovery_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discovery Source"
+        },
+        "discovered_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discovered At"
+        },
+        "initial_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Initial Signal"
+        },
         "evidence": {
           "items": {
             "$ref": "#/$defs/Evidence"
@@ -976,6 +1013,12 @@
         "funding_status": {
           "default": "unknown",
           "enum": [
+            "Bootstrapped",
+            "Grant-funded",
+            "Pre-Seed",
+            "Seed",
+            "Later",
+            "Unknown",
             "vc_backed",
             "non_vc_funded",
             "unfunded",
@@ -1179,11 +1222,6 @@
         "business_model": {
           "anyOf": [
             {
-              "enum": [
-                "b2b",
-                "b2c",
-                "b2b2c"
-              ],
               "type": "string"
             },
             {
@@ -1390,6 +1428,92 @@
           "default": null,
           "title": "Traction Notes"
         },
+        "problem_statement": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Problem Statement"
+        },
+        "product_mechanics": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Mechanics"
+        },
+        "product_maturity": {
+          "default": "Unknown",
+          "enum": [
+            "Idea",
+            "Prototype",
+            "MVP",
+            "Market",
+            "Unknown"
+          ],
+          "title": "Product Maturity",
+          "type": "string"
+        },
+        "target_market": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Market"
+        },
+        "technology_advantage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Technology Advantage"
+        },
+        "differentiation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Differentiation"
+        },
+        "traction_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Traction Evidence",
+          "type": "array"
+        },
+        "funding_events": {
+          "items": {
+            "$ref": "#/$defs/FundingEvent"
+          },
+          "title": "Funding Events",
+          "type": "array"
+        },
         "overall_score": {
           "anyOf": [
             {
@@ -1523,6 +1647,149 @@
           },
           "title": "Risks",
           "type": "array"
+        },
+        "evaluation_v2": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evaluation V2"
+        },
+        "technology_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Technology Score"
+        },
+        "why_contact_now": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Why Contact Now"
+        },
+        "key_strengths": {
+          "items": {
+            "$ref": "#/$defs/InvestmentArgument"
+          },
+          "maxItems": 3,
+          "title": "Key Strengths",
+          "type": "array"
+        },
+        "key_risks": {
+          "items": {
+            "$ref": "#/$defs/InvestmentArgument"
+          },
+          "maxItems": 3,
+          "title": "Key Risks",
+          "type": "array"
+        },
+        "score_rationales": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Score Rationales",
+          "type": "object"
+        },
+        "fund_fit_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fund Fit Score"
+        },
+        "team_score": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Score"
+        },
+        "hard_exclusions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hard Exclusions",
+          "type": "array"
+        },
+        "eligibility_status": {
+          "default": "Unknown",
+          "enum": [
+            "Eligible",
+            "Excluded",
+            "Unknown"
+          ],
+          "title": "Eligibility Status",
+          "type": "string"
+        },
+        "fund_fit_rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fund Fit Rationale"
+        },
+        "team_rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Rationale"
+        },
+        "earliness_rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Earliness Rationale"
         }
       },
       "required": [
@@ -1573,6 +1840,19 @@
           ],
           "default": null,
           "title": "Field"
+        },
+        "published_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published On"
         },
         "source_date": {
           "anyOf": [
@@ -1743,11 +2023,6 @@
         "background": {
           "anyOf": [
             {
-              "enum": [
-                "tech",
-                "business",
-                "beides"
-              ],
               "type": "string"
             },
             {
@@ -1837,6 +2112,37 @@
           ],
           "default": null,
           "title": "Source Url"
+        },
+        "relevant_experience": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relevant Experience"
+        },
+        "distinctive_skills": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distinctive Skills"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
         }
       },
       "required": [
@@ -1912,6 +2218,53 @@
         "name"
       ],
       "title": "FounderResearch",
+      "type": "object"
+    },
+    "FundingEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "announced_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Announced On"
+        },
+        "amount_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Amount Eur"
+        },
+        "investors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Investors",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "title": "FundingEvent",
       "type": "object"
     },
     "FundingResearch": {
@@ -2189,6 +2542,32 @@
       ],
       "title": "Industry",
       "type": "string"
+    },
+    "InvestmentArgument": {
+      "additionalProperties": false,
+      "properties": {
+        "statement": {
+          "title": "Statement",
+          "type": "string"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "statement",
+        "rationale"
+      ],
+      "title": "InvestmentArgument",
+      "type": "object"
     },
     "MarketGrowth": {
       "additionalProperties": false,
@@ -4653,6 +5032,19 @@
     },
     "result": {
       "$ref": "#/$defs/ResearchResult"
+    },
+    "discovery": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Discovery"
     }
   },
   "required": [

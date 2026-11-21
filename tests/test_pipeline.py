@@ -54,6 +54,7 @@ def test_no_live_fallback(monkeypatch):
         def fetch(self, *args, **kwargs):
             raise FoekatError("URLError")
     monkeypatch.setenv("CONTEXT_CACHE", "off")
+    monkeypatch.setenv("FOUNDERRADAR_SOURCING", "foekat")
     monkeypatch.setattr("sourcing.foekat_export.Session", Offline)
     found = []
     with pytest.raises(SourcingError):

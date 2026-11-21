@@ -4,6 +4,8 @@ from html import escape
 
 import streamlit as st
 
+from analyst_store import DECISIONS, load_decisions, save_decision
+
 from charts import profile_figure
 from dashboard import contact_url, industry_label, priority_line, source_link_markdown
 from market_view import render_company_research, render_market
@@ -83,6 +85,7 @@ def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None]):
                 render_market(context)
     with contact:
         _render_contact(lead)
+    _render_decision(lead)
 
 
 def _render_overview(lead: EvaluatedLead):
@@ -183,3 +186,31 @@ def _render_contact(lead: EvaluatedLead):
                        file_name=f"{lead.id}.json", mime="application/json", width="stretch")
     if lead.is_demo:
         st.caption("Fiktives Unternehmensprofil. Die Marktrecherche kennzeichnet Datenquellen und Demoannahmen.")
+
+
+def _render_decision(lead):
+    namespace = "demo" if lead.is_demo else "live"
+    decision = load_decisions(namespace).get(lead.id)
+    st.subheader("Analyst Decision")
+    st.caption("Manuelle Entscheidung, lokal persistent gespeichert. Contact versendet keine E-Mail.")
+    if lead.hard_exclusions or lead.eligibility_status == "Excluded":
+        st.warning("Harter Ausschluss bleibt in der Longlist sichtbar, auch bei abweichender Analystenentscheidung.")
+    saved = decision or {}
+    with st.form(f"decision_{namespace}_{lead.id}"):
+        choice = st.radio("Entscheidung", list(DECISIONS), index=list(DECISIONS).index(saved["decision"]) if saved else None,
+                          horizontal=True)
+        notes = st.text_area("Analysten-Notizen", saved.get("notes", ""))
+        reason = st.text_area("Begründung der Entscheidung", saved.get("reason", ""))
+        submitted = st.form_submit_button("Entscheidung speichern", type="primary")
+    if submitted:
+        if choice is None:
+            st.error("Bitte eine Entscheidung auswählen.")
+        else:
+            try:
+                save_decision(namespace, lead.id, choice, notes, reason)
+            except ValueError as error:
+                st.error(str(error))
+            except Exception:
+                st.error("Speichern fehlgeschlagen. Bitte Datenbankzugriff prüfen.")
+            else:
+                st.success("Entscheidung und Notizen dauerhaft gespeichert.")

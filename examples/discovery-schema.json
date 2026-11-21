@@ -1,0 +1,698 @@
+{
+  "$defs": {
+    "Candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "lead": {
+          "$ref": "#/$defs/RawLead"
+        },
+        "industries": {
+          "items": {
+            "$ref": "#/$defs/Industry"
+          },
+          "title": "Industries",
+          "type": "array"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "providers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Providers",
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "company",
+            "research_project"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "eligibility": {
+          "enum": [
+            "recent_company",
+            "review_required",
+            "outside_window"
+          ],
+          "title": "Eligibility",
+          "type": "string"
+        },
+        "founded_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founded On"
+        },
+        "founding_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Basis"
+        },
+        "identity_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Identity Key"
+        },
+        "industry_basis": {
+          "title": "Industry Basis",
+          "type": "string"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "lead",
+        "industries",
+        "source_ids",
+        "providers",
+        "kind",
+        "eligibility",
+        "industry_basis"
+      ],
+      "title": "Candidate",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "finding": {
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field"
+        },
+        "published_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published On"
+        },
+        "source_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Date"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "evidence_id": {
+          "default": "",
+          "minLength": 1,
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "document_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Document Date"
+        },
+        "verification_status": {
+          "default": "unverified",
+          "enum": [
+            "unverified",
+            "source_matched",
+            "source_reviewed",
+            "assumption"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "dimension": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dimension"
+        },
+        "kriterium": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Kriterium"
+        },
+        "aussage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Aussage"
+        },
+        "datum": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Datum"
+        },
+        "punkte": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Punkte"
+        }
+      },
+      "required": [
+        "source",
+        "url",
+        "finding"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Industry": {
+      "enum": [
+        "AI / Software",
+        "ClimateTech",
+        "HealthTech",
+        "FinTech",
+        "Industrial / DeepTech"
+      ],
+      "title": "Industry",
+      "type": "string"
+    },
+    "RawLead": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "industry": {
+          "$ref": "#/$defs/Industry"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Country"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "source_url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "source_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Name"
+        },
+        "country_evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Evidence"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "is_demo": {
+          "default": false,
+          "title": "Is Demo",
+          "type": "boolean"
+        },
+        "website": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Website"
+        },
+        "founders": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Founders",
+          "type": "array"
+        },
+        "contact_email": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contact Email"
+        },
+        "founding_year": {
+          "anyOf": [
+            {
+              "maximum": 2100,
+              "minimum": 1800,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Year"
+        },
+        "founding_month": {
+          "anyOf": [
+            {
+              "maximum": 12,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Month"
+        },
+        "has_vc": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Has Vc"
+        },
+        "signals": {
+          "items": {
+            "$ref": "#/$defs/SourceSignal"
+          },
+          "title": "Signals",
+          "type": "array"
+        },
+        "prioritization_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prioritization Reason"
+        },
+        "htgf_sector": {
+          "anyOf": [
+            {
+              "enum": [
+                "digital_tech",
+                "industrial_deep_tech",
+                "climate_tech",
+                "life_sciences",
+                "chemie_materialien"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Htgf Sector"
+        },
+        "discovery_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discovery Source"
+        },
+        "discovered_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discovered At"
+        },
+        "initial_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Initial Signal"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "industry",
+        "source_url"
+      ],
+      "title": "RawLead",
+      "type": "object"
+    },
+    "SourceSignal": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "type": {
+          "minLength": 1,
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Date"
+        },
+        "evidence": {
+          "minLength": 1,
+          "title": "Evidence",
+          "type": "string"
+        },
+        "subject_lead_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subject Lead Id"
+        }
+      },
+      "required": [
+        "source",
+        "type",
+        "url",
+        "evidence"
+      ],
+      "title": "SourceSignal",
+      "type": "object"
+    },
+    "SourceStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "title": "Available",
+          "type": "boolean"
+        },
+        "complete": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Complete"
+        },
+        "count": {
+          "minimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "available",
+        "count"
+      ],
+      "title": "SourceStatus",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "as_of": {
+      "format": "date",
+      "title": "As Of",
+      "type": "string"
+    },
+    "founded_from": {
+      "format": "date",
+      "title": "Founded From",
+      "type": "string"
+    },
+    "sources": {
+      "additionalProperties": {
+        "$ref": "#/$defs/SourceStatus"
+      },
+      "title": "Sources",
+      "type": "object"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/Candidate"
+      },
+      "title": "Candidates",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "llm_calls": {
+      "const": 0,
+      "default": 0,
+      "title": "Llm Calls",
+      "type": "integer"
+    },
+    "national_completeness": {
+      "const": false,
+      "default": false,
+      "title": "National Completeness",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "as_of",
+    "founded_from",
+    "sources",
+    "candidates"
+  ],
+  "title": "DiscoverySnapshot",
+  "type": "object"
+}

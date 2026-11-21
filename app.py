@@ -49,8 +49,7 @@ def start_analysis(category: Industry, live: bool):
                                  on_progress=lambda amount, message: progress.progress(amount, text=message))
     except sourcing_error_type() as exc:
         logging.exception("Live sourcing failed")
-        st.error("Der Förderkatalog konnte gerade nicht abgefragt werden. Bitte später erneut versuchen "
-                 "oder die Demo-Daten nutzen.")
+        st.error("Die konfigurierte Suchquelle ist nicht verfügbar. Bitte den Discovery-Lauf prüfen.")
         st.caption(str(exc))
     except Exception:
         logging.exception("Analysis failed")
@@ -69,15 +68,15 @@ if run is None:
     # Widget state is dropped while the dashboard is shown, so the choice is also kept under "live_mode".
     saved_live = st.session_state.get("live_mode", False)
     landing(live=st.session_state.get("live_mode_toggle", saved_live))
-    live = st.toggle("Live-Daten (Förderkatalog)", value=saved_live, key="live_mode_toggle",
-                     help="Aus: fiktive Demo-Daten. An: echte Förderprojekte mit Netzwerkabfragen.")
+    live = st.toggle("Live-Daten", value=saved_live, key="live_mode_toggle",
+                     help="Aus: fiktive Demo-Daten. An: konfigurierte Suchquelle und Kontextabfragen.")
     st.session_state.live_mode = live
     with st.form("category_request", border=False):
         st.markdown("#### Welches Technologiefeld möchtest du entdecken?")
         category = st.radio("Kategorie", list(Industry), format_func=lambda x: x.value,
                             horizontal=True, label_visibility="collapsed")
         if live:
-            st.caption(f"Deutschland · bis zu {LIVE_LIMIT} Förderkatalog-Leads pro Kategorie · "
+            st.caption(f"Deutschland · bis zu {LIVE_LIMIT} Kandidaten pro Kategorie · "
                        "Dauer ca. 10–15 Sekunden pro Lead")
         else:
             st.caption("Deutschland · 30 Demo-Startups pro Kategorie · Top 10 oder 20 im Ergebnis")

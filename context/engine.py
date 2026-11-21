@@ -165,7 +165,9 @@ def labelled(line: str, labels: str) -> str | None:
     if re.fullmatch(rf"(?:{HEADINGS})", value, re.IGNORECASE):
         return None
     words = value.split()
-    if 2 <= len(words) <= 4 and all(w[:1].isupper() for w in words) and not value.endswith((".", "!")):
+    navigation = {"projects", "knowledge", "base", "news", "careers", "home", "about", "contact",
+                  "menu", "navigation", "projekte", "kontakt", "karriere", "startseite"}
+    if 2 <= len(words) <= 4 and all(w.casefold() in navigation for w in words):
         return None
     return value
 

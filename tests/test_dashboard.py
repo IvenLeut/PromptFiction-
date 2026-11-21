@@ -172,7 +172,7 @@ def start_live_app(monkeypatch, run=None, error=None):
 
     monkeypatch.setattr(pipeline, "run_pipeline", fake_run_pipeline)
     app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=30).run()
-    toggle = next(x for x in app.toggle if x.label == "Live-Daten (Förderkatalog)")
+    toggle = next(x for x in app.toggle if x.label == "Live-Daten")
     assert toggle.value is False
     toggle.set_value(True).run()
     next(b for b in app.button if b.label == "Analyse starten").click().run()
@@ -226,7 +226,7 @@ def test_live_sourcing_error_shows_readable_message(monkeypatch):
     from sourcing.engine import SourcingError
 
     app, _ = start_live_app(monkeypatch, error=SourcingError("Förderkatalog-Sourcing fehlgeschlagen: Timeout"))
-    assert any("Förderkatalog konnte gerade nicht abgefragt werden" in x.value for x in app.error)
+    assert any("Suchquelle ist nicht verfügbar" in x.value for x in app.error)
     assert "analysis" not in app.session_state
 
 
