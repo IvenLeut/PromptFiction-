@@ -216,6 +216,11 @@ hr {border-color:#e4e0da!important;}
 .fr-person b {display:block;font-family:var(--fr-head);font-weight:400;font-size:1.15rem;color:#000;}
 .fr-person small {display:block;color:#6b655d;font-size:.82rem;margin:.15rem 0;}
 .fr-person a {font-size:.82rem;}
+.fr-person .fr-links {display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.55rem;}
+.fr-person a.fr-li {display:inline-block;border-radius:9999px;padding:.22rem .75rem;font-weight:500;text-decoration:none;
+  background:#000;color:#fff;}
+.fr-person a.fr-li.fr-li-search {background:transparent;color:#000;border:1px solid #000;}
+.fr-person a.fr-li:hover {background:#b8452c;border-color:#b8452c;color:#fff;}
 @media(max-width:760px){.block-container{padding:1.2rem 1rem 3rem;} .fr-thesis,.fr-hero,.fr-best{padding:1.3rem;}
   .fr-summary,.fr-flow{grid-template-columns:repeat(2,1fr);} .fr-band{grid-template-columns:1fr;padding:1.4rem;}
   .fr-brand span.fr-tag{display:none;} .fr-blob{opacity:.5;}}

@@ -12,7 +12,7 @@ import streamlit as st
 
 from charts import profile_figure, timeline_figure
 from dashboard import (
-    contact_url, db_status, founder_names, industry_label, lead_meta, lead_time_months, priority_line,
+    contact_email, contact_url, db_status, founder_names, industry_label, lead_meta, lead_time_months, linkedin_link, priority_line,
     source_link_markdown, stage_label, website_of,
 )
 from market_view import render_company_research, render_market
@@ -160,6 +160,10 @@ def _team_card(lead: EvaluatedLead) -> str:
         if profile and (profile.openalex_url or profile.source_url):
             url = str(profile.openalex_url or profile.source_url)
             lines.append(f'<a href="{escape(url, quote=True)}" target="_blank" rel="noopener">Quelle</a>')
+        label, url, found = linkedin_link(lead, name)
+        css = "fr-li" if found else "fr-li fr-li-search"
+        lines.append(f'<div class="fr-links"><a class="{css}" href="{escape(url, quote=True)}" target="_blank" '
+                     f'rel="noopener noreferrer">{escape(label)}</a></div>')
         people.append('<div class="fr-person">' + "".join(lines) + "</div>")
     if not people:
         institution = next((g.recipient for g in lead.grants if g.recipient), None)
@@ -294,8 +298,16 @@ def _render_contact(lead: EvaluatedLead):
     """Founder contact, website and dossier export."""
     with st.container(border=True):
         st.subheader("Gründer kontaktieren")
-        st.write(md_escape(", ".join(founder_names(lead)) or "Gründer noch unbekannt"))
-        fact("E-Mail", lead.contact_email or "Noch nicht verfügbar")
+        names = founder_names(lead)
+        st.write(md_escape(", ".join(names) or "Gründer noch unbekannt"))
+        for i, name in enumerate(names):
+            label, url, found = linkedin_link(lead, name)
+            st.link_button(f"{label} · {name}", url, width="stretch", key=f"linkedin_{lead.id}_{i}",
+                           help="Öffentliches Profil aus der Team-Recherche (Schritt 2)." if found else
+                                "Kein Profil belegt: öffnet die LinkedIn-Personensuche nach Name und Firma.")
+        if names:
+            st.caption("LinkedIn öffnet sich in einem neuen Tab; es wird nichts automatisch gesendet.")
+        fact("E-Mail", contact_email(lead) or "Noch nicht verfügbar")
         mailto = contact_url(lead)
         if mailto:
             st.link_button("Kontakt aufnehmen", mailto, type="primary", width="stretch")

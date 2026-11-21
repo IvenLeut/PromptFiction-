@@ -89,6 +89,46 @@ def contact_url(lead: EvaluatedLead) -> str | None:
 
 # --- Earliness and team helpers (shared with deep_dive.py) ---------------------------------------------
 
+LINKEDIN_SEARCH = "https://www.linkedin.com/search/results/people/?keywords="
+
+
+def _namekey(name: str) -> str:
+    return re.sub(r"[^0-9a-zäöüß]", "", (name or "").lower())
+
+
+def _is_linkedin_profile(url) -> bool:
+    """Public profile URL linkedin.com/in/<slug> (any country subdomain); company pages and posts are not."""
+    match = re.match(r"https://(?:[a-z]{2,3}\.|www\.)?linkedin\.com/in/[^/?#\s]+/?$", str(url or ""), re.I)
+    return bool(match)
+
+
+def linkedin_profile(lead: EvaluatedLead, name: str) -> str | None:
+    """Public LinkedIn profile of one person as found by context/team.py, else None.
+
+    Read from the founder profile's source URL or from the step-2 evidence (field "founder_profiles",
+    finding "<Name>: …", URL linkedin.com/in/…). Nothing is guessed; only a URL found in step 2 is returned."""
+    key = _namekey(name)
+    for profile in lead.founder_profiles:
+        if _namekey(profile.name) == key and _is_linkedin_profile(profile.source_url):
+            return str(profile.source_url)
+    for item in lead.evidence:
+        if (item.field == "founder_profiles" and _is_linkedin_profile(item.url)
+                and _namekey(item.finding.split(":", 1)[0]) == key):
+            return str(item.url)
+    return None
+
+
+def linkedin_search(name: str, company: str) -> str:
+    """LinkedIn people search for "<Name> <Firma>"; only a link, nothing is sent."""
+    return LINKEDIN_SEARCH + quote(f"{name} {company}", safe="")
+
+
+def linkedin_link(lead: EvaluatedLead, name: str) -> tuple[str, str, bool]:
+    """(label, url, is_profile): "LinkedIn" with the found profile, else "Auf LinkedIn suchen"."""
+    profile = linkedin_profile(lead, name)
+    return ("LinkedIn", profile, True) if profile else ("Auf LinkedIn suchen", linkedin_search(name, lead.name), False)
+
+
 def lead_meta(lead: EvaluatedLead, meta: dict | None) -> dict:
     """Scoring-record extras of one lead from the snapshot meta; {} without."""
     return ((meta or {}).get("leads") or {}).get(lead.id) or {}

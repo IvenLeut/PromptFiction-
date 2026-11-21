@@ -149,3 +149,38 @@ def test_build_snapshot_reproduces_from_dossiers(tmp_path):
     frozen, _ = load_snapshot()
     assert {x.id for x in run.result.leads} == {x.id for x in frozen.result.leads}
     assert run.created_at == frozen.created_at
+
+
+def test_linkedin_profile_or_search_per_person():
+    """Team card and contact box: the public profile from context/team.py, else a people search; links only."""
+    from urllib.parse import unquote
+
+    from dashboard import founder_names, linkedin_link, linkedin_profile
+    from demo_snapshot import load_snapshot
+
+    run, _ = load_snapshot()
+    leads = {x.name: x for x in run.result.leads}
+    bot = leads["BotFellows"]
+    assert linkedin_profile(bot, "Jayanto Halim") == "https://www.linkedin.com/in/jayanto-halim/"
+    label, url, found = linkedin_link(bot, "Jayanto Halim")
+    assert (label, found) == ("LinkedIn", True)
+    for lead in run.result.leads:
+        for name in founder_names(lead):
+            label, url, found = linkedin_link(lead, name)
+            assert url.startswith("https://") and "linkedin.com/" in url
+            if not found:
+                assert label == "Auf LinkedIn suchen"
+                assert unquote(url).endswith(f"keywords={name} {lead.name}")
+    assert linkedin_profile(bot, "Niemand Erfunden") is None
+
+
+def test_linkedin_buttons_in_deep_dive():
+    from pathlib import Path
+
+    from streamlit.testing.v1 import AppTest
+    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=60)
+    app.query_params["startup"] = "foekat-03efmv0034"   # Ymolution
+    app.run()
+    assert not app.exception
+    html = " ".join(str(x.value) for x in app.markdown)
+    assert 'target="_blank"' in html and ("LinkedIn" in html)
