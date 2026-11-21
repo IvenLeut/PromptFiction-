@@ -15,6 +15,12 @@ from models import Industry
 ROOT = Path(__file__).resolve().parents[1]
 
 
+@pytest.fixture(autouse=True)
+def classic_workspace(monkeypatch):
+    """Keep exercising the supported classic UI; MVP has separate live-path tests."""
+    monkeypatch.setenv('FOUNDERRADAR_UI', 'classic')
+
+
 def button(app, label):
     return next(x for x in app.button if x.label == label)
 
@@ -124,6 +130,7 @@ def test_automatic_handoff_and_live_failure_without_demo_fallback(monkeypatch):
 
 def test_optional_ollama_preserves_live_research_lookups(monkeypatch):
     monkeypatch.setenv("FOUNDERRADAR_MODE", "live")
+    monkeypatch.setenv("FOUNDERRADAR_CONTEXT_MODE", "live")
     monkeypatch.setenv("FOUNDERRADAR_OLLAMA_MODEL", "local-test-model")
     calls = []
     lookups = {"model": "local-test-model", "imprint": object()}

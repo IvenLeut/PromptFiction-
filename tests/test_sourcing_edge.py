@@ -40,7 +40,7 @@ def fixture_page(prefix="03EF"):
     return (FIXTURES / ("foekat_result_%s.html" % prefix)).read_bytes().decode(ENC)
 
 
-HEADER_LINE = fixture_bytes("03EF").split(b"\n")[0]
+HEADER_LINE = fixture_bytes("03EF").splitlines()[0]
 HEADER_RAW = [fx.unwrap(c) for c in fx.split_line(HEADER_LINE.decode(ENC))][:-1]   # 26 raw names, with duplicates
 FIRST_ROW = fx.parse_export(fixture_bytes("03EF"))[0]                                 # real row 03EFBB0063
 

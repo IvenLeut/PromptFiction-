@@ -1,0 +1,11 @@
+[
+  {
+    "id": "gleif-391200CCGPCDBL23TS67",
+    "reason": "Die eigene Unternehmensgeschichte nennt 2007; das GLEIF-Datum 2025 ist als Gründungsnachweis widersprüchlich.",
+    "source_url": "https://www.creodis.de/ueber-uns/",
+    "evidence": "Als reine Vertriebsgesellschaft entstand die Creodis GmbH im Jahr 2007 unter der Federführung von Klaus Gustenberg.",
+    "observed_on": "2026-11-21",
+    "source_version": "Indexed primary-company history page, crawled three months before audit; current live page was redesigned.",
+    "effect": "review_required; no manual inclusion"
+  }
+]

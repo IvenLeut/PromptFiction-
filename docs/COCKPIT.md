@@ -24,7 +24,7 @@ automatisch an das Dashboard. Es gibt keine Upload-Stufe. Der produktive Start i
 
 | Bereich | Aktuelle Grenze | Nächster Integrationsschritt |
 | --- | --- | --- |
-| Echtes Sourcing | `sourcing.engine.search` ist nicht implementiert. Default ist Demo. | Einen Provider anschließen, der belegte `RawLead`-Datensätze liefert. |
+| Echtes Sourcing | Open-Data-Adapter implementiert; Datenabdeckung ist unvollständig. Default ist Demo. | Collector ausführen und `FOUNDERRADAR_MODE=live` setzen. Siehe [Discovery](OPEN_DATA_DISCOVERY.md). |
 | Live-Scoring | Evaluation übersetzt den Context-Vertrag in das vorhandene Scoring. Vollständige Scoring-Evidence, Teilwerte und Ausschlüsse werden unter `evaluation_v2` erhalten. Nicht jedes Kriterium kann bereits recherchiert werden. | Fehlende Kriterien mit belegtem Research versorgen; neutrale Defaults bleiben als unbewertet erkennbar. |
 | Marktgrößen und Wachstum | Vollständiger Vertrag und Renderer vorhanden. Im Demo-Bestand hat nur industrial-16 ein quantitatives Marktdossier. | Weitere Firmen mit gezielter Marktrecherche, Quellen oder validierten Market-Inputs versorgen. |
 | Wettbewerber und Transaktionen | Strukturierte Vergleiche vorhanden; drei Wettbewerber und eine Vergleichsfinanzierung im Industrial-Dossier. Meist fehlen Bewertungs- und Ergebniskennzahlen. | Weitere öffentliche Quellen oder lizenzierte Daten; Finanzierung, Bewertung und Enterprise Value getrennt halten. |
@@ -73,7 +73,7 @@ das Dashboard. Die übrigen Firmen erhalten keine kopierten Marktwerte.
 Für Dashboard, Filter, Charts, Fund-Fit-Heuristik, Szenariorechnung und Aufgaben
 ist keine zusätzliche KI nötig. `context/ollama.py` enthält bereits einen optionalen
 lokalen Extraktor. Mit `FOUNDERRADAR_MODE=live` und
-`FOUNDERRADAR_OLLAMA_MODEL=<installiertes Modell>` wird er an den Context-Schritt
+`FOUNDERRADAR_CONTEXT_MODE=live` sowie `FOUNDERRADAR_OLLAMA_MODEL=<installiertes Modell>` wird er an den Context-Schritt
 gebunden. Ollama muss separat auf `127.0.0.1:11434` laufen; ein Modell wird nicht
 automatisch heruntergeladen.
 
@@ -98,3 +98,5 @@ visuelle Abnahme der Dashboard-Ansichten ist offen: Das Vorschaufenster wurde
 minimiert und die UI-Steuerung meldete konkurrierende Benutzereingaben. Die
 Agent-Reviews bestätigen die Informationsarchitektur, keine vollständige optische
 Abnahme oder Prüfung auf allen Bildschirmgrößen.
+
+Die kombinierte Discovery und der schnelle Betrieb mit gespeicherten Analyseläufen stehen in [COMBINED_DISCOVERY.md](COMBINED_DISCOVERY.md).

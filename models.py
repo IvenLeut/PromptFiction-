@@ -289,3 +289,5 @@ class AnalysisRun(Contract):
     discovered_count: int = Field(ge=0)
     enriched_count: int = Field(ge=0)
     result: ResearchResult
+    # Additive sourcing provenance (Iven's discovery/MVP runs). No investment metrics are produced in step 1.
+    discovery: dict | None = None

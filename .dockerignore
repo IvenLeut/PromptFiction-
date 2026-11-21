@@ -1,0 +1,12 @@
+.git
+.venv
+.fr-runtime
+.pytest_cache
+data
+runtime-packages
+**/__pycache__
+ai-relay.env
+.env
+jury-access.json
+.relay-state
+**/secrets.toml

@@ -5131,6 +5131,19 @@
     },
     "result": {
       "$ref": "#/$defs/ResearchResult"
+    },
+    "discovery": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Discovery"
     }
   },
   "required": [

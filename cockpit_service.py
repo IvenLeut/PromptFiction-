@@ -2,27 +2,45 @@
 import os
 import re
 from functools import partial
+from pathlib import Path
 from urllib.parse import quote, urlencode
 
 import pipeline
 from cockpit_data import load_payload
-from models import Industry, SearchCriteria
+from models import AnalysisRun, Industry, SearchCriteria
 
 
 def start_analysis(category: Industry, on_progress=None):
     mode = os.getenv("FOUNDERRADAR_MODE", "demo").strip().lower()
     if mode not in {"demo", "live"}:
         raise ValueError("FOUNDERRADAR_MODE must be demo or live.")
+    saved_runs = os.getenv("FOUNDERRADAR_ANALYSIS_DIR", "").strip()
+    if mode == "live" and saved_runs:
+        path = Path(saved_runs) / (category.name.lower() + ".json")
+        run = AnalysisRun.model_validate_json(path.read_bytes())
+        if run.mode != "live" or run.criteria.industry != category:
+            raise ValueError("Saved analysis mode or industry does not match the request")
+        if on_progress:
+            on_progress(100, "Gespeicherten Analyselauf geladen")
+        return run
+    context_mode = os.getenv("FOUNDERRADAR_CONTEXT_MODE", "light")
+    if context_mode not in {"light", "live"}:
+        raise ValueError("FOUNDERRADAR_CONTEXT_MODE must be light or live")
     options = {}
+    if mode == "live":
+        from context.engine import enrich
+        if context_mode == "light":
+            options["enricher"] = partial(enrich, light=True)
     model = os.getenv("FOUNDERRADAR_OLLAMA_MODEL", "").strip()
-    if mode == "live" and model:
+    if mode == "live" and model and context_mode == "live":
         from context.engine import default_lookups, enrich
         from context.web import original_page
         from context.ollama import extract_quotes
         options["enricher"] = partial(enrich, load_original=original_page,
                                      lookups=default_lookups(model=model),
                                      extract_quotes=partial(extract_quotes, model))
-    return pipeline.run_pipeline(SearchCriteria(industry=category, limit=30),
+    limit = int(os.getenv("FOUNDERRADAR_DISCOVERY_LIMIT", "200" if mode == "live" else "30"))
+    return pipeline.run_pipeline(SearchCriteria(industry=category, limit=limit),
                                  use_mock=mode == "demo", on_progress=on_progress, **options)
 
 

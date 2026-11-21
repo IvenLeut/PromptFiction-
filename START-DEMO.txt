@@ -1,0 +1,58 @@
+FOUNDER RADAR · RESEARCH COCKPIT
+
+STARTEN UND TEILEN
+Windows: Das gesamte ZIP entpacken und im Ordner Start-FounderRadar.cmd doppelklicken.
+Die erste Einrichtung lädt die Python-Pakete. Eine portable Python-Laufzeit für 64-Bit-Windows liegt im ZIP bei.
+Die Dateien bleiben im entpackten Ordner. Internetzugang ist beim ersten Start und für die Live-Recherche nötig.
+Der Browser öffnet die lokale App mit einem öffentlichen Referenzlauf. Jede Kopie speichert ihren eigenen Arbeitsstand.
+Zum Teilen die Original-ZIP verwenden. Darin liegen der Programmcode, Recherche-Eingaben und eine optionale Offline-Referenz.
+
+PITCH-ABLAUF
+1. Start-FounderRadar.cmd öffnen. Mit Score jetzt berechnen die sichtbaren Belege neu bewerten.
+2. Das Suchprofil ist fest auf deutsche Gründungen der letzten 24 Monate eingestellt.
+3. Unter Longlist eine bewertete Firma oder einen Treffer mit offenen Belegen öffnen.
+4. Gesprächsanlass, Kurzbeschreibung und Investmenthypothese besprechen.
+5. Markt & Wettbewerb öffnen. Einstiegssegment, Kaufprozess, Vergleichsangebote und
+   das Umsatzszenario zeigen. Szenario-Zahlen sind frei eingegebene Annahmen.
+6. Kontakt & Aufgaben öffnen. Nachricht anpassen und im Standard-Mailprogramm öffnen.
+   Falls kein Mailprogramm verknüpft ist, den Entwurf als .eml laden.
+7. Entscheidung, tatsächlichen Kontaktstatus und Wiedervorlage in der App speichern.
+8. Weitere Live-Läufe prüfen zusätzliche Projektspuren und die nächste Seite neuer LEI-Firmen.
+   Je nach Erreichbarkeit der Quellen dauert ein Lauf einige Minuten.
+   Die Score-Neuberechnung arbeitet nach der Einrichtung auch offline.
+
+DATEN
+Entscheidungen, Notizen, Wiedervorlagen, Kontaktstatus und Verlauf stehen in
+data/screening.sqlite3. Demo und Daten zeigt die konkreten Speicherorte.
+Einzelne Arbeitsstände dort als JSON sichern. Die Sicherung
+enthält auch Notizen. Beim Import bleiben neuere lokale Einträge vorrangig.
+Der jüngste Analyselauf, Laufhistorie, Rechercheprotokoll, Cache und OpenAI-Entwürfe
+liegen unter data/mvp/. Analyseläufe können unter Modell & Quellen als JSON und
+die Longlist als CSV heruntergeladen werden. Deep Dives sind druckbare HTML-Berichte.
+Für eine vollständige Übernahme der Recherchehistorie beim Wechsel der App-Version
+den laufenden Quellenabruf abschließen und die Ordner data/mvp/runs und
+data/mvp/insights sowie data/mvp/latest.json aus der eigenen Kopie übernehmen.
+
+PROJEKT-KI
+Für die Präsentation Start-Live-KI.cmd doppelklicken und den OpenAI-Projektschlüssel
+verdeckt eingeben. Im Deep Dive KI-Auswertung erstellen wählen. Das Cockpit speichert die Auswertung
+mit Modell, Datum und Quellenlinks. Sie enthält zwei Hauptstärken, zwei Prüfrisiken,
+eine bedingte Investmenthypothese, Markteinordnung und Teamkarten bei Belegen.
+Für die Abgabe Ergebnisse\ERGEBNISSE.html öffnen. Ergebnisse-aktualisieren.cmd
+exportiert den aktuellen Quellenstand und vorhandene KI-Auswertungen.
+Bei einer Störung bleibt die letzte erfolgreiche Auswertung sichtbar.
+Recherche, Score-Neuberechnung und Export sind eigenständige Funktionen.
+Der Mail-Shortcut legt einen Entwurf an. Senden erfolgt im Mailprogramm.
+
+METHODE
+Die Live-Longlist entsteht nach dem Quellenabruf. GLEIF ergänzt den bestehenden Bestand mit
+deutschen LEI-Einträgen. Diese Quelle deckt Firmen mit LEI ab. Pro Lauf werden bis zu acht
+neue Firmen und zwölf weitere Projektspuren für eine vertiefte Website-Prüfung ausgewählt.
+Bei offenen Belegen bleibt der Eintrag in der Longlist mit sichtbarem Prüfpunkt.
+Produktbeschreibung, Prüfkommentar und Hypothese entstehen aus den erhobenen Firmenbelegen.
+Bekannte Vergleichsseiten werden neu geladen und als eigene Marktquellen ausgewiesen.
+Redaktionelle Referenzprofile bleiben separat einsehbar. Die Marktgröße wird für ein Szenario
+aus den eigenen Annahmen berechnet. Das Screening bleibt bei 40 % Produkt und Technologie,
+35 % Kunde und Nutzen sowie 25 % Entwicklungsnachweis. Die belegte Untergrenze
+bestimmt den Rang. In der Demo beträgt das Altersfenster fest 24 Monate.
+Die fünf bestehenden AnalysisRun-JSONs stehen unter data/mvp/analysis/.

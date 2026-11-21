@@ -7,6 +7,7 @@ portfolio from demo_portfolio.py. The single-step functions `discover`, `collect
 """
 import inspect
 import logging
+import os
 import re
 from collections.abc import Callable, Sequence
 from datetime import date
@@ -81,9 +82,19 @@ def discover(criteria: SearchCriteria, *, use_mock: bool = True,
         if use_mock:
             from mock_data import search as provider
         else:
-            from sourcing.engine import search as provider
+            # Default stays our Förderkatalog provider; Iven's discovery engines are opt-in.
+            source = os.getenv("FOUNDERRADAR_SOURCING", "foekat")
+            if source == "foekat":
+                from sourcing.engine import search as provider
+            elif source == "combined":
+                from sourcing.combined import search as provider
+            elif source == "open_data":
+                from sourcing.open_data import search as provider
+            else:
+                raise ValueError("FOUNDERRADAR_SOURCING must be foekat, combined or open_data")
     found, seen = [], set()
-    for candidate in provider(criteria):
+    supplied = provider(criteria)
+    for candidate in supplied:
         lead = RawLead.model_validate(candidate)
         if lead.is_demo != use_mock:
             raise MixedDataError("Demo- und Echtdaten dürfen nicht vermischt werden.")
@@ -94,6 +105,12 @@ def discover(criteria: SearchCriteria, *, use_mock: bool = True,
         found.append(lead)
         if len(found) >= criteria.limit:
             break
+    if hasattr(supplied, "discovery"):
+        from sourcing.engine import SourcingLeads
+        result = SourcingLeads(found, complete=supplied.complete, warnings=supplied.warnings)
+        result.discovery = supplied.discovery
+        result.discovery["selected_ids"] = [lead.id for lead in found]
+        return result
     return found
 
 
@@ -221,4 +238,5 @@ def run_pipeline(criteria: SearchCriteria, *, use_mock: bool = True,
     result.issues = context.issues + result.issues
     progress(100, "Analyse abgeschlossen")
     return AnalysisRun(criteria=criteria, mode="demo" if use_mock else "live",
-                       discovered_count=len(raw), enriched_count=len(context.leads), result=result)
+                       discovered_count=len(raw), enriched_count=len(context.leads), result=result,
+                       discovery=getattr(raw, "discovery", None))

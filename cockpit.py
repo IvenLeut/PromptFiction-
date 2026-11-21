@@ -336,4 +336,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if os.getenv("FOUNDERRADAR_UI", "mvp") == "classic":
+        main()
+    else:
+        from mvp.cockpit import main as mvp_main
+        mvp_main()

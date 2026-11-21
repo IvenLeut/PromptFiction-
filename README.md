@@ -1,6 +1,45 @@
 # FounderRadar 2.0 - Investment Cockpit
 
-Neuer Einstieg:
+## Abgabe und Demo
+
+- [Start- und Testanleitung](START-UND-TESTANLEITUNG.md) für Start, Score-Neuberechnung und echten KI-Test.
+- [Pitch-Tutorial](PITCH-TUTORIAL.md) für die Vorführung auf dem eigenen Rechner.
+- [Ergebnisse](Ergebnisse/ERGEBNISSE.html) nach dem Klonen lokal im Browser öffnen.
+
+## Bedienbares Early-Stage-MVP (2026-11-21)
+
+**Windows:** ZIP vollständig entpacken und `Start-FounderRadar.cmd` doppelklicken.
+Python 3.11+ wird benötigt; die getesteten Pakete werden beim ersten Start installiert.
+Alternativ: `python -m streamlit run cockpit.py`.
+
+Das Suchprofil umfasst Deutschland und die letzten 24 Monate. **Live-Recherche starten**
+ruft öffentliche Webseiten ab und löst Projektspuren zu Firmen auf.
+**Score jetzt berechnen** berechnet die Scorecard aus dem gespeicherten Quellenstand.
+
+Scorecard: Produkt/Technologie 40 %, Kunde/Nutzen 35 %, Entwicklungsnachweis 25 %.
+Fehlende Werte bleiben offen. Die Rangfolge verwendet die belegte Untergrenze;
+die Obergrenze zeigt den offenen Anteil. Sechs Screening-Merkmale bestimmen die
+separate Datenabdeckung. Diese ist keine Genauigkeit oder Erfolgswahrscheinlichkeit.
+Kapitalbedarf, Finanzierungsphase, IP-Rechte und Differenzierung bleiben Prüfaufgaben.
+
+Die neue Oberfläche ist Standard. `FOUNDERRADAR_UI=classic` öffnet den Bestandsweg,
+den die nachfolgenden älteren Abschnitte beschreiben. Dessen 50-Punkte-Defaults
+werden im MVP nicht verwendet. `FOUNDERRADAR_ANALYSIS_DIR` steuert nur den Bestandsweg.
+
+Integration: `mvp.engine.run(RunOptions(...), progress)` orchestriert die Schritte.
+Ergebnisse: `data/mvp/latest.json`, Historie: `data/mvp/runs/`. Zusätzlich entstehen
+fünf bestehende `AnalysisRun`-Verträge unter `data/mvp/analysis/`. `evaluation_v2`
+enthält Kriterien, Regelversion, Score-Obergrenze und Projektzuordnung. Die neue
+Datenabdeckung wird nicht in das alte `confidence_score`-Feld umgedeutet.
+Notizen, Shortlists und Aufgaben nutzen weiterhin `analyst_store.py` und SQLite.
+Kein KI-Modell, kein API-Key, keine fiktiven Firmen im neuen Standardablauf.
+
+Grenzen: Kein vollständiger automatischer Handelsregister-Neuzugang. Pro Lauf wird
+ein begrenztes Projektbudget bearbeitet, der Rest bleibt im Protokoll. Firmenimpressum,
+Projektbezug und Alter werden getrennt geprüft. Namensgleichheit oder Förderbeginn
+allein reichen nicht. Quellenfehler und offene Fälle bleiben sichtbar.
+
+## Kombinierte Suche und Investment-Cockpit (Bestandsweg)
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt

@@ -1,0 +1,1554 @@
+[
+  {
+    "id": "gleif-3912006FW2JU2HF5DZ32",
+    "lei": "3912006FW2JU2HF5DZ32",
+    "name": "Akilaris UG (haftungsbeschränkt)",
+    "country": "DE",
+    "city": "Bremen",
+    "postal_code": "28195",
+    "founded_on": "2025-05-25",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 41502",
+    "registration_authority": "RA000222",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/3912006FW2JU2HF5DZ32",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/3912006FW2JU2HF5DZ32",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [
+      {
+        "year": 2025,
+        "quote": "Founded\n2025",
+        "url": "https://akilaris.com/company-profile"
+      },
+      {
+        "year": 2025,
+        "quote": "founded in 2025",
+        "url": "https://akilaris.com/company-profile"
+      }
+    ],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software",
+      "Industrial / DeepTech"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://akilaris.com/company-profile",
+        "quote": "Akilaris develops AI-enabled, data-driven technologies for space and defence that help teams build shared operating pictures, assess risks and threats, and make",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      },
+      {
+        "url": "https://akilaris.com/company-profile",
+        "quote": "Akilaris works on technologies that help teams structure heterogeneous data and sensor signals, build shared operating pictures, assess orbital risks or threats,",
+        "sectors": [
+          "Industrial / DeepTech"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      }
+    ],
+    "website": "https://akilaris.com/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://akilaris.de",
+        "error": "SSLError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://akilaris.com/",
+        "sha256": "f7f2101afac16842c6595c066daa63502c6a72e6714d820d0905a2227ae71a68",
+        "retrieved_at": "2026-11-20T23:59:53Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://akilaris.com/impressum",
+        "sha256": "62e5eb5e6a52d3c65ca7a58bf69e3a3ec264c0c809f0f390b6ddba7c8d30bf79",
+        "retrieved_at": "2026-11-20T23:59:53Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://akilaris.com/company-profile",
+        "sha256": "12ddc046287961f39891e4b92acd4584899fc92f7efb3ea8376594a839133457",
+        "retrieved_at": "2026-11-20T23:59:54Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://akilaris.com/products/drone-intelligence",
+        "sha256": "df8dba88dbf20cd4d4980cab80d5c0a2b658f9cb19305285d982bb0bc32e5881",
+        "retrieved_at": "2026-11-20T23:59:55Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://akilaris.com/products/space-intelligence",
+        "sha256": "dab7cada72f0ae59d62965d01c6b0e0cc421930b8c4cdbeb3c04cf1f00e84688",
+        "retrieved_at": "2026-11-20T23:59:56Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-3912008QX9LW1F4SWL77",
+    "lei": "3912008QX9LW1F4SWL77",
+    "name": "ChainOp Systems UG (haftungsbeschränkt)",
+    "country": "DE",
+    "city": "Dortmund",
+    "postal_code": "44139",
+    "founded_on": "2025-12-28",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 37913",
+    "registration_authority": "RA000230",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/3912008QX9LW1F4SWL77",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/3912008QX9LW1F4SWL77",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software",
+      "ClimateTech"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://chainopsystems.com/de/",
+        "quote": "ChainOp Systems entwickelt und integriert KI-, HPC- und flexible Recheninfrastruktur – ausgerichtet an realer Energieverfügbarkeit, Effizienz und Wirtschaftlichkeit.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      },
+      {
+        "url": "https://chainopsystems.com/de/about/",
+        "quote": "Wir beginnen nicht mit einer einzelnen Technologie oder einem krypto-zentrierten Ansatz, sondern mit der Infrastruktur- und Energieherausforderung: Netzengpässe, Abregelung erneuerbarer Energien, Zeitfenster",
+        "sectors": [
+          "ClimateTech"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://chainopsystems.com/de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://chainopsystems.com/impressum",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://chainopsystems.com/de/imprint/",
+        "sha256": "a7522e1dffcd4e28948c8aa414898def9747fca0d74f9272f23f678a5fc927df",
+        "retrieved_at": "2026-11-20T22:41:07Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://chainopsystems.com/de/about/",
+        "sha256": "c0a396233c504f0ed70c1938ae2b2880c4132c993aafa9cb75a3ec25c8500704",
+        "retrieved_at": "2026-11-20T22:41:10Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://chainopsystems.com/de/",
+        "sha256": "16dd43f5a3624a43cb0863bd3981e741a0ecd35bc5f31cdd9e300a60d3854416",
+        "retrieved_at": "2026-11-20T22:41:07Z",
+        "identity_verified": true
+      }
+    ],
+    "administrative_activity_flag": false,
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-39120095CCUUD7I12I34",
+    "lei": "39120095CCUUD7I12I34",
+    "name": "GemiTech UG (haftungsbeschränkt)",
+    "country": "DE",
+    "city": "Frankfurt am Main",
+    "postal_code": "60329",
+    "founded_on": "2026-10-06",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 145056",
+    "registration_authority": "RA000242",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/39120095CCUUD7I12I34",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/39120095CCUUD7I12I34",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software",
+      "Industrial / DeepTech"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://gemitech.de/de/",
+        "quote": "Daten aus Sensoren nutzbar machen, Abläufe automatisieren und eigene Software gezielt entwickeln.",
+        "sectors": [
+          "AI / Software",
+          "Industrial / DeepTech"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://gemitech.de/de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://gemitech.de/impressum",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://gemitech.de/de/impressum/",
+        "sha256": "656641c41de83e0cad0dcfdddc3840c1adf20d31f1e8039a6611d6c17b324fec",
+        "retrieved_at": "2026-11-20T22:41:00Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://gemitech.de/de/about/",
+        "sha256": "d7bf1347c6dfbce0db3d8a604ddcbd5ed4e4f6435ae42d10f81afd83d5b8936d",
+        "retrieved_at": "2026-11-20T22:41:02Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://gemitech.de/de/",
+        "sha256": "0ae602d0820251f69fd990b1a9e199b09f61367f9ae01162bcce9b05a4e9b3cf",
+        "retrieved_at": "2026-11-20T22:40:59Z",
+        "identity_verified": true
+      }
+    ],
+    "administrative_activity_flag": false,
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-3912009QHB57GLSJSC42",
+    "lei": "3912009QHB57GLSJSC42",
+    "name": "TyskTech GmbH",
+    "country": "DE",
+    "city": "Hamburg",
+    "postal_code": "20148",
+    "founded_on": "2025-02-19",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 190928",
+    "registration_authority": "RA000259",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/3912009QHB57GLSJSC42",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/3912009QHB57GLSJSC42",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://www.tysktech.com/",
+        "quote": "From enterprise software architecture and cloud infrastructure to AI integration and team enablement — TyskTech covers every layer of your technology stack.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      }
+    ],
+    "website": "https://www.tysktech.com/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://tysktech.de",
+        "error": "SSLError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://www.tysktech.com/",
+        "sha256": "18ecbba03d446fee4bc912bfda1441b295ac582be2454f8b8209007881faa1eb",
+        "retrieved_at": "2026-11-20T22:50:35Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://www.tysktech.com/impressum/",
+        "sha256": "b19a1c3bab9b52bcaa1727656aec4e0893fa19ecdb80432e77e97bd0e410f2b5",
+        "retrieved_at": "2026-11-20T22:50:37Z",
+        "identity_verified": true
+      }
+    ],
+    "administrative_activity_flag": false,
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-391200HKARJEJOEVYV57",
+    "lei": "391200HKARJEJOEVYV57",
+    "name": "selobia GmbH",
+    "country": "DE",
+    "city": "Hanau",
+    "postal_code": "63457",
+    "founded_on": "2026-03-26",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 101099",
+    "registration_authority": "RA000261",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/391200HKARJEJOEVYV57",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/391200HKARJEJOEVYV57",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://selobia.de/",
+        "quote": "Und wenn Ihre Anforderungen über Copilot hinausgehen, entwickeln wir mit AI Agents und Azure AI Foundry individuelle Lösungen innerhalb Ihres Microsoft-Ökosystems.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      },
+      {
+        "url": "https://selobia.de/ueber-selobia",
+        "quote": "Und wenn Ihre Anforderungen über Copilot hinausgehen, entwickeln wir mit AI Agents und Azure AI Foundry individuelle Lösungen innerhalb Ihres Microsoft-Ökosystems.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://selobia.de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://selobia.de/impressum",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://selobia.de/",
+        "sha256": "5666880bb6e4b96f685a0b9d71c379ce2f06cf32fc263d69b45ddbb2b01d0e52",
+        "retrieved_at": "2026-11-20T23:55:48Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://selobia.de/rechtliches/impressum",
+        "sha256": "1b5bca0cb9f28c74aa8cbf5f162a535c8f25b7ee32a798906fd64d02b0b2b2ff",
+        "retrieved_at": "2026-11-20T23:55:48Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://selobia.de/ueber-selobia",
+        "sha256": "380cd5fa151766d33f434876761be7c6c109c1151cd7017e0d5e3624f25b730c",
+        "retrieved_at": "2026-11-20T23:55:50Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-391200Q5NABX8F4QSE35",
+    "lei": "391200Q5NABX8F4QSE35",
+    "name": "VIFE Software GmbH",
+    "country": "DE",
+    "city": "Freiburg",
+    "postal_code": "79098",
+    "founded_on": "2025-01-21",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 732442",
+    "registration_authority": "RA000243",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/391200Q5NABX8F4QSE35",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/391200Q5NABX8F4QSE35",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {
+      "AI / Software": [
+        "software"
+      ]
+    },
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://vife-software.de/",
+        "quote": "Mit Termily entwickeln wir ein webbasiertes, DSGVO-konformes Buchungssystem für alle, die Termine mit ihren Kund*innen effizient verwalten möchten – vom Friseursalon bis",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://vife-software.de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://vifesoftware.de",
+        "error": "gaierror"
+      },
+      {
+        "url": "https://vifesoftware.com",
+        "error": "gaierror"
+      },
+      {
+        "url": "https://vifesoftware.ai",
+        "error": "gaierror"
+      },
+      {
+        "url": "https://vife-software.de/impressum",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://vife-software.de/",
+        "sha256": "a688ca51bdfee99329b30e10c7f4d4cb5cf14986e4be047c2d62c20c494c1b47",
+        "retrieved_at": "2026-11-20T22:50:33Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://vife-software.de/imprint/",
+        "sha256": "a06ac51eda87967518e766faadcfd4aaf438583a83ccf5b9da357641734d0317",
+        "retrieved_at": "2026-11-20T22:50:34Z",
+        "identity_verified": true
+      }
+    ],
+    "administrative_activity_flag": false,
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-391200WTZ2QSOXZH6F39",
+    "lei": "391200WTZ2QSOXZH6F39",
+    "name": "finperks GmbH",
+    "country": "DE",
+    "city": "Berlin",
+    "postal_code": "10719",
+    "founded_on": "2025-06-19",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 276246 B",
+    "registration_authority": "RA000217",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/391200WTZ2QSOXZH6F39",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/391200WTZ2QSOXZH6F39",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "FinTech"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://finperks.com/about-us",
+        "quote": "finperks is building API infrastructure that enables banks, fintechs, and HR platforms to offer digital rewards, cashback, employee benefits, and prepaid products",
+        "sectors": [
+          "FinTech"
+        ],
+        "basis": "company self-description",
+        "own_development_language": true,
+        "company_named": true
+      },
+      {
+        "url": "https://finperks.com/",
+        "quote": "Berlin’s zero-fee payment app added platform-subsidised cashback on gift cards through one finperks integration.",
+        "sectors": [
+          "FinTech"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      }
+    ],
+    "website": "https://finperks.com/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://finperks.de",
+        "error": "gaierror"
+      },
+      {
+        "url": "https://finperks.com/impressum",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://finperks.com/",
+        "sha256": "970f2b9723b939c3e14f46d3a425ba663e896e47c72f90c571478f7771f371fe",
+        "retrieved_at": "2026-11-20T23:54:04Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://finperks.com/legal-notice",
+        "sha256": "06e8b7175f6f67a5c35b9dc0b161615fd1236bc7ace7366a9023c0b1bb3d720b",
+        "retrieved_at": "2026-11-20T23:54:05Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://finperks.com/about-us",
+        "sha256": "f50a0dcf8ed6728b19b51b872aeba5e92e15dd0d34d99dd330ab9cf220ae5171",
+        "retrieved_at": "2026-11-20T23:54:07Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-529900TOLBME0BXKHC69",
+    "lei": "529900TOLBME0BXKHC69",
+    "name": "Great Nutrition GmbH",
+    "country": "DE",
+    "city": "Ellerbek",
+    "postal_code": "25474",
+    "founded_on": "2024-12-10",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 189869",
+    "registration_authority": "RA000259",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/529900TOLBME0BXKHC69",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/529900TOLBME0BXKHC69",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "Industrial / DeepTech"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://www.greatnutrition.de/produkte",
+        "quote": "Anschließend arbeiten wir am Upscaling der Technologie auf eine industrielle Anlage.",
+        "sectors": [
+          "Industrial / DeepTech"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://www.greatnutrition.de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [],
+    "page_evidence": [
+      {
+        "url": "https://www.greatnutrition.de/impressum",
+        "sha256": "36f6127141678a8f9b0a57da9a61402015896efda1523432a311cebd01a0f652",
+        "retrieved_at": "2026-11-20T23:56:43Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://www.greatnutrition.de/about",
+        "sha256": "b51d281196ceece4852cfc962fdb415b24ac4deca675b8db4d7429a4bcce84c0",
+        "retrieved_at": "2026-11-20T23:56:43Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://www.greatnutrition.de/produkte",
+        "sha256": "61076b05c3b0fe68a7ed7dea6e9495879b8965f7ada5c0ac2db6989d3ebd68c7",
+        "retrieved_at": "2026-11-20T23:56:44Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://www.greatnutrition.de/technologie",
+        "sha256": "86b9d922513748e7f8b8b812f301ccdfbe7e368eb693307e8610a75815e5e458",
+        "retrieved_at": "2026-11-20T23:56:45Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://www.greatnutrition.de/",
+        "sha256": "0659f373ed9821c5bca3174f3a96fa182ccab24e5dd4c34abdc339aee345efe5",
+        "retrieved_at": "2026-11-20T23:56:42Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-529900W0SLWB72H55T88",
+    "lei": "529900W0SLWB72H55T88",
+    "name": "Optiop GmbH",
+    "country": "DE",
+    "city": "Frankfurt am Main",
+    "postal_code": "60329",
+    "founded_on": "2025-02-11",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 137642",
+    "registration_authority": "RA000242",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/529900W0SLWB72H55T88",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/529900W0SLWB72H55T88",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://optiop.de/about/",
+        "quote": "Unsere Mission bei Optiop ist klar: Wir helfen Unternehmen, ihre digitale Transformation zu beschleunigen, indem wir die Entwicklung, Bereitstellung und Wartung ihrer",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      }
+    ],
+    "website": "https://optiop.de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://optiop.de/impressum",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://optiop.de/",
+        "sha256": "f6e63c7780b9d87c79593c9aab643b467cd06ca3399892a19e6b8dce4b705579",
+        "retrieved_at": "2026-11-20T23:58:06Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://optiop.de/imprint/",
+        "sha256": "3b08be2dcddd5770f015e86d4f7cae0ed39f71f22326b6877e50cc05017abb4e",
+        "retrieved_at": "2026-11-20T23:58:07Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://optiop.de/about/",
+        "sha256": "0e7b0ba3a549a17e926b0f0cc9f4b02eca9ebe189118845666ea6c580682e44a",
+        "retrieved_at": "2026-11-20T23:58:08Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-875500K085ZSSH64OS91",
+    "lei": "875500K085ZSSH64OS91",
+    "name": "7SCALE GmbH",
+    "country": "DE",
+    "city": "München",
+    "postal_code": "80637",
+    "founded_on": "2025-05-15",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 302502",
+    "registration_authority": "RA000304",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/875500K085ZSSH64OS91",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/875500K085ZSSH64OS91",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://7scale.de/",
+        "quote": "Unsere inhouse entwickelte 7SCALE Software bündelt unsere praktische Erfahrung aus der Antragserstellung und bildet genau die Punkte ab, auf die es bei",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": true,
+        "company_named": true
+      },
+      {
+        "url": "https://7scale.de/ueber-uns",
+        "quote": "Strukturiert wird die Zusammenarbeit durch die inhouse entwickelte 7SCALE Software, die alle Angaben, Unterlagen und den BSFZ-Status an einem Ort bündelt.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": true,
+        "company_named": true
+      }
+    ],
+    "website": "https://7scale.de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [],
+    "page_evidence": [
+      {
+        "url": "https://7scale.de/",
+        "sha256": "144ceedf9284f1b389d93e352bd5e91cecb9e0b7658b3f558c175bc373b0ed0a",
+        "retrieved_at": "2026-11-20T23:53:58Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://7scale.de/impressum",
+        "sha256": "382069b3d54efe6227b6b07961371146aabc965347b03e78ea4c1790633b67a9",
+        "retrieved_at": "2026-11-20T23:54:00Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://7scale.de/ueber-uns",
+        "sha256": "a4f6cfb6bc09b7557d49b06e05554c807b62ab09f5a0831f28012707fd13471e",
+        "retrieved_at": "2026-11-20T23:54:00Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-98450051051EBCA95C16",
+    "lei": "98450051051EBCA95C16",
+    "name": "Galveo GmbH",
+    "country": "DE",
+    "city": "Köln",
+    "postal_code": "50674",
+    "founded_on": "2025-05-26",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 123370",
+    "registration_authority": "RA000280",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/98450051051EBCA95C16",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/98450051051EBCA95C16",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://galveo.de/",
+        "quote": "Our own AI, built into every Galveo platform.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      }
+    ],
+    "website": "https://galveo.de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [],
+    "page_evidence": [
+      {
+        "url": "https://galveo.de/",
+        "sha256": "c7ec1a6296cfc6f91e57bf37ee08237d4c47c795d28fc6fc07247c6573fbc927",
+        "retrieved_at": "2026-11-20T23:57:40Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://galveo.de/imprint",
+        "sha256": "62ab01389a42a3a51a28f4ab38666e3f21894e00d5410a716860a14267adc048",
+        "retrieved_at": "2026-11-20T23:57:41Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://galveo.de/impressum",
+        "sha256": "c7ec1a6296cfc6f91e57bf37ee08237d4c47c795d28fc6fc07247c6573fbc927",
+        "retrieved_at": "2026-11-20T23:57:42Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://galveo.de/about",
+        "sha256": "803435f78c96d1ef3650c82942f64008bd13d0ee20abd90dfea568b5cf0a680a",
+        "retrieved_at": "2026-11-20T23:57:43Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-98450063FAF7ED966F49",
+    "lei": "98450063FAF7ED966F49",
+    "name": "70x Consulting GmbH",
+    "country": "DE",
+    "city": "Egenhausen",
+    "postal_code": "72227",
+    "founded_on": "2025-08-14",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 801176",
+    "registration_authority": "RA000351",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/98450063FAF7ED966F49",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/98450063FAF7ED966F49",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://70xconsulting.com/",
+        "quote": "We help businesses grow through technology – with tailored software, IT services, and strategic guidance.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://70xconsulting.com/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://70xconsulting.de",
+        "error": "SSLError"
+      },
+      {
+        "url": "https://70x-consulting.de",
+        "error": "gaierror"
+      },
+      {
+        "url": "https://70xconsulting.com/impressum",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://70xconsulting.com/",
+        "sha256": "5e75d41c6240c68e9f655856ff0c943ed940ac9bbe4229113ec6c39fee24ce2e",
+        "retrieved_at": "2026-11-20T23:59:48Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://70xconsulting.com/imprint",
+        "sha256": "00182ed986e77db670df92e076332839ad8825eda955d8c02ee9c238fd7f5ae2",
+        "retrieved_at": "2026-11-20T23:59:49Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-984500652CA151U86327",
+    "lei": "984500652CA151U86327",
+    "name": "GetCarl GmbH",
+    "country": "DE",
+    "city": "Köln",
+    "postal_code": "50735",
+    "founded_on": "2025-12-09",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 125859",
+    "registration_authority": "RA000280",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/984500652CA151U86327",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/984500652CA151U86327",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://rund.ai/produkte/chat",
+        "quote": "In der KI-Plattform verwalten Sie Kurts Einstellungen zentral und können sie über den Chat anpassen.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://rund.ai",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [],
+    "page_evidence": [
+      {
+        "url": "https://rund.ai/impressum",
+        "sha256": "3b72c166120c76fc0e69f583b645675590e0e6b16fc46d7d12eaea72c8d06b6b",
+        "retrieved_at": "2026-11-20T23:55:28Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://rund.ai/produkte/automations",
+        "sha256": "334d4005a85367d8e68bb2ab415d9ffc4d9fdcdab082bb1ffa3282ef15e1a1f8",
+        "retrieved_at": "2026-11-20T23:55:29Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://rund.ai/produkte/campaigns",
+        "sha256": "052ee35d6afe0c5658643504d0f8ac977688ae26ead93cdde6b9e76bbc70bc68",
+        "retrieved_at": "2026-11-20T23:55:29Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://rund.ai/produkte/chat",
+        "sha256": "afbccc75a4853b20864f7092061101ee026cf454e840f6ac8756595e08be0ac0",
+        "retrieved_at": "2026-11-20T23:55:30Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://rund.ai/produkte/lead-management",
+        "sha256": "6f218678b43c8b729e602e98885cdd8e0bde0ff457ef3fff112e2920c8634419",
+        "retrieved_at": "2026-11-20T23:55:31Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://rund.ai",
+        "sha256": "7ad721627b15f90c34a3db98d5904e521978c56b98dd495698781168e6f43d83",
+        "retrieved_at": "2026-11-20T23:55:27Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-9845006593F4C0RFA345",
+    "lei": "9845006593F4C0RFA345",
+    "name": "XDefine GmbH",
+    "country": "DE",
+    "city": "Hamburg",
+    "postal_code": "22529",
+    "founded_on": "2024-11-21",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 190085",
+    "registration_authority": "RA000259",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/9845006593F4C0RFA345",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/9845006593F4C0RFA345",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "Industrial / DeepTech"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://www.xdefine.com/",
+        "quote": "XDefine® is a German deep-tech semiconductor company developing accelerated reliability systems and advanced materials integration technologies.",
+        "sectors": [
+          "Industrial / DeepTech"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      }
+    ],
+    "website": "https://www.xdefine.com/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://xdefine.de",
+        "error": "ReadTimeout"
+      },
+      {
+        "url": "https://www.xdefine.com/impressum",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://www.xdefine.com/imprint/",
+        "sha256": "82273313e632431a5d732376f9e6f68fdb593f9df3a3011c21d7bacbd749b772",
+        "retrieved_at": "2026-11-20T23:54:51Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://www.xdefine.com/",
+        "sha256": "29f0848f18a09c359ebe5c9da4921e1eb5924d4263a69a7fea43081b18e40847",
+        "retrieved_at": "2026-11-20T23:54:50Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-98450067B52A8A085376",
+    "lei": "98450067B52A8A085376",
+    "name": "Datacept GmbH",
+    "country": "DE",
+    "city": "Hamburg",
+    "postal_code": "20457",
+    "founded_on": "2025-07-30",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 193784",
+    "registration_authority": "RA000259",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/98450067B52A8A085376",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/98450067B52A8A085376",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://datacept.ai/",
+        "quote": "Built to integrate into existing defense architectures, our platform unifies passive sensing and AI-driven analysis: hardware-agnostic, engineered in Germany.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://datacept.ai/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://datacept.de",
+        "error": "gaierror"
+      },
+      {
+        "url": "https://www.dynamo.com/impressum",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://datacept.ai/",
+        "sha256": "ee98ff570c884ea9f06229dd6a3ed20f3bab2df3a4c9ce09a57b4b8a30379c3e",
+        "retrieved_at": "2026-11-20T22:41:49Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://datacept.ai/legal-notice",
+        "sha256": "4bff801e19ebd9b0b6b441ed7ab72c07ff78e0c92c8d6c86abffa648ba5780cb",
+        "retrieved_at": "2026-11-20T22:41:50Z",
+        "identity_verified": true
+      }
+    ],
+    "administrative_activity_flag": false,
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-9845007B2DZ361F48093",
+    "lei": "9845007B2DZ361F48093",
+    "name": "interID UG (haftungsbeschränkt)",
+    "country": "DE",
+    "city": "Berlin",
+    "postal_code": "10365",
+    "founded_on": "2025-08-05",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 277826",
+    "registration_authority": "RA000217",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/9845007B2DZ361F48093",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/9845007B2DZ361F48093",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://interid.io/",
+        "quote": "Entwicklung maßgeschneiderter Software-Lösungen für Digital Identity Management.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://interid.io/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://interid.com",
+        "error": "SSLError"
+      },
+      {
+        "url": "https://interid.ai",
+        "error": "gaierror"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://interid.io/",
+        "sha256": "a4d49833d15406d02dd88cffc5b2d397ffdbc41ce3f91f36c8055afd36d7d1b9",
+        "retrieved_at": "2026-11-20T23:54:47Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://interid.io/impressum/",
+        "sha256": "8ede4fc21b8a39eb89efdc0fbc638cc65ad39243c68561cb755fc54fe7de18b2",
+        "retrieved_at": "2026-11-20T23:54:47Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://interid.io/impressum",
+        "sha256": "8ede4fc21b8a39eb89efdc0fbc638cc65ad39243c68561cb755fc54fe7de18b2",
+        "retrieved_at": "2026-11-20T23:54:48Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-9845008A4EQ2E8BD9B25",
+    "lei": "9845008A4EQ2E8BD9B25",
+    "name": "Green Heat Solutions GmbH",
+    "country": "DE",
+    "city": "Jülich",
+    "postal_code": "52428",
+    "founded_on": "2025-04-22",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 10000",
+    "registration_authority": "RA000233",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/9845008A4EQ2E8BD9B25",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/9845008A4EQ2E8BD9B25",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "ClimateTech",
+      "Industrial / DeepTech"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://green-heat.com/ueber-uns/",
+        "quote": "Entwicklung eines Berechnungs- und Auslegungstool zur energieeffizienten Kühlung von Gebäuden mit thermisch angetriebenen Kältemaschinen und umschaltbaren Wärmepumpensystemen",
+        "sectors": [
+          "ClimateTech"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      },
+      {
+        "url": "https://green-heat.com/ueber-uns/",
+        "quote": "Konzeptstudie über Strom-zu-Wärme-Technologien mit Salzspeicher für den Einsatz in der Industrie und in PV-CSP-Hybridkraftwerken",
+        "sectors": [
+          "Industrial / DeepTech"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://green-heat.com/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [],
+    "page_evidence": [
+      {
+        "url": "https://green-heat.com/ueber-uns/",
+        "sha256": "1b7f67339d5b2c73994164702b74ef87382462190c09bfd11a148b0b9fed3e75",
+        "retrieved_at": "2026-11-20T22:41:50Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://green-heat.com/",
+        "sha256": "2d8cc8ba4517091f82ea61b77888972027da30cf207d503ba2e6ac93dc21798d",
+        "retrieved_at": "2026-11-20T22:41:47Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://green-heat.com/impressum/",
+        "sha256": "7cc7961f5f20ec446a76ab10c2f7f86945e76b2cefd97da7b4785ff820179e61",
+        "retrieved_at": "2026-11-20T22:41:49Z",
+        "identity_verified": true
+      }
+    ],
+    "administrative_activity_flag": false,
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-984500BCB7B43CE81C53",
+    "lei": "984500BCB7B43CE81C53",
+    "name": "IMRIVA GmbH",
+    "country": "DE",
+    "city": "Bad Homburg v. d. Höhe",
+    "postal_code": "61352",
+    "founded_on": "2025-06-30",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 108217",
+    "registration_authority": "RA000228",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/984500BCB7B43CE81C53",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/984500BCB7B43CE81C53",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://imriva.de/",
+        "quote": "KI-Anwendungen entwickeln, die im Tagesgeschäft Wirkung zeigen — nicht nur im Prototyp.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://imriva.de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [],
+    "page_evidence": [
+      {
+        "url": "https://imriva.de/",
+        "sha256": "7d2606bc442f978ad0e4beb2fd493d2f8109d79c79fc74312e454ffcf5a5505e",
+        "retrieved_at": "2026-11-21T00:00:23Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://imriva.de/impressum",
+        "sha256": "411d57206d719b75ffa999e057e181c9dcbc08984adbb8701c701b07dfad5dc3",
+        "retrieved_at": "2026-11-21T00:00:23Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-984500C3DAC781CB6A25",
+    "lei": "984500C3DAC781CB6A25",
+    "name": "nodeline GmbH",
+    "country": "DE",
+    "city": "Karlsruhe",
+    "postal_code": "76135",
+    "founded_on": "2025-04-30",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 754387",
+    "registration_authority": "RA000296",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/984500C3DAC781CB6A25",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/984500C3DAC781CB6A25",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://nodeline.de/",
+        "quote": "nodeline ist ein deutscher Hersteller KI-gestützter Integrationslösungen.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      }
+    ],
+    "website": "https://nodeline.de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [],
+    "page_evidence": [
+      {
+        "url": "https://nodeline.de/",
+        "sha256": "bb8c75310c81c651faf236a19c0938f343dbfd0403cea79d9e365e9f7e1ed5ed",
+        "retrieved_at": "2026-11-20T23:58:46Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://nodeline.de/unternehmen/",
+        "sha256": "ec3d4d40fa1d3afff67989a0c096b4d20db826f7cc745b36ce058fe052937d85",
+        "retrieved_at": "2026-11-20T23:58:49Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://nodeline.de/produkte/",
+        "sha256": "4678e309853d327b227cd9e0d3b5bfdb612a06f1e22f687c0cffd97644ea8e9a",
+        "retrieved_at": "2026-11-20T23:58:50Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://nodeline.de/impressum/",
+        "sha256": "01dfa4bc3d1362787a4d683fc97ac12ee62b81d388d09201ca016710f93dad51",
+        "retrieved_at": "2026-11-20T23:58:48Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-984500E3D57BEE2ACA09",
+    "lei": "984500E3D57BEE2ACA09",
+    "name": "EcomShield GmbH",
+    "country": "DE",
+    "city": "Hamburg",
+    "postal_code": "20354",
+    "founded_on": "2025-11-13",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 195448",
+    "registration_authority": "RA000259",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/984500E3D57BEE2ACA09",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/984500E3D57BEE2ACA09",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://www.ecomshield.eu/ueber-uns",
+        "quote": "Wir entwickeln Software, die Rezensionen für Händler sichtbar und strukturiert macht.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": true,
+        "company_named": false
+      },
+      {
+        "url": "https://www.ecomshield.eu/bewertungen-entfernen",
+        "quote": "EcomShield ist eine Software Plattform und keine Kanzlei.",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": true
+      }
+    ],
+    "website": "https://www.ecomshield.eu/bewertungen-entfernen",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://ecomshield.de",
+        "error": "HTTPError"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://www.ecomshield.eu/impressum",
+        "sha256": "60395e52f5fbb1d69cdd520c658da6f8cdea0f8b22e43065b2361e7a02c3e3eb",
+        "retrieved_at": "2026-11-20T23:54:31Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://www.ecomshield.eu/ueber-uns",
+        "sha256": "9e51fb4730050f54f473d80cf3c5330c9024eddadb672eb072562f00fde6dfd4",
+        "retrieved_at": "2026-11-20T23:54:31Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://www.ecomshield.eu/bewertungen-entfernen",
+        "sha256": "2de36864ed2881ff8d69d16587103c7d8f13d685ef80a8729043d2cc46c61c6b",
+        "retrieved_at": "2026-11-20T23:54:30Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  },
+  {
+    "id": "gleif-984500FE2D8FE4XCE587",
+    "lei": "984500FE2D8FE4XCE587",
+    "name": "Space Four GmbH",
+    "country": "DE",
+    "city": "Bamberg",
+    "postal_code": "96052",
+    "founded_on": "2025-01-28",
+    "founding_basis": "GLEIF entity.creationDate; original business age not independently verified",
+    "registration": "HRB 11923",
+    "registration_authority": "RA000215",
+    "country_source": "https://api.gleif.org/api/v1/lei-records/984500FE2D8FE4XCE587",
+    "source_url": "https://api.gleif.org/api/v1/lei-records/984500FE2D8FE4XCE587",
+    "source_name": "GLEIF",
+    "projects": [],
+    "website_candidates": [],
+    "administrative_name_flag": false,
+    "founding_claims": [],
+    "industry_hints": {},
+    "industries": [
+      "AI / Software"
+    ],
+    "innovation_evidence": [
+      {
+        "url": "https://space-four.de/",
+        "quote": "Testing der entwickelten Software auf Herz und Nieren",
+        "sectors": [
+          "AI / Software"
+        ],
+        "basis": "company self-description",
+        "own_development_language": false,
+        "company_named": false
+      }
+    ],
+    "website": "https://space-four.de/",
+    "identity_verified": true,
+    "date_conflict": false,
+    "administrative_activity_flag": false,
+    "status": "qualified_candidate",
+    "open_questions": [],
+    "fetch_errors": [
+      {
+        "url": "https://spacefour.de",
+        "error": "gaierror"
+      }
+    ],
+    "page_evidence": [
+      {
+        "url": "https://space-four.de/",
+        "sha256": "ac2a351bbcad4725da8fc8934bca0f697c31bda94ac5bd213f64750c64170d4d",
+        "retrieved_at": "2026-11-20T23:58:02Z",
+        "identity_verified": true
+      },
+      {
+        "url": "https://space-four.de/impressum",
+        "sha256": "6e00a06a381fd89a1fd43af9062d96ad859fb4ff82a0614370d202a5384dcf41",
+        "retrieved_at": "2026-11-20T23:58:03Z",
+        "identity_verified": true
+      }
+    ],
+    "research_version": "expand-v2",
+    "claimed_operating_years": []
+  }
+]

@@ -14,9 +14,13 @@ TRACKING_DEFAULTS = {
 }
 
 
+def db_path():
+    return Path(os.environ.get("FOUNDERRADAR_DB", str(Path(__file__).parent / "data" / "screening.sqlite3")))
+
+
 @contextmanager
 def _connect(*, write=False):
-    path = Path(os.environ.get("FOUNDERRADAR_DB", str(Path(__file__).parent / "data" / "screening.sqlite3")))
+    path = db_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     with closing(sqlite3.connect(path, timeout=15)) as conn, conn:
         conn.row_factory = sqlite3.Row

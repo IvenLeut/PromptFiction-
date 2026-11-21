@@ -1,0 +1,347 @@
+{
+  "company-acb1c3cd21aa0fcaa3a0": {
+    "host": "refactum.de",
+    "headline": "Kalkulation für CNC-Auftragsfertiger",
+    "summary": "REFACTUM entwickelt Software für Dreh- und Frästeilefertiger. Aus CAD-Daten leitet sie Fertigungsschritte ab und unterstützt Angebotskalkulation und Arbeitsvorbereitung. Ziel ist, mehr Anfragen mit nachvollziehbaren Zeit- und Kostenansätzen zu bearbeiten.",
+    "why": "Die Website beschreibt eine laufende Zusammenarbeit mit Pilotkunden. Ein Erstgespräch kann klären, welche Betriebe regelmäßig kalkulieren und wo Pilotprojekte in bezahlte Nutzung übergehen.",
+    "thesis": "Wenn die Simulation bei komplexen Teilen näher an den tatsächlichen Laufzeiten liegt und sich mit wenig Aufwand in bestehende Abläufe integrieren lässt, könnte REFACTUM einen wiederkehrend genutzten Schritt zwischen CAD, Angebot und Fertigung besetzen.",
+    "segment": "CNC-Lohnfertiger im DACH-Raum mit vielen Einzelanfragen und eigener Arbeitsvorbereitung.",
+    "buyer": "Geschäftsführung oder Fertigungsleitung verantwortet Marge und Auslastung. Kalkulation und Arbeitsvorbereitung entscheiden im Praxistest.",
+    "adoption": "Mit einer Teilefamilie starten. Angebote, Ist-Zeiten und manuelle Nacharbeit gegen die bestehende Kalkulation vergleichen. Wiederkauf hängt von Maschinenabdeckung und Einbindung in ERP/CAM ab.",
+    "sizing": "Qualifizierte Fertigungsstandorte × Jahreserlös je Standort. Erst Maschinenpark und Angebotsvolumen eingrenzen, dann Zahlungsbereitschaft aus bezahlten Pilotprojekten ableiten.",
+    "question": "Bei welchen Teileklassen ist die Abweichung zur Ist-Zeit über mehrere Betriebe kleiner als mit dem heutigen Verfahren?",
+    "gate": "Vergleich mit Ist-Zeiten und bezahlte Verlängerungen. Aufwand für maschinenspezifische Einrichtung und Datenrechte klären.",
+    "intro": "Ihr Ansatz verbindet CNC-Kalkulation mit Arbeitsvorbereitung. Mich interessiert, wie sich der Nutzen in den laufenden Pilotprojekten messen lässt.",
+    "sources": [
+      [
+        "Produkt und Pilotkunden",
+        "https://refactum.de/"
+      ],
+      [
+        "Firmengeschichte",
+        "https://refactum.de/ueber-uns/"
+      ]
+    ],
+    "alternatives": [
+      [
+        "Spanflug MAKE",
+        "Direkter Vergleich für CAD-basierte Kalkulation und Arbeitsplan. Test mit demselben Teilekorb und denselben Ist-Zeiten.",
+        "https://spanflug.de/make/"
+      ],
+      [
+        "Excel und Erfahrungswerte",
+        "Geringe Einstiegskosten und bekannte Abläufe. Vergleichsgröße sind Durchlaufzeit, Kalkulationsfehler und Weitergabe von Erfahrungswissen.",
+        null
+      ]
+    ],
+    "signal": [
+      "Pilotkunden",
+      "REFACTUM beschreibt die Pilotkunden als Taktgeber der Produktentwicklung.",
+      "https://refactum.de/"
+    ],
+    "email": [
+      "info@refactum.de",
+      "https://refactum.de/kontakt/"
+    ]
+  },
+  "company-eaad5b6d4543f58cbb94": {
+    "host": "fibryx.de",
+    "headline": "Naturfaser-Verbundteile für die Serie",
+    "summary": "Fibryx entwickelt und fertigt Leichtbauteile mit Naturfasern. Das Angebot reicht von Bauteildesign und Materialaufbau über Werkzeuge bis zum montagefertigen Teil. Genannte Einsatzfelder sind Nutzfahrzeuge, Caravan und weitere industrielle Anwendungen.",
+    "why": "Fibryx bietet Prototypen- und Serienwerkzeuge an. Der nächste aufschlussreiche Schritt ist die Trennung von Bauteilen in Bemusterung, freigegebenen Programmen und wiederkehrender Serienfertigung.",
+    "thesis": "Ein Vorsprung wäre plausibel, wenn Fertigung und Materialaufbau bei einem konkreten Bauteil zugleich Stückkosten, Gewicht und Ausschuss senken und die Freigabekriterien des OEM erfüllen.",
+    "segment": "Zunächst Verkleidungs- und Innenbauteile in Nutzfahrzeugen oder Caravan mit überschaubarer Stückzahl und klarer Referenz in GFK.",
+    "buyer": "Konstruktion und Materialtechnik spezifizieren das Bauteil. Einkauf verhandelt Werkzeug- und Teilepreis. Qualitätssicherung gibt die Serie frei.",
+    "adoption": "Ein Teil gegen die GFK-Version bemustern. Zykluszeit, Prüfkosten, Ausschuss und Lieferfähigkeit je Stückzahl messen. Auf angrenzende Anwendungen erst nach OEM-Freigabe ausweiten.",
+    "sizing": "Zugängliche Fahrzeugprogramme × geeignete Teile je Fahrzeug × jährliches Volumen × Teilepreis. Werkzeugumsätze getrennt modellieren und Ramp-up sowie Vorfinanzierung abziehen.",
+    "question": "Welches Bauteil hat eine belastbare Serienfreigabe, und wie sieht dessen Kostenrechnung gegenüber dem Standardmaterial aus?",
+    "gate": "Freigabedokumentation, reale Zykluszeit und Auslastung prüfen. CO₂-Vergleiche brauchen identische Systemgrenzen.",
+    "intro": "Ihre Naturfaser-Bauteile für industrielle Serien sind für uns interessant. Mich würde besonders der Weg von der Bemusterung zur Serienfreigabe interessieren.",
+    "sources": [
+      [
+        "Bauteilangebot und Anwendungsfelder",
+        "https://www.fibryx.de/en"
+      ],
+      [
+        "Projektspur BEHtec",
+        "https://behtec.de/"
+      ]
+    ],
+    "alternatives": [
+      [
+        "Bcomp ampliTex",
+        "Naturfaser-Verstärkung als Materialangebot. Abgrenzung entlang Materiallieferung, Bauteilentwicklung und eigener Serienfertigung.",
+        "https://www.bcomp.com/products/amplitex/"
+      ],
+      [
+        "GFK-Bauteil",
+        "Qualifizierte Bestandslösung. Vergleich bei identischer Funktion, Lebensdauer und Jahresstückzahl.",
+        null
+      ]
+    ],
+    "signal": [
+      "Bis zu 30 %",
+      "Gewichtsreduktion laut Fibryx, abhängig vom Bauteil. Ausgangswert und Prüfbericht im Gespräch abgleichen.",
+      "https://www.fibryx.de/en"
+    ],
+    "email": [
+      "info@fibryx.de",
+      "https://www.fibryx.de/en"
+    ]
+  },
+  "gleif-3912006FW2JU2HF5DZ32": {
+    "host": "akilaris.com",
+    "headline": "Nachvollziehbare Datenfusion für Satellitenbetrieb",
+    "summary": "Akilaris in Bremen entwickelt Software, die Daten aus mehreren Quellen für Satellitenbetrieb und Lagebewertung zusammenführt. Die Firma beschreibt nachvollziehbare Annahmen, Datenherkunft und menschliche Freigabe als Merkmale ihres Ansatzes.",
+    "why": "Die ESA dokumentiert für 2025 über 4.000 neu in den Orbit gebrachte Nutzlasten. Das ist ein Anlass, bei Betreibern nach dem Aufwand für Prüfung und Dokumentation zu fragen und Akilaris an einem zivilen Anwendungsfall zu messen.",
+    "thesis": "Eine eigenständige Anwendung wäre plausibel, wenn Betreiber vorhandene Warn- und Bahndaten verlässlich in einen prüfbaren Arbeitsablauf einbinden können und dafür ein separates Betriebsbudget einsetzen.",
+    "segment": "Europäische Betreiber kleiner Satellitenflotten mit eigener Missionskontrolle und bestehenden Datenquellen.",
+    "buyer": "Mission Operations verantwortet den Ablauf. Datenzugriff, Informationssicherheit und Beschaffung können die Einführung bestimmen.",
+    "adoption": "Mit einem dokumentierten zivilen Testablauf beginnen. Zeit für Sichtung, Nachvollziehbarkeit und Integrationsaufwand mit dem bestehenden Prozess vergleichen.",
+    "sizing": "Betreiber mit eigener Missionskontrolle × Flotten- oder Standortvertrag. Wiederkehrendes Softwarebudget getrennt von Integrationsaufwand erfassen.",
+    "question": "Welcher zivile Betreiber würde einen Test mit vorhandenen Daten durchführen und danach einen Lizenzvertrag erwägen?",
+    "gate": "Zugriffsrechte auf Daten, zivile Referenzen und reale Zahlungsbereitschaft klären. Förder- und Mandatsfit vor Kontakt bewerten.",
+    "intro": "Ihr Ansatz zur nachvollziehbaren Datenfusion im Satellitenbetrieb ist interessant. Können wir einen zivilen Einsatzfall und den Integrationsaufwand besprechen?",
+    "sources": [
+      [
+        "Produktansatz",
+        "https://akilaris.com/"
+      ],
+      [
+        "ESA Space Environment Report 2026",
+        "https://www.esa.int/articles/esa-space-environment-report-2026"
+      ]
+    ],
+    "alternatives": [
+      [
+        "EU SST",
+        "Öffentliche Dienste für Kollisionsrisiko und Warnungen. Klären, welche bezahlte Arbeit oberhalb dieser Daten verbleibt.",
+        "https://www.eusst.eu/services"
+      ],
+      [
+        "Interne Missionssoftware",
+        "Vorhandene Skripte und Dashboards. Vergleich von Pflegeaufwand und Auditierbarkeit.",
+        null
+      ]
+    ],
+    "signal": [
+      "Über 4.000",
+      "Neue Nutzlasten im Orbit im Jahr 2025 laut ESA. Nachfrageindikator für das Umfeld.",
+      "https://www.esa.int/articles/esa-space-environment-report-2026"
+    ],
+    "email": [
+      "info@akilaris.com",
+      "https://akilaris.com/"
+    ]
+  },
+  "gleif-391200WTZ2QSOXZH6F39": {
+    "host": "finperks.com",
+    "headline": "Prepaid- und Rewards-Infrastruktur",
+    "summary": "finperks bündelt digitale Gutscheine, Cashback und Mitarbeiterprämien für Banken, Fintechs und HR-Plattformen über eine Schnittstelle. Das Angebot umfasst Katalog, Integration und Abrechnung über mehrere Märkte.",
+    "why": "Die Website nennt unter anderem Saldo Bank und Finanzguru als live. Im Gespräch lässt sich prüfen, welche Anwendungsfälle realen Durchsatz, Nettomarge und wiederkehrende Kundenbindung liefern.",
+    "thesis": "Die Kombination aus Anbieterbeziehungen und technischer Integration könnte Wechselkosten erzeugen, falls sich lokale Katalogtiefe, verlässliches Settlement und Integrationsdauer im Kundenvergleich durchsetzen.",
+    "segment": "Europäische Fintechs mit bestehender Endkundennutzung, die Gutscheine oder Cashback in ihre App einbetten wollen.",
+    "buyer": "Produkt und Partnerships initiieren. Finanzen, Betrieb und Compliance entscheiden über Abrechnung, Risiko und Lieferantenvertrag mit.",
+    "adoption": "Ein Land und ein Rewards-Produkt integrieren. Nach Kosten je Transaktion, Supportfällen, Wiederbestellungen und Nachfrage nach weiteren Märkten skalieren.",
+    "sizing": "Aktive Plattformkunden × jährliches abgewickeltes Volumen × Nettoerlösquote plus Plattformgebühren. Gutschein-Nennwerte getrennt von echtem Umsatz betrachten.",
+    "question": "Wie entwickeln sich monatliches Volumen, Nettomarge und Konzentration pro aktivem Plattformkunden nach Start?",
+    "gate": "Partnerkonzentration, Ausfälle, Settlement, Deckungsbeitrag und vertragliche Exklusivität prüfen.",
+    "intro": "Ihre gemeinsame API für europäische Prepaid-Produkte ist für uns interessant. Mich würde der Weg von einer ersten Integration zu regelmäßigem Volumen pro Kunde interessieren.",
+    "sources": [
+      [
+        "Anwendungsfälle, Katalog und Referenzen",
+        "https://finperks.com/"
+      ],
+      [
+        "Firmendaten",
+        "https://finperks.com/facts"
+      ]
+    ],
+    "alternatives": [
+      [
+        "Tillo",
+        "Überlappende Gutschein-API. Lokale Markenabdeckung, Nettoerlös und Integrationsaufwand mit demselben Use Case vergleichen.",
+        "https://tillo.tech/docs/getting-started"
+      ],
+      [
+        "Direkte Lieferantenverträge",
+        "Mehr Verhandlungskontrolle, dafür mehrere Schnittstellen, Verträge und Abrechnungen.",
+        null
+      ]
+    ],
+    "signal": [
+      "1.000+ Marken",
+      "Kataloggröße laut finperks. Relevante Tiefe je Zielmarkt separat prüfen.",
+      "https://finperks.com/"
+    ],
+    "email": [
+      "info@finperks.com",
+      "https://finperks.com/legal-notice"
+    ]
+  },
+  "gleif-9845006593F4C0RFA345": {
+    "host": "xdefine.com",
+    "headline": "Zuverlässigkeitsprüfung für Leistungshalbleiter",
+    "summary": "XDefine entwickelt beschleunigte Prüfverfahren und Systeme für Halbleiter aus Wide-Bandgap-Materialien wie SiC. Parallel arbeitet das Unternehmen an der Integration fortgeschrittener Materialien.",
+    "why": "Die Firma stellt zwei technische Arbeitsfelder vor. Beim Erstgespräch lässt sich klären, welches Testsystem für welches Bauteil heute demonstrierbar ist und wer für einen Vergleichstest bezahlt.",
+    "thesis": "Ein attraktiver Einstieg wäre ein reproduzierbarer Test, der die Qualifikationszeit für einen eng umrissenen Bauteiltyp verkürzt, ohne die Korrelation zu bestehenden Freigabedaten zu verlieren.",
+    "segment": "Entwicklungs- und Zuverlässigkeitslabore von Herstellern von SiC-Leistungshalbleitern und Modulen.",
+    "buyer": "Reliability Engineering definiert das Protokoll. Laborleitung verantwortet Durchsatz, Einkauf Gerätebudget und Wartungsvertrag.",
+    "adoption": "Zuerst gegen Laborreferenz an einer Bauteilklasse testen. Dann Testberichte, Wiederholbarkeit, Kalibrieraufwand und Einbau in bestehende Qualifikation prüfen.",
+    "sizing": "Relevante Labore × Systeme pro Labor × Systempreis. Service, Verbrauchsmaterial und Prüfaufträge als eigene Erlösbausteine führen.",
+    "question": "Welche beschleunigte Prüfung korreliert nachweislich mit Langzeitdaten bei einem externen Labor?",
+    "gate": "Unabhängiger Vergleich, Schutzrechte, Wartung und Zeit von Ersttest bis Bestellung.",
+    "intro": "Ihre Arbeit an beschleunigter Zuverlässigkeitsprüfung für Wide-Bandgap-Halbleiter ist interessant. Mich würde Ihr bisheriger Vergleich mit etablierten Testabläufen interessieren.",
+    "sources": [
+      [
+        "Technologien",
+        "https://www.xdefine.com/"
+      ]
+    ],
+    "alternatives": [
+      [
+        "Keysight",
+        "Vergleichsangebot für elektrische Charakterisierung. Überlappung und Grenzen zur Langzeitqualifikation ausdrücklich testen.",
+        "https://www.keysight.com/us/en/use-cases/characterize-wide-bandgap-power-devices.html"
+      ],
+      [
+        "Externe Prüflabore",
+        "Kaufalternative für sporadische Tests. Lieferzeit, Kosten je Prüfung und Zugriff auf Rohdaten vergleichen.",
+        null
+      ]
+    ],
+    "signal": [
+      "WBG-Qualifikation",
+      "Die Produktseite nennt beschleunigte Zuverlässigkeitstests als Schwerpunkt.",
+      "https://www.xdefine.com/"
+    ],
+    "email": null
+  },
+  "gleif-984500E3D57BEE2ACA09": {
+    "host": "ecomshield.eu",
+    "headline": "Review-Workflow für Amazon-Marken",
+    "summary": "EcomShield bündelt negative Amazon-Rezensionen in einer Software. Händler wählen Fälle für eine unabhängige anwaltliche Prüfung aus. Laut Anbieter fällt eine Gebühr an, wenn Amazon eine Rezension entfernt.",
+    "why": "Die Website nennt mehr als 100 nutzende Marken im Oktober 2026. Ein Gespräch ist sinnvoll, wenn sich Zugang zu aktiven Kohorten, wiederkehrendem Nutzungsverhalten und tatsächlichen Bearbeitungskosten herstellen lässt.",
+    "thesis": "Eine tragfähige Softwarethese hängt davon ab, ob wiederholbares Monitoring und Fallübergabe auch bei wechselnden Plattformregeln genügend Wert schaffen und die Marge nach menschlicher Prüfung bestehen bleibt.",
+    "segment": "Marken und Agenturen mit mehreren Amazon-Produktlinien und genügend laufenden Rezensionen für einen zentralen Workflow.",
+    "buyer": "Marketplace Operations betreut Fälle. Die Marke entscheidet über Mandat, Budget und Reputationsregeln.",
+    "adoption": "Nutzung an einem begrenzten Artikelbestand prüfen. Berechtigte Fälle, manuellen Zeitaufwand, Erlös und Wiederholungsnutzung messen.",
+    "sizing": "Aktive Marken × geeignete Fälle × erfolgswirksamer Anteil × Nettoerlös je Fall. Nicht mit dem gesamten E-Commerce-Volumen rechnen.",
+    "question": "Welcher Anteil der Marken nutzt EcomShield in Folgemonaten, und welcher Deckungsbeitrag bleibt nach manueller Bearbeitung?",
+    "gate": "Plattformabhängigkeit, nachprüfbare Fallberechtigung, Gebührenmodell und Wiederkehr der Nutzung prüfen.",
+    "intro": "Ihr Workflow für Amazon-Marken verbindet Monitoring und Fallübergabe. Mich würde interessieren, wie oft Marken das Produkt wiederholt einsetzen und wo der größte Zeitgewinn liegt.",
+    "sources": [
+      [
+        "Produkt, Preislogik und Selbstauskunft zur Nutzung",
+        "https://www.ecomshield.eu/bewertungen-entfernen"
+      ]
+    ],
+    "alternatives": [
+      [
+        "Amazon-Meldung",
+        "Nativer Weg für begründete Meldungen. Der zusätzliche Wert muss etwa in Monitoring und Dokumentation liegen.",
+        "https://sellercentral.amazon.com/help/hub/reference/external/G201972160"
+      ],
+      [
+        "Agentur oder Kanzlei",
+        "Manuelle Betreuung als Vergleich. Bearbeitungszeit, Kosten und Fallqualität gegenüberstellen.",
+        null
+      ]
+    ],
+    "signal": [
+      "100+ Marken",
+      "Anbieterangabe zur Nutzung, Stand Oktober 2026. Aktive und zahlende Kunden getrennt prüfen.",
+      "https://www.ecomshield.eu/bewertungen-entfernen"
+    ],
+    "email": [
+      "info@ecomshield.eu",
+      "https://www.ecomshield.eu/bewertungen-entfernen"
+    ]
+  },
+  "gleif-984500652CA151U86327": {
+    "host": "rund.ai",
+    "headline": "RUND · KI-Kommunikation für Kfz-Betriebe",
+    "summary": "GetCarl tritt als RUND auf. Die Plattform unterstützt Kfz-Betriebe bei Telefonanrufen, Nachrichten, Terminabläufen und Lead-Bearbeitung. Die Firma nennt Integrationen in branchenspezifische Systeme und richtet sich an Werkstätten und Autohäuser.",
+    "why": "Der Markenwechsel und die sichtbare Ausweitung auf mehrere Kanäle machen die Installationsbasis interessant. Ein Gespräch kann klären, ob aus einem Anrufassistenten ein standortübergreifend genutzter Ablauf wird.",
+    "thesis": "Ein vertikaler Vorsprung wäre plausibel, wenn Werkstätten mehr Termine erfolgreich buchen und bestehende Integrationen den Rollout weiterer Standorte günstig machen.",
+    "segment": "Mehrstandort-Autohäuser und Werkstätten mit hohem Anrufaufkommen und einem unterstützten Werkstattsystem.",
+    "buyer": "Serviceleitung verantwortet Auslastung und Erreichbarkeit. IT und Datenschutz prüfen die Integration. Die Gruppe entscheidet über den Standortrollout.",
+    "adoption": "Mit einem Standort und klaren Anrufkategorien starten. Erfolgreiche Buchungen, Fehlbuchungen, Übergaben und entgangene Anrufe gegeneinander messen.",
+    "sizing": "Kompatible Standorte × Jahreserlös pro Standort. Gesprächsvolumen, laufende Supportkosten und Mehrstandort-Rabatte separat rechnen.",
+    "question": "Wie viele Standorte erweitern nach dem Pilot auf weitere Filialen und mit welcher Fehlbuchungs- und Eskalationsrate?",
+    "gate": "Referenz im produktiven Betrieb, Integrationsbreite, Abhängigkeit von Telefonie- und Modellanbietern sowie Datenfluss prüfen.",
+    "intro": "Mit dem Wechsel von GetCarl zu RUND habt ihr die Kommunikation für Kfz-Betriebe breiter aufgestellt. Mich interessiert, was an Kundenstandorten bereits messbar funktioniert.",
+    "sources": [
+      [
+        "Produkt, Umbenennung und Integrationen",
+        "https://rund.ai/"
+      ]
+    ],
+    "alternatives": [
+      [
+        "Velyx Telefon-KI",
+        "Direkter Anbieter für Autohäuser. Mit identischen Anrufgründen Erreichbarkeit und erfolgreiche Terminbuchung vergleichen.",
+        "https://velyx.ai/produkte/telefon-ki/"
+      ],
+      [
+        "Telefonzentrale und Onlinebuchung",
+        "Vertrauter Prozess. Aufwand und Übergabefehler gegen automatisierte Erfassung messen.",
+        null
+      ]
+    ],
+    "signal": [
+      "GetCarl → RUND",
+      "Die aktuelle Firmenwebsite verbindet beide Marken ausdrücklich.",
+      "https://rund.ai/"
+    ],
+    "email": [
+      "info@rund.ai",
+      "https://rund.ai/"
+    ]
+  },
+  "gleif-98450067B52A8A085376": {
+    "host": "datacept.ai",
+    "headline": "Software für elektromagnetisches Lagebewusstsein",
+    "summary": "Datacept entwickelt in Deutschland Software für passive Erfassung und Analyse des elektromagnetischen Umfelds. Das Unternehmen positioniert die Plattform als integrierbare Komponente für bestehende Systeme im Sicherheits- und Verteidigungsumfeld.",
+    "why": "Es lohnt sich, vor einem Erstkontakt die zulässigen Einsatzfelder und Beschaffungswege zu klären. Die EDA-Daten erklären den Budgetkontext. Sie lassen keinen Rückschluss auf Aufträge der Firma zu.",
+    "thesis": "Eine Unternehmenshypothese wäre ein wiederverwendbares Softwareprodukt, wenn Integrationspartner für dokumentierte Analyseleistung und wiederkehrende Pflege zahlen und der Erlös nicht überwiegend aus Individualprojekten stammt.",
+    "segment": "Europäische Integrationspartner mit einem definierten Bedarf an passiver Lageanalyse und etabliertem Beschaffungsweg.",
+    "buyer": "Systemintegration und Programmleitung bewerten Lieferfähigkeit und Produktfit. Endkunde und Beschaffung entscheiden über Programmbudget.",
+    "adoption": "Rechte, zulässigen Einsatz und Referenzfähigkeit zuerst eingrenzen. Dann kommerziell zwischen Evaluierung, Integration und wiederkehrender Lizenz unterscheiden.",
+    "sizing": "Beschaffungsfähige Programme × erreichbarer Softwareanteil × realistische Eintrittsrate. Gesamtverteidigungsausgaben getrennt halten.",
+    "question": "Welche budgetierte Evaluierung oder Integration gibt es, und welcher Anteil des Erlöses wäre bei Folgeprogrammen wiederholbar?",
+    "gate": "Mandatsfit, zulässige Endverwendung, Datenrechte, Beschaffungsdauer und Referenzstatus klären.",
+    "intro": "Ihr Fokus auf passive Lageanalyse und Systemintegration ist interessant. Wir würden gern den kommerziellen Stand und die Beschaffungswege für zulässige Einsatzfelder verstehen.",
+    "sources": [
+      [
+        "Produktpositionierung",
+        "https://datacept.ai/"
+      ],
+      [
+        "EDA Defence Data",
+        "https://eda.europa.eu/publications-and-data/defence-data"
+      ]
+    ],
+    "alternatives": [
+      [
+        "Bestehende Systemintegratoren",
+        "Eigenentwicklung oder Komplettsystem aus dem Bestand. Als Bezugsoption über Rechte, Wartung und Lieferfähigkeit vergleichen.",
+        null
+      ],
+      [
+        "Spezialisierte Monitoring-Anbieter",
+        "Etablierte Mess- und Analysesoftware als Vergleich. Überschneidungen im konkret zulässigen Einsatzfeld prüfen.",
+        null
+      ]
+    ],
+    "signal": [
+      "Passive Analyse",
+      "Das Unternehmen beschreibt passive Erfassung als Teil seiner Produktpositionierung.",
+      "https://datacept.ai/"
+    ],
+    "email": [
+      "info@datacept.ai",
+      "https://datacept.ai/"
+    ]
+  }
+}
