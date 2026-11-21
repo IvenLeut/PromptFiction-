@@ -173,6 +173,9 @@ class EnrichedLead(RawLead):
     customer_count: int | None = Field(default=None, ge=0)
     annual_revenue_eur: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     traction_notes: str | None = None
+    # Step 2 (context/website_match.py, 2026-11-21): company website found for a lead without a step-1 `website`
+    # (RawLead.website must not change, pipeline._preserve). Evidence field="matched_website"; see match_confidence.
+    matched_website: HttpUrl | None = None
 
 
 # Step 3 output of the evaluator (evaluation/engine.py or demo), merged with the dossier.

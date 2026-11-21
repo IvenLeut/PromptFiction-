@@ -20,6 +20,8 @@ SOURCE_WAYBACK = "Wayback"                  # signal pointing at the archived pa
 SOURCE_MODEL = "ollama"                     # classifier output (context.classify)
 SOURCE_WEBSITE = "Unternehmenswebsite"
 SOURCE_ORIGINAL = "Fundquelle"
+SOURCE_WEBSITE_MATCH = "Website-Abgleich"     # context/website_match.py: project name -> company website
+SOURCE_PROJECT_PAGE = "Projektseite (Hochschule)"  # university/institute page about the project, not a company site
 SOURCE_SOURCING = "Sourcing"                # fallback when a lead carries no source_name
 MODEL_QUOTE_PREFIX = "Ollama-Zitat aus "    # + source of the quoted signal (context.ollama via engine)
 

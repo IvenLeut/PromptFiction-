@@ -41,6 +41,10 @@ from research_models import (
 from scoring_input import build_scoring_input
 
 logger = logging.getLogger(__name__)
+EXIST_CONFIRMED_YEARS = 3   # an EXIST mention on the site explains a Wayback capture at most this long before the project
+MAX_DIRECTOR_LOOKUPS = 3    # OpenAlex lookups for Impressum managing directors per lead (1 call each, ~100 calls/day without key)
+DIRECTOR_ROLE = "Geschäftsführung (Impressum)"
+WEBSITE_TEXT_CHARS = 5000   # Evidence field="website_text" for the scorer's noise filter
 MAX_FINDING = 1000      # characters of a text kept as Evidence.finding (same cap as Lookup.add)
 SUMMARY_CHARS = 200     # sourcing signals shorter than this are one-line summaries, never classified
 STOPWORDS = set("""für mit und oder der die das des dem den ein eine einer eines einem einen von zur zum auf aus bei nach über unter durch
@@ -256,13 +260,16 @@ def mention_only(signal: SourceSignal) -> bool:
     return signal.source.startswith(SOURCE_IDW_MENTION)
 
 
-def default_lookups(cache=_DEFAULT_CACHE, model: str | None = None, patents: bool = False) -> dict:
+def default_lookups(cache=_DEFAULT_CACHE, model: str | None = None, patents: bool = False, match: bool = True,
+                    match_threshold: float | None = None) -> dict:
     """The live lookups. Each entry is a callable; missing modules are skipped with an error entry.
 
     `cache`: omitted -> the shared on-disk cache `Cache()` (.cache/context.db or $CONTEXT_CACHE), which is what
     pipeline.py uses; the CLI passes `Cache(--cache)`. `None` -> `NoCache()`, nothing touches the disk.
     Google Patents is off by default: it blocks the IP after about a dozen requests and university
     projects file under the university anyway. Enable it per run with `patents=True` (CLI: --patents).
+    `match=False` (CLI: --no-match) skips the project-name -> website matcher (context/website_match.py);
+    `match_threshold` overrides its confidence threshold.
     """
     from context.cache import Cache, NoCache
     if cache is _DEFAULT_CACHE:
@@ -273,12 +280,15 @@ def default_lookups(cache=_DEFAULT_CACHE, model: str | None = None, patents: boo
     for name, module, func in (("imprint", "context.imprint", "imprint_lookup"), ("grants", "context.foekat", "grant_lookup"),
                                ("web_history", "context.wayback", "web_history_lookup"), ("classify", "context.classify", "classify_texts"),
                                ("author", "context.openalex", "author_lookup"), ("idw", "context.idw", "idw_lookup"),
-                               ("patents", "context.patents", "patent_lookup")):
-        if name == "patents" and not patents:
+                               ("patents", "context.patents", "patent_lookup"),
+                               ("website_match", "context.website_match", "match_lookup")):
+        if (name == "patents" and not patents) or (name == "website_match" and not match):
             found[name] = None
             continue
         try:
             found[name] = getattr(__import__(module, fromlist=[func]), func)
+            if name == "website_match" and match_threshold is not None:
+                found[name] = partial(found[name], threshold=match_threshold)
         except (ImportError, AttributeError) as exc:
             found[name] = None
             logger.warning("Lookup %s nicht verfügbar: %s", name, exc)
@@ -318,7 +328,7 @@ def _run(lookups: dict, name: str, merged: Lookup, call):
     """Run one lookup; a failing lookup becomes an error entry instead of aborting the lead."""
     func = lookups.get(name)
     if func is None:
-        if name != "patents":
+        if name not in ("patents", "website_match"):
             merged.errors.append("%s: Modul nicht verfügbar" % name)
         return None
     try:
@@ -342,16 +352,22 @@ class _LookupHits:
     patents: list = dc_field(default_factory=list)
     profiles: dict[str, FounderProfile] = dc_field(default_factory=dict)
     namesake_urls: set[str] = dc_field(default_factory=set)
+    directors: list[str] = dc_field(default_factory=list)      # Impressum managing directors (lead without founders)
+    imprint_url: str | None = None
 
 
 def _run_lookups(lead: RawLead, lookups: dict, signals: list[SourceSignal], offline: list, earliest: date | None,
-                 merged: Lookup) -> _LookupHits:
-    """Imprint, grants, web history, idw, patents and OpenAlex in this order; their texts extend `signals`."""
+                 merged: Lookup, website: str | None = None) -> _LookupHits:
+    """Imprint, grants, web history, idw, patents and OpenAlex in this order; their texts extend `signals`.
+
+    `website`: the step-1 website or, for a lead without one, the site found by the matcher (`_match_website`).
+    """
     hits = _LookupHits()
     cache = lookups.get("cache")
+    website = website or (str(lead.website) if lead.website else None)
     grant_institution = next((f["recipient"].split(",")[0].strip() for _, _, f in offline if f["recipient"]), None) or None
-    if lead.website:
-        _run(lookups, "imprint", merged, lambda f: f(str(lead.website), cache=cache))
+    if website:
+        _run(lookups, "imprint", merged, lambda f: f(website, cache=cache))
     reference = next((f["fkz"] for _, _, f in offline), None) or next(
         (m.group(0) for s in signals for m in [re.search(r"(?<![A-Za-z0-9])03E[FG][A-Za-z0-9]{3,}", s.evidence)] if m), None)
     institution = merged.fields.get("institution")
@@ -362,7 +378,11 @@ def _run_lookups(lead: RawLead, lookups: dict, signals: list[SourceSignal], offl
     institution = grant_institution or institution or next(
         (re.split(r",| - ", g.recipient)[0].strip() for g in hits.grants if g.recipient), None)
     history_kwargs = {"not_before": earliest} if earliest and _accepts(lookups.get("web_history"), "not_before") else {}
-    _run(lookups, "web_history", merged, lambda f: f(str(lead.website) if lead.website else None, lead.name, cache=cache,
+    if (confirmed := _site_confirms_project(signals + merged.signals, website, reference)) and _accepts(lookups.get("web_history"), "site_confirmed"):
+        history_kwargs["site_confirmed"] = confirmed
+        if not confirmed.startswith("Website nennt FKZ") and _accepts(lookups.get("web_history"), "confirmed_years"):
+            history_kwargs["confirmed_years"] = EXIST_CONFIRMED_YEARS    # "EXIST" alone vouches only for a recent domain
+    _run(lookups, "web_history", merged, lambda f: f(website, lead.name, cache=cache,
                                                      **history_kwargs))
     _run(lookups, "idw", merged, lambda f: f(lead.name, institution=institution, founders=list(lead.founders), cache=cache))
     result = _run(lookups, "patents", merged, lambda f: f(lead.name, list(lead.founders), cache=cache))
@@ -374,6 +394,19 @@ def _run_lookups(lead: RawLead, lookups: dict, signals: list[SourceSignal], offl
         result = _run(lookups, "author", merged, lambda f, n=founder: f(n, institution=institution, field_terms=terms, cache=cache))
         if result and result[0] is not None:
             hits.profiles[founder] = result[0]
+    # EXIST leads have no founders in step 1; a company's Impressum names its managing directors (usually the
+    # founders of a spin-off). They get the same OpenAlex lookup, disambiguated by the catalogue institution.
+    if not lead.founders:
+        directors = merged.fields.get("managing_directors") or []
+        hits.directors = [d for d in dict.fromkeys(directors) if isinstance(d, str) and d.strip()][:MAX_DIRECTOR_LOOKUPS]
+        hits.imprint_url = merged.fields.get("imprint_url")
+        # No field terms: a catalogue lead's terms are only its project name, which made every count 0 ("0 Papers im
+        # Produktfeld") although the person publishes in the field. Without terms works_in_field stays unknown
+        # (neutral in scoring) and the lookup costs one OpenAlex call instead of two.
+        for director in hits.directors:
+            result = _run(lookups, "author", merged, lambda f, n=director: f(n, institution=institution, field_terms=[], cache=cache))
+            if result and result[0] is not None:
+                hits.profiles[director] = result[0]
     return hits
 
 
@@ -758,6 +791,18 @@ def _founder_profiles(facts: _Facts, founders: list[str], profiles: dict[str, Fo
     return out
 
 
+def _director_profiles(hits: _LookupHits) -> list[FounderProfile]:
+    """Managing directors from the Impressum as team profiles: OpenAlex data if matched, source = Impressum URL."""
+    out = []
+    for name in hits.directors:
+        base = hits.profiles.get(name)
+        values = base.model_dump() if base else {"name": name}
+        values["role"] = DIRECTOR_ROLE
+        values["source_url"] = values.get("source_url") or hits.imprint_url
+        out.append(FounderProfile(**values))
+    return out
+
+
 def _lookup_questions(questions: list[str], extra: dict) -> list[str]:
     """Adjust the questions to what the lookups found (grant covers capital need; legal form, IP, partners)."""
     questions = [q for q in questions if not (q.startswith("Welchen Kapitalbedarf") and extra.get("grants"))]
@@ -770,11 +815,58 @@ def _lookup_questions(questions: list[str], extra: dict) -> list[str]:
     return questions
 
 
-def _collect_signals(lead: RawLead, load_pages: Callable, load_original: Callable | None, light: bool) -> list[SourceSignal]:
-    """The lead's signals plus its website pages and the original source page (not for demo or light leads)."""
+def _match_website(lead: RawLead, lookups: dict, offline: list, merged: Lookup) -> str | None:
+    """Project name -> company website for a lead without step-1 website (context/website_match.py).
+
+    Runs before Impressum, Wayback and OpenAlex so that they can use the site. The Lookup (matched_website,
+    match_confidence, project_page evidence) is merged first, so its match_confidence wins over the
+    Förderkatalog's project match. Returns the website only when the matcher set one (confidence >= threshold).
+    """
+    if lead.website or lead.is_demo or not lookups.get("website_match"):
+        return None
+    from context.website_match import lead_context
+    facts = offline[0][2] if offline else {}
+    result = _run(lookups, "website_match", merged, lambda f: f(lead.name, cache=lookups.get("cache"), **lead_context(lead, facts)))
+    lookup = result[1] if isinstance(result, tuple) else result
+    return (lookup.fields.get("matched_website") if lookup is not None else None) or None
+
+
+def _site_confirms_project(signals: list[SourceSignal], website: str | None, reference: str | None) -> str | None:
+    """'Website nennt FKZ …' / 'Website nennt EXIST' when the loaded company pages name the project's funding."""
+    from context.web import site_key
+    if not website:
+        return None
+    text = "\n".join(s.evidence for s in signals if s.type in ("website", "impressum") and site_key(str(s.url)) == site_key(website))
+    if reference and re.search(r"(?<![A-Za-z0-9])%s(?![A-Za-z0-9])" % re.escape(reference), text, re.IGNORECASE):
+        return "Website nennt FKZ %s" % reference
+    if re.search(r"\bEXIST\b", text):
+        return "Website nennt EXIST"
+    return None
+
+
+def _website_text(signals: list[SourceSignal], website: str | None) -> Evidence | None:
+    """Cleaned text of the loaded company pages as Evidence field="website_text" (noise filter in scoring)."""
+    from context.web import site_key
+    pages = [s for s in signals if s.type == "website" and website and site_key(str(s.url)) == site_key(website)]
+    if not pages:
+        return None
+    text = "\n".join(s.evidence for s in pages)[:WEBSITE_TEXT_CHARS]
+    return Evidence(field="website_text", url=pages[0].url, finding=text, source=pages[0].source,
+                    verification_status="source_matched")
+
+
+def _collect_signals(lead: RawLead, load_pages: Callable, load_original: Callable | None, light: bool,
+                     website: str | None = None) -> list[SourceSignal]:
+    """The lead's signals plus its website pages and the original source page (not for demo or light leads).
+
+    `website` is a matched site (lead without step-1 website); its pages are bound to the lead (`subject_lead_id`),
+    because the matcher verified that the site names the project.
+    """
     signals = list(lead.signals)
     if lead.website and not lead.is_demo and not light:
         signals.extend(load_pages(str(lead.website)))
+    elif website and not lead.is_demo and not light:
+        signals.extend(s.model_copy(update={"subject_lead_id": lead.id}) for s in load_pages(website))
     if (load_original and not lead.is_demo and not light
             and not any(signal.url == lead.source_url for signal in signals)):
         if original := load_original(str(lead.source_url)):
@@ -803,17 +895,22 @@ def enrich(
         load_pages = partial(company_pages, cache=page_cache)
     if page_cache is not None and load_original is not None and getattr(load_original, "__name__", "") == "original_page":
         load_original = partial(load_original, cache=page_cache)
-    signals = _collect_signals(lead, load_pages, load_original, light)
     merged = Lookup()
     # Earliest dated sourcing signal (e.g. the EXIST project start): bounds namesake hits from the lookups.
     earliest = min((s.date for s in lead.signals if s.date is not None), default=None)
     # Step 1 delivers the catalogue row as labelled text: the grant is documented without any lookup (also --light).
     offline = [hit for s in lead.signals if not lead.is_demo and (hit := catalogue_grant(s))]
     exclude_names = [text for _, _, f in offline for text in (f["recipient"], f["executing"]) if text]
-    hits = _run_lookups(lead, lookups, signals, offline, earliest, merged) if lookups and not lead.is_demo else _LookupHits()
+    matched = _match_website(lead, lookups, offline, merged) if lookups else None
+    website = str(lead.website) if lead.website else matched
+    signals = _collect_signals(lead, load_pages, load_original, light, website=matched)
+    hits = (_run_lookups(lead, lookups, signals, offline, earliest, merged, website=website)
+            if lookups and not lead.is_demo else _LookupHits())
     known = {g.reference for g in hits.grants if g.reference}
     grants = hits.grants + [g for g, _, _ in offline if not g.reference or g.reference not in known]   # looked-up grant wins
     evidence = [e for e in merged.evidence if str(e.url) not in hits.namesake_urls] + [e for _, e, _ in offline]
+    if not lead.is_demo and not light and (page_text := _website_text(signals, website)):
+        evidence.append(page_text)
     # Frozen source excerpts for the replayable scoring handoff, incl. lookup texts (Impressum, idw, Förderkatalog).
     scoring_sources = [signal.model_copy(deep=True) for signal in signals] if not lead.is_demo else None
 
@@ -853,7 +950,7 @@ def enrich(
         evidence=evidence,
         context_v2=context,
         scoring_sources=scoring_sources,
-        founder_profiles=_founder_profiles(facts, founders, hits.profiles),
+        founder_profiles=_founder_profiles(facts, founders, hits.profiles) + _director_profiles(hits),
         **{field: facts.value(field) for field in LABELS},
         **round_terms,
         research_questions=questions,

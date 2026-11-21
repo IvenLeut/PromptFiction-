@@ -1,16 +1,18 @@
 # Bewertungsalgorithmus – alle Gewichte, Punktetabellen und Schwellen.
 # Basis: Scorecard (Bill Payne), Berkus und Risk Factor Summation aus
 # github.com/simonmak-ascent/startup-valuation (MIT), umgebaut auf belegte Regelstufen statt freier Schätzwerte.
-version: "1.0"
+version: "1.1"
 
 # Dritte Achse: Der Spaltenname bleibt team_score. dim3_name ist nur der Anzeigename und steht in jeder Zeile.
 dim3_name: Team
 
 # gesamt = team*g1 + marktpotenzial*g2 + (100 - risiko)*g3   (Summe muss 1.0 sein)
+# Kalibrierungsrunde 21.11.2026: Team 0,40 ("we invest in people"), Markt 0,25 solange die Marktachse fast nur aus
+# Proxys/Neutralwerten besteht (marktvolumen, traktion, zielkunde zu 0–3 % belegt), Risiko 0,35. Zurücknehmen, wenn Marktdaten kommen.
 gewichte:
-  team: 0.35
-  marktpotenzial: 0.35
-  risiko_invers: 0.30
+  team: 0.40
+  marktpotenzial: 0.25
+  risiko_invers: 0.35
 
 neutral: 50                    # Wert eines Kriteriums ohne Beleg
 ausschluss_max_gesamt: 20      # Deckel bei hartem Ausschluss
@@ -19,6 +21,10 @@ exist_max_laufzeit_monate: 36  # angenommene Laufzeit einer EXIST-Förderung ohn
 exist_nachlauf_monate: 12      # so lange nach dem Ende zählt EXIST noch als Vollzeit-Signal
 hinweis_max_vor_signal_monate: 24  # Gründungsjahr aus Pressetext: weiter vor dem ersten Signal = ignoriert
 zu_spaet_wenn_in_databases: false   # true = schon ein Crunchbase/Dealroom-Profil gilt als "zu spät"
+# Gründungsjahr aus Pressetext (gruendungsjahr_hinweis) älter als htgf_max_alter_monate: zu_spaet nur mit Bestätigung durch
+# belegte Kapitalgesellschaft oder Datenbankeintrag; Datenbankeintrag älter als htgf_max_alter_monate ebenso (SCORING.md, "Stage").
+zu_spaet_wenn_alter_hinweis_bestaetigt: true
+zu_spaet_wenn_alter_db_eintrag: true
 confidence_ohne_pflichtfelder: 0.1
 
 # Erlaubte generische Postfächer (DSGVO: keine persönlichen Adressen)
@@ -28,64 +34,135 @@ email_erlaubte_postfaecher: [info, kontakt, contact, hello, hallo, hi, team, off
 adapter_zu_spaet_ab_funding_eur: 3000000
 
 # Ganze Wörter im belegten Website-Text. Ab min_treffer verschiedenen Wörtern gilt der Lead als Agentur bzw. Beratung.
-noise_agentur_woerter: [leistungen, referenzen, agentur, beratung, consulting, dienstleistungen, webdesign]
-noise_beratung_woerter: [beratung, consulting]
+noise_agentur_woerter: [leistungen, referenzen, agentur, beratung, consulting, dienstleistungen, webdesign, unternehmensberatung,
+                        werbeagentur, digitalagentur, internetagentur, marketingagentur, it-dienstleister, auftragsentwicklung]
+noise_beratung_woerter: [beratung, consulting, unternehmensberatung]
 noise_agentur_min_treffer: 2
+# Ohne mindestens ein Kernwort gelten "Leistungen"/"Referenzen" allein nie als Agentur (steht auf vielen Startup-Seiten).
+noise_agentur_kernwoerter: [agentur, beratung, consulting, webdesign, unternehmensberatung, werbeagentur, digitalagentur,
+                            internetagentur, marketingagentur, it-dienstleister, auftragsentwicklung]
+# Produkt-/Forschungswörter im selben Text: Sind es mindestens so viele wie Agentur-Treffer, bleibt der Lead vc_potenzial.
+noise_tech_woerter: [patent, patente, prototyp, prototypen, forschung, ausgründung, spin-off, exist, sensor, sensoren, plattform,
+                     technologie, algorithmus, algorithmen, hardware, labor, chip, wirkstoff, quanten, deep-tech, deeptech]
+# Projekttitel aus dem Förderkatalog (ohne Website): nur eindeutige Dienstleistungsbegriffe als Wort oder Wortende.
+noise_titel_muster: '(?i)(beratung|consulting|agentur|dienstleistung(en)?)(?![a-zäöüß])'
+
+# Förderkatalog (EXIST): Ableitungen aus Programm, Summe, Laufzeit und ausführender Stelle (SCORING.md, "Förderkatalog").
+katalog:
+  # Proxy-Kriterien (Institut, Fachgebiet): Abstand zum Neutralwert wird mit proxy_faktor skaliert,
+  # für die Confidence zählt ihr Gewicht nur mit confidence_faktor.
+  proxy_faktor: 0.75
+  confidence_faktor: 0.5
+  # Platzhalter-Beschreibung des Sourcings: „Name“ [(ehemals „Alt“)] – Projekt im Programm X.
+  platzhalter_muster: '^\s*„[^“]*“(\s*\(ehemals „[^“]*“\))?\s*[–-]\s*Projekt im Programm [^.]*\.?\s*$'
+  # EXIST-Gründungsstipendium, Obergrenzen je Person/Monat und je Team. Bestätigt (BMWE-Onepager 2025,
+  # https://exist.de/wp-content/uploads/2025/11/BMWE_Onepager_EXIST-Gruendungsstipendium_2025-DE_web-bf.pdf):
+  # Kinderzuschlag 150 EUR je Kind, Sachausgaben Team 30.000 EUR. ANNAHME, nicht extern bestätigt (Faktencheck 21.11.2026):
+  # 3.000 EUR/Monat für Promovierte und Coaching 5.000 EUR – im Richtlinientext (BAnz. 18.04.2023) bzw. Handbuch nachprüfen.
+  # Die Rechnung ist eine Untergrenze: Liegen die echten Sätze niedriger, stimmt sie weiter; liegt das Coaching höher, nicht.
+  # Mindestzahl geförderter Personen = ceil((Summe - sach_coaching) / (person_monat * Laufzeitmonate)); 3450 = 3.000 + 3 Kinder × 150.
+  stipendium_max_person_monat_eur: 3450
+  stipendium_max_sach_coaching_eur: 35000
+  # Forschungsumfeld nach Förderempfänger/ausführender Stelle (Regex, ohne Groß-/Kleinschreibung). Die erste passende,
+  # zum Stichtag gültige Klasse gilt; optional ab/bis (JJJJ-MM-TT, einschließlich).
+  # forschungsuni = TU9 + Exzellenzuniversitäten. Exzellenzstrategie: Förderphase 2019–2026 (bis 31.12.2026), Entscheidung
+  # vom 11.03.2026: zehn Standorte behalten den Titel, Konstanz nicht
+  # (https://www.forschung-und-lehre.de/politik/zehn-exzellenzstandorte-behalten-ihren-titel-7580); neu ab 01.01.2027:
+  # Freiburg, Jena, Köln, Ruhr-Allianz Bochum/Dortmund, Rhein-Main-Universitäten Frankfurt/Mainz/Darmstadt
+  # (https://www.forschung-und-lehre.de/politik/neue-exzellenzstandorte-jubeln-7936).
+  institut_klassen:
+    - {klasse: aussenuniversitaer, muster: 'fraunhofer|max-planck|helmholtz|leibniz-institut|leibniz-zentrum|deutsches zentrum f(ü|ue)r luft|\bdlr\b|krebsforschungszentrum|forschungszentrum j(ü|ue)lich|gro(ß|ss)forschungsaufgabe'}
+    # TU9 (unabhängig von der Exzellenzstrategie)
+    - {klasse: forschungsuni, muster: 'rwth|rheinisch-westf(ä|ae)lische technische hochschule|technische universit(ä|ae)t (berlin|braunschweig|darmstadt|dresden|m(ü|ue)nchen)|\btum\b|leibniz universit(ä|ae)t hannover|karlsruher institut f(ü|ue)r technologie|\bkit\b|universit(ä|ae)t stuttgart'}
+    # Exzellenz in beiden Förderphasen (TUM, RWTH, KIT, TU Dresden, TU Berlin schon über TU9)
+    - {klasse: forschungsuni, muster: 'humboldt-universit(ä|ae)t|freie universit(ä|ae)t berlin|charit(é|e)|universit(ä|ae)t hamburg|universit(ä|ae)t bonn|friedrich-wilhelms-universit(ä|ae)t bonn|universit(ä|ae)t heidelberg|ruprecht-karls|ludwig-maximilians-universit(ä|ae)t|universit(ä|ae)t t(ü|ue)bingen'}
+    # nur Förderphase 2019–2026
+    - {klasse: forschungsuni, bis: '2026-12-31', muster: 'universit(ä|ae)t konstanz'}
+    # neu ab Förderphase 2027
+    - {klasse: forschungsuni, ab: '2027-01-01', muster: 'universit(ä|ae)t freiburg|albert-ludwigs-universit(ä|ae)t|universit(ä|ae)t jena|friedrich-schiller-universit(ä|ae)t|universit(ä|ae)t zu k(ö|oe)ln|ruhr-universit(ä|ae)t bochum|technische universit(ä|ae)t dortmund|goethe-universit(ä|ae)t|johannes gutenberg-universit(ä|ae)t'}
+    - {klasse: universitaet, muster: 'universit(ä|ae)t|university|universit(ä|ae)tsmedizin|klinikum'}
+    - {klasse: hochschule, muster: 'hochschule|fachhochschule|university of applied sciences'}
+  # Fachgebiet der ausführenden Stelle bzw. Wörter im belegten Beschreibungstext (Regex, Wortanfang).
+  fach_hardware: '(robot|maschinenbau|werkstoff|material|chemie|chemisch|physik|elektrotechnik|sensor|fertigung|produktion|laser|optik|photon|halbleiter|mikro|fahrzeug|luft- und raumfahrt|energie|verfahrenstechnik|messtechnik|biotechnolog|mechatronik|konstruktion|quanten|quantum|batter|wasserstoff|hydrogen|katalys|nano|automatisierung|regelungs|chip|mechanical|electrical|physics|chemistry|materials|robotics|photonics|semiconductor)'
+  fach_software: '(informatik|software|informationssyst|data|daten|machine learning|maschinelles lernen|k(ü|ue)nstliche intelligenz|\bki\b|\bai\b|wirtschaftsinformatik|algorithm|cloud|computer|artificial intelligence|computing|information systems)'
+  fach_wirkstoff: '(pharma|pharmazie|wirkstoff|arzneimittel|drug)'
+  fach_medizin: '(medizin|klinik|klinikum|charit(é|e)|pharma|zahn|radiolog|onkolog|krebs|kardio|chirurg|neurolog|therap|diagnos|medical)'
+  # Fachgebiet ohne Technologiebezug (Mentor-Lehrstühle für Wirtschaft/Entrepreneurship zählen bewusst nicht hierzu).
+  fach_ohne_tech: '(kunsthochschule|kunst|design|musik|sport|p(ä|ae)dagog|didaktik|sozial|theolog|philosoph|geschichte|sprach|literatur|medien)'
+  # Gruppe der ausführenden Stelle benannt (Lehrstuhl, Institut, Professur ...).
+  forschungsgruppe: '(lehrstuhl|institut|professur|fachgebiet|arbeitsgruppe|forschungsgruppe|abteilung|zentrum|labor|\bl f(ü|ue)r\b)'
+  gruendungsservice: '(gr(ü|ue)ndungsservice|gr(ü|ue)nderservice|gr(ü|ue)ndungszentrum|gr(ü|ue)nderzentrum|gr(ü|ue)nderinstitut|entrepreneurship|startup|start-up|transfer)'
 
 texte:
   staerke_ab: 0.7              # Team-/Marktkriterium ab diesem Wert gilt in der Hypothese als Stärke
   risiko_ab: 0.5               # Risikokriterium ab diesem Wert kann Hauptrisiko sein
-  hypothese_min_confidence: 0.3
+  hypothese_min_confidence: 0.4
   foerderende_in_monaten: 12   # why_now nennt ein Förderende, wenn es so nah ist
 
 # Jedes Kriterium liefert 0..1. Bei team/marktpotenzial ist 1 = gut, bei risiko ist 1 = hohes Risiko.
 kriterien:
   team:
     forscher_match:            # Scorecard "Team" / Berkus "quality team": Papers im Produktfeld
-      gewicht: 0.35
+      gewicht: 0.30
       stufen: [[10, 1.0], [3, 0.8], [1, 0.5], [0, 0.2]]     # [ab Anzahl Papers, Wert]
-    komplementaer:             # ≥ 2 Gründer mit Tech + Business
-      gewicht: 0.25
-      werte: {solo: 0.2, mehrere_ohne_business: 0.5, mehrere_mix_unbekannt: 0.6, mehrere_mit_mix: 1.0}
-    vollzeit:                  # EXIST-Stipendium oder belegtes Vollzeit-Signal
+      # ohne Feldzuordnung (context setzt works_in_field bewusst nicht): Publikationen insgesamt eines OpenAlex-Profils
+      # mit match_confidence >= gesamt_min_match, als Proxy und ohne Malus (kein Profil = neutral)
+      gesamt_stufen: [[20, 0.8], [5, 0.65], [1, 0.55]]
+      gesamt_min_match: 0.5
+    komplementaer:             # ≥ 2 Gründer mit Tech + Business; ohne Namen: Mindest-Teamgröße aus der Stipendiensumme
       gewicht: 0.20
+      werte: {solo: 0.2, mehrere_ohne_business: 0.5, mehrere_mix_unbekannt: 0.6, mehrere_mit_mix: 1.0,
+              foerderung_ab_zwei: 0.6, foerderung_ab_drei: 0.7, forschungsteam: 0.6}   # forschungsteam: EXIST-Forschungstransfer (Proxy)
+    vollzeit:                  # EXIST-Stipendium oder belegtes Vollzeit-Signal
+      gewicht: 0.15
       werte: {ja: 1.0, nein: 0.2}
     vorerfahrung:              # RFS "Management": frühere Gründung / Industrie
-      gewicht: 0.20
+      gewicht: 0.15
       werte: {fruehere_gruendung: 1.0, industrie: 0.7, keine: 0.3}
+    forschungsumfeld:          # Plan v4 "Institutionelle Validierung": Förderempfänger / ausführende Stelle (Proxy)
+      gewicht: 0.20
+      werte: {aussenuniversitaer: 0.9, forschungsuni: 0.85, universitaet: 0.7, hochschule: 0.55}
   marktpotenzial:
     marktvolumen:              # Scorecard "Market": belegtes Marktvolumen in EUR
-      gewicht: 0.30
+      gewicht: 0.25
       stufen: [[1000000000, 0.9], [100000000, 0.65], [0, 0.35]]
     traktion:                  # Scorecard "Marketing" / Berkus "strategic relationships"
-      gewicht: 0.30
+      gewicht: 0.35
       werte: {kunde: 1.0, pilot: 0.85, loi: 0.7, design_partner: 0.7, forschungspartner: 0.5}
       bonus_ab_zwei: 0.1
-    skalierbarkeit:            # Scorecard "Product": Software skaliert leichter als Hardware
-      gewicht: 0.20
+    skalierbarkeit:            # Scorecard "Product": Software skaliert leichter als Hardware; ohne produkt_typ Proxy aus dem Fachgebiet
+      gewicht: 0.10            # 0,15 -> 0,10: Proxy aus dem Fachgebiet, belohnt Software pauschal
       werte: {software: 1.0, plattform: 0.9, hardware_software: 0.6, hardware: 0.4, wirkstoff: 0.4}
     zielkunde:                 # Zielkunde und Geschäftsmodell (B2B/B2C) benannt
-      gewicht: 0.10
+      gewicht: 0.05
       werte: {beides: 1.0, eines: 0.6}
     wettbewerb:                # Scorecard "Competition"
-      gewicht: 0.10
+      gewicht: 0.05
       werte: {wenige: 0.7, viele: 0.4}
       viele_ab: 4
+    timing:                    # Timing / "why now": Monate bis zum Ende der EXIST-Förderung (negativ = beendet)
+      gewicht: 0.05            # 0,15 -> 0,05: "Förderung endet bald" ist kein Qualitätsmerkmal, nur ein Anlass
+      gegruendet_wert: 0.9     # belegte GmbH/UG/AG/SE (auch i.G.) und Förderende höchstens 12 Monate entfernt: Anschlussfinanzierung jetzt
+      gegruendet_fenster_monate: 12
+      stufen: [[25, 0.55], [13, 0.65], [7, 0.85], [-6, 1.0], [-12, 0.6], [-24, 0.3], [-9999, 0.15]]
+    tech_tiefe:                # Plan v4 "Technologie/IP, Tech-Tiefe": Programm + Fachgebiet (Proxy)
+      gewicht: 0.15
+      werte: {forschungstransfer_mint: 1.0, forschungstransfer: 0.85, mint: 0.75, ohne_tech: 0.3}
   risiko:
-    tech_reife:                # RFS "Stage"/"Technology", ordinal wie TRL-Bänder
-      gewicht: 0.40
+    tech_reife:                # RFS "Stage"/"Technology", ordinal wie TRL-Bänder; Textklassifikation aus nur einer Quelle = Proxy
+      gewicht: 0.25
       werte: {idee: 0.95, paper: 0.85, labor_prototyp: 0.65, prototyp: 0.5, pilot: 0.3, erste_kunden: 0.15}
-    regulatorik:               # RFS "Legislation"
-      gewicht: 0.20
+    regulatorik:               # RFS "Legislation"; ohne Angabe Proxy: medizinisches Fachgebiet = reguliert
+      gewicht: 0.15
       werte: {reguliert: 0.85, nicht_reguliert: 0.2}
     ip:                        # RFS "Litigation"/Schutzrechte
       gewicht: 0.15
       werte: {patent_erteilt: 0.15, patent_angemeldet: 0.35, keine: 0.7}
     finanzierung:              # RFS "Funding": bisherige Förderung bis zum nächsten Meilenstein
-      gewicht: 0.15
-      stufen: [[500000, 0.25], [100000, 0.45], [1, 0.6], [0, 0.85]]
-    datenlage:                 # Unsicherheit: Zahl unabhängiger Quellen (Domains)
-      gewicht: 0.10
+      gewicht: 0.20
+      stufen: [[1200000, 0.2], [800000, 0.25], [500000, 0.3], [130000, 0.4], [110000, 0.45], [1, 0.55], [0, 0.85]]
+    datenlage:                 # Unsicherheit: Zahl unabhängiger Quellen (Domains); 0,15 -> 0,25, belegte Firmenfakten sind der beste Prädiktor
+      gewicht: 0.25
       stufen: [[3, 0.2], [2, 0.5], [0, 0.8]]
       match_confidence_min: 0.5
       wert_bei_unsicherem_match: 0.9

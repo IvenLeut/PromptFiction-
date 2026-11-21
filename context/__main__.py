@@ -39,6 +39,10 @@ def main():
                         help="Keine Abfragen an Impressum, Förderkatalog, OpenAlex, Wayback (nur Website und Signale)")
     parser.add_argument("--cache", default=None, help="Pfad der Cache-Datenbank (Standard .cache/context.db, 'off' = aus)")
     parser.add_argument("--patents", action="store_true", help="Google-Patents-Abfrage einschalten (max. 6 Anfragen je Lauf, wird schnell gesperrt)")
+    parser.add_argument("--no-match", action="store_true",
+                        help="Kein Abgleich Projektname -> Firmen-Website für Leads ohne Website (context/website_match.py)")
+    parser.add_argument("--match-threshold", type=float, default=None,
+                        help="Mindest-Confidence für eine gefundene Website (Standard 0,6)")
     parser.add_argument("--light", action="store_true", help="Longlist mit mitgelieferten Belegen anreichern")
     parser.add_argument("--lead", help="Nur den Lead mit dieser ID recherchieren")
     parser.add_argument("--market-input", type=Path, help="Strukturierte Marktquellen und Annahmen für --lead")
@@ -48,6 +52,8 @@ def main():
     parser.add_argument("--replay", action="store_true",
                         help="Dossier-Export lokal einlesen und den Scoring-Export neu berechnen")
     args = parser.parse_args()
+    if args.match_threshold is not None and not 0 <= args.match_threshold <= 1:
+        parser.error("--match-threshold muss zwischen 0 und 1 liegen")
     if args.limit is not None and args.limit < 1:
         parser.error("--limit muss positiv sein")
     if (args.market_input or args.market_source) and not args.lead:
@@ -75,7 +81,8 @@ def main():
         if args.ollama_model:
             options["extract_quotes"] = partial(extract_quotes, args.ollama_model)
         if not args.offline and not args.no_lookups and not args.light:
-            options["lookups"] = default_lookups(Cache(args.cache), args.ollama_model, patents=args.patents)
+            options["lookups"] = default_lookups(Cache(args.cache), args.ollama_model, patents=args.patents,
+                                                 match=not args.no_match, match_threshold=args.match_threshold)
         limit = args.limit if args.limit is not None else len(leads) if args.light else 5
         result = collect_context(leads[:limit], use_mock=False, enricher=partial(enrich, **options))
         if (args.market_input or args.market_source) and result.leads:

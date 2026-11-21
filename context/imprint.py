@@ -317,6 +317,20 @@ def _register(lines, form=None):
     return None
 
 
+# Words that never occur in a person's name: field labels and departments that the label regex picks up
+# ("Product Development", "Commercial Register", "VAT ID", live run 21.11.2026).
+NON_PERSON_WORDS = {
+    "product", "products", "development", "commercial", "register", "registration", "vat", "id", "ust", "ust-id",
+    "tax", "steuernummer", "number", "nummer", "management", "board", "office", "team", "sales", "marketing",
+    "support", "company", "gesellschaft", "registergericht", "handelsregister", "amtsgericht", "court", "contact",
+    "kontakt", "information", "informationen", "angaben", "responsible", "verantwortlich", "content", "inhalt",
+    "university", "universität", "institut", "institute", "department", "abteilung",
+}
+# Representatives of a public body (university imprint: "legally represented by the Rector ..."): not a company's
+# managing director, the site is not a company site in that respect.
+PUBLIC_REPRESENTATIVE = re.compile(r"\b(?:Rector|Rektor(?:in)?|Pr[äa]sident(?:in)?|President|Kanzler(?:in)?|Chancellor|Dekan(?:in)?|Dean)\b", re.I)
+
+
 def _directors(lines):
     names, findings = [], []
     i = 0
@@ -325,6 +339,8 @@ def _directors(lines):
         match = DIRECTOR_LABEL.search(line)
         i += 1
         if not match:
+            continue
+        if PUBLIC_REPRESENTATIVE.search(line):
             continue
         label = match.group("label").lower()
         if label.startswith("director") and not re.search(r"^(?:Managing\s+)?Directors?\s*[:\-–]", line, re.I):
@@ -378,6 +394,8 @@ def _split_names(text):
         part = " ".join(tokens).strip(" .,:;-–")
         tokens = part.split()
         if not 2 <= len(tokens) <= 5:
+            continue
+        if any(t.lower().strip(".:") in NON_PERSON_WORDS for t in tokens):
             continue
         caps = [t for t in tokens if t.lower() not in NAME_PARTICLES]
         if len(caps) < 2 or not all(re.match(r"^[A-ZÄÖÜÀ-Þ][\wäöüßÀ-ÿ'’\-.]*$", t) for t in caps):

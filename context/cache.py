@@ -14,6 +14,7 @@ Caching layers of step 2 (all persistent ones share one `Cache`, passed as `look
 | `context.foekat._cached_fetch`          | `foekat:` + method/url/body | persistent, raw catalogue page|
 | `context.web.fetch` (website, Impressum)| `web:` + sha1(url)          | persistent, parsed lines/links and failures |
 | `context.imprint.imprint_lookup`        | `imprint:` + sha1(website)  | persistent, found Impressum text or miss |
+| `context.website_match.match_lookup`    | `website_match:v9:` + sha1(lead context), `dns:` + host | persistent, verified candidates (only complete runs) / DNS result |
 | `context.web._fetch_window`            | `lru_cache(64)` per URL     | in-process, 15-minute window  |
 | `context.classify.classify_texts`       | `classify:` + prompt hash   | persistent, model answer      |
 | `context.engine.cached_quotes`          | `quotes:` + sha1(texts)     | persistent, Ollama quotes     |

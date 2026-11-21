@@ -1,0 +1,697 @@
+{
+  "generated_at": "2026-11-21T03:12:18Z",
+  "method": "Earliness-Backtest (T3): Wie früh liefert der Förderkatalog ein Signal gegenüber Presse und Datenbanken?\n\nFür jede Firma aus ``reference_companies.json``:\n\n1. EXIST-Vorhaben im Förderkatalog-Export (``sourcing.foekat_export.export_rows``, alle 03EF/03EG ab 2014,\n   über den Cache ``.cache/context.db``). Das FKZ muss existieren und der Firmenname im Thema stehen,\n   sonst gilt die Firma als nicht erkannt. Datum unseres Signals = Projektbeginn.\n2. Was hätte unser Sourcing damals daraus gemacht? ``sourcing.mapping.map_project`` mit Stichtag\n   Projektbeginn + 30 Tage liefert Branche und Priorität (0–100) wie im heutigen Lauf.\n3. Erste archivierte Crunchbase-/Dealroom-Profilseite über die Wayback-CDX-API\n   (``context.wayback.web_history_lookup`` mit den Standard-Slugs, dazu optional ``extra_slugs``).\n4. Erste öffentliche Finanzierungsmeldung: handrecherchiert, mit URL in der Referenzdatei.\n\nVorsprung = Monate vom Projektbeginn bis zum frühesten externen Sichtbarkeitsdatum\n(min(Finanzierungsmeldung, erste DB-Profilaufnahme)). \"Früh erkannt\" = Vorsprung > 0.",
+  "headline": "11/11 früh erkannt, Median 21 Monate vor erster Finanzierungsmeldung/DB-Eintrag (Spanne 8–40 Monate; n=11, Handauswahl bekannter Ausgründungen, Selektionsbias siehe bias)",
+  "summary": {
+    "companies": 13,
+    "in_headline": 11,
+    "detected_in_catalogue": 13,
+    "early": 11,
+    "median_lead_months": 20.9,
+    "mean_lead_months": 22.9,
+    "min_lead_months": 7.9,
+    "max_lead_months": 39.7,
+    "median_lead_months_by_programme": {
+      "03EF": {
+        "n": 5,
+        "median": 31.8
+      },
+      "03EG": {
+        "n": 6,
+        "median": 16.6
+      }
+    },
+    "sensitivity_all_detected": {
+      "n": 13,
+      "median": 20.9,
+      "note": "inkl. OroraTech (Aggregator) und FMC (Obergrenze)"
+    },
+    "db_profile_found_in_wayback": 7,
+    "median_lead_months_vs_db_profile": 46.0,
+    "htgf_portfolio": 5,
+    "pipeline_priority_median": 30,
+    "export_complete": true,
+    "export_rows_since_2014": 3383,
+    "offline": true
+  },
+  "bias": [
+    "Survivorship: Die Referenzliste enthält nur Firmen, die später bekannt wurden und Geld eingesammelt haben. Sie misst, wie früh das Signal bei Gewinnern kommt, nicht wie viele EXIST-Projekte Gewinner werden (Precision). Dafür ist precision.py mit Handlabels da.",
+    "Namensbias: Aufgenommen wurden nur Firmen, deren Name im Thema des EXIST-Vorhabens steht. Firmen, deren Vorhaben anders hieß, findet der Backtest nicht; die Trefferquote N/M ist deshalb nach oben verzerrt. Gleichzeitig ist das genau der Fall, den die Pipeline ohne Website-Match (T1) heute schon abdeckt.",
+    "Katalog-Verzögerung: Als Signaldatum zählt der Projektbeginn. Wann der Eintrag tatsächlich öffentlich im Förderkatalog stand, ist nicht archiviert (kein Wayback für Detailseiten); realistisch einige Wochen bis Monate später. Der Vorsprung ist also eine Obergrenze um diese Verzögerung.",
+    "Datenbank-Datum: Wayback archiviert Crunchbase/Dealroom lückenhaft; die erste Aufnahme ist eine Obergrenze für den Profilbeginn. Darum zählt zusätzlich die erste Finanzierungsmeldung, und gewertet wird das frühere der beiden Daten.",
+    "Kleine Stichprobe (n<=13), handrecherchiert, überwiegend TUM/München (Pressedichte). Median statt Mittelwert; Einzelwerte stehen in companies[].",
+    "Kein Replay der Pipeline: Das heutige Sourcing liest nur Vorhaben ab 2024. Der Backtest wendet dieselbe Abbildung (map_project, Priorität) auf die historischen Katalogzeilen an, aber nicht Kontext und Scoring."
+  ],
+  "excluded_from_headline": [
+    "OroraTech",
+    "Ferroelectric Memory Company"
+  ],
+  "companies": [
+    {
+      "name": "Senorics",
+      "fkz": "03EFISN111",
+      "htgf_portfolio": false,
+      "detected": true,
+      "signal": {
+        "date": "2017-04-01",
+        "programme": "EXIST-Forschungstransfer",
+        "thema": "EXIST-Forschungstransfer: Senorics - Nahinfrarot-Spektroskopie-Technologie",
+        "institution": "Technische Universität Dresden, Institut für Angewandte Physik",
+        "ort": "George-Bähr-Str. 1",
+        "amount_eur": 881634.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFISN111",
+        "pipeline_priority": 65,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 65: EXIST-Forschungstransfer; Förderung läuft bis 03/2019; Branche Industrial / DeepTech nur aus Ausführende Stelle (schwach; physik); 881.634 EUR."
+      },
+      "first_funding": {
+        "date": "2018-12-20",
+        "round": "Seed 2,3 Mio. EUR (Ventura, TGFS, TUDAG)",
+        "confidence": "hoch",
+        "url": "https://tu-dresden.de/mn/physik/iap/das-institut/news/senorics-erhaelt-2-3-millionen-risikokapital-fuer-organische-sensoren-im-briefmarkenformat"
+      },
+      "first_db_capture": {
+        "status": "gefunden",
+        "date": "2024-04-22",
+        "url": "https://web.archive.org/web/20240422060246/https://www.crunchbase.com/organization/senorics",
+        "queried_profiles": [
+          "crunchbase.com/organization/senorics",
+          "app.dealroom.co/companies/senorics",
+          "dealroom.co/companies/senorics"
+        ],
+        "errors": []
+      },
+      "founded": {
+        "year": 2017,
+        "url": "https://tu-dresden.de/mn/physik/iap/das-institut/news/senorics-erhaelt-2-3-millionen-risikokapital-fuer-organische-sensoren-im-briefmarkenformat"
+      },
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2018-12-20",
+        "url": "https://tu-dresden.de/mn/physik/iap/das-institut/news/senorics-erhaelt-2-3-millionen-risikokapital-fuer-organische-sensoren-im-briefmarkenformat"
+      },
+      "lead_months": 20.6,
+      "lead_months_vs_funding": 20.6,
+      "lead_months_vs_db": 84.7,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "Tubulis",
+      "fkz": "03EFIBY147",
+      "htgf_portfolio": true,
+      "htgf_url": "https://www.eit.europa.eu/node/4906",
+      "detected": true,
+      "signal": {
+        "date": "2017-04-01",
+        "programme": "EXIST-Forschungstransfer",
+        "thema": "EXIST-Forschungstransfer: TubulisTechnologies",
+        "institution": "Ludwig-Maximilians-Universität München - Fakultät für Biologie - Department Biologie II - Humanbiologie und Bioimaging",
+        "ort": "Planegg",
+        "amount_eur": 1660842.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFIBY147",
+        "pipeline_priority": 60,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 60: EXIST-Forschungstransfer; Förderung läuft bis 03/2020; Branche nicht klassifiziert (Programmstandard Industrial / DeepTech); 1.660.842 EUR."
+      },
+      "first_funding": {
+        "date": "2020-07-21",
+        "round": "Series A 10,7 Mio. EUR (BioMedPartners, HTGF co-lead)",
+        "confidence": "hoch",
+        "url": "https://www.businesswire.com/news/home/20200721005404/en/Tubulis-Raises-%E2%82%AC10.7-Series-Advance-Development-New"
+      },
+      "first_db_capture": {
+        "status": "nicht_archiviert",
+        "date": null,
+        "url": null,
+        "queried_profiles": [
+          "crunchbase.com/organization/tubulis",
+          "app.dealroom.co/companies/tubulis",
+          "dealroom.co/companies/tubulis"
+        ],
+        "errors": []
+      },
+      "founded": {
+        "year": 2019,
+        "url": "https://www.businesswire.com/news/home/20200721005404/en/Tubulis-Raises-%E2%82%AC10.7-Series-Advance-Development-New"
+      },
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2020-07-21",
+        "url": "https://www.businesswire.com/news/home/20200721005404/en/Tubulis-Raises-%E2%82%AC10.7-Series-Advance-Development-New"
+      },
+      "lead_months": 39.7,
+      "lead_months_vs_funding": 39.7,
+      "lead_months_vs_db": null,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "sewts",
+      "fkz": "03EGSBY629",
+      "htgf_portfolio": true,
+      "htgf_url": "https://www.htgf.de/en/htgf-investment-sewts",
+      "detected": true,
+      "signal": {
+        "date": "2019-03-01",
+        "programme": "EXIST-Gründungsstipendium",
+        "thema": "Sewts",
+        "institution": "Technische Universität München - Fakultät für Luftfahrt, Raumfahrt und Geodäsie - Lehrstuhl für Carbon Composites",
+        "ort": "Garching b. München",
+        "amount_eur": 135000.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGSBY629",
+        "pipeline_priority": 20,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 20: EXIST-Gründungsstipendium; Förderung läuft bis 02/2020; Branche Industrial / DeepTech nur aus Ausführende Stelle (schwach; raumfahrt); 135.000 EUR."
+      },
+      "first_funding": {
+        "date": "2021-05-04",
+        "round": "Seed, siebenstellig (APEX, Bayern Kapital, HTGF)",
+        "confidence": "hoch",
+        "url": "https://www.htgf.de/en/htgf-investment-sewts"
+      },
+      "first_db_capture": {
+        "status": "gefunden",
+        "date": "2021-05-06",
+        "url": "https://web.archive.org/web/20210506015636/https://app.dealroom.co/companies/sewts",
+        "queried_profiles": [
+          "crunchbase.com/organization/sewts",
+          "app.dealroom.co/companies/sewts",
+          "dealroom.co/companies/sewts"
+        ],
+        "errors": []
+      },
+      "founded": {
+        "year": 2019,
+        "url": "https://www.htgf.de/en/htgf-investment-sewts"
+      },
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2021-05-04",
+        "url": "https://www.htgf.de/en/htgf-investment-sewts"
+      },
+      "lead_months": 26.1,
+      "lead_months_vs_funding": 26.1,
+      "lead_months_vs_db": 26.2,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "FibreCoat",
+      "fkz": "03EFMNW215",
+      "htgf_portfolio": false,
+      "detected": true,
+      "signal": {
+        "date": "2019-04-01",
+        "programme": "EXIST-Forschungstransfer",
+        "thema": "EXIST-Forschungstransfer: FibreCoat",
+        "institution": "RWTH Aachen University - Fakultät 4 - Maschinenwesen - Institut für Textiltechnik und Lehrstuhl für Textilmaschinenbau (ITA)",
+        "ort": "Aachen",
+        "amount_eur": 1139051.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFMNW215",
+        "pipeline_priority": 65,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 65: EXIST-Forschungstransfer; Förderung läuft bis 12/2021; Branche Industrial / DeepTech nur aus Ausführende Stelle (schwach; maschinen, maschinenbau); 1.139.051 EUR."
+      },
+      "first_funding": {
+        "date": "2021-11-23",
+        "round": "erste Finanzierungsrunde, 3 Mio. USD (Goose Capital u. a.)",
+        "confidence": "hoch",
+        "url": "https://www.textileworld.com/textile-world/nonwovens-technical-textiles/2021/11/fibrecoat-gmbh-closes-first-financing-round/"
+      },
+      "first_db_capture": {
+        "status": "nicht_archiviert",
+        "date": null,
+        "url": null,
+        "queried_profiles": [
+          "crunchbase.com/organization/fibrecoat",
+          "app.dealroom.co/companies/fibrecoat",
+          "dealroom.co/companies/fibrecoat"
+        ],
+        "errors": []
+      },
+      "founded": null,
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2021-11-23",
+        "url": "https://www.textileworld.com/textile-world/nonwovens-technical-textiles/2021/11/fibrecoat-gmbh-closes-first-financing-round/"
+      },
+      "lead_months": 31.8,
+      "lead_months_vs_funding": 31.8,
+      "lead_months_vs_db": null,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "Pixel Photonics",
+      "fkz": "03EFNNW219",
+      "htgf_portfolio": true,
+      "htgf_url": "https://www.htgf.de/en/htgf-seed-investment-pixel-photonics/",
+      "detected": true,
+      "signal": {
+        "date": "2020-07-01",
+        "programme": "EXIST-Forschungstransfer",
+        "thema": "EXIST-Forschungstransfer: PixelPhotonics",
+        "institution": "Universität Münster - Center for Nanotechnology (CeNTech)",
+        "ort": "Münster",
+        "amount_eur": 700337.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFNNW219",
+        "pipeline_priority": 75,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 75: EXIST-Forschungstransfer; Förderung läuft bis 08/2022; Branche Industrial / DeepTech aus Projekttitel (photon); 700.337 EUR."
+      },
+      "first_funding": {
+        "date": "2022-03-29",
+        "round": "Seed 1,45 Mio. EUR (HTGF, Quantonation)",
+        "confidence": "hoch",
+        "url": "https://www.quantonation.com/2022/03/29/pixel-photonics-raised-seed-round/"
+      },
+      "first_db_capture": {
+        "status": "nicht_archiviert",
+        "date": null,
+        "url": null,
+        "queried_profiles": [
+          "crunchbase.com/organization/pixel-photonics",
+          "app.dealroom.co/companies/pixel-photonics",
+          "dealroom.co/companies/pixel-photonics",
+          "crunchbase.com/organization/pixelphotonics",
+          "app.dealroom.co/companies/pixelphotonics",
+          "dealroom.co/companies/pixelphotonics"
+        ],
+        "errors": []
+      },
+      "founded": null,
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2022-03-29",
+        "url": "https://www.quantonation.com/2022/03/29/pixel-photonics-raised-seed-round/"
+      },
+      "lead_months": 20.9,
+      "lead_months_vs_funding": 20.9,
+      "lead_months_vs_db": null,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "GEMESYS",
+      "fkz": "03EFRNW281",
+      "htgf_portfolio": false,
+      "detected": true,
+      "signal": {
+        "date": "2021-10-01",
+        "programme": "EXIST-Forschungstransfer",
+        "thema": "EXIST - Forschungstransfer: GEMESYS",
+        "institution": "Ruhr-Universität Bochum",
+        "ort": "Bochum",
+        "amount_eur": 3080212.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFRNW281",
+        "pipeline_priority": 60,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 60: EXIST-Forschungstransfer; Förderung läuft bis 01/2026; Branche nicht klassifiziert (Programmstandard Industrial / DeepTech); 3.080.212 EUR."
+      },
+      "first_funding": {
+        "date": "2024-11-19",
+        "round": "Pre-Seed 8,6 Mio. EUR (Amadeus APEX, Atlantic Labs u. a.)",
+        "confidence": "hoch",
+        "url": "https://tech.eu/2024/11/19/gemesys-secures-8-6m-pre-seed-for-ai-chip-tech/"
+      },
+      "first_db_capture": {
+        "status": "gefunden",
+        "date": "2026-07-11",
+        "url": "https://web.archive.org/web/20260711135916/https://app.dealroom.co/companies/gemesys",
+        "queried_profiles": [
+          "crunchbase.com/organization/gemesys",
+          "app.dealroom.co/companies/gemesys",
+          "dealroom.co/companies/gemesys"
+        ],
+        "errors": []
+      },
+      "founded": null,
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2024-11-19",
+        "url": "https://tech.eu/2024/11/19/gemesys-secures-8-6m-pre-seed-for-ai-chip-tech/"
+      },
+      "lead_months": 37.6,
+      "lead_months_vs_funding": 37.6,
+      "lead_months_vs_db": 57.3,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "oculai",
+      "fkz": "03EGSBY819",
+      "htgf_portfolio": true,
+      "htgf_url": "https://www.htgf.de/en/seed-financing-oculai/",
+      "detected": true,
+      "signal": {
+        "date": "2021-06-01",
+        "programme": "EXIST-Gründungsstipendium",
+        "thema": "oculai",
+        "institution": "Friedrich-Alexander-Universität Erlangen-Nürnberg - Technische Fakultät - Department Maschinenbau - Lehrstuhl für Fertigungsautomatisierung und Produktionssystematik (FAPS)",
+        "ort": "Erlangen",
+        "amount_eur": 135000.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGSBY819",
+        "pipeline_priority": 20,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 20: EXIST-Gründungsstipendium; Förderung läuft bis 05/2022; Branche Industrial / DeepTech nur aus Ausführende Stelle (schwach; maschinen, maschinenbau, produktion, fertigung); 135.000 EUR."
+      },
+      "first_funding": {
+        "date": "2023-03-14",
+        "round": "Seed 2,5 Mio. EUR (HTGF-Lead, Bayern Kapital)",
+        "confidence": "hoch",
+        "url": "https://www.htgf.de/en/seed-financing-oculai/"
+      },
+      "first_db_capture": {
+        "status": "gefunden",
+        "date": "2024-04-22",
+        "url": "https://web.archive.org/web/20240422092157/https://www.crunchbase.com/organization/oculai",
+        "queried_profiles": [
+          "crunchbase.com/organization/oculai",
+          "app.dealroom.co/companies/oculai",
+          "dealroom.co/companies/oculai"
+        ],
+        "errors": []
+      },
+      "founded": null,
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2023-03-14",
+        "url": "https://www.htgf.de/en/seed-financing-oculai/"
+      },
+      "lead_months": 21.4,
+      "lead_months_vs_funding": 21.4,
+      "lead_months_vs_db": 34.7,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "QuantumDiamonds",
+      "fkz": "03EGSBY917",
+      "htgf_portfolio": false,
+      "detected": true,
+      "signal": {
+        "date": "2022-11-01",
+        "programme": "EXIST-Gründungsstipendium",
+        "thema": "QuantumDiamonds",
+        "institution": "Technische Universität München - Department Chemie - Lehrstuhl für Physikalische Chemie",
+        "ort": "Garching b. München",
+        "amount_eur": 146999.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGSBY917",
+        "pipeline_priority": 30,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 30: EXIST-Gründungsstipendium; Förderung läuft bis 10/2023; Branche Industrial / DeepTech aus Projekttitel (quantum); 146.999 EUR."
+      },
+      "first_funding": {
+        "date": "2023-11-27",
+        "round": "Seed 7 Mio. EUR (IQ Capital, Earlybird; davon 4 Mio. Zuschüsse)",
+        "confidence": "hoch",
+        "url": "https://www.munich-quantum-valley.de/news-events/detail/quantumdiamonds-secures-7-million-euros-in-seed-capital"
+      },
+      "first_db_capture": {
+        "status": "nicht_archiviert",
+        "date": null,
+        "url": null,
+        "queried_profiles": [
+          "crunchbase.com/organization/quantumdiamonds",
+          "app.dealroom.co/companies/quantumdiamonds",
+          "dealroom.co/companies/quantumdiamonds"
+        ],
+        "errors": []
+      },
+      "founded": null,
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2023-11-27",
+        "url": "https://www.munich-quantum-valley.de/news-events/detail/quantumdiamonds-secures-7-million-euros-in-seed-capital"
+      },
+      "lead_months": 12.8,
+      "lead_months_vs_funding": 12.8,
+      "lead_months_vs_db": null,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "KEWAZO",
+      "fkz": "03EGSBY519",
+      "htgf_portfolio": false,
+      "detected": true,
+      "signal": {
+        "date": "2017-04-01",
+        "programme": "EXIST-Gründungsstipendium",
+        "thema": "EXIST-Gründerstipendium: 'KEWAZO Gerüstmontage Automatisierung'",
+        "institution": "Technische Universität München - Fakultät für Informatik - Lehrstuhl Informatik VI - Echtzeitsysteme und Robotik",
+        "ort": "Garching b. München",
+        "amount_eur": 125000.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGSBY519",
+        "pipeline_priority": 30,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 30: EXIST-Gründungsstipendium; Förderung läuft bis 03/2018; Branche Industrial / DeepTech aus Projekttitel (automatisier); 125.000 EUR."
+      },
+      "first_funding": {
+        "date": "2018-05-02",
+        "round": "Seed >1 Mio. EUR (MIG Fonds 14, Alfred Bauer), Closing April 2018",
+        "confidence": "hoch",
+        "url": "https://roboticsandautomationnews.com/2018/05/02/construction-robotics-startup-kewazo-raises-e1m-in-seed-funding/17043"
+      },
+      "first_db_capture": {
+        "status": "gefunden",
+        "date": "2019-12-05",
+        "url": "https://web.archive.org/web/20191205110116/https://www.crunchbase.com/organization/kewazo",
+        "queried_profiles": [
+          "crunchbase.com/organization/kewazo",
+          "app.dealroom.co/companies/kewazo",
+          "dealroom.co/companies/kewazo"
+        ],
+        "errors": []
+      },
+      "founded": null,
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2018-05-02",
+        "url": "https://roboticsandautomationnews.com/2018/05/02/construction-robotics-startup-kewazo-raises-e1m-in-seed-funding/17043"
+      },
+      "lead_months": 13.0,
+      "lead_months_vs_funding": 13.0,
+      "lead_months_vs_db": 32.1,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "inveox",
+      "fkz": "03EGSBY494",
+      "htgf_portfolio": false,
+      "detected": true,
+      "signal": {
+        "date": "2016-11-01",
+        "programme": "EXIST-Gründungsstipendium",
+        "thema": "EXIST-Gründerstipendium: inveox",
+        "institution": "Technische Universität München - Fakultät für Maschinenwesen - Lehrstuhl für Medizintechnik",
+        "ort": "Garching b. München",
+        "amount_eur": 102000.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGSBY494",
+        "pipeline_priority": 20,
+        "pipeline_industry": "HealthTech",
+        "pipeline_reason": "Priorität 20: EXIST-Gründungsstipendium; Förderung läuft bis 10/2017; Branche HealthTech nur aus Ausführende Stelle (schwach; medizin); 102.000 EUR."
+      },
+      "first_funding": {
+        "date": "2017-06-28",
+        "round": "1 Mio. EUR von vier Business Angels",
+        "confidence": "hoch",
+        "url": "https://www.munich-startup.de/en/25048/million-dollar-investment-for-inveox/"
+      },
+      "first_db_capture": {
+        "status": "gefunden",
+        "date": "2024-05-12",
+        "url": "https://web.archive.org/web/20240512184548/https://www.crunchbase.com/organization/inveox",
+        "queried_profiles": [
+          "crunchbase.com/organization/inveox",
+          "app.dealroom.co/companies/inveox",
+          "dealroom.co/companies/inveox"
+        ],
+        "errors": []
+      },
+      "founded": null,
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2017-06-28",
+        "url": "https://www.munich-startup.de/en/25048/million-dollar-investment-for-inveox/"
+      },
+      "lead_months": 7.9,
+      "lead_months_vs_funding": 7.9,
+      "lead_months_vs_db": 90.3,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "RYVER.AI",
+      "fkz": "03EGSBY877",
+      "htgf_portfolio": false,
+      "detected": true,
+      "signal": {
+        "date": "2022-04-01",
+        "programme": "EXIST-Gründungsstipendium",
+        "thema": "RYVER.AI",
+        "institution": "Technische Universität München - Fakultät für Informatik - Lehrstuhl für Anwendungs- und Middlewaresysteme",
+        "ort": "Garching b. München",
+        "amount_eur": 135000.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGSBY877",
+        "pipeline_priority": 30,
+        "pipeline_industry": "AI / Software",
+        "pipeline_reason": "Priorität 30: EXIST-Gründungsstipendium; Förderung läuft bis 03/2023; Branche AI / Software aus Projekttitel (ai); 135.000 EUR."
+      },
+      "first_funding": {
+        "date": "2023-12-07",
+        "round": "Pre-Seed 1,3 Mio. EUR (Nina Capital, Bayern Kapital, Fund F)",
+        "confidence": "hoch",
+        "url": "https://tech.eu/2023/12/07/ryverai-secures-funding-to-address-bias-in-medical-ai-through-generative-models/"
+      },
+      "first_db_capture": {
+        "status": "nicht_archiviert",
+        "date": null,
+        "url": null,
+        "queried_profiles": [
+          "crunchbase.com/organization/ryver-ai",
+          "app.dealroom.co/companies/ryver-ai",
+          "dealroom.co/companies/ryver-ai",
+          "crunchbase.com/organization/ryverai",
+          "app.dealroom.co/companies/ryverai",
+          "dealroom.co/companies/ryverai"
+        ],
+        "errors": []
+      },
+      "founded": null,
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2023-12-07",
+        "url": "https://tech.eu/2023/12/07/ryverai-secures-funding-to-address-bias-in-medical-ai-through-generative-models/"
+      },
+      "lead_months": 20.2,
+      "lead_months_vs_funding": 20.2,
+      "lead_months_vs_db": null,
+      "early": true,
+      "in_headline": true,
+      "headline_note": null
+    },
+    {
+      "name": "OroraTech",
+      "fkz": "03EGSBY603",
+      "htgf_portfolio": false,
+      "detected": true,
+      "signal": {
+        "date": "2018-09-01",
+        "programme": "EXIST-Gründungsstipendium",
+        "thema": "ororatech",
+        "institution": "Technische Universität München - Fakultät für Elektrotechnik und Informationstechnik - Lehrstuhl für Messsystem- und Sensortechnik",
+        "ort": "München",
+        "amount_eur": 126000.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGSBY603",
+        "pipeline_priority": 20,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 20: EXIST-Gründungsstipendium; Förderung läuft bis 08/2019; Branche Industrial / DeepTech nur aus Ausführende Stelle (schwach; elektrotechn, sensor); 126.000 EUR."
+      },
+      "first_funding": {
+        "date": "2019-01-03",
+        "round": "Pre-Seed 540 Tsd. EUR (laut Aggregator; Seed-PM der Firma erst 06.05.2020)",
+        "confidence": "niedrig",
+        "url": "https://nordic9.com/news/ororatech-to-get-540k-in-pre-seed-funding"
+      },
+      "first_db_capture": {
+        "status": "gefunden",
+        "date": "2023-05-06",
+        "url": "https://web.archive.org/web/20230506001240/https://www.crunchbase.com/organization/ororatech",
+        "queried_profiles": [
+          "crunchbase.com/organization/ororatech",
+          "app.dealroom.co/companies/ororatech",
+          "dealroom.co/companies/ororatech"
+        ],
+        "errors": []
+      },
+      "founded": {
+        "year": 2018,
+        "url": "https://en.wikipedia.org/wiki/OroraTech"
+      },
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2019-01-03",
+        "url": "https://nordic9.com/news/ororatech-to-get-540k-in-pre-seed-funding"
+      },
+      "lead_months": 4.1,
+      "lead_months_vs_funding": 4.1,
+      "lead_months_vs_db": 56.1,
+      "early": true,
+      "in_headline": false,
+      "headline_note": "nicht in der Headline: Finanzierungsdatum mit Konfidenz 'niedrig'"
+    },
+    {
+      "name": "Ferroelectric Memory Company",
+      "fkz": "03EFESN082",
+      "htgf_portfolio": true,
+      "htgf_url": "https://www.htgf.de/en/ferroelectric-memory-company-receives-growth-financing-from-ecapital-and-htgf/",
+      "detected": true,
+      "signal": {
+        "date": "2015-04-01",
+        "programme": "EXIST-Forschungstransfer",
+        "thema": "EXIST-Forschungstransfer: Die Ferroelectric Memory Company (FMC)",
+        "institution": "NaMLab gGmbH",
+        "ort": "Dresden",
+        "amount_eur": 659556.0,
+        "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFESN082",
+        "pipeline_priority": 60,
+        "pipeline_industry": "Industrial / DeepTech",
+        "pipeline_reason": "Priorität 60: EXIST-Forschungstransfer; Förderung läuft bis 03/2017; Branche nicht klassifiziert (Programmstandard Industrial / DeepTech); 659.556 EUR."
+      },
+      "first_funding": {
+        "date": "2018-07-06",
+        "round": "4,6 Mio. EUR (eCAPITAL, HTGF); davor HTGF-Seed ohne Datum",
+        "confidence": "obergrenze",
+        "url": "https://www.htgf.de/en/ferroelectric-memory-company-receives-growth-financing-from-ecapital-and-htgf/"
+      },
+      "first_db_capture": {
+        "status": "nicht_archiviert",
+        "date": null,
+        "url": null,
+        "queried_profiles": [
+          "crunchbase.com/organization/ferroelectric-memory-company",
+          "app.dealroom.co/companies/ferroelectric-memory-company",
+          "dealroom.co/companies/ferroelectric-memory-company",
+          "crunchbase.com/organization/ferroelectricmemorycompany",
+          "app.dealroom.co/companies/ferroelectricmemorycompany",
+          "dealroom.co/companies/ferroelectricmemorycompany",
+          "crunchbase.com/organization/ferroelectric-memory-gmbh",
+          "app.dealroom.co/companies/ferroelectric-memory-gmbh",
+          "dealroom.co/companies/ferroelectric-memory-gmbh",
+          "crunchbase.com/organization/fmc-ferroelectric-memory-company",
+          "app.dealroom.co/companies/fmc-ferroelectric-memory-company",
+          "dealroom.co/companies/fmc-ferroelectric-memory-company"
+        ],
+        "errors": []
+      },
+      "founded": {
+        "year": 2016,
+        "url": "https://www.htgf.de/en/ferroelectric-memory-company-receives-growth-financing-from-ecapital-and-htgf/"
+      },
+      "first_external": {
+        "kind": "finanzierungsmeldung",
+        "date": "2018-07-06",
+        "url": "https://www.htgf.de/en/ferroelectric-memory-company-receives-growth-financing-from-ecapital-and-htgf/"
+      },
+      "lead_months": 39.2,
+      "lead_months_vs_funding": 39.2,
+      "lead_months_vs_db": null,
+      "early": true,
+      "in_headline": false,
+      "headline_note": "nicht in der Headline: Finanzierungsdatum mit Konfidenz 'obergrenze'"
+    }
+  ]
+}

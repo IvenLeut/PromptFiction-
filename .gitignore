@@ -48,3 +48,8 @@ scoring_out/
 .idea/
 .vscode/
 *.swp
+
+# Agent-Team: lokale Artefakte
+.venv
+.claude/
+AGENT_TEAM/reports/scratch/

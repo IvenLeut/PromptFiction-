@@ -1389,6 +1389,21 @@
           ],
           "default": null,
           "title": "Traction Notes"
+        },
+        "matched_website": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matched Website"
         }
       },
       "required": [

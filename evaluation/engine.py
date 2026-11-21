@@ -12,6 +12,7 @@ Regeln der Übersetzung:
   Listeneinträge (`grants`, `partners`, `patents`, `founder_profiles`) tragen ihre URL selbst.
 - Freitext wird nur bei exakter Übereinstimmung mit einem bekannten Wert übersetzt, sonst bleibt das Kriterium neutral.
 """
+import re
 from datetime import date
 
 from models import EnrichedLead, EvaluatedLead, EvaluationScores, Industry
@@ -56,6 +57,44 @@ def _branche(lead: EnrichedLead) -> str | None:
     return None if industry_unclassified(lead) else BRANCHE[lead.industry]
 
 
+# Kein Personenname: Impressums-Überschriften und Ämter (Rektor einer Uni ist nicht Gründer).
+_KEIN_NAME = re.compile(r"(?i)(?<!\w)(register|registergericht|vat|ust|id|development|product|commercial|gmbh|ug|ag|kg|e\.?v\.?|"
+                        r"rector|rektor\w*|pr(ä|ae)sident\w*|kanzler\w*|dekan\w*|vorstand|impressum|kontakt|telefon|e-mail|"
+                        r"amtsgericht|hrb|universit\w*|hochschule|institut\w*|team|management|sales|marketing)(?!\w)")
+
+
+def _personenname(name: str) -> str | None:
+    """Plausibler Personenname aus dem Impressum (2–5 Wörter, Großbuchstaben am Wortanfang), sonst None. Titel werden entfernt."""
+    name = re.sub(r"(?i)\b(prof|dr|dipl|ing|med|rer|nat|habil|mba|msc|bsc)\.?(-\w+\.?)?\s*", "", (name or "").strip()).strip(" ,;")
+    teile = name.split()
+    if _KEIN_NAME.search(name) or not 2 <= len(teile) <= 5:
+        return None
+    if not all(re.fullmatch(r"[A-ZÄÖÜ][\w'’.-]*|von|van|de|der|zu|du|di|da|le|la", t) for t in teile):
+        return None
+    return name
+
+
+def _namekey(name: str) -> str:
+    return re.sub(r"[^0-9a-zäöüß]", "", name.lower())
+
+
+def _katalog_zeile(lead: EnrichedLead, url: str, label: str) -> str | None:
+    """'Label: Wert' aus einem Förderkatalog-Text (Signal oder Evidence) mit derselben URL."""
+    texte = [s.evidence for s in lead.signals if str(s.url) == url] + [e.finding for e in lead.evidence if str(e.url) == url]
+    for t in texte:
+        m = re.search(r"%s:\s*([^\n;]+)" % re.escape(label), t or "")
+        if m and m.group(1).strip():
+            return m.group(1).strip()
+    return None
+
+
+def _grant(lead: EnrichedLead, g) -> dict:
+    url = str(g.url)
+    return {"programm": g.programme, "summe_eur": g.amount_eur, "start": g.start.isoformat() if g.start else None,
+            "ende": g.end.isoformat() if g.end else None, "quelle": url, "kennzeichen": g.reference, "empfaenger": g.recipient,
+            "ausfuehrende_stelle": _katalog_zeile(lead, url, "Ausführende Stelle"), "thema": _katalog_zeile(lead, url, "Thema")}
+
+
 def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     """EnrichedLead -> scorer dossier (the untyped contract with scoring/engine.py; field rules: scoring/SCORING.md).
 
@@ -66,7 +105,7 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     | lead_id, source_url | str | `id`, `source_url` |
     | name_unternehmen, beschreibung_rohtext | fact | `name`, `description` (source: `source_url`) |
     | deutschland_beleg | fact | `country_evidence` |
-    | website | str | `website` |
+    | website | str | `website`, else `matched_website` (context/website_match.py) |
     | email | fact | `contact_email` or `imprint_email` |
     | branche | str or None | `htgf_sector`, else `industry` unless unclassified |
     | rechtsform | fact | `legal_form` (+ " i.G." if `in_formation`) |
@@ -76,7 +115,8 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     | markt | {zielkunde, modell, volumen_eur: fact} | `target_customers`, `business_model`, `market_size_eur` |
     | partner | [{name, typ, quelle}] | `partners`, `customer_count` |
     | wettbewerber | [{name, quelle}] | `competitors` |
-    | foerderung | [{programm, summe_eur, start, ende, quelle}] | `grants` |
+    | foerderung | [{programm, summe_eur, start, ende, quelle, kennzeichen, empfaenger, ausfuehrende_stelle, thema}] | `grants`; Stelle/Thema aus Signal-/Evidence-Text derselben URL |
+    | website_text | fact | Evidence `website_text` (Website-Text, context/website_match) |
     | funding_meldung | fact(True) | late `funding_stage`, `funding_total_eur` ≥ config, confirmed `vc_status` |
     | in_databases, in_databases_quelle, first_db_date, match_confidence | sourcing metadata | same-named fields |
     | signals | [{typ, url, datum}] | `signals`, dated signal evidence, `first_web_capture` |
@@ -123,12 +163,24 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     team = []
     for p in lead.founder_profiles:
         url = str(p.source_url) if p.source_url else src("founder_profiles") or quelle
-        team.append({"name": p.name, "rolle": p.role or "Gründer", "institut": p.institution, "quelle": url,
+        aus_impressum = "impressum" in (p.role or "").lower()  # context: role "Geschäftsführung (Impressum)"
+        name = _personenname(p.name) if aus_impressum else p.name
+        if not name or _namekey(name) in {_namekey(t["name"]) for t in team}:
+            continue
+        team.append({"name": name, "rolle": p.role or "Gründer", "institut": p.institution, "quelle": url,
                      "openalex": str(p.openalex_url) if p.openalex_url else None, "papers_im_feld": p.works_in_field,
-                     "hintergrund": p.background, "vorerfahrung": list(p.prior_experience)})
+                     "papers_gesamt": p.works_total, "match_confidence": p.match_confidence,
+                     "hintergrund": p.background, "vorerfahrung": list(p.prior_experience)}
+                    | ({"herkunft": "impressum"} if aus_impressum else {}))
     for name in lead.founders:
         if name not in {t["name"] for t in team}:
             team.append({"name": name, "rolle": "Gründer", "quelle": quelle})
+    # Geschäftsführung aus dem Impressum (öffentliche Geschäftsdaten), wenn context kein Profil zu dieser Person hat.
+    gf_url = src_rule("managing_directors") or (str(lead.imprint_url) if lead.imprint_url else None)
+    for name in lead.managing_directors if gf_url else []:
+        name = _personenname(name)
+        if name and _namekey(name) not in {_namekey(t["name"]) for t in team}:
+            team.append({"name": name, "rolle": "Geschäftsführung", "quelle": gf_url, "herkunft": "impressum"})
 
     partner = [{"name": x.name, "typ": x.kind, "quelle": str(x.url)} for x in lead.partners]
     if lead.customer_count and src("customer_count"):
@@ -154,7 +206,7 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
         "name_unternehmen": {"wert": lead.name, "quelle": quelle},
         "beschreibung_rohtext": {"wert": lead.description, "quelle": quelle},
         "deutschland_beleg": {"wert": ce.finding, "quelle": str(ce.url)} if ce else None,
-        "website": str(lead.website) if lead.website else None,
+        "website": str(lead.website or lead.matched_website) if (lead.website or lead.matched_website) else None,
         "email": _sourced(lead.contact_email, quelle) or _sourced(lead.imprint_email, src("contact_email")),
         "branche": _branche(lead),
         "rechtsform": rechtsform,
@@ -162,6 +214,9 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
         "gruendungsjahr_hinweis": hinweis,
         "team": team,
         "reifegrad": _sourced(reife, src("product_stage")) if reife else None,
+        # alle Fundstellen der Reifegrad-Klassifikation (ohne Modellzitate): seed braucht zwei unabhängige Domains
+        "reifegrad_quellen": sorted({str(e.url) for e in lead.evidence if e.field == "product_stage"
+                                     and not e.source.startswith("Ollama-Zitat")}) if reife else None,
         "produkt_typ": _sourced(lead.product_type, src("product_type")),
         "regulierter_markt": _sourced(lead.regulated_market, src("regulated_market")),
         "ip": ip,
@@ -170,8 +225,9 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
                   "volumen_eur": _sourced(lead.market_size_eur, src("market_size_eur"))},
         "partner": partner,
         "wettbewerber": [{"name": c, "quelle": src("competitors")} for c in lead.competitors if src("competitors")],
-        "foerderung": [{"programm": g.programme, "summe_eur": g.amount_eur, "start": g.start.isoformat() if g.start else None,
-                        "ende": g.end.isoformat() if g.end else None, "quelle": str(g.url)} for g in lead.grants],
+        "foerderung": [_grant(lead, g) for g in lead.grants],
+        "website_text": ({"wert": by_field["website_text"].finding, "quelle": str(by_field["website_text"].url)}
+                         if "website_text" in by_field and not by_field["website_text"].source.startswith("Ollama-Zitat") else None),
         "funding_meldung": funding,
         "in_databases": lead.in_databases if src("in_databases") or lead.in_databases is None else None,
         "in_databases_quelle": src("in_databases"),

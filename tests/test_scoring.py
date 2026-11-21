@@ -127,7 +127,7 @@ def test_garbage_input_does_not_crash():
 def test_config_weights_are_checked(tmp_path):
     cfg = Path(__file__).parent.parent / "scoring" / "scoring_config.yaml"
     kaputt = tmp_path / "c.yaml"
-    kaputt.write_text(cfg.read_text(encoding="utf-8").replace("team: 0.35", "team: 0.5", 1), encoding="utf-8")
+    kaputt.write_text(cfg.read_text(encoding="utf-8").replace("team: 0.40", "team: 0.5", 1), encoding="utf-8")
     with pytest.raises(ValueError):
         load_config(kaputt)
 
@@ -229,7 +229,7 @@ def test_existenzkredit_is_not_exist():
 
 def test_hypothesis_wording(rows):
     leer = score_dossier(basis(), stichtag=TAG)["investmenthypothese"]
-    assert leer == "Datenlage zu dünn für eine Hypothese (Confidence 0.03). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle."
+    assert leer == "Datenlage zu dünn für eine Hypothese (Confidence 0.09). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle."
     assert all("Technologierisiko" not in r["investmenthypothese"] for r in rows.values())
     assert "Nächster Meilenstein: ein Prototyp beim Anwender." in rows["dummy-deeptech"]["investmenthypothese"]
     assert rows["dummy-agentur"]["investmenthypothese"].startswith("Kein Investment-Case")

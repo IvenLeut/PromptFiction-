@@ -31,9 +31,11 @@ CONFIG_PATH = Path(__file__).with_name("scoring_config.yaml")
 # Oberste Schlüssel, die der Scorer liest (adapter_* nur evaluation/engine.py). Eine eigene --config braucht alle.
 CONFIG_SCHLUESSEL = ("version", "dim3_name", "gewichte", "neutral", "ausschluss_max_gesamt", "htgf_max_alter_monate",
                      "exist_max_laufzeit_monate", "exist_nachlauf_monate", "hinweis_max_vor_signal_monate",
-                     "zu_spaet_wenn_in_databases", "confidence_ohne_pflichtfelder", "email_erlaubte_postfaecher",
+                     "zu_spaet_wenn_in_databases", "zu_spaet_wenn_alter_hinweis_bestaetigt", "zu_spaet_wenn_alter_db_eintrag",
+                     "confidence_ohne_pflichtfelder", "email_erlaubte_postfaecher",
                      "adapter_zu_spaet_ab_funding_eur", "noise_agentur_woerter", "noise_beratung_woerter",
-                     "noise_agentur_min_treffer", "texte", "kriterien")
+                     "noise_agentur_min_treffer", "noise_agentur_kernwoerter", "noise_tech_woerter", "noise_titel_muster",
+                     "katalog", "texte", "kriterien")
 BRANCHEN = ("digital_tech", "industrial_deep_tech", "climate_tech", "life_sciences", "chemie_materialien")
 STAGES = ("pre_gruendung", "in_gruendung", "pre_seed", "seed", "zu_spaet")
 NOISE = ("vc_potenzial", "hobby", "agentur", "studi_projekt", "beratung", "bereits_finanziert")
@@ -58,8 +60,16 @@ KRITERIUM_LABEL = {
     "traktion": "Partner, Piloten oder Kunden", "skalierbarkeit": "Skalierbarkeit (Produkttyp)",
     "zielkunde": "Zielkunde und Geschäftsmodell", "wettbewerb": "Wettbewerber", "tech_reife": "Reifegrad der Technologie",
     "regulatorik": "Regulatorik", "ip": "Schutzrechte (IP)", "finanzierung": "bisherige Förderung",
-    "datenlage": "Datenlage",
+    "datenlage": "Datenlage", "forschungsumfeld": "Forschungsumfeld (Institut)", "timing": "Timing (Förderphase)",
+    "tech_tiefe": "Tech-Tiefe (Programm und Fachgebiet)",
 }
+BUNDESLAENDER = {"Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern",
+                 "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt",
+                 "Schleswig-Holstein", "Thüringen"}
+INSTITUT_TEXT = {"aussenuniversitaer": "außeruniversitäre Forschungseinrichtung", "forschungsuni": "TU9-/Exzellenzuniversität",
+                 "universitaet": "Universität", "hochschule": "Hochschule"}
+SKALIERUNG_TEXT = {"software": "Software", "hardware": "Hardware", "hardware_software": "Hardware mit Software",
+                   "wirkstoff": "Wirkstoff", "plattform": "Plattform"}
 STAGE_TEXT = {"pre_gruendung": "Noch vor der Gründung", "in_gruendung": "Gerade in Gründung", "pre_seed": "Gegründet, Pre-Seed",
               "seed": "Seed-reif", "zu_spaet": "Zu spät für einen Erstkontakt"}
 
@@ -229,6 +239,40 @@ def wort_in(wort, s):
     return re.search(r"(?<!\w)%s(?!\w)" % re.escape(wort), s) is not None
 
 
+VERNEINUNG = re.compile(r"(?i)(?<!\w)(kein\w*|nicht|ohne|no|not|non)(?!\w)")
+
+
+def wort_unverneint(wort, s):
+    """Ganzes Wort, mindestens einmal ohne Verneinung in den drei Wörtern davor ("keine Agentur" zählt nicht)."""
+    for m in re.finditer(r"(?<!\w)%s(?!\w)" % re.escape(wort), s):
+        davor = re.findall(r"[\w-]+", s[max(0, m.start() - 60):m.start()])[-3:]
+        if not any(VERNEINUNG.fullmatch(w) for w in davor):
+            return True
+    return False
+
+
+def kurz_stelle(stelle):
+    """Ausführende Stelle ohne Ort/Bundesland -> (institution, gruppe). gruppe = spezifischster Teil (Lehrstuhl, Institut ...)."""
+    stelle = text(stelle)
+    if not stelle:
+        return None, None
+    teile = [t.strip() for t in stelle.split(",")]
+    if len(teile) >= 3 and teile[-1] in BUNDESLAENDER:
+        teile = teile[:-2]
+    stelle = ", ".join(teile)
+    segmente = [x.strip() for x in re.split(r"\s+-\s+|(?<=\w)-(?=Fakult)", stelle) if x.strip()]
+    if len(segmente) < 2 and len(teile) >= 2:  # "Universität Augsburg, Lehr- & Forschungseinheit …"
+        return teile[0], ", ".join(teile[1:])
+    if len(segmente) < 2:
+        return stelle, None
+    return segmente[0], segmente[-1]
+
+
+def monate_bis(stichtag, ende):
+    """Monate vom Stichtag bis `ende` (negativ: so viele Monate ist `ende` vorbei)."""
+    return months_between(stichtag, ende) if ende >= stichtag else -months_between(ende, stichtag)
+
+
 def eur(v):
     if v >= 1e9:
         return ("%.1f Mrd." % (v / 1e9)).replace(".", ",", 1)
@@ -269,6 +313,65 @@ class Scorer:
         v, url, datum = fact(quelle if quelle is not None else self.d.get(feld))
         return (v, url, datum) if isinstance(v, str) and v in erlaubt and url else (None, None, None)
 
+    # --- Förderkatalog: was Programm, Summe, Laufzeit und ausführende Stelle belegen -----------------
+    def katalog(self):
+        """Belegte Förderungen mit Katalog-Feldern, EXIST zuerst (Forschungstransfer vor Stipendium), dann jüngster Start."""
+        if hasattr(self, "_katalog"):
+            return self._katalog
+        de, de_url, _ = fact(self.d.get("deutschland_beleg"))
+        out = []
+        for f in self.foerderung:
+            programm = text(str(f.get("programm") or "")) or ""
+            fkz = text(f.get("kennzeichen"))
+            if not fkz:
+                m = re.search(r"(?i)[?&]fkz=([0-9A-Za-z]+)", f["quelle"])
+                fkz = m.group(1).upper() if m else None
+            if re.search(r"(?i)exist.*forschungstransfer", programm) or (fkz or "").upper().startswith("03EF"):
+                art = "ef"
+            elif re.search(r"(?i)exist.*gr(ü|ue)nd(ungs|er)stipendium", programm) or (fkz or "").upper().startswith("03EG"):
+                art = "eg"
+            else:
+                art = None
+            stelle = text(f.get("ausfuehrende_stelle"))
+            if not stelle and isinstance(de, str) and de_url == f["quelle"]:  # Deutschland-Beleg aus derselben Katalogseite
+                m = re.search(r"Ausführende Stelle:?\s*(.+?)(?:, Ort |;|$)", de)
+                stelle = text(m.group(1)) if m else None
+            empf = text(f.get("empfaenger"))
+            out.append(dict(url=f["quelle"], programm=programm, art=art, fkz=fkz, summe=num(f.get("summe_eur")),
+                            start=parse_date(f.get("start")), ende=parse_date(f.get("ende")), empfaenger=empf, stelle=stelle,
+                            thema=text(f.get("thema"))))
+        rang = {"ef": 0, "eg": 1, None: 2}
+        out.sort(key=lambda e: (rang[e["art"]], -(e["start"] or dt.date(1900, 1, 1)).toordinal(), e["url"]))
+        self._katalog = [e for e in out if not e["start"] or e["start"] <= self.stichtag]
+        return self._katalog
+
+    def katalog_exist(self):
+        return [e for e in self.katalog() if e["art"] and e["start"]]
+
+    def proxy(self, wert):
+        """Proxy-Wert: Abstand zum Neutralwert mit katalog.proxy_faktor skaliert."""
+        n = self.cfg["neutral"] / 100.0
+        return n + (wert - n) * self.cfg["katalog"]["proxy_faktor"]
+
+    def ist_platzhalter(self):
+        return bool(self.rohtext and re.fullmatch(self.cfg["katalog"]["platzhalter_muster"], self.rohtext))
+
+    def fachtext(self):
+        """Texte der Förderkatalog-Seite für Fachgebiets-Regeln: ausführende Stelle, Förderempfänger, Thema (Projekttitel).
+        Selbstbeschreibungen (Website, Pressetext) zählen hier bewusst nicht: dort ist ein Schlagwort nur eine Behauptung,
+        den Produkttyp daraus liefert der Kontext-Schritt als `produkt_typ`. -> (text in Kleinbuchstaben, url der ersten Quelle)."""
+        teile, url = [], None
+        for e in self.katalog():
+            for t in (e["stelle"], e["empfaenger"], e["thema"]):
+                if t:
+                    teile.append(t)
+                    url = url or e["url"]
+        return " | ".join(teile).lower(), url
+
+    def fach_treffer(self, schluessel, t):
+        m = re.search(self.cfg["katalog"][schluessel], t, re.I)
+        return m.group(0).strip() if m else None
+
     # --- Team (1 = stark) ---------------------------------------------------
     def k_forscher_match(self, k):
         best = None
@@ -277,8 +380,21 @@ class Scorer:
             if isinstance(p, int) and not isinstance(p, bool) and 0 <= p <= 100000 and (best is None or p > best[0]):
                 best = (p, m["name"], m["_url"])
         if not best:
-            return None
+            return self.forscher_gesamt(k)
         return dict(wert=stufe(k["stufen"], best[0]), aussage="%s: %d Papers im Produktfeld" % (best[1], best[0]), url=best[2])
+
+    def forscher_gesamt(self, k):
+        """Proxy ohne Feldzuordnung: Publikationen insgesamt eines sicher zugeordneten OpenAlex-Profils (nie ein Malus)."""
+        best = None
+        for m in self.team:
+            n, mc, oa = m.get("papers_gesamt"), num(m.get("match_confidence")), m.get("openalex")
+            if (isinstance(n, int) and not isinstance(n, bool) and 0 < n <= 100000 and is_url(oa)
+                    and mc is not None and mc >= k["gesamt_min_match"] and (best is None or n > best[0])):
+                best = (n, m["name"], oa)
+        if not best:
+            return None
+        return dict(wert=self.proxy(stufe(k["gesamt_stufen"], best[0])), proxy=True, url=best[2],
+                    aussage="%s: %d Publikationen insgesamt (OpenAlex, Feldbezug offen)" % (best[1], best[0]))
 
     def mix(self):
         v, url, _ = fact(self.d.get("mix_tech_business"))
@@ -291,9 +407,30 @@ class Scorer:
             return False
         return None
 
+    def stipendium_personen(self):
+        """Mindestzahl geförderter Personen aus Summe und Laufzeit eines Gründungsstipendiums (Obergrenzen laut Richtlinie)."""
+        kat = self.cfg["katalog"]
+        for e in self.katalog_exist():
+            if e["art"] == "eg" and e["summe"] and e["ende"] and e["ende"] > e["start"]:
+                monate = months_between(e["start"], e["ende"]) + 1
+                n = math.ceil((e["summe"] - kat["stipendium_max_sach_coaching_eur"]) / (kat["stipendium_max_person_monat_eur"] * monate))
+                return max(n, 1), monate, e
+        return None
+
     def k_komplementaer(self, k):
-        if not self.team:
-            return None
+        # Eine Geschäftsführerin im Impressum heißt nicht "Solo-Gründerin": dann wie ohne Team (Förderdaten)
+        nur_impressum = len(self.team) == 1 and self.team[0].get("herkunft") == "impressum"
+        if not self.team or nur_impressum:
+            sp = self.stipendium_personen()
+            ef = next((e for e in self.katalog_exist() if e["art"] == "ef"), None)
+            if (not sp or sp[0] < 2) and ef:  # Richtlinie: EXIST-Forschungstransfer fördert Forschungsteams
+                return dict(wert=self.proxy(k["werte"]["forschungsteam"]), proxy=True, url=ef["url"], datum=iso(ef["start"].isoformat()),
+                            aussage="EXIST-Forschungstransfer fördert Forschungsteams, Gründer noch nicht namentlich belegt")
+            if not sp or sp[0] < 2:
+                return None
+            n, monate, e = sp
+            return dict(wert=k["werte"]["foerderung_ab_drei" if n >= 3 else "foerderung_ab_zwei"], url=e["url"], datum=iso(e["start"].isoformat()),
+                        aussage="Stipendium %s EUR über %d Monate: nach EXIST-Obergrenzen mind. %d geförderte Personen" % (eur(e["summe"]), monate, n))
         n, mix = len(self.team), self.mix()
         if n == 1:
             key, aussage = "solo", "Ein Gründer belegt"
@@ -341,6 +478,27 @@ class Scorer:
         wie = {"fruehere_gruendung": "hat bereits gegründet", "industrie": "hat Industrieerfahrung", "keine": "ohne Vorerfahrung"}[best[1]]
         return dict(wert=best[0], aussage="%s %s" % (best[2], wie), url=best[3])
 
+    def k_forschungsumfeld(self, k):
+        best = None
+        for e in self.katalog():
+            t = " ".join(x for x in (e["empfaenger"], e["stelle"]) if x)
+            if not t:
+                continue
+            for kl in self.cfg["katalog"]["institut_klassen"]:
+                klasse, ab, bis = kl["klasse"], parse_date(str(kl.get("ab") or "")), parse_date(str(kl.get("bis") or ""))
+                if (ab and self.stichtag < ab) or (bis and self.stichtag > bis):
+                    continue  # Klasse gilt zum Stichtag nicht (z. B. Exzellenz-Förderphase)
+                if klasse in k["werte"] and re.search(kl["muster"], t, re.I):
+                    if best is None or k["werte"][klasse] > best[0]:
+                        best = (k["werte"][klasse], klasse, e)
+                    break
+        if not best:
+            return None
+        inst, gruppe = kurz_stelle(best[2]["stelle"] or best[2]["empfaenger"])
+        wo = clip(inst or "", 90) + (", %s" % clip(gruppe, 90) if gruppe else "")
+        return dict(wert=self.proxy(best[0]), proxy=True, url=best[2]["url"], datum=iso(best[2]["start"].isoformat()) if best[2]["start"] else None,
+                    aussage="Forschungsumfeld: %s (%s)" % (wo, INSTITUT_TEXT[best[1]]))
+
     # --- Marktpotenzial (1 = groß) -------------------------------------------
     def k_marktvolumen(self, k):
         v, url, datum = fact(self.markt.get("volumen_eur"))
@@ -358,9 +516,31 @@ class Scorer:
         return dict(wert=wert, aussage="%d belegte Partner; stärkster: %s (%s)" % (len(ok), clip(text(best.get("name")) or "ohne Namen", 60), best["typ"]),
                     url=best["quelle"], datum=iso(best.get("datum")))
 
+    def fach_produkttyp(self):
+        """Produkttyp-Proxy aus dem Fachgebiet: (typ, treffer, url) oder None."""
+        t, url = self.fachtext()
+        if not t or not url:
+            return None
+        wk, sw, hw = (self.fach_treffer(x, t) for x in ("fach_wirkstoff", "fach_software", "fach_hardware"))
+        if wk:
+            return "wirkstoff", wk, url
+        if sw and hw:
+            return "hardware_software", "%s, %s" % (hw, sw), url
+        if sw:
+            return "software", sw, url
+        if hw:
+            return "hardware", hw, url
+        return None
+
     def k_skalierbarkeit(self, k):
         v, url, datum = self.enum("produkt_typ", k["werte"])
-        return dict(wert=k["werte"][v], aussage="Produkttyp: %s" % v, url=url, datum=datum) if v else None
+        if v:
+            return dict(wert=k["werte"][v], aussage="Produkttyp: %s" % v, url=url, datum=datum)
+        p = self.fach_produkttyp()
+        if not p:
+            return None
+        return dict(wert=self.proxy(k["werte"][p[0]]), proxy=True, url=p[2],
+                    aussage="Produkttyp vermutlich %s (Fachgebiet: %s)" % (SKALIERUNG_TEXT[p[0]], clip(p[1], 60)))
 
     def k_zielkunde(self, k):
         zk, u1, _ = fact(self.markt.get("zielkunde"))
@@ -378,18 +558,85 @@ class Scorer:
         key = "viele" if len(ok) >= k["viele_ab"] else "wenige"
         return dict(wert=k["werte"][key], aussage="%d belegte Wettbewerber: %s" % (len(ok), clip(", ".join(n for n, _ in ok[:3]), 120)), url=ok[0][1])
 
+    def foerderende(self):
+        """(monate_bis_ende, eintrag) der EXIST-Förderung, die am spätesten endet; None ohne belegtes Enddatum."""
+        mit_ende = [e for e in self.katalog_exist() if e["ende"]]
+        if not mit_ende:
+            return None
+        e = max(mit_ende, key=lambda e: (e["ende"], e["url"]))
+        return monate_bis(self.stichtag, e["ende"]), e
+
+    def k_timing(self, k):
+        fe = self.foerderende()
+        if not fe:
+            return None
+        m, e = fe
+        prog = clip(e["programm"] or "EXIST", 60)
+        rf = self.rechtsform()
+        if rf[0] and rf[0] != "keine" and abs(m) <= k["gegruendet_fenster_monate"]:
+            # Gegründet und die EXIST-Förderung endet bzw. endete gerade: jetzt fällt die Anschlussfinanzierung an.
+            wann = "endet %s" % e["ende"].strftime("%m/%Y") if m >= 0 else "endete %s" % e["ende"].strftime("%m/%Y")
+            return dict(wert=k["gegruendet_wert"], url=rf[2], aussage="Gegründet (%s), %s %s – Anschlussfinanzierung steht an" % (rf[0], prog, wann))
+        wann = ("endet %s (in %s)" % (e["ende"].strftime("%m/%Y"), "1 Monat" if m == 1 else "%d Monaten" % m) if m > 0 else
+                "endet %s" % e["ende"].strftime("%m/%Y") if m == 0 else "endete %s (%s)" % (e["ende"].strftime("%m/%Y"), vor_monaten(-m)))
+        fenster = " – Gründungsfenster" if -6 <= m <= 6 else ""
+        return dict(wert=stufe(k["stufen"], m), url=e["url"], datum=e["ende"].isoformat() if e["ende"] <= self.stichtag else None,
+                    aussage="%s %s%s" % (prog, wann, fenster))
+
+    def k_tech_tiefe(self, k):
+        t, url = self.fachtext()
+        if not url:
+            return None
+        mint = next((x for x in (self.fach_treffer(s_, t) for s_ in ("fach_hardware", "fach_software", "fach_wirkstoff", "fach_medizin")) if x), None)
+        ex = self.katalog_exist()
+        art = ex[0]["art"] if ex else None
+        if art == "ef":
+            key = "forschungstransfer_mint" if mint else "forschungstransfer"
+            url = ex[0]["url"]
+        elif mint:
+            key = "mint"
+        else:
+            stelle = " ".join(e["stelle"] or e["empfaenger"] or "" for e in self.katalog()).lower()
+            ohne = self.fach_treffer("fach_ohne_tech", stelle) if stelle else None
+            if not ohne:
+                return None
+            key, mint = "ohne_tech", ohne
+        aussage = {"forschungstransfer_mint": "EXIST-Forschungstransfer (forschungsbasiert) im Fachgebiet „%s“" % mint,
+                   "forschungstransfer": "EXIST-Forschungstransfer (forschungsbasiertes Vorhaben)",
+                   "mint": "Technisches Fachgebiet: „%s“" % mint,
+                   "ohne_tech": "Fachgebiet ohne Technologiebezug: „%s“" % mint}[key]
+        return dict(wert=self.proxy(k["werte"][key]), proxy=True, url=url, aussage=aussage)
+
     # --- Risiko (1 = hoch) ----------------------------------------------------
     def reifegrad(self):
         return self.enum("reifegrad", self.cfg["kriterien"]["risiko"]["tech_reife"]["werte"])
 
+    def reifegrad_bestaetigt(self):
+        """Reifegrad aus mindestens zwei unabhängigen Domains belegt. Ohne Angabe `reifegrad_quellen` (handgepflegtes
+        Dossier) gilt der Einzelbeleg wie bisher; die Liste setzt evaluation.engine.to_dossier für die Textklassifikation."""
+        q = self.d.get("reifegrad_quellen")
+        if not isinstance(q, list):
+            return True
+        return len({domain(u) for u in q if is_url(u)}) >= 2
+
     def k_tech_reife(self, k):
         v, url, datum = self.reifegrad()
-        return dict(wert=k["werte"][v], aussage="Reifegrad: %s" % v, url=url, datum=datum) if v else None
+        if not v:
+            return None
+        if self.reifegrad_bestaetigt():
+            return dict(wert=k["werte"][v], aussage="Reifegrad: %s" % v, url=url, datum=datum)
+        return dict(wert=self.proxy(k["werte"][v]), proxy=True, url=url, datum=datum,
+                    aussage="Reifegrad: %s (Textklassifikation, nur eine Quelle)" % v)
 
     def k_regulatorik(self, k):
         v, url, datum = fact(self.d.get("regulierter_markt"))
         if not isinstance(v, bool) or not url:
-            return None
+            t, url = self.fachtext()
+            med = self.fach_treffer("fach_medizin", t) if url else None
+            if not med:  # ohne Medizin-Bezug bleibt die Regulatorik offen, nicht "unreguliert"
+                return None
+            return dict(wert=self.proxy(k["werte"]["reguliert"]), proxy=True, url=url,
+                        aussage="Vermutlich regulierter Markt (Medizin-Bezug: „%s“)" % clip(med, 40))
         return dict(wert=k["werte"]["reguliert" if v else "nicht_reguliert"],
                     aussage="Regulierter Markt, Zulassung nötig" if v else "Kein regulierter Markt", url=url, datum=datum)
 
@@ -496,12 +743,17 @@ class Scorer:
             return v, "sourcing", None
         if self.funding():
             return "bereits_finanziert", "heuristik", self.funding()
-        wt, url, _ = fact(self.d.get("website_text"))
-        if isinstance(wt, str) and url:
-            treffer = [w for w in self.cfg["noise_agentur_woerter"] if wort_in(w, wt.lower())]
-            if len(treffer) >= self.cfg["noise_agentur_min_treffer"]:
-                beratung = [w for w in treffer if w in self.cfg["noise_beratung_woerter"]]
-                return ("beratung" if len(beratung) * 2 >= len(treffer) else "agentur"), "heuristik", url
+        for feld in ("website_text", "beschreibung_rohtext"):
+            wt, url, _ = fact(self.d.get(feld))
+            if isinstance(wt, str) and url:
+                klasse = self.agentur_regel(wt)
+                if klasse:
+                    return klasse, "heuristik", url
+        name, name_url, _ = fact(self.d.get("name_unternehmen"))
+        for titel, url in [(text(name), name_url)] + [(e["thema"], e["url"]) for e in self.katalog()]:
+            m = re.search(self.cfg["noise_titel_muster"], titel or "") if url else None
+            if m:  # Projekttitel benennt eine Dienstleistung ("…beratung", "… Consulting", "…agentur")
+                return ("beratung" if re.match(r"(?i)berat|consult", m.group(1)) else "agentur"), "heuristik", url
         repo, url, _ = self.enum("repo_art", ("kurs", "seminar", "hobby", "produkt"))
         if repo in ("kurs", "seminar"):
             return "studi_projekt", "heuristik", url
@@ -513,6 +765,47 @@ class Scorer:
         if len(self.team) == 1 and rf == "keine" and not substanz:
             return "hobby", "heuristik", rf_url
         return "vc_potenzial", "heuristik", None
+
+    def agentur_regel(self, wt):
+        """'agentur' | 'beratung' | None. Mindestens noise_agentur_min_treffer verschiedene, nicht verneinte Agentur-Wörter,
+        davon mindestens ein Kernwort, und weniger Produkt-/Forschungswörter als Agentur-Treffer."""
+        cfg, low = self.cfg, wt.lower()
+        treffer = [w for w in cfg["noise_agentur_woerter"] if wort_unverneint(w, low)]
+        if len(treffer) < cfg["noise_agentur_min_treffer"] or not any(w in cfg["noise_agentur_kernwoerter"] for w in treffer):
+            return None
+        if sum(wort_in(w, low) for w in cfg["noise_tech_woerter"]) >= len(treffer):
+            return None
+        beratung = [w for w in treffer if w in cfg["noise_beratung_woerter"]]
+        return "beratung" if len(beratung) * 2 >= len(treffer) else "agentur"
+
+    def alt_belegt(self):
+        """Belegtes hohes Alter ohne echtes Gründungsdatum -> (grund, url) oder None.
+
+        1. Gründungsjahr aus Pressetext (nicht als Fremdbezug ignoriert) älter als htgf_max_alter_monate, bestätigt durch eine
+           belegte Kapitalgesellschaft oder einen Datenbankeintrag laut Sourcing. Ohne Bestätigung nur offener Punkt.
+        2. Datenbankprofil (in_databases, first_db_date) älter als htgf_max_alter_monate und höchstens
+           hinweis_max_vor_signal_monate vor dem ersten eigenen Signal (sonst Namensvetter).
+        """
+        cfg, maxm = self.cfg, self.cfg["htgf_max_alter_monate"]
+        h = self.hinweis()
+        if h and cfg["zu_spaet_wenn_alter_hinweis_bestaetigt"] and months_between(dt.date(h[0], 12, 31), self.stichtag) > maxm:
+            bestaetigt = self.hinweis_bestaetigung()
+            if bestaetigt:
+                return "älter als %d Monate (gegründet %d laut Pressetext, bestätigt durch %s)" % (maxm, h[0], " und ".join(bestaetigt)), h[1]
+        db = voll(self.d.get("first_db_date"))
+        if (cfg["zu_spaet_wenn_alter_db_eintrag"] and self.d.get("in_databases") is True and db and db <= self.stichtag
+                and months_between(db, self.stichtag) > maxm
+                and (not self.signals or months_between(db, self.signals[0]["datum"]) <= cfg["hinweis_max_vor_signal_monate"])):
+            q = self.d.get("in_databases_quelle")
+            return "Datenbankprofil seit %s, älter als %d Monate (laut Sourcing)" % (db.strftime("%m/%Y"), maxm), (q if is_url(q) else None)
+        return None
+
+    def hinweis_bestaetigung(self):
+        rf = self.rechtsform()[0]
+        out = ["Rechtsform %s" % rf] if rf and rf != "keine" else []
+        if self.d.get("in_databases") is True:
+            out.append("Datenbankeintrag")
+        return out
 
     def stage(self, noise):
         """(stage, grund, url)."""
@@ -527,6 +820,9 @@ class Scorer:
             return "zu_spaet", "bereits in Datenbanken gelistet", text(self.d.get("in_databases_quelle"))
         if gr and not proxy and months_between(gr, self.stichtag) > cfg["htgf_max_alter_monate"]:
             return "zu_spaet", "älter als %d Monate (gegründet %s)" % (cfg["htgf_max_alter_monate"], gr.strftime("%m/%Y") if monat else str(gr.year)), gr_url
+        alt = None if gr and not proxy else self.alt_belegt()
+        if alt:
+            return "zu_spaet", alt[0], alt[1]
         if (not rf or rf == "keine") and gr and not proxy:
             return "pre_seed", "gegründet laut Quelle (%s), Rechtsform nicht belegt" % (gr.strftime("%m/%Y") if monat else gr.year), gr_url
         h = self.hinweis()
@@ -537,7 +833,11 @@ class Scorer:
         if ig:
             return "in_gruendung", "Rechtsform %s" % rf, rf_url
         if self.reifegrad()[0] in ("pilot", "erste_kunden"):
-            return "seed", "Rechtsform %s, Reifegrad %s" % (rf, self.reifegrad()[0]), rf_url
+            # seed nur mit unabhängig bestätigtem Reifegrad oder belegtem Kunden/Piloten, nicht aus einer Textstelle allein
+            kunden = [p for p in dicts(self.d.get("partner")) if p.get("typ") in ("kunde", "pilot") and is_url(p.get("quelle"))]
+            if self.reifegrad_bestaetigt() or kunden:
+                return "seed", "Rechtsform %s, Reifegrad %s" % (rf, self.reifegrad()[0]), rf_url
+            return "pre_seed", "Rechtsform %s; Reifegrad %s nur aus einer Quelle, für seed nicht ausreichend" % (rf, self.reifegrad()[0]), rf_url
         return "pre_seed", "Rechtsform %s" % rf, rf_url
 
     def email(self, website):
@@ -649,18 +949,67 @@ def _stammdaten(s, rec):
     rec.update({
         "name_gruender": ";".join(clip(n, 80) for n in (leiter or [m["name"] for m in s.team])), "email": s.email(website), "website": website,
         "branche": s.branche, "gruendungsjahr": gr.year if gr else None, "gruendungsmonat": gr.month if gr and monat else None,
-        "gruendung_ist_proxy": bool(gr and proxy), "produktbeschreibung": clip(" ".join(saetze(s.rohtext)[:2]), 300),
-        "value_proposition": clip((saetze(s.rohtext) or [""])[0], 200),
+        "gruendung_ist_proxy": bool(gr and proxy), "produktbeschreibung": clip(_produktbeschreibung(s), 300),
+        "value_proposition": clip(_value_proposition(s), 200),
         "first_signal_date": first_signal.isoformat() if first_signal else None, "earliness_delta_monate": delta, "in_databases": in_db,
         "source_url": d.get("source_url") if is_url(d.get("source_url")) else (s.signals[0]["url"] if s.signals else None),
     })
+
+
+def _katalog_satzteile(s):
+    """(titel, programm, wo) aus dem führenden Katalog-Eintrag, nur belegte Teile; None ohne Katalog-Eintrag."""
+    kat = s.katalog()
+    if not kat:
+        return None
+    e = kat[0]
+    name = text(fact(s.d.get("name_unternehmen"))[0])
+    titel = e["thema"] or name or ""
+    inst, gruppe = kurz_stelle(e["stelle"] or e["empfaenger"])
+    if not inst and e["empfaenger"]:
+        inst = e["empfaenger"].split(",")[0]
+    wo = (clip(gruppe, 110) + (" (%s)" % clip(inst, 70) if inst else "")) if gruppe else clip(inst or "", 110)
+    return titel, clip(e["programm"] or "Förderprojekt", 60), wo, e
+
+
+def _produktbeschreibung(s):
+    """Echter Beschreibungstext: die ersten zwei Sätze. Platzhalter des Sourcings: belegte Fakten der Katalogseite."""
+    if not s.ist_platzhalter():
+        return " ".join(saetze(s.rohtext)[:2])
+    teile = _katalog_satzteile(s)
+    if not teile:
+        return s.rohtext
+    titel, programm, wo, e = teile
+    satz = "„%s“: %s%s" % (titel, programm, " an " + wo if wo else "")
+    if e["summe"]:
+        satz += ", %s EUR" % eur(e["summe"])
+    if e["start"] and e["ende"]:
+        satz += ", Laufzeit %s–%s" % (e["start"].strftime("%m/%Y"), e["ende"].strftime("%m/%Y"))
+    p = s.fach_produkttyp()
+    satz += "." + (" Fachgebiet deutet auf %s." % SKALIERUNG_TEXT[p[0]] if p else "")
+    return satz + " Produkt und Zielkunde sind noch nicht belegt."
+
+
+def _value_proposition(s):
+    if not s.ist_platzhalter():
+        return (saetze(s.rohtext) or [""])[0]
+    teile = _katalog_satzteile(s)
+    if not teile:
+        return s.rohtext
+    titel, programm, wo, _ = teile
+    return "„%s“ – %s-Vorhaben%s; Problem und Nutzen noch nicht belegt." % (titel, programm, " aus " + wo if wo else "")
 
 
 def _hinweis_punkte(s, rec):
     """Offene Punkte zum Gründungsjahr aus einem Pressetext (genutzt als Proxy oder ignoriert)."""
     gr, proxy, _, _ = s.gruendung()
     h = s.hinweis()
-    if h and proxy and gr and gr.year == h[0]:
+    alt = h and months_between(dt.date(h[0], 12, 31), s.stichtag) > s.cfg["htgf_max_alter_monate"]
+    if h and proxy and gr and gr.year == h[0] and alt and s.hinweis_bestaetigung() and s.cfg["zu_spaet_wenn_alter_hinweis_bestaetigt"]:
+        pass  # wird als zu_spaet ausgeschlossen, Grund steht in ausschluss_grund
+    elif h and proxy and gr and gr.year == h[0] and alt:
+        rec["offene_punkte"].append("Gründungsjahr %d aus Pressetext ist älter als %d Monate, aber nicht durch Rechtsform oder "
+                                    "Datenbankeintrag bestätigt – vor Kontakt prüfen" % (h[0], s.cfg["htgf_max_alter_monate"]))
+    elif h and proxy and gr and gr.year == h[0]:
         rec["offene_punkte"].append("Gründungsjahr %d nur aus Pressetext, nicht für Ausschluss verwendet" % h[0])
     elif s.hinweis_ignoriert() and not (gr and not proxy):
         rec["offene_punkte"].append("Gründungsjahr %d aus Pressetext liegt mehr als %d Monate vor dem ersten Signal, ignoriert"
@@ -679,9 +1028,10 @@ def _bewerte_dimensionen(s, rec):
             belegt = bool(r and r.get("url") and r.get("wert") is not None)
             if belegt:
                 wert = float(r["wert"])
-                belegt_gewicht += k["gewicht"]
+                # Proxy (Institut, Fachgebiet): zählt für die Confidence nur anteilig
+                belegt_gewicht += k["gewicht"] * (s.cfg["katalog"]["confidence_faktor"] if r.get("proxy") else 1.0)
                 treffer[(dim, krit)] = r
-                r["aussage"] = clip(r["aussage"], 300)
+                r["aussage"] = clip(r["aussage"] + (" (Proxy)" if r.get("proxy") else ""), 300)
                 rec["evidence"].append({"dimension": dim, "kriterium": krit, "aussage": r["aussage"], "url": r["url"],
                                         "datum": r.get("datum"), "punkte": r1(wert * 100)})
             else:
@@ -690,7 +1040,8 @@ def _bewerte_dimensionen(s, rec):
                                         "url": None, "datum": None, "punkte": r1(wert * 100)})
                 rec["offene_punkte"].append("Kein Beleg für: %s" % KRITERIUM_LABEL[krit])
             total += k["gewicht"] * wert
-            rec["teilwerte"][dim][krit] = {"punkte": r1(wert * 100), "gewicht": k["gewicht"], "belegt": belegt}
+            rec["teilwerte"][dim][krit] = {"punkte": r1(wert * 100), "gewicht": k["gewicht"], "belegt": belegt,
+                                           "proxy": bool(belegt and r.get("proxy"))}
         scores[dim], abdeckung[dim] = r1(total * 100), belegt_gewicht
     return scores, abdeckung, treffer
 
@@ -713,12 +1064,15 @@ def _einordnung(s, rec, scores, abdeckung):
     gruende = []
     if noise != "vc_potenzial":
         gruende.append("noise_class = %s (%s)" % (noise, "laut Sourcing" if noise_quelle == "sourcing" else "Regel"))
-        rec["evidence"].append({"dimension": "noise", "kriterium": "noise_class", "aussage": "%s (%s)" % (noise, noise_quelle),
+        rec["evidence"].append({"dimension": "noise", "kriterium": "noise_class",
+                                "aussage": "%s (%s)" % (noise, noise_quelle if noise_url else "laut Sourcing, ohne URL"),
                                 "url": noise_url, "datum": None, "punkte": None})
     if stage == "zu_spaet":
         gruende.append("stage = zu_spaet (%s)" % stage_grund)
     if gruende:
         gesamt = min(gesamt, cfg["ausschluss_max_gesamt"])
+    if not stage_url:  # Regel ohne Beleg-URL: Sourcing-Metadatum (so benannt) oder ausdrücklich neutral
+        stage_grund += " (ohne URL)" if "laut Sourcing" in stage_grund else " – keine Daten, neutral gesetzt"
     rec["evidence"].append({"dimension": "stage", "kriterium": "stage", "aussage": "%s: %s" % (stage, stage_grund),
                             "url": stage_url, "datum": None, "punkte": None})
     rec.update(status="bewertet", risiko_score=scores["risiko"], marktpotenzial_score=scores["marktpotenzial"], team_score=scores["team"],
@@ -736,15 +1090,24 @@ def _investmenthypothese(s, rec, treffer, gruende):
     risiko_satz = "Hauptrisiko: %s." % risiken[0][1] if risiken else "Kein Risikofaktor ab %d Punkten belegt." % round(tx["risiko_ab"] * 100)
     if gruende:
         return "Kein Investment-Case: %s." % rec["ausschluss_grund"]
-    if rec["confidence"] < tx["hypothese_min_confidence"]:
-        return "Datenlage zu dünn für eine Hypothese (Confidence %.2f). %s" % (rec["confidence"], risiko_satz)
     staerken = sorted(((cfg["kriterien"][dim][krit]["gewicht"] * r["wert"], r["aussage"]) for (dim, krit), r in treffer.items()
                        if dim != "risiko" and r["wert"] >= tx["staerke_ab"]), key=lambda x: (-x[0], x[1]))[:2]
+    reife = s.reifegrad()[0]
+    fe = s.foerderende()
+    if reife:
+        meilenstein = "Nächster Meilenstein: %s." % NAECHSTER_MEILENSTEIN[reife]
+    elif fe and fe[0] >= 0 and rec["stage"] in ("pre_gruendung", "in_gruendung"):
+        meilenstein = "Wenn bis Förderende %s die Gründung gelingt, ist das Team ein Pre-Seed-Kandidat." % fe[1]["ende"].strftime("%m/%Y")
+    else:
+        meilenstein = ""
+    if rec["confidence"] < tx["hypothese_min_confidence"]:
+        belegt = " Belegt: %s." % "; ".join(x[1] for x in staerken) if staerken else ""
+        return " ".join(x for x in ("Datenlage zu dünn für eine Hypothese (Confidence %.2f).%s" % (rec["confidence"], belegt),
+                                    meilenstein, risiko_satz) if x)
     teile = ["Wir investieren, weil: %s." % "; ".join(x[1] for x in staerken) if staerken
              else "Noch keine Stärke belegt, die Hypothese ist offen."]
-    reife = s.reifegrad()[0]
-    if reife:
-        teile.append("Nächster Meilenstein: %s." % NAECHSTER_MEILENSTEIN[reife])
+    if meilenstein:
+        teile.append(meilenstein)
     teile.append(risiko_satz)
     return " ".join(teile)
 
@@ -767,6 +1130,13 @@ def _why_now(s, rec):
         if ende and months_between(stichtag, ende) <= tx["foerderende_in_monaten"]:
             now.append("%s endet %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
             break
+        if ende:
+            now.append("%s läuft bis %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
+            break
+    else:
+        fe = s.foerderende()
+        if fe and fe[0] < -s.cfg["exist_nachlauf_monate"]:  # lange vorbei: Gründung oder Abbruch, Status offen
+            now.append("%s lief bis %s – Status prüfen" % (clip(fe[1]["programm"] or "EXIST", 60), fe[1]["ende"].strftime("%m/%Y")))
     if rec["in_databases"] is False:
         now.append("in Crunchbase/Dealroom nicht gefunden" if s.d.get("in_databases_quelle") else "laut Sourcing in keiner Datenbank gefunden")
     now.append("jüngstes Signal %s" % vor_monaten(months_between(s.signals[-1]["datum"], stichtag)))

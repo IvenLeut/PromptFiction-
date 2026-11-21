@@ -123,8 +123,12 @@ def _archive_url(rows) -> str | None:
     return None
 
 
+EARLY_CAPTURE_FIELD = "web_capture_before_project"
+
+
 def web_history_lookup(website: str | None, name: str, *, cache: Cache, fetch=None,
-                       not_before: date | None = None) -> Lookup:
+                       not_before: date | None = None, site_confirmed: str | None = None,
+                       confirmed_years: int | None = None) -> Lookup:
     """Fill ``first_web_capture``, ``in_databases``, ``first_db_date`` and ``database_urls``.
 
     ``fetch(url) -> parsed JSON`` can be injected for tests; by default the CDX API is called via
@@ -135,6 +139,14 @@ def web_history_lookup(website: str | None, name: str, *, cache: Cache, fetch=No
     website whose first capture is more than ``WEB_NAMESAKE_YEARS`` (one year, see context/lookup.py) older than that belongs, most likely, to a
     namesake ("sensai" on Crunchbase in 2019 for a project started in 2024): it is not counted, the
     fields stay unset and an error entry names the URL.
+
+    ``site_confirmed`` (e.g. "Website nennt FKZ 03EFHB0044"): the website itself names the project's
+    funding reference or EXIST, so an early capture is the research group's or project's own older site, not a
+    namesake. The website rule is then skipped (with ``confirmed_years`` only for captures at most that many
+    years before ``not_before``: an EXIST mention does not explain a 2010 capture) and the reason is added to the
+    finding. Such an early capture is kept only as Evidence ``field="web_capture_before_project"``: no
+    ``first_web_capture``, no dated signal, so it never moves the lead's first signal before the project.
+    Crunchbase/Dealroom profiles keep the namesake rule.
     """
     result = Lookup()
     cutoff = years_before(not_before, WEB_NAMESAKE_YEARS) if not_before else None
@@ -171,9 +183,19 @@ def web_history_lookup(website: str | None, name: str, *, cache: Cache, fetch=No
             result.errors.append(err)
         else:
             hit = _first_capture(rows)
-            if hit and cutoff and hit[0] < cutoff:
+            early = bool(hit and cutoff and hit[0] < cutoff)
+            vouched = bool(site_confirmed) and (confirmed_years is None or not not_before
+                                                 or hit[0] >= years_before(not_before, confirmed_years)) if early else False
+            if early and not vouched:
                 result.errors.append("wayback: Website %s älter als das Vorhaben, vermutlich Namensvetter"
                                      % (_archive_url(rows) or host))
+            elif hit and early:
+                # Vouched early capture: the domain is the project's own older site (research group, prototype
+                # page). Kept as evidence only, not as first_web_capture: it must not date the lead before the project.
+                result.evidence.append(Evidence(
+                    field=EARLY_CAPTURE_FIELD, url=cdx_url(host), source=SOURCE_WAYBACK_CDX, source_date=hit[0],
+                    finding="Erste Wayback-Aufnahme %s liegt vor dem Vorhaben; kein Namensvetter, weil %s. Nicht als "
+                            "Signaldatum gewertet." % (hit[0].isoformat(), site_confirmed)))
             elif hit:
                 first, original = hit
                 result.add("first_web_capture", first, url=cdx_url(host),

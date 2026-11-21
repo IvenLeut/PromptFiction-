@@ -1,0 +1,4744 @@
+[
+  {
+    "lead_id": "foekat-03efby0340",
+    "name": "Aiina-Robotics",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 90",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.ce.cit.tum.de/cps/members/julian-hoffmann-msc/",
+    "manuelle_pruefung": "nicht gefunden",
+    "pruefnotiz": "Nur eine TUM-Mitarbeiterseite (Projektseite 0,35), keine Firmen-Website.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.ce.cit.tum.de/cps/members/julian-hoffmann-msc/",
+        "kind": "project_page",
+        "confidence": 0.35,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (tum)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Aiina-Robotics%22+Technische+Universit%C3%A4t+M%C3%BCnchen+%28TUM%29"
+      },
+      {
+        "url": "https://collab.dvb.bayern/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Aiina-Robotics%22+Technische+Universit%C3%A4t+M%C3%BCnchen+%28TUM%29"
+      },
+      {
+        "url": "https://www.unternehmertum.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Aiina-Robotics%22+Technische+Universit%C3%A4t+M%C3%BCnchen+%28TUM%29"
+      },
+      {
+        "url": "https://zeitenvogel.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Aiina-Robotics%22+Technische+Universit%C3%A4t+M%C3%BCnchen+%28TUM%29"
+      },
+      {
+        "url": "https://www.munich-startup.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Aiina-Robotics%22+Start-up"
+      },
+      {
+        "url": "https://www.aiina-robotics.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar ([Errno 8] nodename nor servname provided, or not known)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Aiina-Robotics%22+Start-up"
+      },
+      {
+        "url": "https://www.her-career.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Aiina-Robotics%22+Start-up"
+      },
+      {
+        "url": "https://startup-seeker.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 429))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Aiina-Robotics%22+Start-up"
+      },
+      {
+        "url": "https://www.bauindustrie-bayern.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Aiina-Robotics%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efni0127",
+    "name": "DataLingua",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 90",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.leibnizlab-communication.uni-hannover.de/de/forschung/projekte/talc/news-aus-dem-projekt-talc/news-talc-detailansicht/news/ausgruendungsprojekt-datalingua-erhaelt-exist-forschungstransfer-foerderung",
+    "manuelle_pruefung": "richtig (nur Projektseite)",
+    "pruefnotiz": "research.uni-hannover.de-Projektseite als project_page; datalingua.com nennt das Projekt nicht.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.leibnizlab-communication.uni-hannover.de/de/forschung/projekte/talc/news-aus-dem-projekt-talc/news-talc-detailansicht/news/ausgruendungsprojekt-datalingua-erhaelt-exist-forschungstransfer-foerderung",
+        "kind": "project_page",
+        "confidence": 0.75,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (leibniz universitaet hannover)",
+          "EXIST erwähnt",
+          "Ort genannt (Hannover)",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22DataLingua%22+Start-up"
+      },
+      {
+        "url": "https://find-and-update.company-information.service.gov.uk/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22DataLingua%22+Start-up"
+      },
+      {
+        "url": "https://www.whoisvisiting.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22DataLingua%22+Start-up"
+      },
+      {
+        "url": "https://www.datalingua.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22DataLingua%22+Start-up"
+      },
+      {
+        "url": "http://www.datalingua.net/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname prominent (Kopf/Überschrift)",
+          "Domain = Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22DataLingua%22+Start-up"
+      },
+      {
+        "url": "https://data-lingua.com/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "DNS: data-lingua.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: http://www.datalingua.net/, 0.45: Projektname prominent (Kopf/Überschrift); Domain = Projektname; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 13.1
+  },
+  {
+    "lead_id": "foekat-03efnw0396",
+    "name": "Pulse-of-Production",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 90",
+    "gefundene_url": "https://pulse-of-production.de/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Institut genannt (manufacturing technology institute); Ort genannt (Aachen); Impressum nennt den Namen; Rechtsform beim Namen; erster Suchtreffer",
+    "fundstelle": "https://search.brave.com/search?q=%22Pulse-of-Production%22+Manufacturing+Technology+Institute",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Seite nennt das Manufacturing Technology Institute (MTI) der RWTH; Impressum Aachen, GmbH.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://pulse-of-production.de/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Institut genannt (manufacturing technology institute)",
+          "Ort genannt (Aachen)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Pulse-of-Production%22+Manufacturing+Technology+Institute"
+      },
+      {
+        "url": "https://accelerator.high-tech.nrw/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Pulse-of-Production%22+Manufacturing+Technology+Institute"
+      },
+      {
+        "url": "https://www.rwth-innovation.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Pulse-of-Production%22+Manufacturing+Technology+Institute"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efby0323",
+    "name": "sensAI",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 90",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://www.kiproduktionsnetzwerk.de/",
+      "confidence": 0.45,
+      "begruendung": "Projektname nur im Fließtext; Institut genannt (universitaet augsburg); EXIST erwähnt; Ort genannt (Augsburg); Start-up-/Gründungsbezug; Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts",
+      "fundstelle": "https://search.brave.com/search?q=%22sensAI%22+Universit%C3%A4t+Augsburg"
+    },
+    "projektseite": "https://www.uni-augsburg.de/de/campusleben/neuigkeiten/2023/09/27/fingerabdruck-des-materials-mit-ki-materialien-schnell-und-sicher-identifizieren/",
+    "manuelle_pruefung": "richtig verworfen",
+    "pruefnotiz": "sensai.io ist eine polnische SEO-Akademie (Namensvetter), Deckel 0,45.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.uni-augsburg.de/de/campusleben/neuigkeiten/2023/09/27/fingerabdruck-des-materials-mit-ki-materialien-schnell-und-sicher-identifizieren/",
+        "kind": "project_page",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (universitaet augsburg)",
+          "Ort genannt (Augsburg)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Universit%C3%A4t+Augsburg"
+      },
+      {
+        "url": "https://www.uni-augsburg.de/de/fakultaet/mntf/mrm/prof/mech/aktuelles/",
+        "kind": "project_page",
+        "confidence": 0.35,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (universitaet augsburg)",
+          "Ort genannt (Augsburg)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Universit%C3%A4t+Augsburg"
+      },
+      {
+        "url": "https://www.region-a3.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Universit%C3%A4t+Augsburg"
+      },
+      {
+        "url": "https://www.uni-augsburg.de/de/forschung/einrichtungen/institute/ki-produktionsnetzwerk/forschung/zwillinge/",
+        "kind": "project_page",
+        "confidence": 0.4,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (universitaet augsburg)",
+          "Ort genannt (Augsburg)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Universit%C3%A4t+Augsburg"
+      },
+      {
+        "url": "https://www.kiproduktionsnetzwerk.de/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (universitaet augsburg)",
+          "EXIST erwähnt",
+          "Ort genannt (Augsburg)",
+          "Start-up-/Gründungsbezug",
+          "Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Universit%C3%A4t+Augsburg"
+      },
+      {
+        "url": "https://www.startuphub.ai/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Start-up"
+      },
+      {
+        "url": "https://finder.startupnationcentral.org/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Start-up"
+      },
+      {
+        "url": "https://sensaicorp.com/",
+        "kind": "company",
+        "confidence": 0.4,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain enthält Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Start-up"
+      },
+      {
+        "url": "https://www.sensai.app/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Start-up"
+      },
+      {
+        "url": "https://www.robertalexkaufman.com/",
+        "kind": "company",
+        "confidence": 0.1,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Start-up"
+      },
+      {
+        "url": "https://www.sensai.fit/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22sensAI%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://www.kiproduktionsnetzwerk.de/, 0.45: Projektname nur im Fließtext; Institut genannt (universitaet augsburg); EXIST erwähnt; Ort genannt (Augsburg); Start-up-/Gründungsbezug; Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts)"
+    ],
+    "sekunden": 1.0
+  },
+  {
+    "lead_id": "foekat-03efby0327",
+    "name": "VersatileRobotics",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 90",
+    "gefundene_url": "https://versatile-robotics.com/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Ort genannt (Weßling); verlinkt von Projektquelle event.dlr.de; Impressum nennt den Namen; Rechtsform beim Namen",
+    "fundstelle": "https://event.dlr.de/hm2025/versatile-robotics/",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.dlr.de/de/rm/technologie-transfer/ausgruendungen/versatile-robotics",
+    "manuelle_pruefung": "richtig (nach Fix)",
+    "pruefnotiz": "versatile-robotics.com, verlinkt von event.dlr.de; Weßling, GmbH. Vorher verpasst: CamelCase nicht getrennt, Suche nur nach 'VersatileRobotics', versatilerobotics.eu 'is parked' nicht als Parking erkannt.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://versatile-robotics.com/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Ort genannt (Weßling)",
+          "verlinkt von Projektquelle event.dlr.de",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen"
+        ],
+        "found_at": "https://event.dlr.de/hm2025/versatile-robotics/"
+      },
+      {
+        "url": "https://event.dlr.de/hm2025/versatile-robotics/",
+        "kind": "project_page",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Rechtsform beim Namen",
+          "erster Suchtreffer",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Versatile+Robotics%22+Deutsches+Zentrum+f%C3%BCr+Luft-+und+Raumfahrt+e.V."
+      },
+      {
+        "url": "https://www.dlr.de/de/rm/technologie-transfer/ausgruendungen/versatile-robotics",
+        "kind": "project_page",
+        "confidence": 0.7,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "EXIST erwähnt",
+          "Ort genannt (Weßling)",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Versatile+Robotics%22+Deutsches+Zentrum+f%C3%BCr+Luft-+und+Raumfahrt+e.V."
+      },
+      {
+        "url": "https://www.dlr.de/en/research-and-transfer/innovation-and-transfer/dlr_startup-factory/shortprofile/versatile-robotics-safety-and-control",
+        "kind": "project_page",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Versatile+Robotics%22+Deutsches+Zentrum+f%C3%BCr+Luft-+und+Raumfahrt+e.V."
+      },
+      {
+        "url": "https://rocketreach.co/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Seite ohne Text"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Versatile+Robotics%22+Deutsches+Zentrum+f%C3%BCr+Luft-+und+Raumfahrt+e.V."
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efwni117",
+    "name": "SpaceMast",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 90",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://elib.dlr.de/216645/",
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.dlr.de/de/aktuelles/nachrichten/2025/anwendungen-auf-der-erde-und-im-all-das-dlr-auf-der-bits-pretzels-2025/spacemast-ein-system-viele-anwendungen",
+        "kind": "project_page",
+        "confidence": 0.3,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Space+Mast%22+Deutsches+Zentrum+f%C3%BCr+Luft-+und+Raumfahrt+e.V."
+      },
+      {
+        "url": "https://elib.dlr.de/216645/",
+        "kind": "project_page",
+        "confidence": 0.4,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Ort genannt (Braunschweig)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpaceMast%22+Start-up"
+      },
+      {
+        "url": "https://www.dlr.de/de/aktuelles/nachrichten/2025/anwendungen-auf-der-erde-und-im-all-das-dlr-auf-der-bits-pretzels-2025/spacemast-ein-system-viele-anwendungen",
+        "kind": "project_page",
+        "confidence": 0.3,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpaceMast%22+Start-up"
+      },
+      {
+        "url": "https://innomatch.nds.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpaceMast%22+Start-up"
+      },
+      {
+        "url": "https://spacemast.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 521))"
+        ],
+        "found_at": "DNS: spacemast.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 3.3
+  },
+  {
+    "lead_id": "foekat-03efhb0044",
+    "name": "M-Shunt",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://www.m-shunt.com/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; EXIST erwähnt; Ort genannt (Bremen); Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug",
+    "fundstelle": "https://search.brave.com/search?q=%22M-Shunt%22+Start-up",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.uni-bremen.de/ialb/forschung/aktuelles/m-shunt-team-des-ialb-gewinnt-den-ersten-platz-bei-campusideen-2025",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Seite nennt EXIST; Impressum M-Shunt GmbH, Bremen (IALB Uni Bremen).",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.uni-bremen.de/ialb/forschung/aktuelles/m-shunt-team-des-ialb-gewinnt-den-ersten-platz-bei-campusideen-2025",
+        "kind": "project_page",
+        "confidence": 0.9,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (ialb)",
+          "EXIST erwähnt",
+          "Themenbegriffe (antrie, leistu, bauele)",
+          "Ort genannt (Bremen)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22M-Shunt%22+IALB"
+      },
+      {
+        "url": "https://innowi.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22M-Shunt%22+IALB"
+      },
+      {
+        "url": "https://www.uni-bremen.de/ialb",
+        "kind": "project_page",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (ialb)",
+          "Themenbegriffe (antrie, leistu, bauele)",
+          "Ort genannt (Bremen)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22M-Shunt%22+IALB"
+      },
+      {
+        "url": "https://www.uni-bremen.de/ialb/forschung/aktuelles/kooperationsprojekt-mit-kyushu-university",
+        "kind": "project_page",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (ialb)",
+          "Themenbegriffe (antrie, leistu, bauele)",
+          "Ort genannt (Bremen)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22M-Shunt%22+IALB"
+      },
+      {
+        "url": "https://www.chef-treff.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22M-Shunt%22+Start-up"
+      },
+      {
+        "url": "https://www.m-shunt.com/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "EXIST erwähnt",
+          "Ort genannt (Bremen)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22M-Shunt%22+Start-up"
+      },
+      {
+        "url": "https://bridge-online.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22M-Shunt%22+Start-up"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efbw0293",
+    "name": "SUNEO",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://www.suneo.ai/",
+      "confidence": 0.45,
+      "begruendung": "Projektname im Seitentitel; Domain = Projektname; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22SUNEO%22+Start-up"
+    },
+    "projektseite": "https://www.helmholtz.de/transfer/innovations-und-foerderprogramme/helmholtz-enterprise/",
+    "manuelle_pruefung": "richtig verworfen",
+    "pruefnotiz": "suneo.ai ist ein Slack-Assistent (Namensvetter); Projekt ist am Lichttechnischen Institut KIT.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.helmholtz.de/transfer/innovations-und-foerderprogramme/helmholtz-enterprise/",
+        "kind": "project_page",
+        "confidence": 0.15,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Start-up-/Gründungsbezug",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SUNEO%22+Karlsruher+Institut+f%C3%BCr+Technologie+%28Universit%C3%A4tsaufgabe%29"
+      },
+      {
+        "url": "https://innovators-homecoming.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SUNEO%22+Karlsruher+Institut+f%C3%BCr+Technologie+%28Universit%C3%A4tsaufgabe%29"
+      },
+      {
+        "url": "https://www.suneo.ai/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "erster Suchtreffer",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SUNEO%22+Start-up"
+      },
+      {
+        "url": "https://doraemon.fandom.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SUNEO%22+Start-up"
+      },
+      {
+        "url": "https://www.tuigroup.com/",
+        "kind": "company",
+        "confidence": 0.1,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SUNEO%22+Start-up"
+      },
+      {
+        "url": "https://development.tui-blue.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SUNEO%22+Start-up"
+      },
+      {
+        "url": "https://business.tui-blue.com/",
+        "kind": "company",
+        "confidence": 0.1,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SUNEO%22+Start-up"
+      },
+      {
+        "url": "https://firmeneintrag.creditreform.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 247))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SUNEO%22+Start-up"
+      },
+      {
+        "url": "https://suneo.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: suneo.de"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://www.suneo.ai/, 0.45: Projektname im Seitentitel; Domain = Projektname; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 2.2
+  },
+  {
+    "lead_id": "foekat-03efbw0316",
+    "name": "KM",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://km-dieberater.de/",
+      "confidence": 0.45,
+      "begruendung": "Projektname im Seitentitel; Impressum nennt den Namen; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22KM%22+Start-up"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://kminternational.com/",
+        "kind": "company",
+        "confidence": 0.05,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "erster Suchtreffer",
+          "Malus: Agentur/Webdesign",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22KM%22+Start-up"
+      },
+      {
+        "url": "https://km-dieberater.de/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Impressum nennt den Namen",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22KM%22+Start-up"
+      },
+      {
+        "url": "https://www.siliconrepublic.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22KM%22+Start-up"
+      },
+      {
+        "url": "https://www.chalktalksports.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22KM%22+Start-up"
+      },
+      {
+        "url": "https://www.apqc.org/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22KM%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://km-dieberater.de/, 0.45: Projektname im Seitentitel; Impressum nennt den Namen; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efby0358",
+    "name": "SoreAlert",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": "nicht gefunden (nur Projektseite)",
+    "pruefnotiz": "Fraunhofer-EMFT-Projektseite Sensorpflaster; sorealert.* leiten auf eine andere Domain um.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://healthcare-startups.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SoreAlert%22+Start-up"
+      },
+      {
+        "url": "https://www.munich-startup.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SoreAlert%22+Start-up"
+      },
+      {
+        "url": "https://youngentrepreneursinscience.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SoreAlert%22+Start-up"
+      },
+      {
+        "url": "https://www.sorala.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SoreAlert%22+Start-up"
+      },
+      {
+        "url": "https://axolotl-med.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SoreAlert%22+Start-up"
+      },
+      {
+        "url": "https://www.bionity.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SoreAlert%22+Start-up"
+      },
+      {
+        "url": "https://sanoa.net/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SoreAlert%22+Start-up"
+      },
+      {
+        "url": "https://sorealert.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: sorealert.de"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 2.2
+  },
+  {
+    "lead_id": "foekat-03efni0137",
+    "name": "B-Hear",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://bheardcharity.org/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22B-Hear%22+Start-up"
+      },
+      {
+        "url": "https://b-heard.app/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22B-Hear%22+Start-up"
+      },
+      {
+        "url": "https://bhear.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: bhear.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efnw0388",
+    "name": "KPLMotion",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efnw0410",
+    "name": "AutoAquaControl",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://ei.uni-paderborn.de/en/sen/startseite",
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.campus-start-ups.nrw/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutoAquaControl%22+Start-up"
+      },
+      {
+        "url": "https://www.tecup.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutoAquaControl%22+Start-up"
+      },
+      {
+        "url": "https://www.ostwestfalenlippe.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutoAquaControl%22+Start-up"
+      },
+      {
+        "url": "https://wege-bielefeld.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutoAquaControl%22+Start-up"
+      },
+      {
+        "url": "https://ei.uni-paderborn.de/en/sen/startseite",
+        "kind": "project_page",
+        "confidence": 0.5,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (paderborn university)",
+          "EXIST erwähnt",
+          "Ort genannt (Paderborn)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutoAquaControl%22+Start-up"
+      },
+      {
+        "url": "https://www.autoaquacontrol.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (timed out)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutoAquaControl%22+Start-up"
+      },
+      {
+        "url": "https://autoaquacontrol.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (timed out)"
+        ],
+        "found_at": "DNS: autoaquacontrol.de"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 2.6
+  },
+  {
+    "lead_id": "foekat-03efnw0408",
+    "name": "SECARA",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://secara.tech/",
+    "confidence": 0.95,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Ort genannt (Aachen); Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug",
+    "fundstelle": "https://search.brave.com/search?q=%22SECARA%22+Start-up",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": "wahrscheinlich richtig",
+    "pruefnotiz": "SECARA GmbH Aachen, Depolymerisation von Polyamiden; passt zum Lehrstuhl Heterogene Katalyse/Techn. Chemie (ITMC) der RWTH, die Seite nennt RWTH/EXIST aber nicht. Bestätigung nur über Ort + Impressum.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.wernersiemens-stiftung.ch/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SECARA%22+Start-up"
+      },
+      {
+        "url": "https://secara.tech/",
+        "kind": "company",
+        "confidence": 0.95,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Ort genannt (Aachen)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SECARA%22+Start-up"
+      },
+      {
+        "url": "https://koala.nrw/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SECARA%22+Start-up"
+      },
+      {
+        "url": "https://www.dicoding.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SECARA%22+Start-up"
+      },
+      {
+        "url": "https://id.techinasia.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SECARA%22+Start-up"
+      },
+      {
+        "url": "https://www.kunststoffe.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SECARA%22+Start-up"
+      },
+      {
+        "url": "http://210.57.208.25/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SECARA%22+Start-up"
+      },
+      {
+        "url": "https://www.gramedia.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SECARA%22+Start-up"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efnw0389",
+    "name": "PuraiteSLR",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efnw0406",
+    "name": "Iso-Flux",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://www.felder.de/",
+      "confidence": 0.1,
+      "begruendung": "Projektname nur im Fließtext; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22Iso-Flux%22+Start-up"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.felder.de/",
+        "kind": "company",
+        "confidence": 0.1,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Iso-Flux%22+Start-up"
+      },
+      {
+        "url": "https://docs.rs-online.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Iso-Flux%22+Start-up"
+      },
+      {
+        "url": "https://de.beta-layout.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Iso-Flux%22+Start-up"
+      },
+      {
+        "url": "https://www.ehajo.de/",
+        "kind": "company",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Malus: Online-Shop",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Iso-Flux%22+Start-up"
+      },
+      {
+        "url": "https://www.pkelektronik.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Iso-Flux%22+Start-up"
+      },
+      {
+        "url": "https://isoflux.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Seite ohne Text"
+        ],
+        "found_at": "DNS: isoflux.com"
+      },
+      {
+        "url": "https://isoflux.eu/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (timed out)"
+        ],
+        "found_at": "DNS: isoflux.eu"
+      },
+      {
+        "url": "http://iso-flux.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: iso-flux.de"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://www.felder.de/, 0.10: Projektname nur im Fließtext; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efhe0108",
+    "name": "AutonomIQ",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://autonomiq.de/",
+    "confidence": 0.95,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Ort genannt (Darmstadt); verlinkt von Projektquelle ptw.tu-darmstadt.de; Impressum nennt den Namen",
+    "fundstelle": "https://www.ptw.tu-darmstadt.de/forschung_ptw/tec/aktuelle_projekte_tec/autonomiq/autonomiq_tec.en.jsp",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.ptw.tu-darmstadt.de/forschung_ptw/tec/aktuelle_projekte_tec/autonomiq/autonomiq_tec.en.jsp",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Über-uns-Seite: aus dem PTW der TU Darmstadt hervorgegangen, EXIST-Forschungstransfer.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://autonomiq.de/",
+        "kind": "company",
+        "confidence": 0.95,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Ort genannt (Darmstadt)",
+          "verlinkt von Projektquelle ptw.tu-darmstadt.de",
+          "Impressum nennt den Namen"
+        ],
+        "found_at": "https://www.ptw.tu-darmstadt.de/forschung_ptw/tec/aktuelle_projekte_tec/autonomiq/autonomiq_tec.en.jsp"
+      },
+      {
+        "url": "https://www.ptw.tu-darmstadt.de/forschung_ptw/tec/aktuelle_projekte_tec/autonomiq/autonomiq_tec.en.jsp",
+        "kind": "project_page",
+        "confidence": 0.65,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (tu darmstadt)",
+          "Ort genannt (Darmstadt)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutonomIQ%22+TU+Darmstadt"
+      },
+      {
+        "url": "https://www.ptw.tu-darmstadt.de/forschung_ptw/tec/aktuelle_projekte_tec/autonomiq/autonomiq_tec.de.jsp",
+        "kind": "project_page",
+        "confidence": 0.55,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (tu darmstadt)",
+          "Ort genannt (Darmstadt)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutonomIQ%22+TU+Darmstadt"
+      },
+      {
+        "url": "https://www.ptw.tu-darmstadt.de/institut_ptw/aktuelles_ptw/aktuelleslist_details_674368.de.jsp",
+        "kind": "project_page",
+        "confidence": 0.35,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (tu darmstadt)",
+          "Ort genannt (Darmstadt)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutonomIQ%22+TU+Darmstadt"
+      },
+      {
+        "url": "https://hessen-ideen.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutonomIQ%22+TU+Darmstadt"
+      },
+      {
+        "url": "https://www.hessian.ai/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutonomIQ%22+TU+Darmstadt"
+      },
+      {
+        "url": "https://www.maschinenbau-gipfel.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22AutonomIQ%22+TU+Darmstadt"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efnw0391",
+    "name": "EXIST_P2P",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://www.betternow.org/",
+      "confidence": 0.25,
+      "begruendung": "Projektname prominent (Kopf/Überschrift); keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22P2P%22+Start-up"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://startupxplore.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22P2P%22+Start-up"
+      },
+      {
+        "url": "https://www.basicthinking.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22P2P%22+Start-up"
+      },
+      {
+        "url": "https://www.ventureradar.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22P2P%22+Start-up"
+      },
+      {
+        "url": "https://www.betternow.org/",
+        "kind": "company",
+        "confidence": 0.25,
+        "reasons": [
+          "Projektname prominent (Kopf/Überschrift)",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22P2P%22+Start-up"
+      },
+      {
+        "url": "https://startupfundraising.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22P2P%22+Start-up"
+      },
+      {
+        "url": "https://www.grin.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22P2P%22+Start-up"
+      },
+      {
+        "url": "https://www.startus-insights.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22P2P%22+Start-up"
+      },
+      {
+        "url": "https://www.forbes.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22P2P%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://www.betternow.org/, 0.25: Projektname prominent (Kopf/Überschrift); keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efnw0392",
+    "name": "PoLightFilters",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://chemie.uni-koeln.de/department/neuigkeiten-meldungen/einzelansicht/erster-platz-fuer-polightfilters-beim-high-technrw-demo-day",
+    "manuelle_pruefung": "richtig verworfen (nach Fix)",
+    "pruefnotiz": "campus-start-ups.nrw (Portal, nennt das Projekt nur im Text) wurde zuerst mit 0,65 gesetzt; behoben über Regel 'Name nur erwähnt'. Projektseite der Uni Köln gefunden.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://chemie.uni-koeln.de/department/neuigkeiten-meldungen/einzelansicht/erster-platz-fuer-polightfilters-beim-high-technrw-demo-day",
+        "kind": "project_page",
+        "confidence": 0.65,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "EXIST erwähnt",
+          "Ort genannt (Köln)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Mathematisch-Naturwissenschaftliche+Fakult%C3%A4t+Department+f%C3%BCr+Chemie+und+Biochemie+Institut+f%C3%BCr+Licht+und+Materialien+Humboldt+Centre+for+Nano-+and+Biophotonics"
+      },
+      {
+        "url": "https://www.polightfilters.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Mathematisch-Naturwissenschaftliche+Fakult%C3%A4t+Department+f%C3%BCr+Chemie+und+Biochemie+Institut+f%C3%BCr+Licht+und+Materialien+Humboldt+Centre+for+Nano-+and+Biophotonics"
+      },
+      {
+        "url": "https://uni-koeln.de/universitaet/aktuell/meldungen/meldungen-detail/bundesministerium-foerdert-gruendungsvorhaben-zu-bahnbrechender-filtertechnologie",
+        "kind": "project_page",
+        "confidence": 0.4,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "EXIST erwähnt",
+          "Ort genannt (Köln)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Mathematisch-Naturwissenschaftliche+Fakult%C3%A4t+Department+f%C3%BCr+Chemie+und+Biochemie+Institut+f%C3%BCr+Licht+und+Materialien+Humboldt+Centre+for+Nano-+and+Biophotonics"
+      },
+      {
+        "url": "https://www.campus-start-ups.nrw/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "EXIST erwähnt",
+          "Ort genannt (Köln)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Mathematisch-Naturwissenschaftliche+Fakult%C3%A4t+Department+f%C3%BCr+Chemie+und+Biochemie+Institut+f%C3%BCr+Licht+und+Materialien+Humboldt+Centre+for+Nano-+and+Biophotonics"
+      },
+      {
+        "url": "https://www.chemie.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Mathematisch-Naturwissenschaftliche+Fakult%C3%A4t+Department+f%C3%BCr+Chemie+und+Biochemie+Institut+f%C3%BCr+Licht+und+Materialien+Humboldt+Centre+for+Nano-+and+Biophotonics"
+      },
+      {
+        "url": "https://www.beaucamp-unternehmensberatung.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Mathematisch-Naturwissenschaftliche+Fakult%C3%A4t+Department+f%C3%BCr+Chemie+und+Biochemie+Institut+f%C3%BCr+Licht+und+Materialien+Humboldt+Centre+for+Nano-+and+Biophotonics"
+      },
+      {
+        "url": "https://uni-koeln.de/universitaet/aktuell/meldungen/meldungen-detail/bundesministerium-foerdert-gruendungsvorhaben-zu-bahnbrechender-filtertechnologie",
+        "kind": "project_page",
+        "confidence": 0.4,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "EXIST erwähnt",
+          "Ort genannt (Köln)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Start-up"
+      },
+      {
+        "url": "https://news.pm-global.co.uk/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Start-up"
+      },
+      {
+        "url": "https://www.globalprojectleader.co.uk/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Start-up"
+      },
+      {
+        "url": "https://www.chemeurope.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Start-up"
+      },
+      {
+        "url": "https://www.gateway-unikoeln.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22PoLightFilters%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://www.campus-start-ups.nrw/, 0.45: Projektname nur im Fließtext; EXIST erwähnt; Ort genannt (Köln); Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug; Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts)"
+    ],
+    "sekunden": 0.1
+  },
+  {
+    "lead_id": "foekat-03efsn0250",
+    "name": "SIMBA",
+    "stichprobe": "top20",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://tu-dresden.de/ing/maschinenwesen/if/fue/simfacture",
+    "manuelle_pruefung": "richtig verworfen",
+    "pruefnotiz": "simba.de = Simba Computer Systeme GmbH (Buchhaltungssoftware). In einem Zwischenstand fälschlich 0,85 (Themenstämme 'montag'/'sachse'), behoben.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://tu-dresden.de/ing/maschinenwesen/if/fue/simfacture",
+        "kind": "project_page",
+        "confidence": 0.55,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "EXIST erwähnt",
+          "Themenbegriffe (fertig, fueget, montag)",
+          "Ort genannt (Dresden)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Technische+Universit%C3%A4t+Dresden"
+      },
+      {
+        "url": "https://tu-dresden.de/bu/umwelt/hydro/isi/sww/die-professur/arbeitsgruppe-abwasserbehandlung/publikationen",
+        "kind": "project_page",
+        "confidence": 0.35,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (technische universitaet dresden)",
+          "Ort genannt (Dresden)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Technische+Universit%C3%A4t+Dresden"
+      },
+      {
+        "url": "http://www.informatik.htw-dresden.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Technische+Universit%C3%A4t+Dresden"
+      },
+      {
+        "url": "https://tu-dresden.de/bu/umwelt/hydro/isi/sww/die-professur/shy/methoden-und-ausstattung",
+        "kind": "project_page",
+        "confidence": 0.2,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Ort genannt (Dresden)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Technische+Universit%C3%A4t+Dresden"
+      },
+      {
+        "url": "https://www.htw-dresden.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Technische+Universit%C3%A4t+Dresden"
+      },
+      {
+        "url": "https://www.schoolandcollegelistings.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Technische+Universit%C3%A4t+Dresden"
+      },
+      {
+        "url": "https://manualzz.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Technische+Universit%C3%A4t+Dresden"
+      },
+      {
+        "url": "https://www.simba.de/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Impressum nennt den Namen",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Start-up"
+      },
+      {
+        "url": "https://simbaglobalstartups.com/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain enthält Projektname",
+          "Start-up-/Gründungsbezug",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Start-up"
+      },
+      {
+        "url": "https://www.simba.io/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Start-up-/Gründungsbezug",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Start-up"
+      },
+      {
+        "url": "https://www.forbes.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SIMBA%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://simbaglobalstartups.com/, 0.45: Projektname im Seitentitel; Domain enthält Projektname; Start-up-/Gründungsbezug; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 1.5
+  },
+  {
+    "lead_id": "foekat-03efbw0275",
+    "name": "SpinMagIC",
+    "stichprobe": "known+rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://www.spinmagic.eu/",
+    "confidence": 0.9,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; EXIST erwähnt; verlinkt von Projektquelle eni.uni-stuttgart.de; Start-up-/Gründungsbezug",
+    "fundstelle": "https://www.eni.uni-stuttgart.de/institut/aktuelles/meldungen/Teams-aus-der-Gruendungsregion-Stuttgart-SpinMagIC/",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.eni.uni-stuttgart.de/institut/aktuelles/meldungen/Teams-aus-der-Gruendungsregion-Stuttgart-SpinMagIC/",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Bekanntes Beispiel; Seite nennt EXIST, Uni-Stuttgart-Meldungen als Projektseiten.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.uni-stuttgart.de/universitaet/aktuelles/meldungen/Start-up-bringt-Quantensensor-zur-Marktreife/",
+        "kind": "project_page",
+        "confidence": 0.65,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "zwei Themenbegriffe (sensor, theore)",
+          "Institut genannt (universitaet stuttgart)",
+          "EXIST erwähnt",
+          "Ort genannt (Stuttgart)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpinMagIC%22+Universit%C3%A4t+Stuttgart"
+      },
+      {
+        "url": "https://www.spinmagic.eu/",
+        "kind": "company",
+        "confidence": 0.9,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "EXIST erwähnt",
+          "verlinkt von Projektquelle eni.uni-stuttgart.de",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://www.eni.uni-stuttgart.de/institut/aktuelles/meldungen/Teams-aus-der-Gruendungsregion-Stuttgart-SpinMagIC/"
+      },
+      {
+        "url": "https://www.eni.uni-stuttgart.de/institut/aktuelles/meldungen/Teams-aus-der-Gruendungsregion-Stuttgart-SpinMagIC/",
+        "kind": "project_page",
+        "confidence": 0.75,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (universitaet stuttgart)",
+          "EXIST erwähnt",
+          "Ort genannt (Stuttgart)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpinMagIC%22+Universit%C3%A4t+Stuttgart"
+      },
+      {
+        "url": "https://www.uni-stuttgart.de/en/university/news/all/Start-up-brings-quantum-sensor-to-market-maturity/",
+        "kind": "project_page",
+        "confidence": 0.55,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (iis)",
+          "EXIST erwähnt",
+          "Ort genannt (Stuttgart)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpinMagIC%22+Universit%C3%A4t+Stuttgart"
+      },
+      {
+        "url": "https://www.3d-grenzenlos.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpinMagIC%22+Universit%C3%A4t+Stuttgart"
+      },
+      {
+        "url": "https://thequantuminsider.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpinMagIC%22+Universit%C3%A4t+Stuttgart"
+      },
+      {
+        "url": "https://www.industr.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpinMagIC%22+Universit%C3%A4t+Stuttgart"
+      },
+      {
+        "url": "https://www.innovations-report.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SpinMagIC%22+Universit%C3%A4t+Stuttgart"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efbe0154",
+    "name": "BoneGuide",
+    "stichprobe": "known+rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://boneguide.com/",
+      "confidence": 0.45,
+      "begruendung": "Projektname im Seitentitel; Domain = Projektname; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "DNS: boneguide.com"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": "richtig verworfen (Firmen-Website unbekannt)",
+    "pruefnotiz": "boneguide.com ist ein US-Newsportal (Namensvetter). Eine echte Website wurde nicht gefunden (Suche blockiert).",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.artcollectorz.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Bone+Guide%22+Charit%C3%A9"
+      },
+      {
+        "url": "http://tboneguideservice.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar ([Errno 8] nodename nor servname provided, or not known)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Bone+Guide%22+Charit%C3%A9"
+      },
+      {
+        "url": "https://1md.org/",
+        "kind": "company",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Malus: Online-Shop",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Bone+Guide%22+Charit%C3%A9"
+      },
+      {
+        "url": "https://www.psu.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Bone+Guide%22+Charit%C3%A9"
+      },
+      {
+        "url": "https://www.bihealth.org/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BoneGuide%22+Start-up"
+      },
+      {
+        "url": "https://boneguide.app/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar ([Errno 8] nodename nor servname provided, or not known)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BoneGuide%22+Start-up"
+      },
+      {
+        "url": "https://steamsolo.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BoneGuide%22+Start-up"
+      },
+      {
+        "url": "https://boneguide.com/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "DNS: boneguide.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://boneguide.com/, 0.45: Projektname im Seitentitel; Domain = Projektname; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 4.8
+  },
+  {
+    "lead_id": "foekat-03efbb0063",
+    "name": "HoCHQuant",
+    "stichprobe": "known",
+    "prioritaet": "Priorität 75",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": "nicht gefunden",
+    "pruefnotiz": "hochquant.de: Zertifikat falsch, HTTP-Version ohne Text. Suche blockiert.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://industrie.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HoCHQuant%22+Brandenburgische+Technische+Universit%C3%A4t+Cottbus-Senftenberg"
+      },
+      {
+        "url": "https://www.radiocottbus.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HoCHQuant%22+Brandenburgische+Technische+Universit%C3%A4t+Cottbus-Senftenberg"
+      },
+      {
+        "url": "https://seenluft24.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HoCHQuant%22+Brandenburgische+Technische+Universit%C3%A4t+Cottbus-Senftenberg"
+      },
+      {
+        "url": "https://www.b-tu.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HoCHQuant%22+Start-up"
+      },
+      {
+        "url": "https://ostdeutsche-zeitung.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HoCHQuant%22+Start-up"
+      },
+      {
+        "url": "https://www.niederlausitz-aktuell.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HoCHQuant%22+Start-up"
+      },
+      {
+        "url": "https://quantumgradematerials.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HoCHQuant%22+Start-up"
+      },
+      {
+        "url": "http://hochquant.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Seite ohne Text"
+        ],
+        "found_at": "DNS: hochquant.de"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.1
+  },
+  {
+    "lead_id": "foekat-03efsn0258",
+    "name": "SideroGaIn",
+    "stichprobe": "known",
+    "prioritaet": "Priorität 60",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://hzdr.de/db/Cms?amp=&pNid=99&pOid=78488",
+    "manuelle_pruefung": "richtig (keine Website)",
+    "pruefnotiz": "siderogain.de ist zum Verkauf gelistet (Spaceship, 1.470 USD) und wird als Parking verworfen; HZDR-Meldung als Projektseite, verlinkt nur LinkedIn. Die im Auftrag genannte siderogain.de ist derzeit KEINE Firmen-Website.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://hzdr.de/db/Cms?amp=&pNid=99&pOid=78488",
+        "kind": "project_page",
+        "confidence": 0.9,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (helmholtz-zentrum dresden)",
+          "EXIST erwähnt",
+          "Ort genannt (Freiberg)",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Helmholtz-Zentrum+Dresden"
+      },
+      {
+        "url": "https://standort-sachsen.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Helmholtz-Zentrum+Dresden"
+      },
+      {
+        "url": "https://sciencebusiness.net/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Helmholtz-Zentrum+Dresden"
+      },
+      {
+        "url": "https://www.chemeurope.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Helmholtz-Zentrum+Dresden"
+      },
+      {
+        "url": "https://www.openpr.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Helmholtz-Zentrum+Dresden"
+      },
+      {
+        "url": "https://biooekonomie.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Helmholtz-Zentrum+Dresden"
+      },
+      {
+        "url": "https://business-saxony.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Helmholtz-Zentrum+Dresden"
+      },
+      {
+        "url": "https://oiger.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Helmholtz-Zentrum+Dresden"
+      },
+      {
+        "url": "https://hzdr.de/db/Cms?amp=&pNid=99&pOid=78488",
+        "kind": "project_page",
+        "confidence": 0.9,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (helmholtz-zentrum dresden)",
+          "EXIST erwähnt",
+          "Ort genannt (Freiberg)",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Start-up"
+      },
+      {
+        "url": "https://www.chemie.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SideroGaIn%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.1
+  },
+  {
+    "lead_id": "foekat-03efsn0252",
+    "name": "DyNAtrix",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://dynamicmatrices.eu/",
+    "confidence": 0.65,
+    "begruendung": "Projektname prominent (Kopf/Überschrift); Institut genannt (leibniz); Ort genannt (Dresden); Impressum nennt den Namen",
+    "fundstelle": "https://search.brave.com/search?q=%22DyNAtrix%22+Start-up",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Projektwebsite 'Dynamic Matrices Startup Project c/o Leibniz-IPF Dresden', Impressum nennt EXIST-Projekt; noch keine GmbH.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.medica-tradefair.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22DyNAtrix%22+Leibniz-Institut+f%C3%BCr+Polymerforschung+Dresden+e.V."
+      },
+      {
+        "url": "https://dynamicmatrices.eu/",
+        "kind": "company",
+        "confidence": 0.65,
+        "reasons": [
+          "Projektname prominent (Kopf/Überschrift)",
+          "Institut genannt (leibniz)",
+          "Ort genannt (Dresden)",
+          "Impressum nennt den Namen"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22DyNAtrix%22+Start-up"
+      },
+      {
+        "url": "https://phys.org/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22DyNAtrix%22+Start-up"
+      },
+      {
+        "url": "https://www.bionity.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22DyNAtrix%22+Start-up"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efhe0103",
+    "name": "Dimmable",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.uni-kassel.de/uni/aktuelles-aus-der-universitaet/sitemap-detail-news/2025/05/28/millionenfoerderung-fuer-schaltbare-brillen-mit-abdunkelbaren-kunststoffglaesern.html?cHash=e92a2a8221e9960b0790c130f3b99b5f",
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.uni-kassel.de/uni/aktuelles-aus-der-universitaet/sitemap-detail-news/2025/05/28/millionenfoerderung-fuer-schaltbare-brillen-mit-abdunkelbaren-kunststoffglaesern.html?cHash=e92a2a8221e9960b0790c130f3b99b5f",
+        "kind": "project_page",
+        "confidence": 0.6,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "zwei Themenbegriffe (werkst, kunsts)",
+          "Institut genannt (universitaet kassel)",
+          "EXIST erwähnt",
+          "Ort genannt (Kassel)",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Dimmable%22+Universit%C3%A4t+Kassel"
+      },
+      {
+        "url": "https://gruenderblog-uni-kassel.de/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "zwei Themenbegriffe (werkst, kunsts)",
+          "Institut genannt (universitaet kassel)",
+          "EXIST erwähnt",
+          "Ort genannt (Kassel)",
+          "Start-up-/Gründungsbezug",
+          "Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Dimmable%22+Universit%C3%A4t+Kassel"
+      },
+      {
+        "url": "https://www.uni-kassel.de/maschinenbau/institute/werkstofftechnik/fachgebiete/kunststofftechnik/team/deborah-kraft.html",
+        "kind": "project_page",
+        "confidence": 0.4,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "zwei Themenbegriffe (werkst, kunsts)",
+          "Institut genannt (universitaet kassel)",
+          "Ort genannt (Kassel)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Dimmable%22+Universit%C3%A4t+Kassel"
+      },
+      {
+        "url": "https://www.uni-kassel.de/uni/aktuelles-aus-der-universitaet/sitemap-detail-news/2025/05/28/millionenfoerderung-fuer-schaltbare-brillen-mit-abdunkelbaren-kunststoffglaesern.html?cHash=e92a2a8221e9960b0790c130f3b99b5f",
+        "kind": "project_page",
+        "confidence": 0.6,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "zwei Themenbegriffe (werkst, kunsts)",
+          "Institut genannt (universitaet kassel)",
+          "EXIST erwähnt",
+          "Ort genannt (Kassel)",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Dimmable%22+Start-up"
+      },
+      {
+        "url": "https://product.sylvania-group.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 404))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Dimmable%22+Start-up"
+      },
+      {
+        "url": "https://hessen-ideen.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Dimmable%22+Start-up"
+      },
+      {
+        "url": "https://www.philips-hue.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Dimmable%22+Start-up"
+      },
+      {
+        "url": "https://randlight.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Dimmable%22+Start-up"
+      },
+      {
+        "url": "https://sunco.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Dimmable%22+Start-up"
+      },
+      {
+        "url": "http://dimmable.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: dimmable.de"
+      },
+      {
+        "url": "http://dimmable.eu/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Seite ohne Text"
+        ],
+        "found_at": "DNS: dimmable.eu"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://gruenderblog-uni-kassel.de/, 0.45: Projektname nur im Fließtext; zwei Themenbegriffe (werkst, kunsts); Institut genannt (universitaet kassel); EXIST erwähnt; Ort genannt (Kassel); Start-up-/Gründungsbezug; Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts)"
+    ],
+    "sekunden": 0.5
+  },
+  {
+    "lead_id": "foekat-03efbw0289",
+    "name": "MillionMolecules",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://millionmolecules.de/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; EXIST erwähnt; Ort genannt (Freiburg im Breisgau); Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug; erster Suchtreffer",
+    "fundstelle": "https://search.brave.com/search?q=%22MillionMolecules%22+Start-up",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://news.vm.uni-freiburg.de/de/newsarchiv/biomolekuele-hochpraezise-quantifizieren-ausgruendung-millionmolecules-ist-gestartet",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Seite nennt EXIST, Freiburg, GmbH im Impressum.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://millionmolecules.de/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "EXIST erwähnt",
+          "Ort genannt (Freiburg im Breisgau)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22MillionMolecules%22+Start-up"
+      },
+      {
+        "url": "https://news.vm.uni-freiburg.de/de/newsarchiv/biomolekuele-hochpraezise-quantifizieren-ausgruendung-millionmolecules-ist-gestartet",
+        "kind": "project_page",
+        "confidence": 0.85,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (albert-ludwigs-universitaet freiburg)",
+          "EXIST erwähnt",
+          "Ort genannt (Freiburg im Breisgau)",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22MillionMolecules%22+Start-up"
+      },
+      {
+        "url": "https://www.hahn-schickard.de/",
+        "kind": "company",
+        "confidence": 0.25,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Ort genannt (Freiburg im Breisgau)",
+          "Start-up-/Gründungsbezug",
+          "Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22MillionMolecules%22+Start-up"
+      },
+      {
+        "url": "https://rocketreach.co/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Seite ohne Text"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22MillionMolecules%22+Start-up"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efbw0290",
+    "name": "SeaSparkle",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://seasparkle.app/",
+      "confidence": 0.45,
+      "begruendung": "Projektname im Seitentitel; Domain = Projektname; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22SeaSparkle%22+Start-up"
+    },
+    "projektseite": "https://micro.magnet.fsu.edu/featuredmicroscopist/vanegmond/noctilucadarkfieldlarge.html",
+    "manuelle_pruefung": "richtig verworfen",
+    "pruefnotiz": "seasparkle.app ohne Bezug zum Projekt (Namensvetter).",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://seasparkle.app/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "erster Suchtreffer",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SeaSparkle%22+Start-up"
+      },
+      {
+        "url": "https://seasparkle.org/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SeaSparkle%22+Start-up"
+      },
+      {
+        "url": "https://micro.magnet.fsu.edu/featuredmicroscopist/vanegmond/noctilucasmall.html",
+        "kind": "project_page",
+        "confidence": 0.3,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SeaSparkle%22+Start-up"
+      },
+      {
+        "url": "https://micro.magnet.fsu.edu/featuredmicroscopist/vanegmond/noctilucadarkfieldlarge.html",
+        "kind": "project_page",
+        "confidence": 0.3,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SeaSparkle%22+Start-up"
+      },
+      {
+        "url": "https://www.modulor.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SeaSparkle%22+Start-up"
+      },
+      {
+        "url": "http://seasparkle.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: seasparkle.de"
+      },
+      {
+        "url": "https://seasparkle.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: seasparkle.com"
+      },
+      {
+        "url": "http://seasparkle.eu/",
+        "kind": "company",
+        "confidence": 0.35,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Domain = Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "DNS: seasparkle.eu"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://seasparkle.app/, 0.45: Projektname im Seitentitel; Domain = Projektname; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 8.1
+  },
+  {
+    "lead_id": "foekat-03efby0324",
+    "name": "iNSyT",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://www.insyt.solutions/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; EXIST erwähnt; Ort genannt (München); Impressum nennt den Namen; Start-up-/Gründungsbezug",
+    "fundstelle": "https://search.brave.com/search?q=%22iNSyT%22+Start-up",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.iec.lmu.de/en/latest-news/news-overview/news/business-development-growth-lead-at-insyt-technologies-4b92eb30.html",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "iNSyT solutions, München, EXIST erwähnt (LMU Physik). Nur über die API gefunden.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://een-bayern.de/",
+        "kind": "company",
+        "confidence": 0.25,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Ort genannt (München)",
+          "erster Suchtreffer",
+          "Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22iNSyT%22+Ludwig-Maximilians-Universit%C3%A4t+M%C3%BCnchen"
+      },
+      {
+        "url": "https://talents.studysmarter.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22iNSyT%22+Start-up"
+      },
+      {
+        "url": "https://www.insyt.solutions/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "EXIST erwähnt",
+          "Ort genannt (München)",
+          "Impressum nennt den Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22iNSyT%22+Start-up"
+      },
+      {
+        "url": "https://www.rheinzeiger.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22iNSyT%22+Start-up"
+      },
+      {
+        "url": "https://www.iec.lmu.de/en/latest-news/news-overview/news/business-development-growth-lead-at-insyt-technologies-4b92eb30.html",
+        "kind": "project_page",
+        "confidence": 0.55,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (ludwig-maximilians-universitaet muenchen)",
+          "EXIST erwähnt",
+          "Ort genannt (München)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22iNSyT%22+Start-up"
+      },
+      {
+        "url": "https://evolutioneurope.eu/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22iNSyT%22+Start-up"
+      },
+      {
+        "url": "https://insyt.tawk.help/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22iNSyT%22+Start-up"
+      },
+      {
+        "url": "https://gust.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22iNSyT%22+Start-up"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efby0337",
+    "name": "Physonio",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efnw0382",
+    "name": "SA-Dynamics",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://sa-dynamics.com/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Institut genannt (rwth aachen university); EXIST erwähnt; Ort genannt (Aachen); Impressum nennt den Namen",
+    "fundstelle": "https://search.brave.com/search?q=%22SA-Dynamics%22+RWTH+Aachen+University",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.fb5.rwth-aachen.de/cms/Georessourcen/forschung/Forschungsaktivitaeten/~bnzbaq/SA-Dynamics-Start-up/",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Seite nennt RWTH Aachen University und EXIST.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.fb5.rwth-aachen.de/cms/Georessourcen/forschung/Forschungsaktivitaeten/~bnzbaq/SA-Dynamics-Start-up/",
+        "kind": "project_page",
+        "confidence": 0.8,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (rwth aachen university)",
+          "EXIST erwähnt",
+          "Ort genannt (Aachen)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SA-Dynamics%22+RWTH+Aachen+University"
+      },
+      {
+        "url": "https://sa-dynamics.com/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Institut genannt (rwth aachen university)",
+          "EXIST erwähnt",
+          "Ort genannt (Aachen)",
+          "Impressum nennt den Namen"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SA-Dynamics%22+RWTH+Aachen+University"
+      },
+      {
+        "url": "https://www.rwth-innovation.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SA-Dynamics%22+RWTH+Aachen+University"
+      },
+      {
+        "url": "https://www.knuw.nrw/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SA-Dynamics%22+RWTH+Aachen+University"
+      },
+      {
+        "url": "https://kuer.nrw/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SA-Dynamics%22+RWTH+Aachen+University"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efsn0249",
+    "name": "REPEAT",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.helios-gesundheit.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22REPEAT%22+Universit%C3%A4t+Leipzig"
+      },
+      {
+        "url": "https://www.uniklinikum-leipzig.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22REPEAT%22+Universit%C3%A4t+Leipzig"
+      },
+      {
+        "url": "https://www.hgb-leipzig.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22REPEAT%22+Universit%C3%A4t+Leipzig"
+      },
+      {
+        "url": "https://www.kunsthalle-sparkasse.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22REPEAT%22+Universit%C3%A4t+Leipzig"
+      },
+      {
+        "url": "https://www.bandsintown.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22REPEAT%22+Universit%C3%A4t+Leipzig"
+      },
+      {
+        "url": "https://stackoverflow.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22REPEAT%22+Start-up"
+      },
+      {
+        "url": "https://dot.la/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22REPEAT%22+Start-up"
+      },
+      {
+        "url": "https://startup.club/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22REPEAT%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.3
+  },
+  {
+    "lead_id": "foekat-03efni0124",
+    "name": "Inhale-Plus",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://inhaleplus.mk/",
+      "confidence": 0.45,
+      "begruendung": "Projektname im Seitentitel; Domain = Projektname; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22Inhale-Plus%22+Start-up"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://inhaleplus.mk/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "erster Suchtreffer",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Inhale-Plus%22+Start-up"
+      },
+      {
+        "url": "https://www.annifarm.com.mk/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Inhale-Plus%22+Start-up"
+      },
+      {
+        "url": "https://dsb.wordpress.org/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Inhale-Plus%22+Start-up"
+      },
+      {
+        "url": "https://kirby.fandom.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Inhale-Plus%22+Start-up"
+      },
+      {
+        "url": "https://blog.truneb.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Inhale-Plus%22+Start-up"
+      },
+      {
+        "url": "https://garminclub.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Inhale-Plus%22+Start-up"
+      },
+      {
+        "url": "http://inhaleplus.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: inhaleplus.de"
+      },
+      {
+        "url": "http://inhaleplus.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: inhaleplus.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://inhaleplus.mk/, 0.45: Projektname im Seitentitel; Domain = Projektname; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efmv0034",
+    "name": "Ymolution",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://www.ymolution.com/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; EXIST erwähnt; Ort genannt (Greifswald); Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug",
+    "fundstelle": "https://search.brave.com/search?q=%22Ymolution%22+Start-up",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": "wahrscheinlich richtig",
+    "pruefnotiz": "Synthetische Nano-Antikörper, Greifswald, EXIST; Institut (Funktionelle Genomforschung) nicht genannt.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://land-mv.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Ymolution%22+Universit%C3%A4tsmedizin+Greifswald"
+      },
+      {
+        "url": "https://www.ostsee-zeitung.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 403))"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Ymolution%22+Universit%C3%A4tsmedizin+Greifswald"
+      },
+      {
+        "url": "https://www.lifepr.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Ymolution%22+Universit%C3%A4tsmedizin+Greifswald"
+      },
+      {
+        "url": "https://vegconomist.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (The read operation timed out)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Ymolution%22+Universit%C3%A4tsmedizin+Greifswald"
+      },
+      {
+        "url": "https://www.tagesschau.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Ymolution%22+Universit%C3%A4tsmedizin+Greifswald"
+      },
+      {
+        "url": "https://www.innovations-report.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Ymolution%22+Universit%C3%A4tsmedizin+Greifswald"
+      },
+      {
+        "url": "https://www.laborjournal.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Ymolution%22+Start-up"
+      },
+      {
+        "url": "https://www.ymolution.com/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "EXIST erwähnt",
+          "Ort genannt (Greifswald)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Ymolution%22+Start-up"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efsn0245",
+    "name": "SONOJET",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://www.sonojet.com/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Ort genannt (Dresden); verlinkt von Projektquelle leibniz-gemeinschaft.de; Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug",
+    "fundstelle": "https://www.leibniz-gemeinschaft.de/transfer/transfer-und-innovation/gruenden-in-der-leibniz-gemeinschaft/gruendungsnachrichten/gruendungsnachrichten-single-neu/newsdetails/leibniz-gruendungspreis-2026",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.leibniz-gemeinschaft.de/transfer/transfer-und-innovation/gruenden-in-der-leibniz-gemeinschaft/gruendungsnachrichten/gruendungsnachrichten-single-neu/newsdetails/leibniz-gruendungspreis-2026",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Verlinkt von leibniz-gemeinschaft.de (Transfer), Dresden, Impressum GmbH; passt zu IFW Dresden.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.sonojet.com/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Ort genannt (Dresden)",
+          "verlinkt von Projektquelle leibniz-gemeinschaft.de",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://www.leibniz-gemeinschaft.de/transfer/transfer-und-innovation/gruenden-in-der-leibniz-gemeinschaft/gruendungsnachrichten/gruendungsnachrichten-single-neu/newsdetails/leibniz-gruendungspreis-2026"
+      },
+      {
+        "url": "https://www.leibniz-gemeinschaft.de/transfer/transfer-und-innovation/gruenden-in-der-leibniz-gemeinschaft/gruendungsnachrichten/gruendungsnachrichten-single-neu/newsdetails/leibniz-gruendungspreis-2026",
+        "kind": "project_page",
+        "confidence": 0.6,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (leibniz)",
+          "EXIST erwähnt",
+          "Ort genannt (Dresden)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SONOJET%22+Leibniz-Institut+f%C3%BCr+Festk%C3%B6rper-+und+Werkstoffforschung+Dresden+e.V."
+      },
+      {
+        "url": "https://pro-physik.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SONOJET%22+Leibniz-Institut+f%C3%BCr+Festk%C3%B6rper-+und+Werkstoffforschung+Dresden+e.V."
+      },
+      {
+        "url": "https://www.ifw-dresden.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SONOJET%22+Leibniz-Institut+f%C3%BCr+Festk%C3%B6rper-+und+Werkstoffforschung+Dresden+e.V."
+      },
+      {
+        "url": "https://startup-mitteldeutschland.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SONOJET%22+Leibniz-Institut+f%C3%BCr+Festk%C3%B6rper-+und+Werkstoffforschung+Dresden+e.V."
+      },
+      {
+        "url": "https://www.all-electronics.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SONOJET%22+Leibniz-Institut+f%C3%BCr+Festk%C3%B6rper-+und+Werkstoffforschung+Dresden+e.V."
+      },
+      {
+        "url": "https://3druck.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22SONOJET%22+Leibniz-Institut+f%C3%BCr+Festk%C3%B6rper-+und+Werkstoffforschung+Dresden+e.V."
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efsn0248",
+    "name": "dentson",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://dentson.tech/",
+      "confidence": 0.45,
+      "begruendung": "Projektname im Seitentitel; Domain = Projektname; Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22dentson%22+Fraunhofer-Institut+f%C3%BCr+Werkzeugmaschinen+und+Umformtechnik+%28IWU%29"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://dentson.tech/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22dentson%22+Fraunhofer-Institut+f%C3%BCr+Werkzeugmaschinen+und+Umformtechnik+%28IWU%29"
+      },
+      {
+        "url": "https://www.zm-online.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22dentson%22+Fraunhofer-Institut+f%C3%BCr+Werkzeugmaschinen+und+Umformtechnik+%28IWU%29"
+      },
+      {
+        "url": "https://gruendergarten.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22dentson%22+Start-up"
+      },
+      {
+        "url": "https://talents.studysmarter.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22dentson%22+Start-up"
+      },
+      {
+        "url": "https://www.zwp-online.info/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22dentson%22+Start-up"
+      },
+      {
+        "url": "https://www.zahnarzt-dr-weiss-bochum.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22dentson%22+Start-up"
+      },
+      {
+        "url": "https://www.zahnarzt-jung-leverkusen.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22dentson%22+Start-up"
+      },
+      {
+        "url": "https://www.wetterauer-zeitung.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22dentson%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://dentson.tech/, 0.45: Projektname im Seitentitel; Domain = Projektname; Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 0.1
+  },
+  {
+    "lead_id": "foekat-03efbe0155",
+    "name": "CoMMoD",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://www.commod-house.com/",
+      "confidence": 0.45,
+      "begruendung": "Projektname im Seitentitel; Domain enthält Projektname; Impressum nennt den Namen; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22CoMMoD%22+Start-up"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.containerbasis.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22CoMMoD%22+Start-up"
+      },
+      {
+        "url": "https://oekonews.at/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22CoMMoD%22+Start-up"
+      },
+      {
+        "url": "https://www.meinbezirk.at/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22CoMMoD%22+Start-up"
+      },
+      {
+        "url": "https://www.commod-house.com/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain enthält Projektname",
+          "Impressum nennt den Namen",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22CoMMoD%22+Start-up"
+      },
+      {
+        "url": "https://bigsee.eu/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22CoMMoD%22+Start-up"
+      },
+      {
+        "url": "https://commod.ai/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Seite ohne Text"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22CoMMoD%22+Start-up"
+      },
+      {
+        "url": "http://commod.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 401))"
+        ],
+        "found_at": "DNS: commod.de"
+      },
+      {
+        "url": "http://commod.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 200))"
+        ],
+        "found_at": "DNS: commod.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://www.commod-house.com/, 0.45: Projektname im Seitentitel; Domain enthält Projektname; Impressum nennt den Namen; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 0.1
+  },
+  {
+    "lead_id": "foekat-03efbw0285",
+    "name": "Rement",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://www.rement.tech/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Ort genannt (Karlsruhe); verlinkt von Projektquelle kit.edu; Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug",
+    "fundstelle": "https://www.kit.edu/kit/202412-neo2024-erneut-gewinnt-eine-ausgrundung-des-kit.php",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.kit.edu/kit/202412-neo2024-erneut-gewinnt-eine-ausgrundung-des-kit.php",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Verlinkt von einer KIT-Meldung (NEO2024), Karlsruhe, GmbH.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.imb.kit.edu/bt/index.php",
+        "kind": "project_page",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "zwei Themenbegriffe (massiv, bausto)",
+          "Institut genannt (kit)",
+          "Ort genannt (Karlsruhe)",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Rement%22+Karlsruher+Institut+f%C3%BCr+Technologie+%28KIT%29"
+      },
+      {
+        "url": "https://www.rement.tech/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Ort genannt (Karlsruhe)",
+          "verlinkt von Projektquelle kit.edu",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://www.kit.edu/kit/202412-neo2024-erneut-gewinnt-eine-ausgrundung-des-kit.php"
+      },
+      {
+        "url": "https://www.kit.edu/kit/202412-neo2024-erneut-gewinnt-eine-ausgrundung-des-kit.php",
+        "kind": "project_page",
+        "confidence": 0.6,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "zwei Themenbegriffe (umwelt, bausto)",
+          "Institut genannt (karlsruher institut fuer technologie (kit))",
+          "EXIST erwähnt",
+          "Ort genannt (Karlsruhe)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Rement%22+Karlsruher+Institut+f%C3%BCr+Technologie+%28KIT%29"
+      },
+      {
+        "url": "https://greentech-bw.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Rement%22+Karlsruher+Institut+f%C3%BCr+Technologie+%28KIT%29"
+      },
+      {
+        "url": "https://wirtschaftskraft.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Rement%22+Karlsruher+Institut+f%C3%BCr+Technologie+%28KIT%29"
+      },
+      {
+        "url": "https://kit-gruenderschmiede.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Rement%22+Karlsruher+Institut+f%C3%BCr+Technologie+%28KIT%29"
+      },
+      {
+        "url": "https://trk.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Rement%22+Karlsruher+Institut+f%C3%BCr+Technologie+%28KIT%29"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efby0331",
+    "name": "CRM-SALESCOACH",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://crmsalescoach.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Seite ohne Text"
+        ],
+        "found_at": "DNS: crmsalescoach.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efbw0284",
+    "name": "BEHtec",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://behtec.de/",
+    "confidence": 1.0,
+    "begruendung": "Projektname prominent (Kopf/Überschrift); Domain = Projektname; EXIST erwähnt; Ort genannt (Stuttgart); verlinkt von Projektquelle traces.uni-stuttgart.de; Impressum nennt den Namen; Start-up-/Gründungsbezug",
+    "fundstelle": "https://www.traces.uni-stuttgart.de/aktuelles/Teams-aus-der-Gruendungsregion-Stuttgart-BEHtec/",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.traces.uni-stuttgart.de/aktuelles/Teams-aus-der-Gruendungsregion-Stuttgart-BEHtec/",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Verlinkt von traces.uni-stuttgart.de (EXIST-Teams), EXIST erwähnt.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.icm-bw.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BEHtec%22+Institut+f%C3%BCr+Flugzeugbau+%28IFB%29"
+      },
+      {
+        "url": "https://behtec.de/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname prominent (Kopf/Überschrift)",
+          "Domain = Projektname",
+          "EXIST erwähnt",
+          "Ort genannt (Stuttgart)",
+          "verlinkt von Projektquelle traces.uni-stuttgart.de",
+          "Impressum nennt den Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://www.traces.uni-stuttgart.de/aktuelles/Teams-aus-der-Gruendungsregion-Stuttgart-BEHtec/"
+      },
+      {
+        "url": "https://www.traces.uni-stuttgart.de/aktuelles/Teams-aus-der-Gruendungsregion-Stuttgart-BEHtec/",
+        "kind": "project_page",
+        "confidence": 0.75,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (ifb)",
+          "EXIST erwähnt",
+          "Ort genannt (Stuttgart)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BEHtec%22+Institut+f%C3%BCr+Flugzeugbau+%28IFB%29"
+      },
+      {
+        "url": "https://www.f06.uni-stuttgart.de/en/faculty/news/Sustainable-lightweight-construction-from-Stuttgart/",
+        "kind": "project_page",
+        "confidence": 0.55,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (ifb)",
+          "EXIST erwähnt",
+          "Ort genannt (Stuttgart)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BEHtec%22+Institut+f%C3%BCr+Flugzeugbau+%28IFB%29"
+      },
+      {
+        "url": "https://www.kongress-bw.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BEHtec%22+Institut+f%C3%BCr+Flugzeugbau+%28IFB%29"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efsn0242",
+    "name": "Smarobix",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://smarobix.com/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; zwei Themenbegriffe (adapti, dynami); Institut genannt (university of dresden); Ort genannt (Dresden); Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug",
+    "fundstelle": "https://search.brave.com/search?q=%22Smarobix%22+Technische+Universit%C3%A4t+Dresden",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Seite nennt TU Dresden, Dresden, GmbH.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://smarobix.com/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "zwei Themenbegriffe (adapti, dynami)",
+          "Institut genannt (university of dresden)",
+          "Ort genannt (Dresden)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Smarobix%22+Technische+Universit%C3%A4t+Dresden"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efby0312",
+    "name": "TSS",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://www.startupstadium.tw/",
+      "confidence": 0.35,
+      "begruendung": "Projektname prominent (Kopf/Überschrift); Start-up-/Gründungsbezug; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22TSS%22+Start-up"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.startupstadium.tw/",
+        "kind": "company",
+        "confidence": 0.35,
+        "reasons": [
+          "Projektname prominent (Kopf/Überschrift)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22TSS%22+Start-up"
+      },
+      {
+        "url": "https://learn.microsoft.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22TSS%22+Start-up"
+      },
+      {
+        "url": "https://geneticeducation.co.in/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22TSS%22+Start-up"
+      },
+      {
+        "url": "https://www.ulmer-spickzettel.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22TSS%22+Start-up"
+      },
+      {
+        "url": "https://www.techpark.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22TSS%22+Start-up"
+      },
+      {
+        "url": "http://wiki.tim-solutions.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Platzhalter-/Parking-Seite"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22TSS%22+Start-up"
+      },
+      {
+        "url": "https://forum.teamspeak.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22TSS%22+Start-up"
+      },
+      {
+        "url": "https://rna.cd-genomics.com/",
+        "kind": "company",
+        "confidence": 0.15,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "zwei Themenbegriffe (transl, therap)",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22TSS%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://www.startupstadium.tw/, 0.35: Projektname prominent (Kopf/Überschrift); Start-up-/Gründungsbezug; erster Suchtreffer; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efby0316",
+    "name": "Linque",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://hoch-sprung.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (The read operation timed out)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Linque%22+Ludwig-Maximilians-Universit%C3%A4t+M%C3%BCnchen"
+      },
+      {
+        "url": "https://exhibitors.world-of-photonics.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Linque%22+Ludwig-Maximilians-Universit%C3%A4t+M%C3%BCnchen"
+      },
+      {
+        "url": "https://rocketreach.co/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Seite ohne Text"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Linque%22+Ludwig-Maximilians-Universit%C3%A4t+M%C3%BCnchen"
+      },
+      {
+        "url": "https://www.baystartup.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Linque%22+Ludwig-Maximilians-Universit%C3%A4t+M%C3%BCnchen"
+      },
+      {
+        "url": "https://startupsucht.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Linque%22+Start-up"
+      },
+      {
+        "url": "https://www.wiwo.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Linque%22+Start-up"
+      },
+      {
+        "url": "https://www.munich-startup.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Linque%22+Start-up"
+      },
+      {
+        "url": "https://www.tum-venture-labs.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Linque%22+Start-up"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efni0120",
+    "name": "X-ECD",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.geml.uni-hannover.de/smt/news/new-detailansicht/news/innovativer-gasdetektor-x-ecd-team-am-gem-erhaelt-exist-foerderung",
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.lnqe.uni-hannover.de/en/news-events-1/online-spotlights/news-detailed-view/news/innovativer-gasdetektor-x-ecd-team-am-gem-erhaelt-exist-foerderung",
+        "kind": "project_page",
+        "confidence": 0.8,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (leibniz)",
+          "EXIST erwähnt",
+          "Ort genannt (Hannover)",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22X-ECD%22+Leibniz+Universit%C3%A4t+Hannover"
+      },
+      {
+        "url": "https://www.geml.uni-hannover.de/smt/news/new-detailansicht/news/innovativer-gasdetektor-x-ecd-team-am-gem-erhaelt-exist-foerderung",
+        "kind": "project_page",
+        "confidence": 0.8,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "zwei Themenbegriffe (grundl, messte)",
+          "Institut genannt (leibniz universitaet hannover)",
+          "EXIST erwähnt",
+          "Ort genannt (Hannover)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22X-ECD%22+Leibniz+Universit%C3%A4t+Hannover"
+      },
+      {
+        "url": "https://research.uni-hannover.de/de/publications/non-radioactive-electron-capture-detector-based-on-soft-x-ray-ion/",
+        "kind": "project_page",
+        "confidence": 0.4,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "zwei Themenbegriffe (grundl, messte)",
+          "Institut genannt (leibniz universitaet hannover)",
+          "Ort genannt (Hannover)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22X-ECD%22+Leibniz+Universit%C3%A4t+Hannover"
+      },
+      {
+        "url": "http://x-ecd.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (timed out)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22X-ECD%22+Leibniz+Universit%C3%A4t+Hannover"
+      },
+      {
+        "url": "https://www.wissenhochn.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22X-ECD%22+Leibniz+Universit%C3%A4t+Hannover"
+      },
+      {
+        "url": "https://www.wirtschaftsfoerderung-hannover.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (_ssl.c:994: The handshake operation timed out)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22X-ECD%22+Start-up"
+      },
+      {
+        "url": "https://www.braunschweig.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22X-ECD%22+Start-up"
+      },
+      {
+        "url": "https://citylife-bs.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22X-ECD%22+Start-up"
+      },
+      {
+        "url": "https://xecd.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: xecd.com"
+      },
+      {
+        "url": "http://x-ecd.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "DNS: x-ecd.de"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Kandidatin gefunden"
+    ],
+    "sekunden": 0.7
+  },
+  {
+    "lead_id": "foekat-03efnw0375",
+    "name": "LayerPerformance",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://layerperformance.com/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Ort genannt (Aachen); Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug; erster Suchtreffer",
+    "fundstelle": "https://search.brave.com/search?q=%22LayerPerformance%22+Start-up",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": null,
+    "manuelle_pruefung": "wahrscheinlich richtig (nach Fix)",
+    "pruefnotiz": "layerperformance.com: Slicer-Software für nicht-planaren/mehrachsigen 3D-Druck, Aachen, GmbH; passt zum IKV der RWTH, das Institut ist nicht genannt. Gefunden über die getrennte Schreibweise 'Layer Performance'.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.rwth-innovation.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Layer+Performance%22+Rheinisch-Westf%C3%A4lische+Technische+Hochschule+Aachen"
+      },
+      {
+        "url": "https://accelerator.high-tech.nrw/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Layer+Performance%22+Rheinisch-Westf%C3%A4lische+Technische+Hochschule+Aachen"
+      },
+      {
+        "url": "https://layerperformance.com/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Ort genannt (Aachen)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22LayerPerformance%22+Start-up"
+      },
+      {
+        "url": "https://www.knuw.nrw/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22LayerPerformance%22+Start-up"
+      },
+      {
+        "url": "https://plasticker.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22LayerPerformance%22+Start-up"
+      },
+      {
+        "url": "https://fontsinuse.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22LayerPerformance%22+Start-up"
+      },
+      {
+        "url": "https://additive-manufacturing-jobs.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22LayerPerformance%22+Start-up"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 2.4
+  },
+  {
+    "lead_id": "foekat-03efhe0097",
+    "name": "Metubiq",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://metubiq.de/",
+    "confidence": 0.95,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Ort genannt (Kassel); Impressum nennt den Namen; Rechtsform beim Namen; erster Suchtreffer",
+    "fundstelle": "https://search.brave.com/search?q=%22Metubiq%22+Universit%C3%A4t+Kassel",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://uni-kassel.de/einrichtung/ukt/unikat-von-der-idee-zur-gruendung/gruendungsprojekte",
+    "manuelle_pruefung": "wahrscheinlich richtig",
+    "pruefnotiz": "Messtechnik/Schwingungskorrektur, Kassel, Impressum; passt zum FG Messtechnik Uni Kassel, das Institut ist nicht genannt.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://metubiq.de/",
+        "kind": "company",
+        "confidence": 0.95,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Ort genannt (Kassel)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Metubiq%22+Universit%C3%A4t+Kassel"
+      },
+      {
+        "url": "https://en.industryarena.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Metubiq%22+Universit%C3%A4t+Kassel"
+      },
+      {
+        "url": "https://www.hessischer-gruenderpreis.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Metubiq%22+Universit%C3%A4t+Kassel"
+      },
+      {
+        "url": "https://www.uni-kassel.de/eecs/en/infothek/veranstaltungen/mitarbeiterinnen-fest/mitmachangebot-fuehrungen-und-vortraege.html",
+        "kind": "project_page",
+        "confidence": 0.4,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (university of kassel)",
+          "Ort genannt (Kassel)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Metubiq%22+Universit%C3%A4t+Kassel"
+      },
+      {
+        "url": "https://prexcon.ch/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Metubiq%22+Universit%C3%A4t+Kassel"
+      },
+      {
+        "url": "https://innovationspreis-goettingen.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Metubiq%22+Universit%C3%A4t+Kassel"
+      },
+      {
+        "url": "https://uni-kassel.de/einrichtung/ukt/unikat-von-der-idee-zur-gruendung/gruendungsprojekte",
+        "kind": "project_page",
+        "confidence": 0.55,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (universitaet kassel)",
+          "EXIST erwähnt",
+          "Ort genannt (Kassel)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Metubiq%22+Universit%C3%A4t+Kassel"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efsn0241",
+    "name": "BotFellows",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://botfellows.com/",
+    "confidence": 1.0,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Ort genannt (Chemnitz); verlinkt von Projektquelle iwu.fraunhofer.de; Impressum nennt den Namen; Rechtsform beim Namen",
+    "fundstelle": "https://www.iwu.fraunhofer.de/de/presse-und-medien/presseinformationen/2025-Innovative-Robotik-Software-Botfellows-Dynamic-Safety-macht-Schutzzaeune-ueberfluessig.html",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.iwu.fraunhofer.de/de/presse-und-medien/presseinformationen/2024-Botfellows-Robotik-Spezialisten-am-Fraunhofer-IWU-erhalten-EXIST-Foerderung-fuer-Hightech-Gruendung.html",
+    "manuelle_pruefung": "richtig",
+    "pruefnotiz": "Verlinkt von einer Presseinformation des Fraunhofer IWU, Chemnitz, GmbH.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.tcc-chemnitz.de/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Ort genannt (Chemnitz)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer",
+          "Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BotFellows%22+Start-up"
+      },
+      {
+        "url": "https://www.starting-up.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BotFellows%22+Start-up"
+      },
+      {
+        "url": "https://botfellows.com/",
+        "kind": "company",
+        "confidence": 1.0,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Ort genannt (Chemnitz)",
+          "verlinkt von Projektquelle iwu.fraunhofer.de",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen"
+        ],
+        "found_at": "https://www.iwu.fraunhofer.de/de/presse-und-medien/presseinformationen/2025-Innovative-Robotik-Software-Botfellows-Dynamic-Safety-macht-Schutzzaeune-ueberfluessig.html"
+      },
+      {
+        "url": "https://www.iwu.fraunhofer.de/de/presse-und-medien/presseinformationen/2025-Innovative-Robotik-Software-Botfellows-Dynamic-Safety-macht-Schutzzaeune-ueberfluessig.html",
+        "kind": "project_page",
+        "confidence": 0.7,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (iwu)",
+          "Ort genannt (Chemnitz)",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BotFellows%22+Start-up"
+      },
+      {
+        "url": "https://www.diesachsen.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BotFellows%22+Start-up"
+      },
+      {
+        "url": "https://www.iwu.fraunhofer.de/de/presse-und-medien/presseinformationen/2024-Botfellows-Robotik-Spezialisten-am-Fraunhofer-IWU-erhalten-EXIST-Foerderung-fuer-Hightech-Gruendung.html",
+        "kind": "project_page",
+        "confidence": 0.75,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (iwu)",
+          "EXIST erwähnt",
+          "Ort genannt (Chemnitz)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BotFellows%22+Start-up"
+      },
+      {
+        "url": "https://www.ingenieur.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BotFellows%22+Start-up"
+      },
+      {
+        "url": "https://silicon-saxony.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BotFellows%22+Start-up"
+      },
+      {
+        "url": "https://www.drones-magazin.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22BotFellows%22+Start-up"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efhe0094",
+    "name": "MimoSense",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://mimosense.de/",
+    "confidence": 0.65,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; Ort genannt (Darmstadt)",
+    "fundstelle": "DNS: mimosense.de",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.etit.tu-darmstadt.de/fachbereich/etit_newsdetails_290496.en.jsp",
+    "manuelle_pruefung": "wahrscheinlich richtig",
+    "pruefnotiz": "Sensorfolie für Schlafmonitoring; einzige Bestätigung ist der Ort Darmstadt (TU Darmstadt EMK), Confidence 0,65, nur über Domain-Raten.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.ihk.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22MimoSense%22+Start-up"
+      },
+      {
+        "url": "https://hessen-ideen.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22MimoSense%22+Start-up"
+      },
+      {
+        "url": "https://www.etit.tu-darmstadt.de/fachbereich/etit_newsdetails_290496.en.jsp",
+        "kind": "project_page",
+        "confidence": 0.65,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (university of darmstadt)",
+          "EXIST erwähnt",
+          "Ort genannt (Darmstadt)",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22MimoSense%22+Start-up"
+      },
+      {
+        "url": "https://www.etit.tu-darmstadt.de/fachbereich/etit_newsdetails_273344.en.jsp",
+        "kind": "project_page",
+        "confidence": 0.5,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "EXIST erwähnt",
+          "Ort genannt (Darmstadt)",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22MimoSense%22+Start-up"
+      },
+      {
+        "url": "https://www.deutsche-startups.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22MimoSense%22+Start-up"
+      },
+      {
+        "url": "https://mimosense.de/",
+        "kind": "company",
+        "confidence": 0.65,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Ort genannt (Darmstadt)"
+        ],
+        "found_at": "DNS: mimosense.de"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 2.9
+  },
+  {
+    "lead_id": "foekat-03efnw0356",
+    "name": "Tentris",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": "https://tentris.io/",
+    "confidence": 0.95,
+    "begruendung": "Projektname im Seitentitel; Domain = Projektname; verlinkt von Projektquelle hni.uni-paderborn.de; Impressum nennt den Namen; Rechtsform beim Namen",
+    "fundstelle": "https://www.hni.uni-paderborn.de/nachricht/dice-spin-off-tentris-erhaelt-zwei-millionen-euro-finanzierung",
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.hni.uni-paderborn.de/nachricht/dice-spin-off-tentris-erhaelt-zwei-millionen-euro-finanzierung",
+    "manuelle_pruefung": "richtig (nach Fix)",
+    "pruefnotiz": "tentris.io nennt Paderborn University und EXIST. Vorher Fehltreffer tentris.dice-research.org (Paper-Seite der DICE-Gruppe), behoben über Regel Forschungs-/Paper-Seite.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://tentris.dice-research.org/iswc2020/",
+        "kind": "project_page",
+        "confidence": 0.7,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "verlinkt von Projektquelle uni-paderborn.de"
+        ],
+        "found_at": "https://www.uni-paderborn.de/projekt/425"
+      },
+      {
+        "url": "https://www.uni-paderborn.de/projekt/425",
+        "kind": "project_page",
+        "confidence": 0.6,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (universitaet paderborn)",
+          "Ort genannt (Paderborn)",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Tentris%22+Universit%C3%A4t+Paderborn"
+      },
+      {
+        "url": "https://www.hni.uni-paderborn.de/ds/lehre/bachelor-und-masterarbeiten/ma-tentris-cluster-a-distributing-tensor-based-triple",
+        "kind": "project_page",
+        "confidence": 0.55,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (universitaet paderborn)",
+          "Ort genannt (Paderborn)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Tentris%22+Universit%C3%A4t+Paderborn"
+      },
+      {
+        "url": "https://www.campus-start-ups.nrw/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (universitaet paderborn)",
+          "EXIST erwähnt",
+          "Ort genannt (Paderborn)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Tentris%22+Universit%C3%A4t+Paderborn"
+      },
+      {
+        "url": "https://tentris.io/",
+        "kind": "company",
+        "confidence": 0.95,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "verlinkt von Projektquelle hni.uni-paderborn.de",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen"
+        ],
+        "found_at": "https://www.hni.uni-paderborn.de/nachricht/dice-spin-off-tentris-erhaelt-zwei-millionen-euro-finanzierung"
+      },
+      {
+        "url": "https://www.hni.uni-paderborn.de/nachricht/dice-spin-off-tentris-erhaelt-zwei-millionen-euro-finanzierung",
+        "kind": "project_page",
+        "confidence": 0.75,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (universitaet paderborn)",
+          "EXIST erwähnt",
+          "Ort genannt (Paderborn)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Tentris%22+Universit%C3%A4t+Paderborn"
+      },
+      {
+        "url": "https://www.hessian.ai/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Tentris%22+Universit%C3%A4t+Paderborn"
+      },
+      {
+        "url": "https://foundersfoundation.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22Tentris%22+Universit%C3%A4t+Paderborn"
+      }
+    ],
+    "fehler": [],
+    "sekunden": 0.0
+  },
+  {
+    "lead_id": "foekat-03efnw0363",
+    "name": "mechIC",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://www.campus-start-ups.nrw/",
+      "confidence": 0.45,
+      "begruendung": "Projektname nur im Fließtext; Institut genannt (ruhr-universitaet bochum); EXIST erwähnt; Ort genannt (Bochum); Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug; Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts",
+      "fundstelle": "https://search.brave.com/search?q=%22mechIC%22+Start-up"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": "richtig verworfen",
+    "pruefnotiz": "campus-start-ups.nrw, gleiche Regel.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.mechic.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (The read operation timed out)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22mechIC%22+Ruhr-Universit%C3%A4t+Bochum"
+      },
+      {
+        "url": "https://etit.ruhr-uni-bochum.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22mechIC%22+Ruhr-Universit%C3%A4t+Bochum"
+      },
+      {
+        "url": "https://news.rub.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22mechIC%22+Ruhr-Universit%C3%A4t+Bochum"
+      },
+      {
+        "url": "https://www.ivam.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22mechIC%22+Ruhr-Universit%C3%A4t+Bochum"
+      },
+      {
+        "url": "https://dialog.vde.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22mechIC%22+Start-up"
+      },
+      {
+        "url": "https://www.campus-start-ups.nrw/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (ruhr-universitaet bochum)",
+          "EXIST erwähnt",
+          "Ort genannt (Bochum)",
+          "Impressum nennt den Namen",
+          "Rechtsform beim Namen",
+          "Start-up-/Gründungsbezug",
+          "Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22mechIC%22+Start-up"
+      },
+      {
+        "url": "https://high-tech.nrw/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22mechIC%22+Start-up"
+      },
+      {
+        "url": "https://mechic.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "DNS: mechic.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://www.campus-start-ups.nrw/, 0.45: Projektname nur im Fließtext; Institut genannt (ruhr-universitaet bochum); EXIST erwähnt; Ort genannt (Bochum); Impressum nennt den Namen; Rechtsform beim Namen; Start-up-/Gründungsbezug; Name nur erwähnt (Verzeichnis/Portal/Presse), nicht die Website des Projekts)"
+    ],
+    "sekunden": 0.1
+  },
+  {
+    "lead_id": "foekat-03efby0308",
+    "name": "HydroPURE",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": {
+      "url": "https://hydropure.ae/",
+      "confidence": 0.45,
+      "begruendung": "Projektname im Seitentitel; Domain = Projektname; Start-up-/Gründungsbezug; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter",
+      "fundstelle": "https://search.brave.com/search?q=%22HydroPURE%22+Start-up"
+    },
+    "projektseite": null,
+    "manuelle_pruefung": "richtig verworfen",
+    "pruefnotiz": "hydropure.ae (VAE, Wasseraufbereiter) ist ein Namensvetter.",
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "http://www.hydropure.be/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HydroPURE%22+Start-up"
+      },
+      {
+        "url": "https://www.hydropuretechnologies.com/",
+        "kind": "company",
+        "confidence": 0.35,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Malus: Online-Shop",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HydroPURE%22+Start-up"
+      },
+      {
+        "url": "https://en.hpwater.com/",
+        "kind": "company",
+        "confidence": 0.3,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HydroPURE%22+Start-up"
+      },
+      {
+        "url": "https://www.pure11.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HydroPURE%22+Start-up"
+      },
+      {
+        "url": "https://hydropure.ae/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "Start-up-/Gründungsbezug",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HydroPURE%22+Start-up"
+      },
+      {
+        "url": "https://purehydro.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (URL außerhalb der Unternehmenswebsite)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HydroPURE%22+Start-up"
+      },
+      {
+        "url": "http://hydropure.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "DNS: hydropure.de"
+      },
+      {
+        "url": "https://hydropure.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar ([Errno 61] Connection refused)"
+        ],
+        "found_at": "DNS: hydropure.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: https://hydropure.ae/, 0.45: Projektname im Seitentitel; Domain = Projektname; Start-up-/Gründungsbezug; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 1.0
+  },
+  {
+    "lead_id": "foekat-03efvhe091",
+    "name": "HAPPY",
+    "stichprobe": "rank21_50",
+    "prioritaet": "Priorität 80",
+    "gefundene_url": null,
+    "confidence": null,
+    "begruendung": null,
+    "fundstelle": null,
+    "beste_kandidatin_unter_schwelle": null,
+    "projektseite": "https://www.mpi-marburg.mpg.de/1242520/About-HAPPY",
+    "manuelle_pruefung": null,
+    "pruefnotiz": null,
+    "suche_verfuegbar": true,
+    "kandidaten": [
+      {
+        "url": "https://www.mpi-marburg.mpg.de/1242520/About-HAPPY",
+        "kind": "project_page",
+        "confidence": 0.6,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Institut genannt (max-planck)",
+          "Ort genannt (Marburg)",
+          "erster Suchtreffer"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HAPPY%22+Max-Planck-Institut+f%C3%BCr+terrestrische+Mikrobiologie"
+      },
+      {
+        "url": "https://www.mpi-marburg.mpg.de/1485589/event-archiv",
+        "kind": "project_page",
+        "confidence": 0.4,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Institut genannt (max-planck-institut fuer terrestrische mikrobiologie)",
+          "Ort genannt (Marburg)",
+          "Start-up-/Gründungsbezug"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HAPPY%22+Max-Planck-Institut+f%C3%BCr+terrestrische+Mikrobiologie"
+      },
+      {
+        "url": "https://www.forschungsfinder-hessen.de/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "Projektname kommt auf der Seite nicht vor"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HAPPY%22+Max-Planck-Institut+f%C3%BCr+terrestrische+Mikrobiologie"
+      },
+      {
+        "url": "https://happystartups.co/",
+        "kind": "company",
+        "confidence": 0.3,
+        "reasons": [
+          "Projektname nur im Fließtext",
+          "Domain enthält Projektname",
+          "Start-up-/Gründungsbezug",
+          "erster Suchtreffer",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HAPPY%22+Start-up"
+      },
+      {
+        "url": "https://thehappystartupschool.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HAPPY%22+Start-up"
+      },
+      {
+        "url": "https://thehappystartupschool.wordpress.com/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain enthält Projektname",
+          "Start-up-/Gründungsbezug",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HAPPY%22+Start-up"
+      },
+      {
+        "url": "https://happystartupsummer.camp/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (HTML-Seite zu groß)"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HAPPY%22+Start-up"
+      },
+      {
+        "url": "https://podcast.happystartups.co/",
+        "kind": "company",
+        "confidence": 0.35,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Start-up-/Gründungsbezug",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "https://search.brave.com/search?q=%22HAPPY%22+Start-up"
+      },
+      {
+        "url": "http://happy.de/",
+        "kind": "company",
+        "confidence": 0.45,
+        "reasons": [
+          "Projektname im Seitentitel",
+          "Domain = Projektname",
+          "keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter"
+        ],
+        "found_at": "DNS: happy.de"
+      },
+      {
+        "url": "http://happy.com/",
+        "kind": "rejected",
+        "confidence": 0.0,
+        "reasons": [
+          "nicht abrufbar (Keine HTML-Seite (HTTP 400))"
+        ],
+        "found_at": "DNS: happy.com"
+      }
+    ],
+    "fehler": [
+      "website_match: keine Website über Schwelle 0.60 (beste: http://happy.de/, 0.45: Projektname im Seitentitel; Domain = Projektname; keine Bestätigung durch Institut/EXIST/Thema/Ort: möglicher Namensvetter)"
+    ],
+    "sekunden": 0.7
+  }
+]

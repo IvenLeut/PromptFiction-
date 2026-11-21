@@ -133,7 +133,8 @@ def test_exist_without_founders_reads_sensibly():
                    evidence=[ev("grants", FK, day=date(2025, 10, 1)), ev("in_databases", "https://web.archive.org/cdx/x", "Wayback CDX")],
                    in_databases=False)
     r, _ = run(lead)
-    assert r["team_score"] == 60.0 and r["confidence"] < CFG["texte"]["hypothese_min_confidence"]
+    # 59: Vollzeit (EXIST) + Forschungsteam-Proxy des Forschungstransfers (scoring_config: komplementaer.forschungsteam)
+    assert r["team_score"] == 59.0 and r["confidence"] < CFG["texte"]["hypothese_min_confidence"]
     assert r["investmenthypothese"].startswith("Datenlage zu dünn für eine Hypothese")
     assert "Wir investieren" not in r["investmenthypothese"]
     assert r["why_now"] == ("Noch vor der Gründung; EXIST-Forschungstransfer endete 09/2026; "
@@ -150,10 +151,10 @@ def test_funding_evidence_names_the_programme_and_ended_grant_in_why_now():
                    signals=[SourceSignal(source="foekat", type="exist_projekt", url=FK, date=date(2025, 10, 1), evidence="FKZ")])
     r, _ = run(stip)
     fin = next(e for e in r["evidence"] if e["kriterium"] == "finanzierung")
-    assert fin["aussage"] == "Bisherige Förderung 135.000 EUR (EXIST-Gründungsstipendium)" and fin["punkte"] == 45.0
+    assert fin["aussage"] == "Bisherige Förderung 135.000 EUR (EXIST-Gründungsstipendium)" and fin["punkte"] == 40.0
     assert "EXIST-Gründungsstipendium endete 09/2026" in r["why_now"]
     ft = next(e for e in run(sourced())[0]["evidence"] if e["kriterium"] == "finanzierung")
-    assert ft["aussage"] == "Bisherige Förderung 598.747 EUR (EXIST-Forschungstransfer)" and ft["punkte"] == 25.0
+    assert ft["aussage"] == "Bisherige Förderung 598.747 EUR (EXIST-Forschungstransfer)" and ft["punkte"] == 30.0
     # ended more than exist_nachlauf_monate ago: no longer mentioned
     alt = stip.model_copy(update={"grants": [stip.grants[0].model_copy(update={"start": date(2024, 1, 1), "end": date(2024, 12, 31)})]})
     assert "endete" not in run(alt)[0]["why_now"]
@@ -170,5 +171,6 @@ def test_usable_public_grant_does_not_duplicate_funding():
     scoring = scoring.model_copy(update={"public_grant": grant, "evidence": scoring.evidence | {beleg.stable_id(): beleg}})
     d = apply_scoring_input(to_dossier(lead, CFG), scoring)
     assert d["foerderung"] == [{"programm": "EXIST-Forschungstransfer", "summe_eur": 598747, "start": "2024-10-01",
-                                "ende": "2026-07-31", "quelle": FK}]
+                                "ende": "2026-07-31", "quelle": FK, "kennzeichen": "03EFBY0323",
+                                "empfaenger": None, "ausfuehrende_stelle": None, "thema": None}]
     assert sum(e["kriterium"] == "finanzierung" and e["url"] is not None for e in score_dossier(d, CFG, TAG)["evidence"]) == 1
