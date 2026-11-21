@@ -93,6 +93,13 @@ def test_negated_prototype_not_claimed():
     assert 'validation' not in d.facts
 
 
+def test_specific_customer_segment_is_preferred_to_generic_company_noun():
+    d = dossier()
+    extract(d, [page('Wissen bleibt im Unternehmen.'), page('Software für CNC-Drehteilefertiger.', URL+'produkt')])
+    assert d.facts['buyer'].value == 'CNC-Drehteilefertiger'
+    assert d.facts['buyer'].source_url == URL+'produkt'
+
+
 def test_timeline_formation_is_not_previous_grant_milestone():
     d=dossier();d.earliest_founding=d.latest_founding=None
     p=page('TestPhoton GmbH',URL+'ueber-uns')

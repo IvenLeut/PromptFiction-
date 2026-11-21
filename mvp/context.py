@@ -26,7 +26,9 @@ PATTERNS = {
 PATTERNS['product'] += r'|\b(?:KI|AI)[- ](?:Telefonassistent\w*|Telefonist\w*|Assistent\w*|receptionist\w*|assistant\w*)\b'
 PATTERNS['technology'] += r'|\b(?:KI|AI)[- ](?:Telefonassistent\w*|Telefonist\w*|Assistent\w*|receptionist\w*|assistant\w*)\b'
 PATTERNS['buyer'] += r'|\b(?:Autohäuser|Werkstätten|Autohaus|car dealerships|dental laboratories|chip manufacturers)\b'
+PATTERNS['buyer'] += r'|\b(?:CNC[- ]Drehteilefertiger|Auftragsfertiger|Lohnfertiger|Zerspanungsbetriebe|machine shops|contract manufacturers)\b'
 PATTERNS['benefit'] += r'|\b(?:accelerat\w*|faster|lower costs|weight reduction|reduces? energy)\b'
+GENERIC_BUYER = re.compile(r'Unternehmen|Betriebe|businesses|enterprises', re.I)
 
 AGENCY = re.compile(r'\b(?:Digitalagentur|Werbeagentur|IT[- ]Consulting|Softwareagentur|Unternehmensberatung|IT[- ]Dienstleister|individuelle Systeme|individuelle Softwareentwicklung|custom software development)\b|\b(?:wir sind|ist eine?|we are|is an?)\b[^.!?\n]{0,65}\b(?:Agentur|agency|consultancy|Beratungshaus)\b', re.I)
 
@@ -41,12 +43,25 @@ def extract(dossier: Dossier, pages: list[dict]):
             dossier.sources.append(page['source'])
     business = [p for p in pages if not re.search(r'impress|imprint|legal|privacy|datenschutz', p['url'], re.I)]
     for key, pattern in PATTERNS.items():
+        generic_buyer = None
         for page in pages if key in {'team', 'inactive'} else business:
-            found = next((m for m in re.finditer(pattern,page['text'],re.I)
-                if not re.search(r'\b(?:no|not|kein\w*|noch nicht|planned|geplant)\b',page['text'][max(0,m.start()-35):m.start()],re.I)),None)
-            if found:
-                add_fact(dossier, key, found.group(0), page, found)
+            for match in re.finditer(pattern, page['text'], re.I):
+                before = page['text'][max(0, match.start()-35):match.start()]
+                if re.search(r'\b(?:no|not|kein\w*|noch nicht|planned|geplant)\b', before, re.I):
+                    continue
+                if key == 'buyer' and GENERIC_BUYER.fullmatch(match.group()):
+                    if generic_buyer is None:
+                        generic_buyer = (match, page)
+                    continue
+                add_fact(dossier, key, match.group(), page, match)
                 break
+            else:
+                continue
+            break
+        else:
+            if key == 'buyer' and generic_buyer:
+                match, page = generic_buyer
+                add_fact(dossier, key, match.group(), page, match)
     # Only a clear service-business self-description triggers a review. A genuine
     # product needs to be assessed separately even when services are also offered.
     for page in business:
