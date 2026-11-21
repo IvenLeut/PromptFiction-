@@ -15,11 +15,15 @@ from models import (
     AnalysisRun, ContextResult, EnrichedLead, EvaluatedLead, EvaluationScores, PipelineIssue, RawLead,
     ResearchResult, SearchCriteria,
 )
-from scoring_input import build_scoring_input
+from scoring_input import admission_issue, build_scoring_input
 
 logger = logging.getLogger(__name__)
 
 _PRIORITY = re.compile(r"\s*Priorität\s+([0-9]+)\s*:")
+# Step 1 (sourcing/mapping.py) marks a programme-default industry with the hint "industry_unclassified" in the
+# "Hinweise:" line of each signal's evidence and with the sentence part "Branche nicht klassifiziert" in
+# `prioritization_reason`; older runs wrote the hint into the reason ("Flags: …").
+_UNCLASSIFIED_MARKERS = ("industry_unclassified", "Branche nicht klassifiziert")
 
 
 class MixedDataError(ValueError):
@@ -40,6 +44,18 @@ def lead_priority(lead) -> int:
     return min(int(match[1]), 100) if match else 0
 
 
+def industry_unclassified(lead: RawLead) -> bool:
+    """True if step 1 only defaulted `industry` (no keyword hit). Demo leads never are.
+
+    The one reader of the step-1 marker: evaluation/engine.py (no sector label) and the dashboard
+    ("nicht klassifiziert") both use it.
+    """
+    if lead.is_demo:
+        return False
+    texts = [lead.prioritization_reason or ""] + [signal.evidence or "" for signal in lead.signals]
+    return any(marker in text for text in texts for marker in _UNCLASSIFIED_MARKERS)
+
+
 def ranking_key(lead) -> tuple[bool, float, int, str]:
     """Step-3 sort key: score desc (missing last), then step-1 priority desc, then id. Also used by the dashboard."""
     return (lead.overall_score is None, -(lead.overall_score or 0), -lead_priority(lead), lead.id)
@@ -55,6 +71,10 @@ def discover(criteria: SearchCriteria, *, use_mock: bool = True,
     as a safety cap for providers that return more; for a provider that already cut at the limit it is
     a no-op, so nothing is cut twice. With such a provider, a lead dropped here leaves a gap (the run
     returns fewer than `limit`); with an uncapped provider later leads fill it.
+
+    The result is a plain list: `complete`/`warnings` of sourcing.engine.SourcingLeads (incomplete
+    catalogue export) are logged by `search` but do not reach AnalysisRun, because PipelineIssue has
+    no "sourcing" stage and no lead-independent form (a contract change the owners have to agree on).
     """
     if provider is None:
         if use_mock:
@@ -130,9 +150,10 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
     """Step 3: calculations and ranking (sorted by `ranking_key`).
 
     Demo: the evaluator receives the EnrichedLead. Live: the ScoringInput is rebuilt from sources
-    (SCORING_HANDOFF.md). Held back as an issue before scoring: no usable DE evidence at the as-of date,
-    and a VC status that is confirmed or conflicting. An unknown VC status ("missing"/"ambiguous") is the
-    normal case for pre-founding research projects and is scored, as is "reported_none".
+    (SCORING_HANDOFF.md). Held back as an issue before scoring (`scoring_input.admission_issue`, the one
+    gate): no usable DE evidence at the as-of date, and a VC status that is confirmed or conflicting. An
+    unknown VC status ("missing"/"ambiguous") is the normal case for pre-founding research projects and
+    is scored, as is "reported_none".
     """
     _validate_input(leads, use_mock)
     if evaluator is None:
@@ -148,15 +169,8 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
                 _preserve(lead, evaluated)
             else:
                 scoring = build_scoring_input(lead, as_of=lead.scoring_input.as_of if lead.scoring_input else None)
-                if scoring.country.status != "usable":
-                    result.issues.append(PipelineIssue(
-                        lead_id=lead.id, stage="evaluation", message="Kein nutzbarer Deutschland-Beleg am Stichtag.",
-                    ))
-                    continue
-                vc = scoring.vc_status
-                if vc.value == "confirmed" or vc.status == "conflicting":
-                    result.issues.append(PipelineIssue(lead_id=lead.id, stage="evaluation",
-                                                       message="VC-Finanzierung gefunden oder widersprüchlich gemeldet."))
+                if reason := admission_issue(scoring):
+                    result.issues.append(PipelineIssue(lead_id=lead.id, stage="evaluation", message=reason))
                     continue
                 scores = _call_evaluator(evaluator, scoring, lead)
                 dossier = lead.model_copy(update={"scoring_input": scoring})

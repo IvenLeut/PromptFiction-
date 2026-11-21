@@ -1,6 +1,6 @@
 """Schritt 3: Bewertung. Die Rechenlogik liegt in scoring/, hier nur die Übersetzung.
 
-Schnittstelle (Toms Vertrag, SCORING_HANDOFF.md): `evaluate(ScoringInput) -> EvaluationScores`.
+Schnittstelle (Vertrag aus Schritt 2, SCORING_HANDOFF.md): `evaluate(ScoringInput) -> EvaluationScores`.
 Die Pipeline reicht zusätzlich das Dossier als `lead=` durch, weil der ScoringInput keine Gründerprofile,
 Förderbeträge, Rechtsform, Partner oder Patente enthält. Ohne `lead` wird nur der ScoringInput bewertet.
 Gilt ein Parameter im ScoringInput als `usable`, hat er Vorrang vor dem gleichbedeutenden Dossierfeld.
@@ -15,6 +15,7 @@ Regeln der Übersetzung:
 from datetime import date
 
 from models import EnrichedLead, EvaluatedLead, EvaluationScores, Industry
+from pipeline import industry_unclassified
 from scoring import load_config, score_dossier
 from scoring_models import ScoringInput
 
@@ -30,10 +31,6 @@ SPAETE_RUNDEN = {"series a", "series b", "series c", "series d", "growth", "late
 # first_db_date, idw mentions/round-ups, *_alt candidates, model quotes) is context, not a signal: a namesake
 # Crunchbase capture or an unrelated press round-up must not become the "first signal" of a project.
 SIGNAL_FIELDS = {"grants", "idw", "founding_year_mention", "first_web_capture"}
-# Step 1 (sourcing/mapping.py) marks a default industry with this flag in prioritization_reason ("Flags: …" or
-# "Hinweise: …") or in a signal's evidence; older runs wrote the plain-text marker. Keep in sync with mapping.py.
-UNCLASSIFIED_FLAG = "industry_unclassified"
-UNCLASSIFIED_TEXT = "Branche nicht klassifiziert"
 _CONFIG = None
 
 
@@ -53,18 +50,10 @@ def _is_signal(e) -> bool:
             and "(Erwähnung)" not in source)  # "idw (Erwähnung)": name mention in a round-up, same as idw_mention
 
 
-def _industry_unclassified(lead: EnrichedLead) -> bool:
-    """True if step 1 only defaulted `industry` (marker in prioritization_reason or a signal). Demo leads never are."""
-    if lead.is_demo:
-        return False
-    texts = [lead.prioritization_reason or ""] + [s.evidence or "" for s in lead.signals]
-    return any(m in t for t in texts for m in (UNCLASSIFIED_FLAG, UNCLASSIFIED_TEXT))
-
-
 def _branche(lead: EnrichedLead) -> str | None:
     if lead.htgf_sector:
         return lead.htgf_sector
-    return None if _industry_unclassified(lead) else BRANCHE[lead.industry]
+    return None if industry_unclassified(lead) else BRANCHE[lead.industry]
 
 
 def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
@@ -202,7 +191,7 @@ def _evidence_url(scoring: ScoringInput, parameter):
 
 
 def apply_scoring_input(dossier: dict, scoring: ScoringInput) -> dict:
-    """Overlay the usable, frozen parameters of Tom's ScoringInput onto the scorer dossier.
+    """Overlay the usable, frozen parameters of the step-2 ScoringInput onto the scorer dossier.
 
     `public_grant` is deliberately not mapped: it only says *that* a grant exists, while `foerderung` comes from
     `lead.grants` (programme, amount, term per Förderkatalog row). Mapping it would add a second entry for the same grant.
@@ -283,9 +272,14 @@ def _scores(r: dict, lead: EnrichedLead | None) -> dict:
 def evaluate(scoring: ScoringInput | EnrichedLead, *, lead: EnrichedLead | None = None, as_of: date | None = None):
     """Live scoring.
 
-    - `evaluate(ScoringInput, lead=EnrichedLead) -> EvaluationScores`: the pipeline path (Tom's handoff plus dossier).
+    - `evaluate(ScoringInput, lead=EnrichedLead) -> EvaluationScores`: the pipeline path (the step-2 handoff plus dossier).
     - `evaluate(ScoringInput) -> EvaluationScores`: frozen handoff only.
     - `evaluate(EnrichedLead) -> EvaluatedLead`: direct call with a dossier; its own `scoring_input` is overlaid if set.
+
+    The admission gate (`scoring_input.admission_issue`: no usable DE evidence, VC confirmed or conflicting) is
+    applied by `pipeline.evaluate_context` before this function, so such leads never arrive here on the
+    pipeline path. Called directly, a lead with a confirmed VC status is not rejected but scored as
+    "zu_spaet" (`funding_meldung`): no overall score, stage "Early Growth", the reason in `risks`.
     """
     if isinstance(scoring, EnrichedLead):
         lead, scoring, as_lead = scoring, scoring.scoring_input, True

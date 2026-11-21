@@ -211,7 +211,7 @@ def test_director_variants():
     assert fields_of("Vertreten durch die Geschäftsführerin Dr. med. Anna Arzt")["managing_directors"] == ["Anna Arzt"]
     assert fields_of("Geschäftsführung:", "Dipl.-Ing. Lisa Müller", "Tom Meier", "Registergericht: Amtsgericht Köln")["managing_directors"] == ["Lisa Müller", "Tom Meier"]
     assert fields_of("Vorstand: Dr. Peter Pan (Vorsitzender), Wendy Darling")["managing_directors"] == ["Peter Pan", "Wendy Darling"]
-    assert fields_of("Managing Director authorized to represent the company: Dr. Alexander Regnat")["managing_directors"] == ["Alexander Regnat"]
+    assert fields_of("Managing Director authorized to represent the company: Dr. Erika Musterfrau")["managing_directors"] == ["Erika Musterfrau"]
     assert fields_of("Represented by", "The Managing Directors are Dr. Pedro Gomez, Dr. Maria Laparidou, and Dr. Miguel Molina.")["managing_directors"] == ["Pedro Gomez", "Maria Laparidou", "Miguel Molina"]
     assert fields_of("CEO: Jane Roe")["managing_directors"] == ["Jane Roe"]
     assert "managing_directors" not in fields_of("Unser Art Director gestaltet die Seite.", "Verantwortlich: Kim Muster")
@@ -219,8 +219,8 @@ def test_director_variants():
 
 
 def test_director_name_is_cut_before_an_address_on_the_same_line():
-    line = "Emqopter GmbH Gesellschafter-Geschäftsführer: Marvin Bihl, Dr. Nils Gageik (Vorsitz) Otto-Hahn-Straße 7 97080 Würzburg Telefonnummer: +49 931 1"
-    assert fields_of(line)["managing_directors"] == ["Marvin Bihl", "Nils Gageik"]
+    line = "Beispiel GmbH Gesellschafter-Geschäftsführer: Max Muster, Dr. Jan Beispiel (Vorsitz) Musterstraße 7 97080 Würzburg Telefonnummer: +49 000 0"
+    assert fields_of(line)["managing_directors"] == ["Max Muster", "Jan Beispiel"]
 
 
 # --- register --------------------------------------------------------------------------------------
@@ -246,8 +246,8 @@ def test_register_number_without_prefix_uses_the_legal_form():
 
 # --- e-mail / city -------------------------------------------------------------------------------
 def test_only_generic_mailboxes_are_returned():
-    assert fields_of("E-Mail: max.mustermann@muster.de", "Kontakt: info@muster.de")["contact_email"] == "info@muster.de"
-    assert "contact_email" not in fields_of("E-Mail: max.mustermann@muster.de", "Tel: 030 1234")
+    assert fields_of("E-Mail: max.mustermann@example.org", "Kontakt: info@example.org")["contact_email"] == "info@example.org"
+    assert "contact_email" not in fields_of("E-Mail: max.mustermann@example.org", "Tel: 030 1234")
     assert fields_of("Mail: presse (at) muster-firma (dot) de")["contact_email"] == "presse@muster-firma.de"
     assert fields_of("hello[at]muster.io")["contact_email"] == "hello@muster.io"
     assert {"info", "kontakt", "contact", "hello", "hallo", "team", "office", "mail", "post", "press", "presse",

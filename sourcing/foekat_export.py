@@ -55,8 +55,6 @@ SIZE_ERROR = "Antwort größer als"          # context.foekat.Session size cap m
 _SIZE_PATTERN = re.compile(r"gr(?:ö|oe)(?:ß|ss)er\s+als|too\s+large|zu\s+gro(?:ß|ss)|max(?:imum)?[_ ]?bytes", re.I)
 DEFAULT_BUDGET = 60                        # network requests per export_rows call
 DEFAULT_PREFIXES = ("03EF", "03EG")
-ACADEMIC = re.compile(r"hochschul|universit|institut|akademie|academy|school|college|leibniz|fraunhofer|max-planck|"
-                      r"helmholtz|forschung|research|zentrum|center|centre|klinik|charité|wissenschaft", re.I)
 # Company detection (case-sensitive, gGmbH excluded on purpose). Not context.foekat.LEGAL_FORMS: that one strips
 # legal forms from names for matching (case-insensitive, also gGmbH, e.V., i.G., Co., &).
 LEGAL_FORM = re.compile(r"(?<![\w])(GmbH|UG|AG|SE|KG|OHG|GbR|mbH)(?![\w])")

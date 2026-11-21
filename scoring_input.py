@@ -252,6 +252,14 @@ def _parse_line(line, as_of):
                 yield (metric, year), _metric_value(metric, match[2])
 
 
+def admission_issue(scoring: ScoringInput) -> str | None:
+    if scoring.country.status != "usable":
+        return "Kein nutzbarer Deutschland-Beleg am Stichtag."
+    if scoring.vc_status.value == "confirmed" or scoring.vc_status.status == "conflicting":
+        return "VC-Finanzierung gefunden oder widersprüchlich gemeldet."
+    return None
+
+
 def build_scoring_input(lead: EnrichedLead, *, as_of: date | None = None) -> ScoringInput:
     """Build the step-3 ScoringInput from source material; previously exported scores and facts are ignored."""
     items = _collect(lead, as_of)

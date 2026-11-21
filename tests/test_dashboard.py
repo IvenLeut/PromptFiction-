@@ -228,3 +228,39 @@ def test_live_sourcing_error_shows_readable_message(monkeypatch):
     app, _ = start_live_app(monkeypatch, error=SourcingError("Förderkatalog-Sourcing fehlgeschlagen: Timeout"))
     assert any("Förderkatalog konnte gerade nicht abgefragt werden" in x.value for x in app.error)
     assert "analysis" not in app.session_state
+
+
+def test_sourced_signals_block_for_live_leads_only(monkeypatch):
+    from deep_dive import sourced_signals
+
+    plain, unclassified = live_leads()
+    rows = sourced_signals(plain)
+    labels = [label for label, _, _ in rows]
+    assert labels[0] == "Öffentliche Förderung" and labels[-3:] == ["Startup-Datenbanken", "Erstes datiertes Signal", "Offene Fragen"]
+    grant = plain.grants[0]
+    _, value, url = rows[0]
+    assert grant.programme in value and f"FKZ {grant.reference}" in value and "Laufzeit" in value and " EUR" in value
+    assert url == str(grant.url)
+    assert dict((label, value) for label, value, _ in rows)["Offene Fragen"] == \
+        str(len(dict.fromkeys([*plain.open_questions, *plain.research_questions])))
+    assert all(sourced_signals(lead) == [] for lead in get_demo_result().leads)
+
+    app, _ = start_live_app(monkeypatch, run=live_run([plain, unclassified]))
+    app.query_params["startup"] = plain.id
+    app.run()
+    assert not app.exception
+    assert any(x.value == "Belegte Signale" for x in app.subheader)
+    assert any("[Quelle öffnen](" in x.value for x in app.markdown)
+
+
+def test_sourced_text_is_rendered_as_literal_markdown():
+    from dashboard import source_link_markdown
+    from ui_theme import md_escape
+
+    assert md_escape("first_web_capture kostet $5 *netto* [1] <b>") == \
+        r"first\_web\_capture kostet \$5 \*netto\* \[1\] \<b\>"
+    assert md_escape("Ohne Sonderzeichen: 1.029.852 EUR – ok") == "Ohne Sonderzeichen: 1.029.852 EUR – ok"
+    # line starts must not become lists or headings, line breaks survive, entities stay literal
+    assert md_escape("- Punkt\n1. Schritt\n=== R&D") == "\\- Punkt  \n1\\. Schritt  \n\\=== R\\&D"
+    assert source_link_markdown("Reife_grad $x$ (Quelle: https://example.org/a_b?c=1)") == \
+        r"Reife\_grad \$x\$ ([Quelle](https://example.org/a_b?c=1))"

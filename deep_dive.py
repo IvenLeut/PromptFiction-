@@ -8,7 +8,45 @@ from charts import profile_figure
 from dashboard import contact_url, industry_label, priority_line, source_link_markdown
 from market_view import render_company_research, render_market
 from models import EvaluatedLead
-from ui_theme import QUESTION_PREVIEW, UNKNOWN, fact, format_date, format_number, format_score, heading
+from ui_theme import (
+    QUESTION_PREVIEW, UNKNOWN, fact, format_date, format_number, format_score, heading, md_escape,
+)
+
+
+def _questions(lead: EvaluatedLead) -> list[str]:
+    """Open questions of steps 3 and 2, without duplicates."""
+    return list(dict.fromkeys([*lead.open_questions, *lead.research_questions]))
+
+
+def sourced_signals(lead: EvaluatedLead) -> list[tuple[str, str, str | None]]:
+    """(label, value, url or None) rows of what step 2 documented for a live lead; demo leads have none.
+
+    Live leads are mostly pre-founding projects: the company profile is "Unbekannt" almost everywhere,
+    while grants, the database check and the first dated signal are filled. This block shows those.
+    """
+    if lead.is_demo:
+        return []
+    rows = []
+    for grant in lead.grants:
+        term = " – ".join(format_date(day) if day else "?" for day in (grant.start, grant.end))
+        parts = [grant.programme,
+                 format_number(grant.amount_eur, " EUR") if grant.amount_eur is not None else "Summe unbekannt",
+                 f"Laufzeit {term}" if grant.start or grant.end else "Laufzeit unbekannt"]
+        if grant.reference:
+            parts.append(f"FKZ {grant.reference}")
+        rows.append(("Öffentliche Förderung", " · ".join(parts), str(grant.url)))
+    if lead.in_databases is True:
+        since = f", erstmals {format_date(lead.first_db_date)}" if lead.first_db_date else ""
+        rows.append(("Startup-Datenbanken", f"Profil gefunden{since}",
+                     str(lead.database_urls[0]) if lead.database_urls else None))
+    elif lead.in_databases is False:
+        rows.append(("Startup-Datenbanken", "Kein Profil in Crunchbase/Dealroom gefunden", None))
+    else:
+        rows.append(("Startup-Datenbanken", "Nicht geprüft", None))
+    rows.append(("Erstes datiertes Signal",
+                 format_date(lead.first_signal_date) if lead.first_signal_date else UNKNOWN, None))
+    rows.append(("Offene Fragen", str(len(_questions(lead))), None))
+    return rows
 
 
 def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None]):
@@ -17,9 +55,9 @@ def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None]):
     heading("Portfolio / Startup Deep Dive", lead.name,
             f"{industry_label(lead)} · {lead.location or 'Standort unbekannt'} · {lead.stage_classification}")
     if priority := priority_line(lead):
-        st.caption(priority)
+        st.caption(md_escape(priority))
     st.markdown("**Produkt / Value Proposition**")
-    st.write(lead.value_proposition)
+    st.write(md_escape(lead.value_proposition))
     metrics = st.columns(4)
     for column, label, score in zip(metrics,
             ["Gesamt-Score", "Unternehmensscore", "Marktpotenzial", "Risiko · höher = riskanter"],
@@ -51,6 +89,13 @@ def _render_overview(lead: EvaluatedLead):
     """Score profile, company facts and score drivers."""
     st.plotly_chart(profile_figure(lead), width="stretch", theme=None, key="startup_profile",
                     config={"displayModeBar": False})
+    signals = sourced_signals(lead)
+    if signals:
+        st.subheader("Belegte Signale")
+        for label, value, url in signals:
+            fact(label, value)
+            if url:
+                st.markdown(f"[Quelle öffnen]({url})")
     st.subheader("Unternehmensprofil")
     left, right = st.columns(2)
     year = lead.founding_year or (lead.founded_on.year if lead.founded_on else None)
@@ -74,7 +119,7 @@ def _render_overview(lead: EvaluatedLead):
     if not lead.score_drivers:
         st.caption("Noch keine Bewertungstreiber übergeben.")
     if lead.traction_notes:
-        st.write(lead.traction_notes)
+        st.write(md_escape(lead.traction_notes))
     if lead.context_v2:
         render_company_research(lead.context_v2)
 
@@ -87,13 +132,13 @@ def _render_diligence(lead: EvaluatedLead):
     if not lead.risks:
         st.caption("Keine Risiken dokumentiert. Das bedeutet nicht, dass keine bestehen.")
     st.subheader("Fragen für das erste Gespräch")
-    questions = list(dict.fromkeys([*lead.open_questions, *lead.research_questions]))
+    questions = _questions(lead)
     for i, question in enumerate(questions[:QUESTION_PREVIEW], 1):
-        st.write(f"{i}. {question}")
+        st.write(f"{i}. {md_escape(question)}")
     if len(questions) > QUESTION_PREVIEW:
         with st.expander(f"{len(questions) - QUESTION_PREVIEW} weitere Fragen"):
             for i, question in enumerate(questions[QUESTION_PREVIEW:], QUESTION_PREVIEW + 1):
-                st.write(f"{i}. {question}")
+                st.write(f"{i}. {md_escape(question)}")
     if not questions:
         st.caption("Noch keine offenen Fragen dokumentiert.")
 
@@ -101,7 +146,7 @@ def _render_diligence(lead: EvaluatedLead):
 def _render_sources(lead: EvaluatedLead, has_market: bool):
     """Original find and all evidence, deduplicated by evidence id."""
     st.subheader("Ursprünglicher Fund")
-    st.write(lead.source_name or "Quelle nicht benannt")
+    st.write(md_escape(lead.source_name or "Quelle nicht benannt"))
     st.link_button("Fundquelle ansehen", str(lead.source_url))
     evidence_items = list(lead.evidence)
     if lead.country_evidence and lead.country_evidence not in evidence_items:
@@ -111,11 +156,11 @@ def _render_sources(lead: EvaluatedLead, has_market: bool):
     unique_evidence = {item.evidence_id: item for item in evidence_items}
     for i, evidence in enumerate(unique_evidence.values(), 1):
         with st.container(border=True):
-            st.markdown(f"**{i}. {evidence.source}**")
-            st.write(evidence.finding)
+            st.markdown(f"**{i}. {md_escape(evidence.source)}**")
+            st.write(md_escape(evidence.finding))
             document = f" · Dokument vom {format_date(evidence.document_date)}" if evidence.document_date else ""
-            st.caption(f"{evidence.field or 'Allgemein'} · Abgerufen am {format_date(evidence.retrieved_at)}"
-                       f"{document} · {evidence.verification_status} · ID {evidence.evidence_id}")
+            st.caption(md_escape(f"{evidence.field or 'Allgemein'} · Abgerufen am {format_date(evidence.retrieved_at)}"
+                                 f"{document} · {evidence.verification_status} · ID {evidence.evidence_id}"))
             st.link_button("Beleg öffnen", str(evidence.url))
 
 
@@ -123,7 +168,7 @@ def _render_contact(lead: EvaluatedLead):
     """Founder contact, website and dossier export."""
     with st.container(border=True):
         st.subheader("Gründer kontaktieren")
-        st.write(", ".join(lead.founders) or "Gründer noch unbekannt")
+        st.write(md_escape(", ".join(lead.founders) or "Gründer noch unbekannt"))
         fact("E-Mail", lead.contact_email or "Noch nicht verfügbar")
         mailto = contact_url(lead)
         if mailto:

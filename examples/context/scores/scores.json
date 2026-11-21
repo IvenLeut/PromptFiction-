@@ -1,7 +1,7 @@
 [
   {
     "lead_id": "siderogain",
-    "name_gruender": "Aratrika Ghosh;Jonathan Engelhardt;Peter Boelens;Rohan Jain",
+    "name_gruender": "Person 03;Person 08;Person 13;Person 14",
     "email": "",
     "name_unternehmen": "Siderogain",
     "website": "https://siderogain.de/",
@@ -17,7 +17,7 @@
     "stage": "pre_seed",
     "produktbeschreibung": "Ausgründung aus dem Helmholtz-Zentrum Dresden-Rossendorf: biotechnologische Rückgewinnung von Gallium und Germanium aus Industrieabwässern mit Siderophoren.",
     "value_proposition": "Ausgründung aus dem Helmholtz-Zentrum Dresden-Rossendorf: biotechnologische Rückgewinnung von Gallium und Germanium aus Industrieabwässern mit Siderophoren.",
-    "investmenthypothese": "Wir investieren, weil: Rohan Jain: 6 Papers im Produktfeld; 1 belegte Partner; stärkster: Freiberger Compound Materials (pilot). Nächster Meilenstein: der erste zahlende Kunde. Kein Risikofaktor ab 50 Punkten belegt.",
+    "investmenthypothese": "Wir investieren, weil: Person 14: 6 Papers im Produktfeld; 1 belegte Partner; stärkster: Freiberger Compound Materials (pilot). Nächster Meilenstein: der erste zahlende Kunde. Kein Risikofaktor ab 50 Punkten belegt.",
     "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 07/2027; in Crunchbase/Dealroom nicht gefunden; jüngstes Signal vor 1 Monat",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
@@ -27,8 +27,8 @@
       {
         "dimension": "team",
         "kriterium": "forscher_match",
-        "aussage": "Rohan Jain: 6 Papers im Produktfeld",
-        "url": "https://openalex.org/A5101411304",
+        "aussage": "Person 14: 6 Papers im Produktfeld",
+        "url": "https://openalex.org/A0000000004",
         "datum": null,
         "punkte": 80.0
       },
@@ -36,7 +36,7 @@
         "dimension": "team",
         "kriterium": "komplementaer",
         "aussage": "4 Gründer, Profil-Mix unbekannt",
-        "url": "https://openalex.org/A5051619651",
+        "url": "https://openalex.org/A0000000005",
         "datum": null,
         "punkte": 60.0
       },
@@ -241,7 +241,7 @@
   },
   {
     "lead_id": "kiutra",
-    "name_gruender": "Alexander Regnat;Jan Spallek;Tomek Schulz",
+    "name_gruender": "Person 01;Person 06;Person 15",
     "email": "info@kiutra.com",
     "name_unternehmen": "kiutra GmbH",
     "website": "https://kiutra.com/",
@@ -267,8 +267,8 @@
       {
         "dimension": "team",
         "kriterium": "forscher_match",
-        "aussage": "Alexander Regnat: 2 Papers im Produktfeld",
-        "url": "https://openalex.org/A5066347158",
+        "aussage": "Person 01: 2 Papers im Produktfeld",
+        "url": "https://openalex.org/A0000000008",
         "datum": null,
         "punkte": 50.0
       },
@@ -276,7 +276,7 @@
         "dimension": "team",
         "kriterium": "komplementaer",
         "aussage": "3 Gründer, Profil-Mix unbekannt",
-        "url": "https://openalex.org/A5066347158",
+        "url": "https://openalex.org/A0000000008",
         "datum": null,
         "punkte": 60.0
       },
@@ -484,7 +484,7 @@
   },
   {
     "lead_id": "spinmagic",
-    "name_gruender": "Anh Chu;Belal Alnajjar;Jakob Fitschen;Michele Segantini",
+    "name_gruender": "Person 02;Person 04;Person 05;Person 11",
     "email": "",
     "name_unternehmen": "SpinMagIC",
     "website": "",
@@ -510,8 +510,8 @@
       {
         "dimension": "team",
         "kriterium": "forscher_match",
-        "aussage": "Michele Segantini: 2 Papers im Produktfeld",
-        "url": "https://openalex.org/A5046438657",
+        "aussage": "Person 11: 2 Papers im Produktfeld",
+        "url": "https://openalex.org/A0000000002",
         "datum": null,
         "punkte": 50.0
       },
@@ -519,7 +519,7 @@
         "dimension": "team",
         "kriterium": "komplementaer",
         "aussage": "4 Gründer, Profil-Mix unbekannt",
-        "url": "https://openalex.org/A5009830289",
+        "url": "https://openalex.org/A0000000001",
         "datum": null,
         "punkte": 60.0
       },
@@ -726,7 +726,7 @@
   },
   {
     "lead_id": "hochquant",
-    "name_gruender": "Owen C. Ernst",
+    "name_gruender": "Person 12",
     "email": "",
     "name_unternehmen": "HoCHQuant",
     "website": "",
@@ -752,8 +752,8 @@
       {
         "dimension": "team",
         "kriterium": "forscher_match",
-        "aussage": "Owen C. Ernst: 0 Papers im Produktfeld",
-        "url": "https://openalex.org/A5059465394",
+        "aussage": "Person 12: 0 Papers im Produktfeld",
+        "url": "https://openalex.org/A0000000003",
         "datum": null,
         "punkte": 20.0
       },
@@ -761,7 +761,7 @@
         "dimension": "team",
         "kriterium": "komplementaer",
         "aussage": "Ein Gründer belegt",
-        "url": "https://openalex.org/A5059465394",
+        "url": "https://openalex.org/A0000000003",
         "datum": null,
         "punkte": 20.0
       },

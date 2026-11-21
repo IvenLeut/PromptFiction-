@@ -28,10 +28,10 @@
       "is_demo": false,
       "website": null,
       "founders": [
-        "Belal Alnajjar",
-        "Anh Chu",
-        "Michele Segantini",
-        "Jakob Fitschen"
+        "Person 04",
+        "Person 02",
+        "Person 11",
+        "Person 05"
       ],
       "contact_email": null,
       "founding_year": null,
@@ -259,8 +259,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5009830289",
-          "finding": "OpenAlex: Belal M.K. Alnajjar, University of Stuttgart, 7 Arbeiten, 0 im Feld Elektronenspinresonanz-Sensorik, EXIST-Forschungstransfer, Qualitätskontrolle, miniaturisierte, Materialanalyse, Universität, Zuordnung 90 %",
+          "url": "https://openalex.org/A0000000001",
+          "finding": "OpenAlex: Person 04, University of Stuttgart, 7 Arbeiten, 0 im Feld Elektronenspinresonanz-Sensorik, EXIST-Forschungstransfer, Qualitätskontrolle, miniaturisierte, Materialanalyse, Universität, Zuordnung 90 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:47:46.255437Z",
@@ -291,8 +291,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5046438657",
-          "finding": "OpenAlex: Michele Segantini, Helmholtz-Zentrum Berlin für Materialien und Energie, 9 Arbeiten, 2 im Feld Elektronenspinresonanz-Sensorik, EXIST-Forschungstransfer, Qualitätskontrolle, miniaturisierte, Materialanalyse, Universität, Zuordnung 50 %",
+          "url": "https://openalex.org/A0000000002",
+          "finding": "OpenAlex: Person 11, Helmholtz-Zentrum Berlin für Materialien und Energie, 9 Arbeiten, 2 im Feld Elektronenspinresonanz-Sensorik, EXIST-Forschungstransfer, Qualitätskontrolle, miniaturisierte, Materialanalyse, Universität, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:47:46.257071Z",
@@ -388,7 +388,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news844318",
-          "finding": "Start-up brings quantum sensor to market maturity: SpinMagIC receives EXIST research transfer funding\nWhether beer, coffee beans, yogurt or lubricating oil: A device small enough to fit into one hand can measure the shelf life of substances. The idea: To bring this technology to the food industry. As a start-up, this spin-off from the University of Stuttgart will receive funding from the EXIST research transfer program of the Federal Ministry of Economics and Climate Protection (BMWK).\n“This quantum sensor technology is already just around the corner. Now we need to launch it on the market with full momentum,\" says Prof. Jens Anders. This is exactly what four young men are working on. With their spin-off, SpinMagIC, they aim to make it easy to measure the self-life of products using a quantum sensor. Two of them, Belal Alnajjar and Anh Chu, are Anders’ doctoral researchers and work in the labs at the University of Stuttgart's Institute for Smart Sensors (IIS). The other two - physics d",
+          "finding": "Start-up brings quantum sensor to market maturity: SpinMagIC receives EXIST research transfer funding\nWhether beer, coffee beans, yogurt or lubricating oil: A device small enough to fit into one hand can measure the shelf life of substances. The idea: To bring this technology to the food industry. As a start-up, this spin-off from the University of Stuttgart will receive funding from the EXIST research transfer program of the Federal Ministry of Economics and Climate Protection (BMWK).\n“This quantum sensor technology is already just around the corner. Now we need to launch it on the market with full momentum,\" says Prof. Person 07. This is exactly what four young men are working on. With their spin-off, SpinMagIC, they aim to make it easy to measure the self-life of products using a quantum sensor. Two of them, Person 04 and Person 02, are Person 07’ doctoral researchers and work in the labs at the University of Stuttgart's Institute for Smart Sensors (IIS). The other two - physics d",
           "field": "first_signal_date",
           "source_date": "2024-12-05",
           "retrieved_at": "2026-11-20T21:47:46.264232Z",
@@ -404,7 +404,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news844315",
-          "finding": "Start-up bringt Quantensensor zur Marktreife: SpinMagIC erhält EXIST-Forschungstransfer-Förderung\nEgal ob Bier, Kaffeebohnen, Joghurt oder Schmieröl: Ein Gerät, das locker auf eine Hand passt, kann die Haltbarkeit von Substanzen messen. Die Idee: Die Technologie in die Lebensmittelindustrie bringen. Als Spin-off erhält die Ausgründung aus der Universität Stuttgart Mittel der EXIST-Forschungstransfer-Förderung des Bundesministeriums für Wirtschaft und Klimaschutz (BMWK).\n„Der Quantensensor steht bereits greifbar in der Tür. Jetzt müssen wir ihn mit ordentlich PS auf den Markt bringen“, sagt Prof. Jens Anders. Genau daran arbeiten vier junge Männer. Mit ihrem Spin-off SpinMagIC möchten sie Haltbarkeitsmessungen mit Hilfe eines Quantensensors möglichst einfach gestalten. Zwei von ihnen, Belal Alnajjar und Anh Chu, sind Doktoranden von Anders und tüfteln in den Labors an der Universität Stuttgart, im Institut für Smarte Sensoren (IIS). Die beiden anderen – der Physik-Doktorand Michele Sega",
+          "finding": "Start-up bringt Quantensensor zur Marktreife: SpinMagIC erhält EXIST-Forschungstransfer-Förderung\nEgal ob Bier, Kaffeebohnen, Joghurt oder Schmieröl: Ein Gerät, das locker auf eine Hand passt, kann die Haltbarkeit von Substanzen messen. Die Idee: Die Technologie in die Lebensmittelindustrie bringen. Als Spin-off erhält die Ausgründung aus der Universität Stuttgart Mittel der EXIST-Forschungstransfer-Förderung des Bundesministeriums für Wirtschaft und Klimaschutz (BMWK).\n„Der Quantensensor steht bereits greifbar in der Tür. Jetzt müssen wir ihn mit ordentlich PS auf den Markt bringen“, sagt Prof. Person 07. Genau daran arbeiten vier junge Männer. Mit ihrem Spin-off SpinMagIC möchten sie Haltbarkeitsmessungen mit Hilfe eines Quantensensors möglichst einfach gestalten. Zwei von ihnen, Person 04 und Person 02, sind Doktoranden von Person 07 und tüfteln in den Labors an der Universität Stuttgart, im Institut für Smarte Sensoren (IIS). Die beiden anderen – der Physik-Doktorand Person 11 Sega",
           "field": "first_signal_date",
           "source_date": "2024-12-05",
           "retrieved_at": "2026-11-20T21:47:46.266353Z",
@@ -500,7 +500,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news844318",
-          "finding": "The go-ahead for funding from the BMWK was given on October 1, 2024, and the four founders now have two years to make their spin-off a success. The doctoral students are supported by the Institute for Entrepreneurship (ENI), the technology transfer initiative TTI GmbH and the transfer center TRACES at the University of Stuttgart, together with the state initiative “NXTGN” (known before as \"Gründermotor\"). The three doctoral students from Stuttgart and Berlin have been working together on different projects for several years and know each other very well. Jakob Fitschen joined six months ago. Teamwork is paramount in the development of the highly complex wearable quantum sensor.",
+          "finding": "The go-ahead for funding from the BMWK was given on October 1, 2024, and the four founders now have two years to make their spin-off a success. The doctoral students are supported by the Institute for Entrepreneurship (ENI), the technology transfer initiative TTI GmbH and the transfer center TRACES at the University of Stuttgart, together with the state initiative “NXTGN” (known before as \"Gründermotor\"). The three doctoral students from Stuttgart and Berlin have been working together on different projects for several years and know each other very well. Person 05 joined six months ago. Teamwork is paramount in the development of the highly complex wearable quantum sensor.",
           "field": "product_type",
           "source_date": "2024-12-05",
           "retrieved_at": "2026-11-20T21:47:46.281600Z",
@@ -516,7 +516,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news844318",
-          "finding": "SpinMagIC relies on quantum sensors that detect reactive molecules, so-called free radicals. Any material that has unpaired electrons can be quantitatively measured with the sensor. Free radicals, for example, cause skin to age more quickly. They are also responsible for the decomposition of food. ESR have been used to measure free radicals “for 80 years”, notes Anders. Until now, their use was limited because the devices were too bulky, weighed at least a ton and cost several hundred thousand euros. Even available table-top devices weigh around 120 kilograms and are very expensive. This is an issue that calls into question efficient processes or broad application. This is now changing abruptly, and miniaturization is the magic word. All the researchers need to measure the shelf-life of products is a small permanent magnet and a microchip with an integrated circuit.",
+          "finding": "SpinMagIC relies on quantum sensors that detect reactive molecules, so-called free radicals. Any material that has unpaired electrons can be quantitatively measured with the sensor. Free radicals, for example, cause skin to age more quickly. They are also responsible for the decomposition of food. ESR have been used to measure free radicals “for 80 years”, notes Person 07. Until now, their use was limited because the devices were too bulky, weighed at least a ton and cost several hundred thousand euros. Even available table-top devices weigh around 120 kilograms and are very expensive. This is an issue that calls into question efficient processes or broad application. This is now changing abruptly, and miniaturization is the magic word. All the researchers need to measure the shelf-life of products is a small permanent magnet and a microchip with an integrated circuit.",
           "field": "product_type",
           "source_date": "2024-12-05",
           "retrieved_at": "2026-11-20T21:47:46.281615Z",
@@ -532,7 +532,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news844318",
-          "finding": "How does the measurement work? The microchip is no more than one square millimeter in size. It consists of all high-frequency circuit components that excite the unpaired electrons and sense their quantum responses. For the measurement process, the researchers switch on a micropump that transports the sample onto the chip or immerse the sensor directly in the liquid to be measured. The number of free radicals is shown on the display. “Using 3D-printed structures made of lightweight filament provides a cost-effective way to realize powerful resonance magnets,” emphasizes physicist Alnajjar. Before the printing process, he conducted numerous simulations to determine the optimal solution. The magnet from the 3D printer now weighs around 40 grams. The inside of the magnet consists of rings. \"The rings are selected to ensure that the magnetic field is highly homogeneous,\" says Alnajjar. The low weight and high quality are key characteristics of these magnets.",
+          "finding": "How does the measurement work? The microchip is no more than one square millimeter in size. It consists of all high-frequency circuit components that excite the unpaired electrons and sense their quantum responses. For the measurement process, the researchers switch on a micropump that transports the sample onto the chip or immerse the sensor directly in the liquid to be measured. The number of free radicals is shown on the display. “Using 3D-printed structures made of lightweight filament provides a cost-effective way to realize powerful resonance magnets,” emphasizes physicist Person 04. Before the printing process, he conducted numerous simulations to determine the optimal solution. The magnet from the 3D printer now weighs around 40 grams. The inside of the magnet consists of rings. \"The rings are selected to ensure that the magnetic field is highly homogeneous,\" says Person 04. The low weight and high quality are key characteristics of these magnets.",
           "field": "product_type",
           "source_date": "2024-12-05",
           "retrieved_at": "2026-11-20T21:47:46.281629Z",
@@ -548,7 +548,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news844318",
-          "finding": "The researchers are proud of the neologism SpinMagIC - three components of the measurement: Spin stands for the electrons, which have their own angular momentum, Mag for magnet, which enables the measurement, and IC for the integrated circuit. The division of tasks is clear: “We in Stuttgart are responsible for developing the core technology,” emphasizes electrical engineer Chu. These are the permanent magnet and the circuit board that carries a tiny chip-integrated quantum sensor. Segantini, the physicist in Berlin, looks at applications based on initial findings, such as measuring food shelf life. In particular, he has good connections to the olive oil production sector. The plan is to have the end product ready for the market in two years and to acquire the first pilot customers to test it. \"Extremely small, incredibly affordable, and with very high measurement accuracy,\" says Chu, highlighting the stringent requirements of the food industry and the strong incentive it provides.",
+          "finding": "The researchers are proud of the neologism SpinMagIC - three components of the measurement: Spin stands for the electrons, which have their own angular momentum, Mag for magnet, which enables the measurement, and IC for the integrated circuit. The division of tasks is clear: “We in Stuttgart are responsible for developing the core technology,” emphasizes electrical engineer Person 02. These are the permanent magnet and the circuit board that carries a tiny chip-integrated quantum sensor. Person 11, the physicist in Berlin, looks at applications based on initial findings, such as measuring food shelf life. In particular, he has good connections to the olive oil production sector. The plan is to have the end product ready for the market in two years and to acquire the first pilot customers to test it. \"Extremely small, incredibly affordable, and with very high measurement accuracy,\" says Person 02, highlighting the stringent requirements of the food industry and the strong incentive it provides.",
           "field": "product_type",
           "source_date": "2024-12-05",
           "retrieved_at": "2026-11-20T21:47:46.281643Z",
@@ -596,7 +596,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news844315",
-          "finding": "SpinMagIC setzt auf Quantensensoren, mit denen sich reaktionsfreudige Moleküle, freie Radikale, ermitteln lassen. Jedes Material, das ungepaarte Elektronen hat, kann mit dem Sensor quantitativ vermessen werden. Freie Radikale lassen zum Beispiel Haut schneller altern. Sie sind ebenso verantwortlich dafür, dass sich Lebensmittel zersetzen. Um freie Radikale messbar zu machen, gibt es die ESR – „bereits seit 80 Jahren“, merkt Anders an. Bislang war deren Nutzung begrenzt, weil die Geräte zu sperrig waren mindestens eine Tonne wogen und mehrere Hunderttausend Euro kosteten. Auch verfügbare Tischgeräte wiegen etwa 120 Kilogramm und sind sehr teuer. Ein Flaschenhalsproblem, das effiziente Abläufe oder die breite Anwendung infrage stellt. Das ändert sich jetzt schlagartig: Miniaturisierung ist das Zauberwort. Denn alles, was die Forscher für die Messung von Haltbarkeiten brauchen, ist ein kleiner Permanentmagnet und ein Mikrochip mit integriertem Schaltkreis.",
+          "finding": "SpinMagIC setzt auf Quantensensoren, mit denen sich reaktionsfreudige Moleküle, freie Radikale, ermitteln lassen. Jedes Material, das ungepaarte Elektronen hat, kann mit dem Sensor quantitativ vermessen werden. Freie Radikale lassen zum Beispiel Haut schneller altern. Sie sind ebenso verantwortlich dafür, dass sich Lebensmittel zersetzen. Um freie Radikale messbar zu machen, gibt es die ESR – „bereits seit 80 Jahren“, merkt Person 07 an. Bislang war deren Nutzung begrenzt, weil die Geräte zu sperrig waren mindestens eine Tonne wogen und mehrere Hunderttausend Euro kosteten. Auch verfügbare Tischgeräte wiegen etwa 120 Kilogramm und sind sehr teuer. Ein Flaschenhalsproblem, das effiziente Abläufe oder die breite Anwendung infrage stellt. Das ändert sich jetzt schlagartig: Miniaturisierung ist das Zauberwort. Denn alles, was die Forscher für die Messung von Haltbarkeiten brauchen, ist ein kleiner Permanentmagnet und ein Mikrochip mit integriertem Schaltkreis.",
           "field": "product_type",
           "source_date": "2024-12-05",
           "retrieved_at": "2026-11-20T21:47:46.281679Z",
@@ -612,7 +612,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news844315",
-          "finding": "Auf die Wortschöpfung SpinMagIC – drei Bestandteile der Messung – sind die Forscher stolz: Spin steht für die Elektronen, die einen eigenen Drehimpuls mitbringen, Mag für Magnet, der die Messung ermöglicht und IC für den integrierten Schaltkreis. Die Aufgabenteilung ist klar: „Wir in Stuttgart sind für die Entwicklung der Kerntechnologie verantwortlich“, betont Elektrotechniker Chu. Dies sind der Permanentmagnet und die Leiterplatte, die einen winzigen chip-integrierten Quantensensor trägt. Segantini, der Physiker in Berlin, kümmert sich um die Anwendungen anhand erster Beispiele, etwa der Messung von Lebensmittelhaltbarkeit. Er hat insbesondere gute Verbindungen in die Olivenölproduktion. Geplant ist, das Endprodukt in zwei Jahren marktreif zu haben und erste Pilotkunden zu akquirieren, die es testen wollen. „Extrem klein und extrem preiswert mit einer sehr hohen Messgenauigkeit“, hebt Chu die hohen Anforderungen der Lebensmittelindustrie und somit auch ihren Ansporn hervor.",
+          "finding": "Auf die Wortschöpfung SpinMagIC – drei Bestandteile der Messung – sind die Forscher stolz: Spin steht für die Elektronen, die einen eigenen Drehimpuls mitbringen, Mag für Magnet, der die Messung ermöglicht und IC für den integrierten Schaltkreis. Die Aufgabenteilung ist klar: „Wir in Stuttgart sind für die Entwicklung der Kerntechnologie verantwortlich“, betont Elektrotechniker Person 02. Dies sind der Permanentmagnet und die Leiterplatte, die einen winzigen chip-integrierten Quantensensor trägt. Person 11, der Physiker in Berlin, kümmert sich um die Anwendungen anhand erster Beispiele, etwa der Messung von Lebensmittelhaltbarkeit. Er hat insbesondere gute Verbindungen in die Olivenölproduktion. Geplant ist, das Endprodukt in zwei Jahren marktreif zu haben und erste Pilotkunden zu akquirieren, die es testen wollen. „Extrem klein und extrem preiswert mit einer sehr hohen Messgenauigkeit“, hebt Person 02 die hohen Anforderungen der Lebensmittelindustrie und somit auch ihren Ansporn hervor.",
           "field": "product_type",
           "source_date": "2024-12-05",
           "retrieved_at": "2026-11-20T21:47:46.281696Z",
@@ -676,7 +676,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news839134",
-          "finding": "Doch nun bietet das Spin-Off-Unternehmen SpinMagIC eine kompakte und preisgünstige Alternative zu herkömmlichen EPR-Geräten: Einen EPR-Sensor, der auf einen kleinen Chip passt (EPRoC). „Wir werden kleine, tragbare und erschwingliche EPR-Geräte herstellen, die wir auf die Bedürfnisse des Kunden zuschneiden können“, erklärt der Physiker Michele Segantini (HZB), der in der Abteilung von Prof. Klaus Lips gerade seine Promotion abschließt. Zum Gründerteam gehören neben Segantini der Elektrotechniker Anh Chu, der Physiker Belal Alnajjar, die beide an der Universität Stuttgart im Team von Professor Jens Anders forschen, sowie der Betriebswirtschaftler Jakob Fitschen.",
+          "finding": "Doch nun bietet das Spin-Off-Unternehmen SpinMagIC eine kompakte und preisgünstige Alternative zu herkömmlichen EPR-Geräten: Einen EPR-Sensor, der auf einen kleinen Chip passt (EPRoC). „Wir werden kleine, tragbare und erschwingliche EPR-Geräte herstellen, die wir auf die Bedürfnisse des Kunden zuschneiden können“, erklärt der Physiker Person 11 (HZB), der in der Abteilung von Prof. Person 10 gerade seine Promotion abschließt. Zum Gründerteam gehören neben Person 11 der Elektrotechniker Person 02, der Physiker Person 04, die beide an der Universität Stuttgart im Team von Professor Person 07 forschen, sowie der Betriebswirtschaftler Person 05.",
           "field": "product_type",
           "source_date": "2024-09-04",
           "retrieved_at": "2026-11-20T21:47:46.281742Z",
@@ -692,7 +692,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news839134",
-          "finding": "Die Entwicklung des ERPoC geht auf eine Idee von Klaus Lips (HZB) und Jens Anders (Universität Stuttgart) zurück, die 2019 mit dem Technologietransferpreis des HZB ausgezeichnet wurde. Die weitere Entwicklung wurde vom Bundesministerium für Bildung und Forschung (BMBF) gefördert. „Seitdem ist viel passiert, so dass wir jetzt eine Ausgründung planen können“, sagt Segantini. Während das Team an der Universität Stuttgart die „Hardware“ optimierte, untersuchte Segantini, wo und wie die Erfindung auf dem Markt eingesetzt werden könnte.",
+          "finding": "Die Entwicklung des ERPoC geht auf eine Idee von Person 10 (HZB) und Person 07 (Universität Stuttgart) zurück, die 2019 mit dem Technologietransferpreis des HZB ausgezeichnet wurde. Die weitere Entwicklung wurde vom Bundesministerium für Bildung und Forschung (BMBF) gefördert. „Seitdem ist viel passiert, so dass wir jetzt eine Ausgründung planen können“, sagt Person 11. Während das Team an der Universität Stuttgart die „Hardware“ optimierte, untersuchte Person 11, wo und wie die Erfindung auf dem Markt eingesetzt werden könnte.",
           "field": "product_type",
           "source_date": "2024-09-04",
           "retrieved_at": "2026-11-20T21:47:46.281754Z",
@@ -885,7 +885,7 @@
         },
         "founders": [
           {
-            "name": "Belal Alnajjar",
+            "name": "Person 04",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -893,7 +893,7 @@
             "customer_problem_experience": null
           },
           {
-            "name": "Anh Chu",
+            "name": "Person 02",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -901,7 +901,7 @@
             "customer_problem_experience": null
           },
           {
-            "name": "Michele Segantini",
+            "name": "Person 11",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -909,7 +909,7 @@
             "customer_problem_experience": null
           },
           {
-            "name": "Jakob Fitschen",
+            "name": "Person 05",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -1010,20 +1010,20 @@
       },
       "founder_profiles": [
         {
-          "name": "Belal Alnajjar",
+          "name": "Person 04",
           "role": null,
           "qualifications": "h-Index 4, 7 Arbeiten, University of Stuttgart",
           "institution": "University of Stuttgart",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5009830289",
+          "openalex_url": "https://openalex.org/A0000000001",
           "works_total": 7,
           "works_in_field": 0,
           "match_confidence": 0.9,
-          "source_url": "https://openalex.org/A5009830289"
+          "source_url": "https://openalex.org/A0000000001"
         },
         {
-          "name": "Anh Chu",
+          "name": "Person 02",
           "role": null,
           "qualifications": null,
           "institution": null,
@@ -1036,20 +1036,20 @@
           "source_url": null
         },
         {
-          "name": "Michele Segantini",
+          "name": "Person 11",
           "role": null,
           "qualifications": "h-Index 6, 9 Arbeiten, Helmholtz-Zentrum Berlin für Materialien und Energie",
           "institution": "Helmholtz-Zentrum Berlin für Materialien und Energie",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5046438657",
+          "openalex_url": "https://openalex.org/A0000000002",
           "works_total": 9,
           "works_in_field": 2,
           "match_confidence": 0.5,
-          "source_url": "https://openalex.org/A5046438657"
+          "source_url": "https://openalex.org/A0000000002"
         },
         {
-          "name": "Jakob Fitschen",
+          "name": "Person 05",
           "role": null,
           "qualifications": null,
           "institution": null,
@@ -1131,7 +1131,7 @@
       ],
       "enrichment_errors": [
         "openalex: mehrdeutig (135 Kandidaten)",
-        "openalex: kein Treffer für Jakob Fitschen"
+        "openalex: kein Treffer für Person 05"
       ],
       "funding_stage": null,
       "founded_on": null,
@@ -1171,7 +1171,7 @@
       "is_demo": false,
       "website": null,
       "founders": [
-        "Owen C. Ernst"
+        "Person 12"
       ],
       "contact_email": null,
       "founding_year": null,
@@ -1287,8 +1287,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5059465394",
-          "finding": "OpenAlex: Owen C. Ernst, Brandenburg University of Technology Cottbus-Senftenberg, 32 Arbeiten, 0 im Feld EXIST-Forschungstransfer, Cottbus-Senftenberg, Quantentechnologien, Quantenqualität, Herstellung, Materialien, Zuordnung 90 %",
+          "url": "https://openalex.org/A0000000003",
+          "finding": "OpenAlex: Person 12, Brandenburg University of Technology Cottbus-Senftenberg, 32 Arbeiten, 0 im Feld EXIST-Forschungstransfer, Cottbus-Senftenberg, Quantentechnologien, Quantenqualität, Herstellung, Materialien, Zuordnung 90 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:48:08.647287Z",
@@ -1384,7 +1384,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news838372",
-          "finding": "Von der Lausitz auf den Weltmarkt: Neuartige Materialien für Hochleistungstechnologien\nAm Fachgebiet Physikalische Chemie der Brandenburgischen Technischen Universität Cottbus-Senftenberg (BTU) ist das Forschungsprojekt „HoCHQuant“ zur Herstellung von sogenannten isotopenreinen „quantum grade“ Materialien gestartet. Diese dienen als Rohstoffe für Zukunftstechnologien wie Quantencomputer und für Hochleistungsoptiken.\nAufbau einer neuen Wertschöpfungskette in der Lausitz\nIm Projekt „HoCHQuant“ beschäftigt sich ein vierköpfiges Forschungsteam an der BTU unter der Leitung von Dr. Owen C. Ernst mit der Herstellung der isotopenreinen Halbleiter-Wasserstoffe Silan-28 und German-73d. Aufgrund ihrer veränderten physikalischen und chemischen Eigenschaften bieten diese gegenüber ihren herkömmlichen Varianten eine höhere Stabilität für Quantenprozesse. Zudem dienen sie als Rohmaterial für neue Werkstoffe mit außergewöhnlich hoher Wärmeleitfähigkeit.\nRohstoffe dieser Güteklasse sind derzeit nicht a",
+          "finding": "Von der Lausitz auf den Weltmarkt: Neuartige Materialien für Hochleistungstechnologien\nAm Fachgebiet Physikalische Chemie der Brandenburgischen Technischen Universität Cottbus-Senftenberg (BTU) ist das Forschungsprojekt „HoCHQuant“ zur Herstellung von sogenannten isotopenreinen „quantum grade“ Materialien gestartet. Diese dienen als Rohstoffe für Zukunftstechnologien wie Quantencomputer und für Hochleistungsoptiken.\nAufbau einer neuen Wertschöpfungskette in der Lausitz\nIm Projekt „HoCHQuant“ beschäftigt sich ein vierköpfiges Forschungsteam an der BTU unter der Leitung von Dr. Person 12 mit der Herstellung der isotopenreinen Halbleiter-Wasserstoffe Silan-28 und German-73d. Aufgrund ihrer veränderten physikalischen und chemischen Eigenschaften bieten diese gegenüber ihren herkömmlichen Varianten eine höhere Stabilität für Quantenprozesse. Zudem dienen sie als Rohmaterial für neue Werkstoffe mit außergewöhnlich hoher Wärmeleitfähigkeit.\nRohstoffe dieser Güteklasse sind derzeit nicht a",
           "field": "first_signal_date",
           "source_date": "2024-08-20",
           "retrieved_at": "2026-11-20T21:48:08.648848Z",
@@ -1465,7 +1465,7 @@
         },
         "founders": [
           {
-            "name": "Owen C. Ernst",
+            "name": "Person 12",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -1564,17 +1564,17 @@
       },
       "founder_profiles": [
         {
-          "name": "Owen C. Ernst",
+          "name": "Person 12",
           "role": null,
           "qualifications": "h-Index 6, 32 Arbeiten, Brandenburg University of Technology Cottbus-Senftenberg",
           "institution": "Brandenburg University of Technology Cottbus-Senftenberg",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5059465394",
+          "openalex_url": "https://openalex.org/A0000000003",
           "works_total": 32,
           "works_in_field": 0,
           "match_confidence": 0.9,
-          "source_url": "https://openalex.org/A5059465394"
+          "source_url": "https://openalex.org/A0000000003"
         }
       ],
       "target_customers": "Verwendung finden können isotopenreine Materialien zum Beispiel in der Herstellung von Chips für Quantencomputer.",
@@ -1681,10 +1681,10 @@
       "is_demo": false,
       "website": "https://siderogain.de/",
       "founders": [
-        "Rohan Jain",
-        "Aratrika Ghosh",
-        "Peter Boelens",
-        "Jonathan Engelhardt"
+        "Person 14",
+        "Person 03",
+        "Person 13",
+        "Person 08"
       ],
       "contact_email": null,
       "founding_year": null,
@@ -1833,7 +1833,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news876492",
-          "finding": "“Starting with a biotechnology research question, and through laboratory experiments, patenting, and the construction of a pilot plant, a technology has emerged that can contribute to the European raw material security and the circular economy,” says Dr. Katrin Pollmann, head of the biotechnology department at HIF, expressing her delight at the institute’s fourth spin-off to date.",
+          "finding": "“Starting with a biotechnology research question, and through laboratory experiments, patenting, and the construction of a pilot plant, a technology has emerged that can contribute to the European raw material security and the circular economy,” says Dr. Person 09, head of the biotechnology department at HIF, expressing her delight at the institute’s fourth spin-off to date.",
           "field": "ip_mention",
           "source_date": "2026-08-28",
           "retrieved_at": "2026-11-20T21:48:21.144531Z",
@@ -1929,7 +1929,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news876491",
-          "finding": "„Aus einer biotechnologischen Forschungsfrage ist über Laborversuche, Patentierungen und den Bau einer Pilotanlage eine Technologie entstanden, die einen Beitrag zur europäischen Rohstoffsicherheit und zur Kreislaufwirtschaft leisten kann“, freut sich Dr. Katrin Pollmann, Leiterin der biotechnologischen Abteilung am HIF über das mittlerweile vierte Spin-off des Instituts.",
+          "finding": "„Aus einer biotechnologischen Forschungsfrage ist über Laborversuche, Patentierungen und den Bau einer Pilotanlage eine Technologie entstanden, die einen Beitrag zur europäischen Rohstoffsicherheit und zur Kreislaufwirtschaft leisten kann“, freut sich Dr. Person 09, Leiterin der biotechnologischen Abteilung am HIF über das mittlerweile vierte Spin-off des Instituts.",
           "field": "ip_mention",
           "source_date": "2026-08-28",
           "retrieved_at": "2026-11-20T21:48:21.148060Z",
@@ -1944,8 +1944,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5101411304",
-          "finding": "OpenAlex: Rohan Jain, Helmholtz-Zentrum Dresden-Rossendorf, 58 Arbeiten, 6 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 50 %",
+          "url": "https://openalex.org/A0000000004",
+          "finding": "OpenAlex: Person 14, Helmholtz-Zentrum Dresden-Rossendorf, 58 Arbeiten, 6 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:48:21.153199Z",
@@ -1976,8 +1976,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5051619651",
-          "finding": "OpenAlex: Aratrika Ghosh, Helmholtz-Zentrum Dresden-Rossendorf, 16 Arbeiten, 1 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 90 %",
+          "url": "https://openalex.org/A0000000005",
+          "finding": "OpenAlex: Person 03, Helmholtz-Zentrum Dresden-Rossendorf, 16 Arbeiten, 1 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 90 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:48:21.153648Z",
@@ -2008,8 +2008,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5031250526",
-          "finding": "OpenAlex: Peter Boelens, Helmholtz-Zentrum Dresden-Rossendorf, 15 Arbeiten, 2 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 90 %",
+          "url": "https://openalex.org/A0000000006",
+          "finding": "OpenAlex: Person 13, Helmholtz-Zentrum Dresden-Rossendorf, 15 Arbeiten, 2 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 90 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:48:21.154010Z",
@@ -2040,8 +2040,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5090134113",
-          "finding": "OpenAlex: Jonathan Engelhardt, Helmholtz Institute Freiberg for Resource Technology, 7 Arbeiten, 0 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 80 %",
+          "url": "https://openalex.org/A0000000007",
+          "finding": "OpenAlex: Person 08, Helmholtz Institute Freiberg for Resource Technology, 7 Arbeiten, 0 im Feld Dresden-Rossendorf, Industrieabwässern, Helmholtz-Zentrum, biotechnologische, Rückgewinnung, Siderophoren, Zuordnung 80 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:48:21.154407Z",
@@ -2329,7 +2329,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news876492",
-          "finding": "“Starting with a biotechnology research question, and through laboratory experiments, patenting, and the construction of a pilot plant, a technology has emerged that can contribute to the European raw material security and the circular economy,” says Dr. Katrin Pollmann, head of the biotechnology department at HIF, expressing her delight at the institute’s fourth spin-off to date.",
+          "finding": "“Starting with a biotechnology research question, and through laboratory experiments, patenting, and the construction of a pilot plant, a technology has emerged that can contribute to the European raw material security and the circular economy,” says Dr. Person 09, head of the biotechnology department at HIF, expressing her delight at the institute’s fourth spin-off to date.",
           "field": "product_stage",
           "source_date": "2026-08-28",
           "retrieved_at": "2026-11-20T21:48:21.172120Z",
@@ -2345,7 +2345,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news876491",
-          "finding": "Neben Jain, gehören Aratrika Ghosh, Dr. Peter Boelens und Dr. Jonathan Engelhardt zum Team. Ghosh ist für die Pilotanlage verantwortlich, Boelens ist für die Erschließung neuer Geschäfts- und Anwendungsfelder zuständig und Engelhardt arbeitet an der Geschäftsentwicklung.",
+          "finding": "Neben Person 14, gehören Person 03, Dr. Person 13 und Dr. Person 08 zum Team. Person 03 ist für die Pilotanlage verantwortlich, Person 13 ist für die Erschließung neuer Geschäfts- und Anwendungsfelder zuständig und Person 08 arbeitet an der Geschäftsentwicklung.",
           "field": "product_stage",
           "source_date": "2026-08-28",
           "retrieved_at": "2026-11-20T21:48:21.172132Z",
@@ -2409,7 +2409,7 @@
         {
           "source": "idw",
           "url": "https://idw-online.de/de/news876491",
-          "finding": "„Aus einer biotechnologischen Forschungsfrage ist über Laborversuche, Patentierungen und den Bau einer Pilotanlage eine Technologie entstanden, die einen Beitrag zur europäischen Rohstoffsicherheit und zur Kreislaufwirtschaft leisten kann“, freut sich Dr. Katrin Pollmann, Leiterin der biotechnologischen Abteilung am HIF über das mittlerweile vierte Spin-off des Instituts.",
+          "finding": "„Aus einer biotechnologischen Forschungsfrage ist über Laborversuche, Patentierungen und den Bau einer Pilotanlage eine Technologie entstanden, die einen Beitrag zur europäischen Rohstoffsicherheit und zur Kreislaufwirtschaft leisten kann“, freut sich Dr. Person 09, Leiterin der biotechnologischen Abteilung am HIF über das mittlerweile vierte Spin-off des Instituts.",
           "field": "product_stage",
           "source_date": "2026-08-28",
           "retrieved_at": "2026-11-20T21:48:21.172177Z",
@@ -2634,7 +2634,7 @@
         },
         "founders": [
           {
-            "name": "Rohan Jain",
+            "name": "Person 14",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -2642,7 +2642,7 @@
             "customer_problem_experience": null
           },
           {
-            "name": "Aratrika Ghosh",
+            "name": "Person 03",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -2650,7 +2650,7 @@
             "customer_problem_experience": null
           },
           {
-            "name": "Peter Boelens",
+            "name": "Person 13",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -2658,7 +2658,7 @@
             "customer_problem_experience": null
           },
           {
-            "name": "Jonathan Engelhardt",
+            "name": "Person 08",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -2763,56 +2763,56 @@
       },
       "founder_profiles": [
         {
-          "name": "Rohan Jain",
+          "name": "Person 14",
           "role": null,
           "qualifications": "h-Index 26, 58 Arbeiten, Helmholtz-Zentrum Dresden-Rossendorf",
           "institution": "Helmholtz-Zentrum Dresden-Rossendorf",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5101411304",
+          "openalex_url": "https://openalex.org/A0000000004",
           "works_total": 58,
           "works_in_field": 6,
           "match_confidence": 0.5,
-          "source_url": "https://openalex.org/A5101411304"
+          "source_url": "https://openalex.org/A0000000004"
         },
         {
-          "name": "Aratrika Ghosh",
+          "name": "Person 03",
           "role": null,
           "qualifications": "h-Index 5, 16 Arbeiten, Helmholtz-Zentrum Dresden-Rossendorf",
           "institution": "Helmholtz-Zentrum Dresden-Rossendorf",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5051619651",
+          "openalex_url": "https://openalex.org/A0000000005",
           "works_total": 16,
           "works_in_field": 1,
           "match_confidence": 0.9,
-          "source_url": "https://openalex.org/A5051619651"
+          "source_url": "https://openalex.org/A0000000005"
         },
         {
-          "name": "Peter Boelens",
+          "name": "Person 13",
           "role": null,
           "qualifications": "h-Index 7, 15 Arbeiten, Helmholtz-Zentrum Dresden-Rossendorf",
           "institution": "Helmholtz-Zentrum Dresden-Rossendorf",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5031250526",
+          "openalex_url": "https://openalex.org/A0000000006",
           "works_total": 15,
           "works_in_field": 2,
           "match_confidence": 0.9,
-          "source_url": "https://openalex.org/A5031250526"
+          "source_url": "https://openalex.org/A0000000006"
         },
         {
-          "name": "Jonathan Engelhardt",
+          "name": "Person 08",
           "role": null,
           "qualifications": "h-Index 2, 7 Arbeiten, Helmholtz Institute Freiberg for Resource Technology",
           "institution": "Helmholtz Institute Freiberg for Resource Technology",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5090134113",
+          "openalex_url": "https://openalex.org/A0000000007",
           "works_total": 7,
           "works_in_field": 0,
           "match_confidence": 0.8,
-          "source_url": "https://openalex.org/A5090134113"
+          "source_url": "https://openalex.org/A0000000007"
         }
       ],
       "target_customers": null,
@@ -2939,9 +2939,9 @@
       "is_demo": false,
       "website": "https://kiutra.com/",
       "founders": [
-        "Alexander Regnat",
-        "Tomek Schulz",
-        "Jan Spallek"
+        "Person 01",
+        "Person 15",
+        "Person 06"
       ],
       "contact_email": null,
       "founding_year": null,
@@ -3042,7 +3042,7 @@
         {
           "source": "Impressum",
           "url": "https://kiutra.com/legal-notice",
-          "finding": "Managing Director authorized to represent the company: Dr. Alexander Regnat",
+          "finding": "Managing Director authorized to represent the company: Dr. Person 01",
           "field": "managing_directors",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:48:32.035831Z",
@@ -3281,8 +3281,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5066347158",
-          "finding": "OpenAlex: Alexander Regnat, Technical University of Munich, 13 Arbeiten, 2 im Feld Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung, Zuordnung 50 %",
+          "url": "https://openalex.org/A0000000008",
+          "finding": "OpenAlex: Person 01, Technical University of Munich, 13 Arbeiten, 2 im Feld Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:48:32.070662Z",
@@ -3313,8 +3313,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5032547028",
-          "finding": "OpenAlex: Tomek Schulz, Johannes Gutenberg University Mainz, 18 Arbeiten, 0 im Feld Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung, Zuordnung 50 %",
+          "url": "https://openalex.org/A0000000009",
+          "finding": "OpenAlex: Person 15, Johannes Gutenberg University Mainz, 18 Arbeiten, 0 im Feld Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:48:32.070887Z",
@@ -3345,8 +3345,8 @@
         },
         {
           "source": "OpenAlex",
-          "url": "https://openalex.org/A5024680589",
-          "finding": "OpenAlex: Jan Spallek, Technical University of Munich, 5 Arbeiten, 1 im Feld Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung, Zuordnung 50 %",
+          "url": "https://openalex.org/A0000000010",
+          "finding": "OpenAlex: Person 06, Technical University of Munich, 5 Arbeiten, 1 im Feld Quantentechnologie, magnetischer, Kühlsysteme, Forschung, Kryogene, Kühlung, Zuordnung 50 %",
           "field": "founder_profiles",
           "source_date": null,
           "retrieved_at": "2026-11-20T21:48:32.071062Z",
@@ -4099,7 +4099,7 @@
         },
         "founders": [
           {
-            "name": "Alexander Regnat",
+            "name": "Person 01",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -4107,7 +4107,7 @@
             "customer_problem_experience": null
           },
           {
-            "name": "Tomek Schulz",
+            "name": "Person 15",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -4115,7 +4115,7 @@
             "customer_problem_experience": null
           },
           {
-            "name": "Jan Spallek",
+            "name": "Person 06",
             "role": null,
             "qualifications": null,
             "previous_companies": null,
@@ -4210,43 +4210,43 @@
       },
       "founder_profiles": [
         {
-          "name": "Alexander Regnat",
+          "name": "Person 01",
           "role": null,
           "qualifications": "h-Index 8, 13 Arbeiten, Technical University of Munich",
           "institution": "Technical University of Munich",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5066347158",
+          "openalex_url": "https://openalex.org/A0000000008",
           "works_total": 13,
           "works_in_field": 2,
           "match_confidence": 0.5,
-          "source_url": "https://openalex.org/A5066347158"
+          "source_url": "https://openalex.org/A0000000008"
         },
         {
-          "name": "Tomek Schulz",
+          "name": "Person 15",
           "role": null,
           "qualifications": "h-Index 12, 18 Arbeiten, Johannes Gutenberg University Mainz",
           "institution": "Johannes Gutenberg University Mainz",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5032547028",
+          "openalex_url": "https://openalex.org/A0000000009",
           "works_total": 18,
           "works_in_field": 0,
           "match_confidence": 0.5,
-          "source_url": "https://openalex.org/A5032547028"
+          "source_url": "https://openalex.org/A0000000009"
         },
         {
-          "name": "Jan Spallek",
+          "name": "Person 06",
           "role": null,
           "qualifications": "h-Index 2, 5 Arbeiten, Technical University of Munich",
           "institution": "Technical University of Munich",
           "background": null,
           "prior_experience": [],
-          "openalex_url": "https://openalex.org/A5024680589",
+          "openalex_url": "https://openalex.org/A0000000010",
           "works_total": 5,
           "works_in_field": 1,
           "match_confidence": 0.5,
-          "source_url": "https://openalex.org/A5024680589"
+          "source_url": "https://openalex.org/A0000000010"
         }
       ],
       "target_customers": null,
@@ -4283,7 +4283,7 @@
       "legal_form": "GmbH",
       "in_formation": false,
       "managing_directors": [
-        "Alexander Regnat"
+        "Person 01"
       ],
       "register_id": "HRB 242819, Amtsgericht München (Munich Local Court)",
       "grants": [

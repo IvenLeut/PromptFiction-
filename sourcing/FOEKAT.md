@@ -13,8 +13,7 @@ EXIST-Gründungsstipendium (fast immer 12 Monate, 587 Leads).
 Ein EXIST-Team gründet in der Regel während oder am Ende der Förderung, der Projektbeginn liegt also meist
 12 bis 24 Monate vor der Gründung (Erfahrungswert, der Katalog belegt ihn nicht). Das Team taucht im Katalog
 auf, bevor es Firma, Website oder Presse gibt. Nach den Sourcing-Regeln des Teams sind diese Funde **frühe Signale**
-und **interne Prüffälle**, keine Zeilen der UI-Ergebnisliste (die früher zitierte `sourcing/AGENTS.md` liegt
-nicht mehr im Repo).
+und **interne Prüffälle**, keine Zeilen der UI-Ergebnisliste.
 
 ## Von null bis zu Scores (getestet 20.11.2026)
 
@@ -22,7 +21,7 @@ nicht mehr im Repo).
 # Schritt 1: Fundliste (alle 733 Leads; mit gefülltem Cache ohne Netz, byte-identisch zum Beispiel)
 python -m sourcing foekat --since 2024-01-01 --out shortlist.json --stats stats.json
 # nur Priorität >= 80: 54 Leads, alle 03EF
-python -m sourcing foekat --since 2024-01-01 --out shortlist.json --min-priority 80
+python -m sourcing foekat --since 2024-01-01 --out top.json --min-priority 80
 # Schritt 2: Kontext für die ersten fünf (online ca. 60 s) oder nur aus mitgelieferten Belegen (--light, kein Netz)
 python -m context shortlist.json dossiers.json --limit 5
 python -m context shortlist.json dossiers.json --limit 5 --light
@@ -211,11 +210,14 @@ Nutzungsbedingungen und keine Lizenz**, zu automatisiertem Abruf nichts; `robots
 steht an jedem Lead; vor Weitergabe außerhalb des Hackathons bei foekat@dlr.de nachfragen.
 
 **DSGVO.** Ausführende Stellen nennen teils Professor:innen. Schritt 1 entfernt Namen mit akademischem Titel
-(`strip_persons`: „…, Prof. Dr. Erika Musterfrau“) und untitelte Arbeitsgruppenleitungen der Form
+(`strip_persons`, Regeln in `context/text.py`: „…, Prof. Dr. Erika Musterfrau“) und untitelte Arbeitsgruppenleitungen der Form
 „AG Vorname [van/von] Nachname“ am Ende eines Abschnitts aus Name, Beschreibung, Signal, `country_evidence` und
 vor der Branchenzuordnung; Fach-AGs („AG Künstliche Intelligenz“, „AG Autonome Intelligente Systeme“) und nach
 Personen benannte Lehrstühle („Dr. Theo Schöller-Stiftungslehrstuhl“) bleiben.
-**Bekannte Lücken:** andere Namen ohne Titel (die AG-Regel ist eine Heuristik über Wortendungen); die
-Katalogabfrage in Schritt 2 (`context/foekat.py`) übernimmt den Text der Ausführenden Stelle von der
-Detailseite ungefiltert, also samt Namen; Cache und `--raw-dir` enthalten die unveränderten Zeilen.
+Besteht ein Feld nur aus einer Person, wird es leer („?“ im Signal). Schritt 2 (`context/foekat.py`,
+`context/engine.py`) wendet dieselbe Funktion auf Thema, Empfänger und Ausführende Stelle an.
+**Bekannte Lücken:** Namen ohne Titel außerhalb der AG-Form („Leitung: Vorname Nachname“, „Arbeitsgruppe
+Nachname“, „Lehrstuhl X (Nachname)“, „Lehrstuhl Y - Vorname Nachname“), Namen in Großbuchstaben, „AG Vorname
+Nachname“ ohne Hochschul-/Institutsbezeichnung im selben Feld (die AG-Regel ist eine Heuristik über
+Wortendungen); Cache und `--raw-dir` enthalten die unveränderten Zeilen.
 Gründer:innen, E-Mails oder Telefonnummern werden nicht abgeleitet. Rechtsgrundlage und Löschfrist sind offen.

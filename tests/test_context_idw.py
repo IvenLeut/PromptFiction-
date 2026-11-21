@@ -96,12 +96,12 @@ def test_strip_legal_form_and_distinctive_word():
 
 
 def test_surnames_drop_titles_and_duplicates():
-    assert surnames(["Dr. Rohan Jain", "Prof. Dr. Katrin Pollmann", "Rohan Jain", "Li"]) == ["jain", "pollmann"]
+    assert surnames(["Dr. Erika Muster", "Prof. Dr. Lena Beispiel", "Erika Muster", "Li"]) == ["muster", "beispiel"]
 
 
 def test_sentences_do_not_split_after_abbreviations():
-    text = "Das Team um Dr. Matthias Beuting erhält rund 1,4 Mio. Euro. Zweiter Satz.\nDritter Block."
-    assert sentences(text) == ["Das Team um Dr. Matthias Beuting erhält rund 1,4 Mio. Euro.", "Zweiter Satz.",
+    text = "Das Team um Dr. Max Mustermann erhält rund 1,4 Mio. Euro. Zweiter Satz.\nDritter Block."
+    assert sentences(text) == ["Das Team um Dr. Max Mustermann erhält rund 1,4 Mio. Euro.", "Zweiter Satz.",
                                "Dritter Block."]
 
 

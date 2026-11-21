@@ -1,0 +1,4 @@
+# Tool configuration only; dependencies live in requirements.txt / requirements-dev.txt.
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

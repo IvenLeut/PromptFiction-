@@ -37,7 +37,7 @@ SENSAI = catalogue("03EFBY0323", "EXIST-Forschungstransfer", "sensAI", "Universi
                    "Universität Augsburg - Lehrstuhl für Embedded Intelligence, Augsburg, Bayern", "01.10.2024 bis 30.09.2026",
                    "598.747,00 EUR")
 EXO = catalogue("03EFNW0397", "EXIST-Forschungstransfer", "ExoAssist", "Technische Hochschule Köln, Köln, Nordrhein-Westfalen",
-                "Technische Hochschule Köln - Institut für Produktentwicklung und Konstruktionstechnik - Prof. Dr. Jörg Luderich, "
+                "Technische Hochschule Köln - Institut für Produktentwicklung und Konstruktionstechnik - Prof. Dr. Jörg Musterle, "
                 "Köln, Nordrhein-Westfalen", "01.03.2025 bis 28.02.2027", "1.180.000,00 EUR")
 
 
@@ -211,13 +211,13 @@ def test_crunchbase_profile_after_project_start_still_counts():
 
 def test_exoassist_project_lead_and_own_institute_are_not_partners():
     text = ("ExoAssist: Exoskelett für die Pflege\n"
-            "ExoAssist entwickelt gemeinsam mit Prof. Dr. Jörg Luderich ein Exoskelett.\n"
-            "Das Team arbeitet zusammen mit Jörg Luderich am Prototyp.\n"
+            "ExoAssist entwickelt gemeinsam mit Prof. Dr. Jörg Musterle ein Exoskelett.\n"
+            "Das Team arbeitet zusammen mit Jörg Musterle am Prototyp.\n"
             "In Zusammenarbeit mit dem Institut für Produktentwicklung und Konstruktionstechnik entstehen Tests.\n"
             "Pilotprojekt mit der Uniklinik Köln läuft.")
     article = SourceSignal(source="idw", type="idw", url="https://idw-online.de/de/news9", date=date(2025, 5, 1), evidence=text)
     exclude = ["Technische Hochschule Köln, Köln, Nordrhein-Westfalen",
-               "Technische Hochschule Köln - Institut für Produktentwicklung und Konstruktionstechnik - Prof. Dr. Jörg Luderich"]
+               "Technische Hochschule Köln - Institut für Produktentwicklung und Konstruktionstechnik - Prof. Dr. Jörg Musterle"]
     result = classify_texts("ExoAssist", [article], model=None, cache=None, exclude_names=exclude)
     assert [(p.name, p.kind) for p in result.fields.get("partners", [])] == [("Uniklinik Köln", "pilot")]
 

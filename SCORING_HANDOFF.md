@@ -10,9 +10,10 @@ der ScoringInput keine Gründerprofile, Förderbeträge, Rechtsform, Partner ode
 ScoringInput-Parameter haben Vorrang. Der Aufbau des ScoringInput liegt in `scoring_input.py`
 (`build_scoring_input`; vorher `scoring.py`, umbenannt, weil `scoring/` das Paket der Bewertung ist).
 
-Vor der Bewertung hält die Pipeline einen Lead als `issue` zurück, wenn am Stichtag kein nutzbarer
+Vor der Bewertung hält die Pipeline einen Lead als `issue` zurück (`scoring_input.admission_issue`,
+die einzige Stelle dieser Regel), wenn am Stichtag kein nutzbarer
 Deutschland-Beleg vorliegt (`country.status != "usable"`) oder wenn `vc_status` den Wert `confirmed` oder
-den Status `conflicting` hat. Ein unbekannter VC-Status (Status `missing`, `ambiguous` oder `informational`)
+den Status `conflicting` hat. Ein unbekannter VC-Status (Status `missing` oder `ambiguous`)
 ist bei Forschungsprojekten der Normalfall und wird ebenso bewertet wie der Wert `reported_none`.
 
 ## Export und Reproduktion

@@ -308,8 +308,8 @@ def _search(fetch, form: dict, *, first_page: str | None = None) -> tuple[int, l
 def _grant_from(detail: dict | None, row: dict | None) -> tuple[Grant, dict]:
     """Merge detail page (preferred) and result row into a Grant plus the facts used for the evidence.
 
-    Person names in recipient and executing unit ("..., Prof. Dr. Erika Musterfrau", "... AG Vorname Nachname")
-    are removed before they reach Grant.recipient, the evidence and the `institution` field.
+    Person names in topic, recipient and executing unit ("..., Prof. Dr. Erika Musterfrau", "... AG Vorname
+    Nachname") are removed before they reach Grant.recipient, the evidence and the `institution` field.
     """
     d, r = detail or {}, row or {}
     pick = lambda k: d.get(k) or r.get(k) or ""
@@ -324,7 +324,7 @@ def _grant_from(detail: dict | None, row: dict | None) -> tuple[Grant, dict]:
     amount = d.get("amount") if d.get("amount") is not None else r.get("amount")
     grant = Grant(programme=programme_for(fkz, d.get("leistungsplan", "")), reference=fkz or None, recipient=full or None,
                   amount_eur=amount, start=start, end=end, url=detail_url(fkz))
-    facts = {"fkz": fkz, "thema": pick("thema"), "recipient": recipient, "executing": executing, "start": start, "end": end,
+    facts = {"fkz": fkz, "thema": strip_persons(pick("thema")), "recipient": recipient, "executing": executing, "start": start, "end": end,
              "amount": amount, "leistungsplan": d.get("leistungsplan", ""), "ort": d.get("executing_ort") or d.get("recipient_ort", "")}
     return grant, facts
 

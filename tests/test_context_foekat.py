@@ -421,9 +421,9 @@ def test_person_names_never_reach_grant_or_evidence(suffix):
 def test_untitled_working_group_head_removed_subject_groups_kept():
     from context.foekat import _grant_from
     unit = ("Charité - Universitätsmedizin Berlin, Berliner Institut für Gesundheitsforschung in der Charité "
-            "AG Sophie van Linthout")
+            "AG Erika van Beispiel")
     grant, facts = _grant_from({"fkz": "03EFBE0166", "recipient": "Charité - Universitätsmedizin Berlin", "executing": unit}, None)
-    assert grant.recipient == facts["executing"] == unit.removesuffix(" AG Sophie van Linthout")
+    assert grant.recipient == facts["executing"] == unit.removesuffix(" AG Erika van Beispiel")
     subject = "Freie Universität Berlin - Institut für Informatik - AG Künstliche Intelligenz"
     assert _grant_from({"fkz": "03EFBE0001", "recipient": "Freie Universität Berlin", "executing": subject}, None)[0].recipient == subject
 

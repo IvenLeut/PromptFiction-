@@ -4,7 +4,7 @@ import os
 from datetime import date
 
 from context.cache import Cache
-from models import RawLead, SearchCriteria
+from models import SearchCriteria
 from sourcing.foekat_export import DEFAULT_PREFIXES, DEFAULT_SINCE, ExportError
 from sourcing.mapping import BASIS_ORDER, run
 

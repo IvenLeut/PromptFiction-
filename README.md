@@ -59,11 +59,14 @@ unbekannt, nicht als null, und fallen aus Mittelwerten heraus; unvollständige 3
 | 3 Scoring (Person 3) | `evaluation/engine.py`, `scoring/`, `scoring_input.py` | `evaluate(ScoringInput, *, lead=EnrichedLead) → EvaluationScores` | `python -m scoring dossiers.json --out scoring_out` |
 | 4 Dashboard (Person 4) | `app.py`, `dashboard.py`, `deep_dive.py`, `charts.py`, `market_view.py`, `ui_theme.py` | `AnalysisRun` / `ResearchResult` → Ansicht | `python -m streamlit run app.py` |
 
-`models.py` ist der gemeinsame Datenvertrag. `pipeline.run_pipeline(criteria, use_mock=…)` führt die Schritte
+`models.py` ist der gemeinsame Datenvertrag (mit `research_models.py` für `context_v2`/Marktdaten und
+`scoring_models.py` für den `ScoringInput`; `scoring_input.py`/`scoring_market.py` bauen ihn, `mock_data.py` hält
+drei Mini-Fixtures für Einzelschritt-Tests). `pipeline.run_pipeline(criteria, use_mock=…)` führt die Schritte
 1–3 aus und liefert ein `AnalysisRun` (Schema-Version 2.0) mit Suchkriterien, Modus, Zeitstempel, Lead-Zahlen
 und `ResearchResult` (`leads` bewertet, `issues` Fehler je Lead). Sourcing filtert nur Branche und belegten
 Deutschland-Bezug, dedupliziert nach ID und behält die Fundreihenfolge; Kontext sammelt Fakten ohne Ranking;
-erst die Bewertung sortiert nach `overall_score`, fehlende Gesamt-Scores kommen zuletzt. Was keine Quelle hat,
+erst die Bewertung sortiert nach `overall_score` (fehlende Gesamt-Scores zuletzt), bei Gleichstand nach der
+Schritt-1-Priorität, dann nach ID (`pipeline.ranking_key`). Was keine Quelle hat,
 geht im Scoring neutral ein, nicht als schlechtester Wert (`scoring/SCORING.md`). Wer welches Modul verantwortet, steht in
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
@@ -86,7 +89,7 @@ python -m scoring dossiers.json --out scoring_out --stichtag 2026-11-20
 Ohne Netz und Cache lassen sich die Schritte 2 und 3 mit den mitgelieferten Leads prüfen:
 
 ```bash
-python -m context examples/sourcing/sample_leads.json dossiers.json --offline
+python -m context examples/sourcing/sample_leads.json dossiers.json --offline --limit 8
 python -m scoring dossiers.json --out scoring_out
 ```
 
@@ -277,9 +280,10 @@ python -m evaluation.valuation dossiers.json assumptions.json valuations.json
 `capital_need`) mit `weight` (Summe 1), `relative_score` (1 = Benchmark) und `rationale`. `vc_method`:
 `exit_equity_value_eur`, `future_dilution` (0–1) und `target_moic`; der maximale Einstiegspreis vor der Runde
 ist der verwässerungsbereinigte Exit-Eigenkapitalwert geteilt durch den Ziel-MOIC abzüglich der Rundengröße.
-Die Ausgabe zeigt auch den Abstand zur Preisforderung; fehlen Rundengröße oder Preisforderung, bleibt der
-Block offen. Euro-Ergebnisse sind Dezimalstrings; der
-Rechenkern ist lokal, ohne externen Dienst.
+Die Ausgabe zeigt auch den Abstand zur Preisforderung. Beide Methoden rechnen nur bei belegtem VC-Status
+`reported_none`; sonst bleiben alle Euro-Felder leer (bei EXIST-Leads der Normalfall). Fehlen Rundengröße
+oder Preisforderung, bleibt der VC-Block offen. Euro-Ergebnisse sind Dezimalstrings; der Rechenkern ist
+lokal, ohne externen Dienst.
 
 ### Demo und Live-Integration
 

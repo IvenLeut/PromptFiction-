@@ -8,10 +8,10 @@ import streamlit as st
 
 from charts import comparison_figure, stage_figure
 from models import AnalysisRun, EvaluatedLead, ResearchResult
-from pipeline import lead_priority, ranking_key
+from pipeline import industry_unclassified, lead_priority, ranking_key
 from ui_theme import (
     FONT, GRID, INK, MUTED, ORANGE, PANEL, RISK_HIGH, RISK_LOW, SCORE_MAX, TABLE_MAX_HEIGHT, TABLE_ROW_HEIGHT,
-    TOP_N_OPTIONS, WHITE, ZERO_LINE, heading, summary_kpis,
+    TOP_N_OPTIONS, WHITE, ZERO_LINE, heading, md_escape, summary_kpis,
 )
 
 ALL_INDUSTRIES = "Alle Branchen"
@@ -25,18 +25,9 @@ def shortlist(leads: list[EvaluatedLead], industry: str = ALL_INDUSTRIES, top_n:
     return sorted(candidates, key=ranking_key)[:top_n]
 
 
-def is_industry_unclassified(lead: EvaluatedLead) -> bool:
-    """Step 1 marks a programme-default industry with the hint ``industry_unclassified``."""
-    if lead.signals:
-        for line in lead.signals[0].evidence.splitlines():
-            if line.startswith("Hinweise:") and "industry_unclassified" in line:
-                return True
-    return "Branche nicht klassifiziert" in (lead.prioritization_reason or "")
-
-
 def industry_label(lead: EvaluatedLead) -> str:
     """Industry as shown in every view; "nicht klassifiziert" for programme defaults."""
-    return UNCLASSIFIED if is_industry_unclassified(lead) else lead.industry.value
+    return UNCLASSIFIED if industry_unclassified(lead) else lead.industry.value
 
 
 def priority_line(lead: EvaluatedLead) -> str | None:
@@ -51,8 +42,11 @@ def priority_line(lead: EvaluatedLead) -> str | None:
 
 
 def source_link_markdown(text: str) -> str:
-    """Render a trailing "(Quelle: URL)" as a Markdown link."""
-    return _SOURCE_SUFFIX.sub(lambda m: f" ([Quelle]({m[1]}))", text)
+    """Sourced text as literal Markdown; a trailing "(Quelle: URL)" becomes a link."""
+    match = _SOURCE_SUFFIX.search(text)
+    if not match:
+        return md_escape(text)
+    return f"{md_escape(text[:match.start()])} ([Quelle]({match[1]}))"
 
 
 def contact_url(lead: EvaluatedLead) -> str | None:
@@ -116,7 +110,7 @@ def render_issues(result: ResearchResult):
     if result.issues:
         with st.expander(f"Hinweise zum Suchlauf ({len(result.issues)})"):
             for issue in result.issues:
-                st.warning(f"{issue.lead_id}: {issue.message}")
+                st.warning(md_escape(f"{issue.lead_id}: {issue.message}"))
 
 
 def render_dashboard(result: ResearchResult, analysis: AnalysisRun | None = None):
@@ -199,9 +193,9 @@ def _render_space_and_stages(shown: list[EvaluatedLead]):
         st.markdown("**Die stärkste Bewertung**")
         best = shown[0]
         if best.overall_score is not None:
-            st.markdown(f"### {best.name}")
+            st.markdown(f"### {md_escape(best.name)}")
             st.caption(f"SCORE {best.overall_score:.1f}/100 · {best.stage_classification.upper()}")
-            st.write(best.value_proposition)
+            st.write(md_escape(best.value_proposition))
             if st.button("Startup kennenlernen", key="featured_startup", width="stretch"):
                 st.query_params["startup"] = best.id
                 st.rerun()

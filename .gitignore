@@ -25,6 +25,16 @@ htmlcov/
 scoring_out/
 *.log
 
+# Ausgaben der Befehle aus README/FOEKAT/SCORING_HANDOFF im Projektordner (Beispiele liegen unter examples/)
+/shortlist.json
+/top.json
+/stats.json
+/dossier.json
+/dossiers.json
+/scoring.json
+/replay.json
+/valuations.json
+
 # Lokale Datenbanken; Fixtures unter tests/fixtures bleiben versioniert
 *.db
 *.sqlite3

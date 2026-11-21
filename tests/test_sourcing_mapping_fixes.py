@@ -67,10 +67,10 @@ def test_strip_persons_catalogue_strings(text, expected):
     assert mp.strip_persons(text) == expected
 
 
-# untitled working-group head: the raw catalogue string of FKZ 03EFBE0166 (real name kept on purpose, requested
-# as a regression case; examples/sourcing/shortlist.json no longer contains it because strip_persons removes it)
+# untitled working-group head: shape of a real catalogue string ("… AG <first> van <last>" closing the field);
+# the name is invented, the institute designation is the real one
 AG_PERSON = ("Charité - Universitätsmedizin Berlin, Berliner Institut für Gesundheitsforschung in der Charité "
-             "AG Sophie van Linthout")
+             "AG Erika van Beispiel")
 
 
 @pytest.mark.parametrize("text, expected", [
@@ -96,7 +96,7 @@ def test_strip_persons_untitled_working_group_head(text, expected):
 def test_untitled_working_group_head_reaches_no_output_field():
     lead, _ = mapped(executing=AG_PERSON, recipient="Charité - Universitätsmedizin Berlin")
     dump = lead.model_dump_json()
-    assert "Linthout" not in dump and "Berliner Institut für Gesundheitsforschung in der Charité" in dump
+    assert "van Beispiel" not in dump and "Erika" not in dump and "Berliner Institut für Gesundheitsforschung in der Charité" in dump
 
 
 def test_person_names_reach_no_output_field():

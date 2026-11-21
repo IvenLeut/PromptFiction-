@@ -283,7 +283,7 @@ uwe volker werner wolfgang yannick ahmed ali anh belal chen kim li mohamed omar 
 
 
 def _is_person(org: str, founders=()) -> bool:
-    """'Prof. Dr. Jörg Luderich' or 'Jörg Luderich': a person (project lead), never a partner organisation."""
+    """'Prof. Dr. Jörg Musterle' or 'Jörg Musterle': a person (project lead), never a partner organisation."""
     if PERSON_TITLE.search(org):
         return True
     if any(fold(org) == fold(f) for f in founders):
@@ -748,7 +748,7 @@ def classify_texts(name: str, signals: list[SourceSignal], *, model: str | None,
 
     `founders` (names) widen the scope of texts that are not about the lead to lines naming a founder.
     `exclude_names` (the lead's grant recipient / executing unit texts) are never partners; neither is any
-    name that looks like a person ("Prof. Dr. Jörg Luderich", "Jörg Luderich").
+    name that looks like a person ("Prof. Dr. Jörg Musterle", "Jörg Musterle").
     `ask(payload) -> dict` replaces the Ollama call (tests); answers are memoised in `cache` under
     model + sha1 of the prompt text. Errors are reported in `Lookup.errors`, never raised.
     """

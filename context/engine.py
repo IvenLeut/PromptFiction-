@@ -198,7 +198,8 @@ def parse_catalogue(text: str) -> dict | None:
 
     Supports the multi-line format ("Förderkennzeichen: 03EFBW0275" per line) and the older one-line
     format ("FKZ 03EFBW0275; Programm: ...; Laufzeit: 01.09.2024–30.09.2026; Summe: 972.638,00 €").
-    Person names in recipient and executing unit are removed (`context.text.strip_persons`).
+    Person names in topic, recipient and executing unit are removed (`context.text.strip_persons`); a
+    topic, recipient or executing unit that is only a person or step 1's "?" is dropped (no fact, no line).
     Returns None unless an FKZ and at least one further label are present.
     """
     facts, lines = {}, []
@@ -208,10 +209,13 @@ def parse_catalogue(text: str) -> dict | None:
             match = re.fullmatch(rf"(?:{labels})\s*:?\s+(.+)|(?:{labels})\s*:\s*(.+)", part, re.IGNORECASE)
             if match and key not in facts:
                 value = (match[1] or match[2]).strip()
-                if key in ("recipient", "executing"):
+                if key in ("thema", "recipient", "executing"):
                     value, part = strip_persons(value), strip_persons(part)
-                facts[key] = value
-                lines.append(part)
+                    if value.startswith("?"):       # step 1 writes "?" for an unknown or removed value
+                        value = ""
+                facts[key] = value or None
+                if value:
+                    lines.append(part)
                 break
     fkz = re.fullmatch(r"[0-9]{2}[A-Z0-9]{4,12}", (facts.get("fkz") or "").strip(" ."))
     if not fkz or len(facts) < 2:
@@ -282,7 +286,7 @@ def default_lookups(cache=_DEFAULT_CACHE, model: str | None = None, patents: boo
 
 
 def cached_quotes(extract_quotes: Callable, cache) -> Callable:
-    """Memoise Tom's Ollama quote extractor in the shared cache so a second run yields the same quotes.
+    """Memoise the Ollama quote extractor (context/ollama.py) in the shared cache so a second run yields the same quotes.
 
     Persistent layer on top of the in-process `lru_cache` of `context.ollama.request_quotes`, see context/cache.py.
     """

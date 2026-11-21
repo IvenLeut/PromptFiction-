@@ -44,9 +44,10 @@ from decimal import Decimal
 
 from context.cache import Cache
 from context.foekat import detail_url
+from context.text import ACADEMIC, strip_persons
 from models import Industry, RawLead, SourceSignal
 from research_models import Evidence
-from sourcing.foekat_export import (ACADEMIC, DEFAULT_PREFIXES, DEFAULT_SINCE, LEGAL_FORM, PROGRAMMES, SIGNAL_SOURCE,
+from sourcing.foekat_export import (DEFAULT_PREFIXES, DEFAULT_SINCE, LEGAL_FORM, PROGRAMMES, SIGNAL_SOURCE,
                                     SIGNAL_TYPE, SOURCE_NAME, ExportResult, GrantRow, _now, export_rows, format_euro)
 
 logger = logging.getLogger(__name__)
@@ -113,71 +114,6 @@ TIE_ORDER = tuple(rule for rule, *_ in INDUSTRY_RULES)   # table order is the ti
 WEAK_KEYWORDS = {"climate": {"carbon"}}                    # count only together with another hit of the rule
 DEFAULT_INDUSTRY = {"03EF": Industry.INDUSTRIAL, "03EG": Industry.AI}
 _TOKEN = re.compile(r"[a-z0-9äöüßéè]+")
-
-# --- person names ---------------------------------------------------------------------------------
-
-_TITLE = (r"(?:Jun\.-Prof\.|apl\.\s?Prof\.|Prof\.|Professorin|Professor|Priv\.-Doz\.|PD|"
-          r"Dr\.(?:\s?-\s?Ing\.|-Ing\.|\s?rer\.\s?nat\.|\s?med\.(?:\s?dent\.)?|\s?phil\.)?|habil\.|h\.\s?c\.|"
-          r"Dipl\.-[A-Za-zäöü]+\.?)")
-_NAMEWORD = r"(?:[A-ZÄÖÜ][a-zäöüßéèáçñ]+(?:-[A-ZÄÖÜ][a-zäöüßéèáçñ]+)?|[A-Z]\.)"
-_PERSON = re.compile(rf"(?:\b(?:Herr|Frau|Professur)\s+)?(?:{_TITLE}\s*)+(?:(?:von|van|de|zu)\s+)?{_NAMEWORD}"
-                     rf"(?:\s+(?:(?:von|van|de|der|zu)\s+)?{_NAMEWORD}){{0,2}}(?![\w-])")
-# Untitled working-group head ("..., AG Vorname [Zweitname] van Nachname"): AG + two or three name words (optional
-# particle) closing the field or a ',', ';', ' - ' segment, only in an academic field (so "Siemens AG Corporate
-# Technology" keeps its legal form). Subject designations ("AG Künstliche Intelligenz", "AG Data Science") are told
-# apart by an adjective/English first word or a subject-noun last word (`_is_subject`); a single word
-# ("AG Photonik") is never stripped.
-_UNTITLED_AG = re.compile(rf"\bAG\s+({_NAMEWORD})(?:\s+{_NAMEWORD})?\s+(?:(?:von|van|de|der|zu)\s+)?({_NAMEWORD})"
-                          r"(?=\s*(?:$|[,;|)]|\s[-–]\s))")
-_ADJECTIVE_END = re.compile(r"(?:lich|liche|isch|ische|ale|ive|are|elles|ches|ue)$")
-_SUBJECT_FIRST = {"data", "quantum", "soft", "applied", "computational", "digital", "neue", "angewandte"}
-_SUBJECT_END = re.compile(r"(?:ung|heit|keit|enz|anz|ik|ie|ion|tät|schaft|logie|ismus|tur|systeme|wesen|lehre|"
-                          r"kunde|medizin|ence|ance|ics|ogy|ing|nen|ien|ität)$")
-# Chairs named after a person ("Dr. Theo Schöller-Stiftungslehrstuhl") are a designation, not a person.
-_NAMED_CHAIR = re.compile(r"(?:Dr\.\s+)?(?:[A-ZÄÖÜ][\wäöüß]+\s+){0,2}[A-ZÄÖÜ][\wäöüß]+-(?:Stiftungs)?"
-                          r"(?:[Ll]ehrstuhl|[Pp]rofessur|Institut|Zentrum)")
-
-
-def _is_subject(first: str, last: str) -> bool:
-    """'Künstliche Intelligenz' is a subject, 'Erika Musterfrau' a person (heuristic, see _UNTITLED_AG)."""
-    first = first.lower()
-    return bool(first in _SUBJECT_FIRST or _ADJECTIVE_END.search(first) or _SUBJECT_END.search(last.lower()))
-
-
-def _strip_untitled_ag(text: str) -> str:
-    """Drop untitled 'AG <first> <last>' heads from an academic field (see _UNTITLED_AG)."""
-    if not ACADEMIC.search(text):
-        return text
-    return _UNTITLED_AG.sub(lambda m: m.group(0) if _is_subject(m.group(1), m.group(2)) else " ", text)
-
-
-def strip_persons(text: str) -> str:
-    """Remove personal names with academic titles and untitled 'AG <first> <last>' heads, keep the
-    institute/chair designation.
-
-    'Universität X, Lehrstuhl für Experimentalphysik VI, Prof. Dr. Erika Musterfrau'
-    -> 'Universität X, Lehrstuhl für Experimentalphysik VI'."""
-    if not text or not (re.search(_TITLE, text) or _UNTITLED_AG.search(text)):
-        return text or ""
-    chairs: list[str] = []
-
-    def protect(m: re.Match) -> str:
-        chairs.append(m.group(0))
-        return "\x00%d\x00" % (len(chairs) - 1)
-    out = _NAMED_CHAIR.sub(protect, text)
-    out = _PERSON.sub(" ", out)
-    out = _strip_untitled_ag(out)
-    out = re.sub(r"\(\s*[,;|]?\s*\)", " ", out)
-    out = re.sub(r"\s+", " ", out)
-    out = re.sub(r"\s+([,;)])", r"\1", out)
-    out = re.sub(r"([,;|])(?:\s*[,;|])+", r"\1", out)
-    out = re.sub(r"(?:\s*[-–,;|]\s*)+$", "", out)
-    out = re.sub(r"^(?:\s*[-–,;|]\s*)+", "", out)
-    out = re.sub(r"\s+-\s*([,;|])", r"\1", out)
-    out = re.sub(r"\s([-–])(?:\s+[-–])+\s", r" \1 ", out)
-    out = re.sub(r"\x00(\d+)\x00", lambda m: chairs[int(m.group(1))], out)
-    return out.strip() or text
-
 
 # --- project grouping, name -----------------------------------------------------------------------
 
@@ -288,7 +224,7 @@ def classify(rows: list[GrantRow]) -> IndustryMatch:
     within it the rule with the most hits wins, ties go to the earlier rule in TIE_ORDER. No hit ->
     programme default (basis 'default', no HTGF sector)."""
     first = rows[0]
-    fields = (("Thema", [r.thema for r in rows]), ("Ausführende Stelle", [strip_persons(r.executing) for r in rows]),
+    fields = (("Thema", [strip_persons(r.thema) for r in rows]), ("Ausführende Stelle", [strip_persons(r.executing) for r in rows]),
               ("Förderempfänger", [strip_persons(r.recipient) for r in rows]))
     for name, values in fields:
         for value in dict.fromkeys(values):
@@ -428,8 +364,8 @@ def country_evidence(row: GrantRow) -> Evidence | None:
         return None
     finding = ("Förderkatalog FKZ %s: Förderempfänger %s, Ort %s, Bundesland %s, Staat %s; "
                "Ausführende Stelle %s, Ort %s, Bundesland %s, Staat %s") % (
-        row.fkz, strip_persons(row.recipient), row.recipient_ort or "?", row.recipient_land or "?",
-        row.recipient_staat or "?", strip_persons(row.executing), row.executing_ort or "?", row.executing_land or "?",
+        row.fkz, strip_persons(row.recipient) or "?", row.recipient_ort or "?", row.recipient_land or "?",
+        row.recipient_staat or "?", strip_persons(row.executing) or "?", row.executing_ort or "?", row.executing_land or "?",
         row.executing_staat or "?")
     return Evidence(source=SOURCE_NAME, url=detail_url(row.fkz), field="country", finding=finding[:1000],
                     retrieved_at=row.retrieved_at)

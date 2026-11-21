@@ -3,6 +3,7 @@
 Also the single home of display constants and value formatting shared by all views.
 The CSS below and .streamlit/config.toml use the same palette values.
 """
+import re
 from datetime import date
 from html import escape
 
@@ -47,6 +48,22 @@ def format_score(score: float | None, missing: str = UNKNOWN) -> str:
 def format_number(amount: float | int | None, suffix: str = "") -> str:
     """Whole number with German thousands separator, e.g. "1.029.852 EUR"."""
     return UNKNOWN if amount is None else f"{amount:,.0f}{suffix}".replace(",", ".")
+
+
+_MARKDOWN_SPECIAL = re.compile(r"([\\`*_{}\[\]<>#$~|&])")
+_MARKDOWN_LINE_START = re.compile(r"(?m)^([ \t]*)(?:([-+=])|(\d+)([.)]))")
+
+
+def md_escape(text: object) -> str:
+    """Text from sources as literal Markdown: `_`, `*`, `$`, `[`, `<`, `&` … must not format, link or start LaTeX,
+    a line starting with "-", "+", "=" or "1." must not become a list or heading, and line breaks are kept.
+
+    Use it for every sourced string handed to st.write/st.markdown/st.caption/st.warning/st.title;
+    `fact()` and `heading()` escape HTML themselves.
+    """
+    out = _MARKDOWN_SPECIAL.sub(r"\\\1", str(text))
+    out = _MARKDOWN_LINE_START.sub(lambda m: m[1] + ("\\" + m[2] if m[2] else m[3] + "\\" + m[4]), out)
+    return out.replace("\n", "  \n")
 
 
 def format_date(day: date) -> str:
@@ -158,7 +175,7 @@ def summary_kpis(leads):
 def heading(kicker: str, title: str, description: str):
     """Eyebrow, page title and intro paragraph."""
     st.markdown(f'<div class="fr-eyebrow">{escape(kicker)}</div>', unsafe_allow_html=True)
-    st.title(title)
+    st.title(md_escape(title))
     st.markdown(f'<div class="fr-intro">{escape(description)}</div>', unsafe_allow_html=True)
 
 

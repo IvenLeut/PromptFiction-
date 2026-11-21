@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from research_models import ContextV2
-from ui_theme import format_date
+from ui_theme import format_date, md_escape
 
 # Maximum levels of the two sector scales shown at the end of the market tab.
 TRL_MAX, MCL_MAX = 9, 6
@@ -87,8 +87,8 @@ def render_market(context: ContextV2):
         measure = getattr(market, name.lower())
         column.metric(name, _measure(measure))
         if measure:
-            column.caption(f"{measure.geography} · Bezugsjahr {measure.period.end_year} · "
-                           f"{measure.data_type} · {measure.methodology}")
+            column.caption(md_escape(f"{measure.geography} · Bezugsjahr {measure.period.end_year} · "
+                                     f"{measure.data_type} · {measure.methodology}"))
     if market.sizing_inputs:
         with st.expander("Daten und Annahmen zur Marktgröße"):
             for measure in market.sizing_inputs.values():
@@ -137,7 +137,7 @@ def _render_competition(market):
                        "Website": str(x.website)} for x in market.competitors],
                      hide_index=True, column_config={"Website": st.column_config.LinkColumn()})
         if market.comparison_dimensions:
-            st.caption("Vergleichsdimensionen · " + ", ".join(market.comparison_dimensions))
+            st.caption("Vergleichsdimensionen · " + md_escape(", ".join(market.comparison_dimensions)))
     if market.comparable_transactions:
         st.subheader("Vergleichstransaktionen")
         st.dataframe([{"Unternehmen": x.company, "Datum": x.date, "Typ": x.transaction_type,
