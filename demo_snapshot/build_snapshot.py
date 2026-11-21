@@ -133,9 +133,24 @@ def build(dossiers_path: Path, out_dir: Path = OUT_DIR, stichtag: str = STICHTAG
     }
     out_dir.mkdir(parents=True, exist_ok=True)
     analysis_path, meta_path = out_dir / "analysis_snapshot.json", out_dir / "snapshot_meta.json"
-    analysis_path.write_text(run.model_dump_json(indent=1) + "\n", encoding="utf-8")
-    meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    analysis_path.write_text(redact_personal_emails(run.model_dump_json(indent=1)) + "\n", encoding="utf-8")
+    meta_path.write_text(redact_personal_emails(json.dumps(meta, ensure_ascii=False, indent=1)) + "\n", encoding="utf-8")
     return analysis_path, meta_path
+
+
+# Output-Vertrag: E-Mail nur als generisches Firmenpostfach (Impressum), nie persönliche Adressen.
+GENERIC_MAILBOXES = {"info", "contact", "kontakt", "hello", "hallo", "office", "mail", "team", "support",
+                     "sales", "press", "presse", "service", "post", "welcome"}
+_EMAIL = re.compile(r"(\\n)?([A-Za-z0-9._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,})")
+
+
+def redact_personal_emails(text: str) -> str:
+    """Ersetzt nicht-generische E-Mail-Adressen (z. B. vorname.nachname@…) in serialisiertem JSON."""
+    def repl(m):
+        if m.group(2).lower() in GENERIC_MAILBOXES:
+            return m.group(0)
+        return (m.group(1) or "") + "[E-Mail entfernt]"
+    return _EMAIL.sub(repl, text)
 
 
 def main(argv=None):
