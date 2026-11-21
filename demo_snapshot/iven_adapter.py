@@ -24,8 +24,8 @@ ROOT = Path(__file__).resolve().parents[1]
 REFERENCE = ROOT / "data" / "mvp" / "jury-reference.json"
 IVEN_PATH = Path(__file__).resolve().parent / "iven_companies.json"
 
-CATEGORY = "Höheres Risiko"
-CATEGORY_LONG = "Höheres Risiko (gegründete Firmen, Ivens Suche)"
+CATEGORY = "Firmen-Radar"
+CATEGORY_LONG = "Firmen-Radar · junge GmbH/UG (höheres Risiko)"
 STATUS = {"ranked": "Bewertbar", "research": "Recherche offen", "excluded": "Außerhalb Suchprofil"}
 FACT_LABELS = {
     "register": "Handelsregister", "country": "Deutschland-Beleg", "project_link": "Förderprojekt-Bezug",
@@ -86,12 +86,12 @@ def build_iven(reference: Path = REFERENCE, out: Path = IVEN_PATH) -> Path:
     run = Run.model_validate_json(reference.read_bytes())
     order = ranked(run.assessments)
     if [a.dossier.id for a in order] != [a.dossier.id for a in run.assessments]:
-        raise ValueError("Referenzlauf ist nicht in Ivens Rangfolge gespeichert.")
+        raise ValueError("Referenzlauf ist nicht in der Rangfolge des Firmen-Radars gespeichert.")
     live = run.options.mode == "live"   # mvp/export_jury.py: brief_for(item, live=run.options.mode == "live")
     companies = [company_record(i, item, live=live) for i, item in enumerate(order, 1) if item.queue in ("ranked", "research")]
     payload = {
         "kind": "iven_companies", "category": CATEGORY, "category_long": CATEGORY_LONG,
-        "origin": "Ivens Firmen-Suche (mvp/, Branch feature/founderradar-investment-cockpit)",
+        "origin": "Firmen-Radar (mvp/, Branch feature/founderradar-investment-cockpit)",
         "rule_version": run.rule_version, "schema_version": run.schema_version, "run_id": run.id,
         "as_of": str(run.options.as_of), "source_snapshot_date": run.source_snapshot_date,
         "max_age_months": run.options.max_age_months, "sectors": list(run.options.sectors),
@@ -115,7 +115,7 @@ def load_iven() -> dict | None:
 def origin_line(data: dict) -> str:
     """'Ivens Firmen-Suche, Regelwerk early-stage.2, Stand 21.11.2026'."""
     y, m, d = data["source_snapshot_date"].split("-")
-    return f"Ivens Firmen-Suche, Regelwerk {data['rule_version']}, Stand {d}.{m}.{y}"
+    return f"Firmen-Radar, Regelwerk {data['rule_version']}, Stand {d}.{m}.{y}"
 
 
 if __name__ == "__main__":

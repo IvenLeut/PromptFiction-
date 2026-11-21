@@ -1,8 +1,8 @@
 {
  "kind": "iven_companies",
- "category": "Höheres Risiko",
- "category_long": "Höheres Risiko (gegründete Firmen, Ivens Suche)",
- "origin": "Ivens Firmen-Suche (mvp/, Branch feature/founderradar-investment-cockpit)",
+ "category": "Firmen-Radar",
+ "category_long": "Firmen-Radar · junge GmbH/UG (höheres Risiko)",
+ "origin": "Firmen-Radar (mvp/, Branch feature/founderradar-investment-cockpit)",
  "rule_version": "early-stage.2",
  "schema_version": "mvp.1",
  "run_id": "1684e5a54f024b02",

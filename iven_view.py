@@ -15,8 +15,8 @@ import streamlit as st
 
 from ui_theme import SCORE_MAX, TABLE_MAX_HEIGHT, TABLE_ROW_HEIGHT, chips, fact, heading, kpi_cards, md_escape
 
-CATEGORY_EARLY = "Frühe Vorhaben (EXIST, vor Gründung)"
-CATEGORY_RISK = "Höheres Risiko (gegründete Firmen, Ivens Suche)"
+CATEGORY_EARLY = "Spin-off-Radar · vor der Gründung (EXIST)"
+CATEGORY_RISK = "Firmen-Radar · junge GmbH/UG (höheres Risiko)"
 CATEGORIES = [CATEGORY_EARLY, CATEGORY_RISK]
 ALL_SECTORS = "Alle Branchen"
 ALL_STATUS = "Alle"
@@ -24,7 +24,7 @@ TOP_OPTIONS = [10, 20, 34]
 QUERY_KEY = "iven"
 LINKEDIN_SEARCH = "https://www.linkedin.com/search/results/people/?keywords="
 NOT_COMPARABLE = ("Zwei getrennte Rankings: Die frühen Vorhaben bewertet unser Regelwerk (Team, Markt, Risiko, "
-                  "Earliness). Ivens Firmen bewertet sein Regelwerk {rule} (Produkt & Technologie 40 %, Kunde & "
+                  "Earliness). Die Firmen bewertet das Regelwerk {rule} (Produkt & Technologie 40 %, Kunde & "
                   "Nutzen 35 %, Entwicklungsnachweis 25 %; belegte Untergrenze, offene Kriterien ohne Ersatzpunkte). "
                   "Die Scores sind nicht vergleichbar und werden deshalb nicht gemischt.")
 _LEGAL = re.compile(r"\b(gmbh|ug|haftungsbeschränkt|ag|kg|se|e\.?\s?v|i\.\s?g)\b", re.I)
@@ -133,8 +133,8 @@ def render_overview(data: dict):
     """Heading, provenance, filters, KPI cards and Iven's ranking; a row click opens the deep dive."""
     companies = data["companies"]
     ranked = [c for c in companies if c["queue"] == "ranked"]
-    heading(f"Höheres Risiko · gegründete Firmen · Stand {_date(data['source_snapshot_date'])}",
-            f"{len(companies)} registrierte Firmen. Ivens Suche.",
+    heading(f"Firmen-Radar · junge GmbH/UG · Stand {_date(data['source_snapshot_date'])}",
+            f"{len(companies)} registrierte Firmen, höheres Risiko.",
             "Bereits gegründete Unternehmen (GLEIF-Register, Förderprojekte, Firmenwebsites) aus den letzten "
             f"{data['max_age_months']} Monaten. Später als unsere EXIST-Vorhaben, daher mehr Konkurrenz um den Deal "
             "und ein höheres Risiko, zu spät zu kommen.")
@@ -149,7 +149,7 @@ def render_overview(data: dict):
                          index=sectors.index(_saved("iven_sector", sectors, ALL_SECTORS)))
     status = b.selectbox("Status", statuses, key="iven_filter_status",
                          index=statuses.index(_saved("iven_status", statuses, ALL_STATUS)))
-    risk = c_.selectbox("Risiko (Ivens Label)", risks, key="iven_filter_risk",
+    risk = c_.selectbox("Risiko (Prüf-Label)", risks, key="iven_filter_risk",
                         index=risks.index(_saved("iven_risk", risks, ALL_STATUS)))
     top_n = d.selectbox("Ranking anzeigen", TOP_OPTIONS, key="iven_filter_top",
                         index=TOP_OPTIONS.index(_saved("iven_top", TOP_OPTIONS, 20)),
@@ -165,16 +165,16 @@ def render_overview(data: dict):
         ("Bewertbar", f"{len(scored)} / {len(shown)}", f"{len(shown) - len(scored)} mit offenen Nachweisen (Score offen)",
          100 * len(scored) / len(shown) if shown else 0),
         ("Ø Screening-Score", _fmt(mean_score, "—"), "Belegte Untergrenze · höher ist besser", mean_score or 0),
-        ("Ø Produkt & Technologie", _fmt(mean_product, "—"), "Ivens Unternehmensscore · höher ist besser", mean_product or 0),
-        ("Ø Kunde & Nutzen", _fmt(mean_market, "—"), "Ivens Marktpotenzialscore · höher ist besser", mean_market or 0),
+        ("Ø Produkt & Technologie", _fmt(mean_product, "—"), "Unternehmensscore · höher ist besser", mean_product or 0),
+        ("Ø Kunde & Nutzen", _fmt(mean_market, "—"), "Marktpotenzialscore · höher ist besser", mean_market or 0),
     ], dark_first=True)
     st.caption(f"Gesamt: {len(ranked)} bewertbar, {len(companies) - len(ranked)} mit offenen Nachweisen. "
-               "Mittelwerte nur über bewertbare Firmen der Auswahl. Risiko ist bei Iven ein Prüf-Label, kein Zahlenwert.")
+               "Mittelwerte nur über bewertbare Firmen der Auswahl. Risiko ist hier ein Prüf-Label, kein Zahlenwert.")
     if not shown:
         st.info("Keine Firma passt zu den Filtern.")
         return
-    st.subheader("Ivens Ranking")
-    st.caption("Reihenfolge und Werte exakt wie in Ivens Referenzlauf (Ergebnisse/Longlist.csv). Klick öffnet den Deep Dive.")
+    st.subheader("Ranking Firmen-Radar")
+    st.caption("Reihenfolge und Werte exakt wie im Referenzlauf des Firmen-Radars (Ergebnisse/Longlist.csv). Klick öffnet den Deep Dive.")
     rows = [{"Rang": c["rank"], "Unternehmen": c["name"], "Branchen": ", ".join(c["sectors"]) or "offen",
              "Status": c["status"], "Score": c["score"], "Produkt & Technologie": c["company_score"],
              "Kunde & Nutzen": c["market_score"], "Entwicklungsnachweis": c["validation_score"],
@@ -184,7 +184,7 @@ def render_overview(data: dict):
         "Rang": st.column_config.NumberColumn("#", width="small", format="%d"),
         "Unternehmen": st.column_config.TextColumn("Unternehmen / Deep Dive", width="medium"),
         "Score": st.column_config.ProgressColumn("Score", min_value=0, max_value=SCORE_MAX, format="%.1f",
-                                                 help="Ivens Screening-Score (belegte Untergrenze). Leer = offen."),
+                                                 help="Screening-Score (belegte Untergrenze). Leer = offen."),
         "Produkt & Technologie": st.column_config.NumberColumn("Produkt", format="%.0f"),
         "Kunde & Nutzen": st.column_config.NumberColumn("Markt", format="%.0f"),
         "Entwicklungsnachweis": st.column_config.NumberColumn("Nachweis", format="%.0f"),
@@ -214,12 +214,12 @@ def _link(url: str, label: str = "Quelle") -> str:
 def render_deep_dive(company: dict, data: dict, early_leads=None):
     """Description, hypothesis, scorecard, open points, evidence with links, team with LinkedIn, contact."""
     st.button("Zurück zur Übersicht", on_click=back, key="iven_back")
-    heading(f"Höheres Risiko / Firmen Deep Dive · Rang {company['rank']} bei Iven", company["name"],
+    heading(f"Firmen-Radar / Deep Dive · Rang {company['rank']}", company["name"],
             f"{', '.join(company['sectors']) or 'Branche offen'} · {company['stage']} · Gründung {founding_text(company)}")
     tone = "good" if company["queue"] == "ranked" else "warn"
     st.markdown(chips([(company["status"], tone), (company["risk"], "warn"), (company["htgf_fit"], ""),
                        (f"Datenabdeckung {company['coverage'] * 100:.0f} %", "")]), unsafe_allow_html=True)
-    st.caption(f"Herkunft: {origin(data)} · Werte unverändert aus Ivens Referenzlauf")
+    st.caption(f"Herkunft: {origin(data)} · Werte unverändert aus dem Referenzlauf")
     for lead in also_early(company, early_leads):
         st.info(f"Auch unter „{CATEGORY_EARLY}“ als **{md_escape(lead.name)}** geführt, dort mit unserem eigenen Score. "
                 "Die beiden Scores sind nicht vergleichbar.", icon="🔁")
@@ -233,8 +233,8 @@ def render_deep_dive(company: dict, data: dict, early_leads=None):
                                     [company["company_score"], company["market_score"], company["validation_score"]]):
         column.metric(label, f"{_fmt(value)} / 100" if value is not None else "offen")
     cols[4].metric("Risiko (Label)", company["risk"].replace("Prüfbedarf: ", "") or "offen",
-                   help=f"Ivens Risiko-Label: {company['risk']}. Kein Zahlenwert.")
-    st.caption("Ivens Scorecard: Produkt & Technologie 40 %, Kunde & Nutzen 35 %, Entwicklungsnachweis 25 %. "
+                   help=f"Risiko-Label: {company['risk']}. Kein Zahlenwert.")
+    st.caption("Scorecard Firmen-Radar: Produkt & Technologie 40 %, Kunde & Nutzen 35 %, Entwicklungsnachweis 25 %. "
                "Offene Kriterien erhalten keine Ersatzpunkte; Score = belegte Untergrenze. Höher ist besser.")
     main, contact = st.columns([2.2, 1], gap="large")
     with main:
@@ -254,7 +254,7 @@ def render_deep_dive(company: dict, data: dict, early_leads=None):
             st.caption(f"Segment: {company['segment']}")
         with tabs[1]:
             st.warning(f"Risiko: {md_escape(company['risk'])}", icon="⚠️")
-            fact("HTGF-Fit (Ivens Einschätzung)", company["htgf_fit"])
+            fact("HTGF-Fit (Einschätzung Firmen-Radar)", company["htgf_fit"])
             if company["reasons"]:
                 st.markdown("**Offene Nachweise**")
                 for reason in company["reasons"]:
@@ -302,7 +302,7 @@ def render_deep_dive(company: dict, data: dict, early_leads=None):
             for i, person in enumerate(company["team"]):
                 label, url, found = linkedin(person, company)
                 st.link_button(f"{label} · {person['name']}", url, width="stretch", key=f"iven_li_{company['id']}_{i}",
-                               help="Profil aus Ivens Team-Recherche." if found else
+                               help="Profil aus der Team-Recherche." if found else
                                     "Kein Profil belegt: öffnet die LinkedIn-Personensuche nach Name und Firma.")
             if names:
                 st.caption("LinkedIn öffnet sich in einem neuen Tab; es wird nichts automatisch gesendet.")
@@ -312,7 +312,7 @@ def render_deep_dive(company: dict, data: dict, early_leads=None):
                 st.caption("Öffnet einen E-Mail-Entwurf. Kein automatischer Versand.")
             if company["website"]:
                 st.link_button("Unternehmenswebsite", company["website"], width="stretch")
-            fact("Entdeckt über", "Ivens Firmen-Suche (GLEIF / Förderprojekt / Website)")
+            fact("Entdeckt über", "Firmen-Radar (GLEIF / Förderprojekt / Website)")
         import json
         st.download_button("Firmen-Dossier exportieren", json.dumps(company, ensure_ascii=False, indent=2),
                            file_name=f"{company['id']}.json", mime="application/json", width="stretch",

@@ -98,7 +98,7 @@ def test_category_switch_shows_separate_rankings():
     category.set_value(iven_view.CATEGORY_RISK).run()
     assert not app.exception
     text = " ".join(str(x.value) for x in app.markdown) + " ".join(str(x.value) for x in app.caption)
-    assert "Ivens Firmen-Suche, Regelwerk early-stage.2, Stand 21.11.2026" in text
+    assert "Firmen-Radar, Regelwerk early-stage.2, Stand 21.11.2026" in text
     assert "nicht vergleichbar" in " ".join(str(x.value) for x in app.info)
     assert len(app.dataframe) == 1
     frame = app.dataframe[0].value

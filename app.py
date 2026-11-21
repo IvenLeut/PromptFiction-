@@ -118,8 +118,8 @@ if run is None:
         if source == "snapshot":
             st.markdown("#### 52 echte Gründungsvorhaben aus dem Förderkatalog")
             st.caption("Alle Branchen · Deutschland · Stand 21.11.2026 · Filter nach Branche, Stage und DB-Profil im Dashboard")
-            st.caption("Zusätzlich im Dashboard: Kategorie „Höheres Risiko“ mit 34 bereits gegründeten Firmen "
-                       "aus Ivens Firmen-Suche (eigenes Regelwerk, getrenntes Ranking).")
+            st.caption("Zusätzlich im Dashboard: „Firmen-Radar“ mit 34 bereits gegründeten jungen Firmen "
+                       "(höheres Risiko, eigenes Regelwerk, getrenntes Ranking).")
             category = None
         else:
             st.markdown("#### Welches Technologiefeld möchtest du entdecken?")
