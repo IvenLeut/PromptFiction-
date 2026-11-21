@@ -1,0 +1,14 @@
+{
+  "version": "early-stage.2",
+  "description": "Interne Screening-Priorität für frühe Technologieunternehmen, keine Renditeprognose und keine offizielle HTGF-Bewertung.",
+  "weights": {"product": 40, "market": 35, "validation": 25},
+  "coverage_fields": ["technology", "product", "buyer", "benefit", "validation", "team"],
+  "minimum_coverage": 0.5,
+  "minimum_criteria": 2,
+  "required_facts": ["technology", "product", "buyer"],
+  "htgf_max_age_months": 36,
+  "htgf_source": "https://www.htgf.de/",
+  "checked_on": "2026-11-21",
+  "unknown_policy": "Keine Ersatzwerte. Score = belegte Untergrenze bei festen Gewichten; Obergrenze = Score plus Gewicht offener Dimensionen. Das Intervall ist kein statistisches Konfidenzintervall. Fehlende Kriterien bleiben null.",
+  "risk_policy": "Qualitative offene Risiken getrennt vom Potenzial; fehlende Daten sind kein Geschäftsrisiko."
+}

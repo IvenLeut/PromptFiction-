@@ -13,7 +13,7 @@ FIXTURES = Path(__file__).parent / "fixtures" / "context"
 
 
 def load(name):
-    return json.loads((FIXTURES / ("wayback_%s.json" % name)).read_text())
+    return json.loads((FIXTURES / ("wayback_%s.json" % name)).read_text(encoding="utf-8"))
 
 
 def fetch_from(responses, calls=None):

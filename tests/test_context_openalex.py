@@ -12,7 +12,7 @@ FIXTURES = Path(__file__).parent / "fixtures" / "context"
 
 
 def load(key):
-    return json.loads((FIXTURES / f"openalex_{key}.json").read_text())
+    return json.loads((FIXTURES / f"openalex_{key}.json").read_text(encoding="utf-8"))
 
 
 def fixture_fetch(fx):

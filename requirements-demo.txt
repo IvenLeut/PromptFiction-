@@ -1,0 +1,8 @@
+# Tested direct dependencies. The package includes the full resolved lockfile.
+pydantic==2.14.4
+streamlit==1.67.0
+plotly==7.1.0
+pyyaml==6.0.4
+jsonschema==4.26.0
+requests==2.34.2
+beautifulsoup4==4.15.0

@@ -1,0 +1,75 @@
+FOUNDER RADAR – EARLY-STAGE-DEMO
+
+1. Den gesamten ZIP-Inhalt entpacken, nicht einzelne Dateien aus der ZIP öffnen.
+2. Im entpackten Ordner Start-FounderRadar.cmd doppelklicken.
+3. Beim ersten Start werden Python-Pakete installiert (Internet nötig).
+4. Der Browser öffnet das Cockpit. Python 3.11 oder neuer muss vorhanden sein.
+
+BEDIENUNG
+Start & Übersicht: Branchen, 24/36 Monate und Recherchebudget wählen.
+Quellen live prüfen: echte öffentliche Abrufe, häufig einige Minuten.
+Gespeicherte Fakten neu berechnen: schneller Pitch-Lauf mit eingefrorenen Belegen.
+Analyse starten: Hintergrundlauf, Fortschritt und Anhalten.
+Longlist: bewertbar / Recherche offen / außerhalb Suchprofil, CSV-Export.
+Unternehmensanalyse: Scorebeiträge, Originalquellen, offene Fragen.
+Nächste Schritte: Shortlist, Begründung, Aufgabe, Verantwortlicher und Fälligkeit.
+Aufgaben: gespeicherte Entscheidungen und nächste Schritte.
+Modell & Quellen: Regeln, Quellenstatus, Zähler, kompletter JSON-Export.
+
+PITCH-ABLAUF (ca. 3 Minuten)
+1. Das gespeicherte Ergebnis mit realen Unternehmen zeigen.
+2. Gespeicherte Fakten neu berechnen -> Analyse starten: reproduzierbare Rechnung.
+3. Longlist öffnen und ein Unternehmen aus der Projektzuordnung wählen.
+4. Gründungsbeleg, Projektverbindung und Bewertungsregel erläutern.
+5. Shortlist-Entscheidung und nächsten Prüfschritt speichern.
+6. Optional danach Live-Prüfung starten und den Quellenfortschritt zeigen.
+
+MODELL
+Score-Untergrenze = 40 % Produkt/Technologie + 35 % Kunde/Nutzen
+                   + 25 % Entwicklungsnachweis, nur belegte Beiträge.
+Die Obergrenze addiert die Gewichte offener Dimensionen. Unbekannte Werte
+bleiben null; sie werden weder zu 50 Punkten noch als schlechte Qualität erklärt.
+Das Intervall ist keine statistische Prognose. Marktpotenzialscore misst hier
+Kundentyp und beschriebenen Nutzen, keinen geschätzten Milliardenmarkt.
+Unternehmensscore bezeichnet Produkt/Technologie. Risiko ist qualitativ.
+
+Datenabdeckung umfasst genau sechs Merkmale: Technologie, Produkt, Kunde,
+Nutzen, Entwicklungsnachweis, Team. Auch 6/6 bedeutet nicht, dass eine vollständige
+Due Diligence vorliegt. Geschäftsführernennung belegt nicht Teamqualität.
+Finanzierungsrunde, Kapitalbedarf, IP und technischer Vorsprung bleiben offen,
+solange keine geeigneten Belege vorliegen. Pilotkunden beweisen keine Seed-Runde.
+
+HTGF-PROFIL
+Interne Screening-Hilfe nach https://www.htgf.de/ (geprüft 21.11.2026).
+Pre-Seed/Seed, Technologiebezug, Deutschland, maximal 3 Jahre für Erstinvestment.
+Euer Standardfenster bleibt 24 Monate. Frühere VC-/Seed-Finanzierung ist kein
+pauschaler Ausschluss. Keine offizielle HTGF-Bewertung oder Renditeprognose.
+
+DATEN UND GRENZEN
+Der Startbestand umfasst 733 Förderprojekte und 21 Open-Data-Firmen.
+Der Projektresolver verbindet Hochschulverweise, Projekt-/Firmennamen und
+Impressen. Explizite Umbenennungen werden verfolgt. Registerhinweise und
+Firmenchroniken liefern zusätzliche Altersbelege; Jahres- und Monatsangaben
+bleiben Zeiträume. Projektbeginn und Copyright sind keine Gründungsdaten.
+Eine Zuordnung ist keine automatische Investmentfreigabe.
+Keine vollständige Abdeckung deutscher Neugründungen. Gesperrte oder nicht
+erreichbare Quellen werden nicht umgangen. Im Protokoll bleiben unbearbeitete
+Projektspuren und Abruffehler sichtbar. Weitere Läufe arbeiten die Warteschlange ab.
+
+INTEGRATION
+cockpit.py ist der Einstieg. mvp.engine.run verbindet Discovery, Resolver,
+Kontext, Scoring und Speicherung. analyst_store.py bleibt die gemeinsame
+SQLite-Persistenz für Entscheidungen. Keine KI und kein API-Key erforderlich.
+data/mvp/latest.json: letzter erfolgreicher Lauf.
+data/mvp/runs/: Laufhistorie mit Stichtag und Regelversion.
+data/mvp/analysis/: fünf AnalysisRun-JSONs im vorhandenen Repository-Vertrag.
+data/mvp/checkpoint.json: fortsetzbarer Arbeitsstand nach Unterbrechung.
+Die alten Engines bleiben über FOUNDERRADAR_UI=classic verfügbar;
+die neue Oberfläche nutzt ausschließlich early-stage.2.
+
+FEHLERBEHEBUNG
+Wenn der Start scheitert: Fehlermeldung im Fenster sowie data/mvp/server.log prüfen.
+Ein Quellenfehler löscht keine erfolgreiche vorherige Analyse.
+Bei Python-Änderungen die .venv im Projekt gezielt neu anlegen lassen.
+Der Server ist nur auf diesem Rechner erreichbar; dies ist kein gehostetes
+Mehrbenutzersystem. Zum Vorführen benötigen Sie keinen GitHub-Zugang.
