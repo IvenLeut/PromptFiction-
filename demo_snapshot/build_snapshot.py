@@ -23,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DOSSIERS = ROOT / "AGENT_TEAM" / "reports" / "scratch" / "loop1" / "full_dossiers.json"
 BACKTEST = ROOT / "AGENT_TEAM" / "eval" / "backtest.json"
 BEST_FIND = ROOT / "AGENT_TEAM" / "eval" / "best_find.md"
+REVIEW_FLAGS = Path(__file__).resolve().parent / "review_flags.json"   # hand-checked hints per lead, with source URL
 OUT_DIR = Path(__file__).resolve().parent
 STICHTAG = "2026-11-21"
 
@@ -130,12 +131,22 @@ def build(dossiers_path: Path, out_dir: Path = OUT_DIR, stichtag: str = STICHTAG
         "leads": by_id,
         "backtest": backtest_meta(json.loads(BACKTEST.read_text(encoding="utf-8"))) if BACKTEST.exists() else None,
         "best_find": parse_best_find(BEST_FIND.read_text(encoding="utf-8")) if BEST_FIND.exists() else None,
+        "review_flags": review_flags(REVIEW_FLAGS, set(by_id)),
     }
     out_dir.mkdir(parents=True, exist_ok=True)
     analysis_path, meta_path = out_dir / "analysis_snapshot.json", out_dir / "snapshot_meta.json"
     analysis_path.write_text(redact_personal_emails(run.model_dump_json(indent=1)) + "\n", encoding="utf-8")
     meta_path.write_text(redact_personal_emails(json.dumps(meta, ensure_ascii=False, indent=1)) + "\n", encoding="utf-8")
     return analysis_path, meta_path
+
+
+def review_flags(path: Path, lead_ids: set[str]) -> dict:
+    """Hand-checked hints (review_flags.json) for leads of this snapshot; each needs a flag text and a source URL."""
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {lead_id: [f for f in flags if f.get("flag") and str(f.get("url", "")).startswith("https://")]
+            for lead_id, flags in data.items() if lead_id in lead_ids and isinstance(flags, list)}
 
 
 # Output-Vertrag: E-Mail nur als generisches Firmenpostfach (Impressum), nie persönliche Adressen.

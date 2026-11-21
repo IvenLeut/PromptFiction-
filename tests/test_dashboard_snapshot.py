@@ -184,3 +184,25 @@ def test_linkedin_buttons_in_deep_dive():
     assert not app.exception
     html = " ".join(str(x.value) for x in app.markdown)
     assert 'target="_blank"' in html and ("LinkedIn" in html)
+
+
+def test_polish_founding_labels_thesis_and_review_flags():
+    from dashboard import documented_founding, review_flags, thesis_parts
+    from demo_snapshot import load_snapshot
+    from ui_theme import readable
+
+    run, meta = load_snapshot()
+    leads = {x.name: x for x in run.result.leads}
+    # Ymolution: no founding date in the dossier; the hand-checked best-find timeline documents 08.01.2026 with a source.
+    ymo = documented_founding(leads["Ymolution"], meta)
+    assert ymo["text"] == "08.01.2026" and ymo["url"].startswith("https://")
+    assert documented_founding(leads["Ymolution"], None) is None          # nothing invented without the source
+    assert readable("am_markt") == "Am Markt" and readable("pre_gruendung") == "Pre-Gründung"
+    assert readable("Freitext bleibt") == "Freitext bleibt"
+    parts = dict(thesis_parts(leads["Ymolution"].investment_thesis))
+    assert ("Vollzeit-Signal: EXIST-Forschungstransfer", False) in parts["Warum investieren"]
+    assert all("(Proxy)" not in item for items in parts.values() for item, _ in items)
+    assert any(proxy for _, proxy in parts["Hauptrisiko"])
+    flags = review_flags(leads["dentson"], meta)
+    assert flags and flags[0]["flag"].startswith("Möglicherweise Angel-finanziert") and flags[0]["url"].startswith("https://")
+    assert review_flags(leads["Ymolution"], meta) == []

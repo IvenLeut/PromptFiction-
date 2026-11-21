@@ -108,7 +108,8 @@ def fact_rows(values):
                 return "; ".join(display(item) for item in value)
             if isinstance(value, dict):
                 return str(value["value"]) if "value" in value else "; ".join(f"{key.replace('_', ' ')}: {display(item)}" for key, item in value.items() if known(item))
-            return str(value)
+            from ui_theme import readable   # raw enum values ("am_markt") as readable labels
+            return readable(value)
         st.markdown(''.join(f'<div class="fact-row"><span>{escape(label)}</span><strong>{escape(display(value))}</strong></div>' for label, value in rows), unsafe_allow_html=True)
 
 

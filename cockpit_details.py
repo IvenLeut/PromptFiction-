@@ -100,8 +100,9 @@ def brief(lead, saved):
         market_evidence = next((e for e in lead.evidence if e["category"] == "Market" and e["url"]), None)
         risk_evidence = next((e for e in lead.evidence if e["category"] == "Risk" and e["url"] and (e["points"] is None or e["points"] >= 50)), None)
         risk = d.get("ausschluss_grund") or d.get("hard_exclusions") or (risk_evidence["statement"] if risk_evidence else None) or d.get("risks")
+        from dashboard import plain_thesis
         brief_grid([
-            ("Why this company?", text(d.get("investment_thesis")) if reliable else "Insufficient evidence for an investment thesis.", None),
+            ("Why this company?", text(plain_thesis(d.get("investment_thesis"))) if reliable else "Insufficient evidence for an investment thesis.", None),
             ("Main risk", text(risk, "No supported risk assessment supplied."), risk_evidence["url"] if risk_evidence and risk == risk_evidence["statement"] else None),
             ("Why this team?", team or (text(d.get("founders")) + ". Relevant experience needs verification." if d.get("founders") else "Founder background not researched."), None),
             ("Why this market?", market_evidence["statement"] if market_evidence else text(d.get("target_market") or d.get("market"), "Market opportunity not researched."), market_evidence["url"] if market_evidence else None),
@@ -112,7 +113,7 @@ def brief(lead, saved):
                 for warning in lead.warnings:
                     st.caption(warning)
         with st.expander("Supporting assessment"):
-            fact_rows({"Investment rationale": d.get("investment_thesis"), "Score drivers": d.get("score_drivers"),
+            fact_rows({"Investment rationale": plain_thesis(d.get("investment_thesis")), "Score drivers": d.get("score_drivers"),
                        "Strengths": d.get("strengths"), "Risks": d.get("risks"),
                        "Timing rationale": d.get("why_contact_now"), "Earliness score": d.get("earliness_score"),
                        "Company score": d.get("company_score"), "Technology score": d.get("technology_score"),

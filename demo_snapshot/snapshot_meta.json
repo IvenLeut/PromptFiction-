@@ -1,7 +1,7 @@
 {
  "kind": "snapshot",
  "stichtag": "2026-11-21",
- "built_at": "2026-11-21T07:33:16+00:00",
+ "built_at": "2026-11-21T07:38:41+00:00",
  "source_file": "AGENT_TEAM/reports/scratch/loop1/full_dossiers.json",
  "lead_count": 52,
  "issue_count": 0,
@@ -880,5 +880,18 @@
    }
   ],
   "source_file": "AGENT_TEAM/eval/best_find.md"
+ },
+ "review_flags": {
+  "foekat-03efsn0248": [
+   {
+    "flag": "Möglicherweise Angel-finanziert – prüfen",
+    "detail": "Öffentlicher LinkedIn-Profiltext eines Investors (Suchtreffer der Brave Search API, Seitenstand 29.10.2026) nennt eine Beteiligung an dentson. Betrag, Zeitpunkt und Art der Beteiligung sind nicht belegt.",
+    "quote": "That question is part of why I chose to invest in dentson.",
+    "url": "https://www.linkedin.com/in/johankrusborg/",
+    "date": "2026-10-29",
+    "origin": "Team-Recherche Loop-Runde 1 (AGENT_TEAM/reports/loop/round-1-plan.md), Rohsnippet im Cache .cache/context.db",
+    "question": "Habt ihr bereits Business-Angel- oder andere private Finanzierung aufgenommen (Betrag, Zeitpunkt, Investoren)?"
+   }
+  ]
  }
 }

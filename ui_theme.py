@@ -82,6 +82,34 @@ _MARKDOWN_SPECIAL = re.compile(r"([\\`*_{}\[\]<>#$~|&])")
 _MARKDOWN_LINE_START = re.compile(r"(?m)^([ \t]*)(?:([-+=])|(\d+)([.)]))")
 
 
+# Raw enum values of steps 2/3 as shown in the UI (snake_case never reaches the screen).
+VALUE_LABELS = {
+    "pre_gruendung": "Pre-Gründung", "in_gruendung": "In Gründung", "pre_seed": "Pre-Seed", "seed": "Seed",
+    "zu_spaet": "Zu spät", "am_markt": "Am Markt", "pilot": "Pilot", "erste_kunden": "Erste Kunden",
+    "prototyp": "Prototyp", "labor_prototyp": "Laborprototyp", "paper": "Forschung / Paper", "idee": "Idee",
+    "hardware": "Hardware", "hardware_software": "Hardware + Software", "software": "Software",
+    "plattform": "Plattform", "wirkstoff": "Wirkstoff", "b2b": "B2B", "b2c": "B2C", "b2b2c": "B2B2C",
+    "patent_erteilt": "Patent erteilt", "patent_angemeldet": "Patent angemeldet",
+    "non_vc_funded": "Öffentlich gefördert, kein VC belegt", "vc_backed": "VC-finanziert", "unfunded": "Ohne Finanzierung",
+    "funded": "Finanziert", "conflicting": "Widersprüchlich", "confirmed": "Bestätigt", "reported_none": "Kein VC laut Quelle",
+    "unknown": "Unbekannt", "Unknown": "Unbekannt", "vc_potenzial": "VC-Potenzial", "agentur": "Agentur",
+    "beratung": "Beratung", "studi_projekt": "Studienprojekt", "hobby": "Hobby", "bereits_finanziert": "Bereits finanziert",
+    "bewertet": "Bewertet", "zurueck_an_sourcing": "Zurück an Sourcing",
+}
+
+
+def readable(value: object) -> str:
+    """Display label for a raw enum value ("am_markt" -> "Am Markt"); other text is returned unchanged."""
+    if value is None:
+        return UNKNOWN
+    text = str(value)
+    if text in VALUE_LABELS:
+        return VALUE_LABELS[text]
+    if re.fullmatch(r"[a-z]+(?:_[a-z]+)+", text):
+        return text.replace("_", " ").capitalize()
+    return text
+
+
 def md_escape(text: object) -> str:
     """Text from sources as literal Markdown: `_`, `*`, `$`, `[`, `<`, `&` … must not format, link or start LaTeX,
     a line starting with "-", "+", "=" or "1." must not become a list or heading, and line breaks are kept.
@@ -189,6 +217,15 @@ hr {border-color:#e4e0da!important;}
 .fr-thesis {background:#221f19;color:#fff;padding:1.7rem 2rem;border-radius:1.5rem;margin:.6rem 0 1.5rem;}
 .fr-thesis .fr-eyebrow {color:#e8a339;}
 .fr-thesis p {font-size:1.08rem;line-height:1.7;margin:0;}
+.fr-thesis-row {display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1rem;padding:.55rem 0;
+  border-top:1px solid rgba(255,255,255,.12);}
+.fr-thesis-row:first-of-type {border-top:none;}
+.fr-thesis-row > span {font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:#d9d4cc;padding-top:.3rem;}
+.fr-thesis-row ul {margin:0;padding-left:1.1rem;} .fr-thesis-row li {font-size:1.02rem;line-height:1.6;margin:.1rem 0;}
+.fr-thesis-lead {grid-template-columns:1fr;} .fr-thesis-lead p {color:#d9d4cc;font-size:.95rem;}
+.fr-proxy {display:inline-block;font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;border:1px solid #64c2c8;
+  color:#64c2c8;border-radius:9999px;padding:0 .45rem;margin-left:.35rem;vertical-align:middle;cursor:help;}
+@media(max-width:760px){.fr-thesis-row {grid-template-columns:1fr;gap:.2rem;}}
 .fr-fact {border-bottom:1px solid #ece9e4;padding:.75rem 0;}
 .fr-fact-label {font-size:.82rem;color:#6b655d;margin-bottom:.2rem;}
 .fr-fact-value {font-size:1rem;font-weight:500;overflow-wrap:anywhere;}

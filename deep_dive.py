@@ -12,13 +12,13 @@ import streamlit as st
 
 from charts import profile_figure, timeline_figure
 from dashboard import (
-    contact_email, contact_url, db_status, founder_names, industry_label, lead_meta, lead_time_months, linkedin_link, priority_line,
+    contact_email, contact_url, db_status, documented_founding, founder_names, review_flags, thesis_html, industry_label, lead_meta, lead_time_months, linkedin_link, priority_line,
     source_link_markdown, stage_label, website_of,
 )
 from market_view import render_company_research, render_market
 from models import EvaluatedLead
 from ui_theme import (
-    QUESTION_PREVIEW, UNKNOWN, chips, fact, format_date, format_number, format_score, heading, md_escape,
+    QUESTION_PREVIEW, UNKNOWN, chips, fact, format_date, format_number, format_score, heading, md_escape, readable,
 )
 
 # Evidence fields whose document date marks an own event on the signal timeline (others repeat the grant).
@@ -28,9 +28,10 @@ _TIMELINE_FIELDS = {"idw": "Pressemeldung (idw)", "first_web_capture": "Erste Wa
 _BACKGROUND = {"tech": "Technik/Forschung", "business": "Business", "beides": "Technik und Business"}
 
 
-def _questions(lead: EvaluatedLead) -> list[str]:
-    """Open questions of steps 3 and 2, without duplicates."""
-    return list(dict.fromkeys([*lead.open_questions, *lead.research_questions]))
+def _questions(lead: EvaluatedLead, meta: dict | None = None) -> list[str]:
+    """Open questions of the snapshot review flags and of steps 3 and 2, without duplicates."""
+    flagged = [f["question"] for f in review_flags(lead, meta) if f.get("question")]
+    return list(dict.fromkeys([*flagged, *lead.open_questions, *lead.research_questions]))
 
 
 def sourced_signals(lead: EvaluatedLead) -> list[tuple[str, str, str | None]]:
@@ -115,7 +116,14 @@ def _render_signals_and_team(lead: EvaluatedLead, meta: dict | None, as_of: date
     if extra.get("noise_class"):
         tags.append(("Noise-Filter: unauffällig" if extra["noise_class"] == "vc_potenzial"
                      else f"Noise: {extra['noise_class']}", "" if extra["noise_class"] == "vc_potenzial" else "warn"))
+    flags = review_flags(lead, meta)
+    tags += [(f["flag"], "warn") for f in flags]
     st.markdown(chips(tags), unsafe_allow_html=True)
+    for f in flags:
+        st.warning(md_escape(f"{f['flag']}: {f.get('detail', '')} Zitat: „{f.get('quote', '')}“"), icon="⚠️")
+        st.markdown(f'<small><a href="{escape(f["url"], quote=True)}" target="_blank" rel="noopener noreferrer">'
+                    f'Quelle öffnen</a> · {escape(f.get("date") or "")} · {escape(f.get("origin") or "")}</small>',
+                    unsafe_allow_html=True)
     if extra.get("why_now"):
         st.markdown(f"**Warum jetzt:** {md_escape(extra['why_now'])}")
     timeline, team = st.columns([1.4, 1], gap="large")
@@ -195,15 +203,15 @@ def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None], meta: dict |
     main, contact = st.columns([2.2, 1], gap="large")
     with main:
         st.markdown('<div class="fr-thesis"><div class="fr-eyebrow">Investmenthypothese</div>'
-                    f'<p>{escape(lead.investment_thesis)}</p></div>', unsafe_allow_html=True)
+                    f'{thesis_html(lead.investment_thesis)}</div>', unsafe_allow_html=True)
         context = lead.context_v2
         has_market = bool(context and context.market_intelligence)
         tabs = st.tabs(["Unternehmen & Kennzahlen", "Risiken & Prüfung", "Quellen & Belege", BRIEFING_TAB]
                        + (["Marktrecherche"] if has_market else []))
         with tabs[0]:
-            _render_overview(lead)
+            _render_overview(lead, meta)
         with tabs[1]:
-            _render_diligence(lead)
+            _render_diligence(lead, meta)
         with tabs[2]:
             _render_sources(lead, has_market)
         with tabs[3]:
@@ -215,7 +223,7 @@ def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None], meta: dict |
         _render_contact(lead)
 
 
-def _render_overview(lead: EvaluatedLead):
+def _render_overview(lead: EvaluatedLead, meta: dict | None = None):
     """Score profile, company facts and score drivers."""
     st.plotly_chart(profile_figure(lead), width="stretch", theme=None, key="startup_profile",
                     config={"displayModeBar": False})
@@ -228,19 +236,23 @@ def _render_overview(lead: EvaluatedLead):
                 st.markdown(f"[Quelle öffnen]({url})")
     st.subheader("Unternehmensprofil")
     left, right = st.columns(2)
-    year = lead.founding_year or (lead.founded_on.year if lead.founded_on else None)
-    month = lead.founding_month or (lead.founded_on.month if lead.founded_on else None)
+    founding = documented_founding(lead, meta)
     with left:
         fact("Unternehmen", lead.name)
         fact("Branche", industry_label(lead))
-        fact("Gründungsjahr", year or UNKNOWN)
-        fact("Gründungsmonat", f"{month:02}" if month else UNKNOWN)
+        fact("Rechtsform", lead.legal_form + (" i.G." if lead.in_formation else "") if lead.legal_form else UNKNOWN)
+        fact("Gründung", founding["text"] if founding else UNKNOWN)
+        if founding and founding["url"]:
+            st.markdown(f"<small>{escape(founding['source'])} · "
+                        f'<a href="{escape(founding["url"], quote=True)}" target="_blank" rel="noopener">Quelle</a></small>',
+                        unsafe_allow_html=True)
         fact("Teamgröße", format_number(lead.team_size))
     with right:
-        fact("Produktstatus", lead.product_stage or UNKNOWN)
-        fact("Stage-Einordnung", lead.stage_classification)
+        fact("Produktstatus", readable(lead.product_stage) if lead.product_stage else UNKNOWN)
+        fact("Produkttyp", readable(lead.product_type) if lead.product_type else UNKNOWN)
+        fact("Stage-Einordnung", stage_label(lead, meta))
         fact("Finanzierung gesamt", format_number(lead.funding_total_eur, " EUR"))
-        fact("Finanzierungsphase", lead.funding_stage or UNKNOWN)
+        fact("Finanzierungsphase", readable(lead.funding_stage) if lead.funding_stage else UNKNOWN)
         fact("Kunden", format_number(lead.customer_count))
         fact("Jahresumsatz", format_number(lead.annual_revenue_eur, " EUR"))
     st.subheader("Was für das Unternehmen spricht")
@@ -254,7 +266,7 @@ def _render_overview(lead: EvaluatedLead):
         render_company_research(lead.context_v2)
 
 
-def _render_diligence(lead: EvaluatedLead):
+def _render_diligence(lead: EvaluatedLead, meta: dict | None = None):
     """Risks and questions for the first call; long question lists are collapsed."""
     st.subheader("Wesentliche Risiken")
     for risk in lead.risks:
@@ -262,7 +274,7 @@ def _render_diligence(lead: EvaluatedLead):
     if not lead.risks:
         st.caption("Keine Risiken dokumentiert. Das bedeutet nicht, dass keine bestehen.")
     st.subheader("Fragen für das erste Gespräch")
-    questions = _questions(lead)
+    questions = _questions(lead, meta)
     for i, question in enumerate(questions[:QUESTION_PREVIEW], 1):
         st.write(f"{i}. {md_escape(question)}")
     if len(questions) > QUESTION_PREVIEW:
@@ -403,8 +415,8 @@ def _render_briefing(lead: EvaluatedLead, namespace: str, decision: dict | None)
     st.caption("Finanzierung unbekannt heißt nicht unfinanziert. Fehlende Umsätze sind kein Umsatz von null.")
     a, b, c = st.columns(3)
     with a:
-        fact("Produktreife", lead.product_maturity if lead.product_maturity != "Unknown" else lead.product_stage or UNKNOWN)
-        fact("Finanzierungsstatus", lead.funding_status)
+        fact("Produktreife", readable(lead.product_maturity if lead.product_maturity != "Unknown" else lead.product_stage))
+        fact("Finanzierungsstatus", readable(lead.funding_status))
     with b:
         fact("Finanzierung gesamt", format_number(lead.funding_total_eur, " EUR"))
         fact("Kunden", format_number(lead.customer_count))

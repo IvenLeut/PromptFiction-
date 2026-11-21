@@ -1,0 +1,14 @@
+{
+ "_doc": "Handgeprüfte Prüfhinweise je Lead für den Snapshot (build_snapshot übernimmt sie in snapshot_meta.json). Nur öffentliche Quellen mit URL; ein Hinweis ist kein Befund und ändert keinen Score.",
+ "foekat-03efsn0248": [
+  {
+   "flag": "Möglicherweise Angel-finanziert – prüfen",
+   "detail": "Öffentlicher LinkedIn-Profiltext eines Investors (Suchtreffer der Brave Search API, Seitenstand 29.10.2026) nennt eine Beteiligung an dentson. Betrag, Zeitpunkt und Art der Beteiligung sind nicht belegt.",
+   "quote": "That question is part of why I chose to invest in dentson.",
+   "url": "https://www.linkedin.com/in/johankrusborg/",
+   "date": "2026-10-29",
+   "origin": "Team-Recherche Loop-Runde 1 (AGENT_TEAM/reports/loop/round-1-plan.md), Rohsnippet im Cache .cache/context.db",
+   "question": "Habt ihr bereits Business-Angel- oder andere private Finanzierung aufgenommen (Betrag, Zeitpunkt, Investoren)?"
+  }
+ ]
+}

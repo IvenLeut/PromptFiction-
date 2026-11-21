@@ -129,6 +129,86 @@ def linkedin_link(lead: EvaluatedLead, name: str) -> tuple[str, str, bool]:
     return ("LinkedIn", profile, True) if profile else ("Auf LinkedIn suchen", linkedin_search(name, lead.name), False)
 
 
+# --- Investment hypothesis as readable parts (text of scoring/engine.py, nothing added) ---------------------
+
+_THESIS_LABELS = {"Wir investieren, weil:": "Warum investieren", "Belegt:": "Belegte Stärken",
+                  "Nächster Meilenstein:": "Nächster Meilenstein", "Hauptrisiko:": "Hauptrisiko",
+                  "Kein Investment-Case:": "Kein Investment-Case"}
+_THESIS_SPLIT = re.compile(r"\s*(?=Wir investieren, weil:|Belegt:|Nächster Meilenstein:|Hauptrisiko:|Kein Investment-Case:|"
+                           r"Wenn bis Förderende|Kein Risikofaktor ab|Noch keine Stärke belegt)")
+_PROXY = re.compile(r"\s*\(Proxy\)")
+PROXY_HINT = ("Proxy: indirekter Hinweis (z. B. Fachgebiet der ausführenden Stelle oder Publikationen ohne Feldbezug), "
+              "im Scoring gedämpft gewichtet. Vor dem Kontakt prüfen.")
+
+
+def thesis_parts(text: str) -> list[tuple[str | None, list[tuple[str, bool]]]]:
+    """Split the scoring hypothesis into (label, [(statement, is_proxy)]) without changing its content.
+
+    "Wir investieren, weil: A (Proxy); B. Hauptrisiko: C (Proxy)." ->
+    [("Warum investieren", [("A", True), ("B", False)]), ("Hauptrisiko", [("C", True)])]."""
+    parts = []
+    for segment in _THESIS_SPLIT.split((text or "").strip()):
+        segment = segment.strip()
+        if not segment:
+            continue
+        prefix = next((p for p in _THESIS_LABELS if segment.startswith(p)), None)
+        body = segment[len(prefix):].strip() if prefix else segment
+        listed = prefix in ("Wir investieren, weil:", "Belegt:")
+        items = [x for x in (re.split(r";\s+(?=[A-ZÄÖÜ])", body.rstrip(".")) if listed else [body]) if x.strip()]
+        parts.append((_THESIS_LABELS.get(prefix), [(_PROXY.sub("", item).strip(), bool(_PROXY.search(item))) for item in items]))
+    return parts
+
+
+def plain_thesis(text: str | None) -> str | None:
+    """Hypothesis as one plain line for compact views: "(Proxy)" chains are folded into one trailing note."""
+    if not text:
+        return text
+    stripped = _PROXY.sub("", text)
+    return stripped + (" · Enthält Proxy-Hinweise (indirekt, vor Kontakt prüfen)." if stripped != text else "")
+
+
+def thesis_html(text: str) -> str:
+    """HTML rows for the thesis box; "(Proxy)" becomes a small badge with an explanatory tooltip."""
+    badge = f' <span class="fr-proxy" title="{escape(PROXY_HINT, quote=True)}">Proxy</span>'
+    rows = []
+    for label, items in thesis_parts(text):
+        content = "".join(f"<li>{escape(item)}{badge if proxy else ''}</li>" for item, proxy in items)
+        content = f"<ul>{content}</ul>" if len(items) > 1 else f"<p>{content[4:-5]}</p>"
+        rows.append(f'<div class="fr-thesis-row"><span>{escape(label)}</span>{content}</div>' if label
+                    else f'<div class="fr-thesis-row fr-thesis-lead">{content}</div>')
+    return "".join(rows)
+
+
+_GERMAN_DAY = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
+
+
+def documented_founding(lead: EvaluatedLead, meta: dict | None = None) -> dict | None:
+    """Founding date with its source, or None. Only documented dates: the step-2 `founded_on`/`founding_year`
+    (+ month) or, in snapshot mode, the dated "gegründet" row of the hand-checked best-find timeline
+    (AGENT_TEAM/eval/best_find.md, with source URL). A press-text year hint is not a founding date."""
+    if lead.founded_on:
+        return {"text": format_date(lead.founded_on), "year": lead.founded_on.year, "month": lead.founded_on.month,
+                "url": None, "source": "Kontext (Schritt 2)"}
+    if lead.founding_year:
+        month = lead.founding_month
+        return {"text": f"{month:02}/{lead.founding_year}" if month else str(lead.founding_year),
+                "year": lead.founding_year, "month": month, "url": None, "source": "Sourcing (Schritt 1)"}
+    best = (meta or {}).get("best_find") or {}
+    if best.get("lead_id") == lead.id:
+        for row in best.get("timeline") or []:
+            found = _GERMAN_DAY.search(row.get("when") or "")
+            if found and row.get("source") and re.search(r"(?i)gegründet|gründung", row.get("signal") or ""):
+                day = date(int(found[3]), int(found[2]), int(found[1]))
+                return {"text": format_date(day), "year": day.year, "month": day.month, "url": row["source"],
+                        "source": "Handrecherche Best Find (Pressemitteilung)"}
+    return None
+
+
+def review_flags(lead: EvaluatedLead, meta: dict | None) -> list[dict]:
+    """Hand-checked hints of the snapshot (demo_snapshot/review_flags.json), e.g. a possible angel investment."""
+    return ((meta or {}).get("review_flags") or {}).get(lead.id) or []
+
+
 def lead_meta(lead: EvaluatedLead, meta: dict | None) -> dict:
     """Scoring-record extras of one lead from the snapshot meta; {} without."""
     return ((meta or {}).get("leads") or {}).get(lead.id) or {}
@@ -585,7 +665,8 @@ def _render_ranking(shown: list[EvaluatedLead], live: bool, meta: dict | None, a
             row.update({"Website": website_of(x),
                         "Gründer": ", ".join(founders[:3]) + (f" +{len(founders) - 3}" if len(founders) > 3 else "") or "–",
                         "Erstes Signal": x.first_signal_date, "DB-Check": db_status(x)[0],
-                        "Vorsprung": lead_time_months(x, meta, as_of)})
+                        "Vorsprung": lead_time_months(x, meta, as_of),
+                        "Prüfhinweis": "; ".join(f["flag"] for f in review_flags(x, meta)) or None})
         else:
             row["Standort"] = x.location
         row.update({"Unternehmensscore": x.company_score, "Marktpotenzial": x.market_potential_score,
