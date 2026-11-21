@@ -1,5 +1,26 @@
 # FounderRadar 2.0 - Investment Cockpit
 
+## Run the demo
+
+Python 3.11+ (developed with 3.12). From the project folder:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python -m streamlit run app.py     # works offline
+```
+
+Then open http://localhost:8501. Direct links for the jury demo:
+
+- `http://localhost:8501/?view=snapshot` opens the snapshot dashboard right away (52 real EXIST leads, as of 21.11.2026).
+- `http://localhost:8501/?startup=foekat-03efmv0034` opens the deep dive of the best find (Ymolution).
+
+On the start page pick a **Data source** and press **Start analysis**: **Snapshot (real leads)** (default, offline),
+**Demo fixtures (fictional)** or **Live pipeline (online)**. Inside **Radar** a switch toggles between
+**Spin-off Radar · pre-founding (EXIST)** and **Company Radar · young GmbH/UG (higher risk)**; the two are ranked
+separately. Click any table row for the deep dive; **Back to overview** keeps filters, **New analysis** resets.
+Tests: `.venv/bin/python -m pytest -q` (no network needed). The rest of this README is in German.
+
 ## Abgabe und Demo
 
 - [Start- und Testanleitung](START-UND-TESTANLEITUNG.md) für Start, Score-Neuberechnung und echten KI-Test.
@@ -225,32 +246,34 @@ Danach http://localhost:8501 öffnen. Die Tests laufen ohne Netz. Nach Änderung
 den Server mit Strg+C beenden und neu starten. Die folgenden Befehle setzen eine aktivierte venv voraus
 (`source .venv/bin/activate` bzw. `.\.venv\Scripts\Activate.ps1`), dann genügt `python`.
 
-### Demo-App bedienen
+### Running the demo app (Demo-App)
 
-Start (ohne Netz lauffähig): `.venv/bin/python -m streamlit run app.py`, dann http://localhost:8501 öffnen.
-Direktlinks für die Vorführung: `http://localhost:8501/?view=snapshot` öffnet sofort das Snapshot-Dashboard,
-`http://localhost:8501/?startup=foekat-03efmv0034` den Deep Dive des Best Finds (Ymolution).
+Start (works offline): `.venv/bin/python -m streamlit run app.py`, then open http://localhost:8501.
+Direct links for the demo: `http://localhost:8501/?view=snapshot` opens the snapshot dashboard immediately,
+`http://localhost:8501/?startup=foekat-03efmv0034` the deep dive of the best find (Ymolution).
 
-1. Auf der Startseite die **Datenquelle** wählen und **Analyse starten** drücken:
-   - **Snapshot (echte Leads)**, Standard: eingefrorener echter Lauf über 52 Förderkatalog-Leads mit Kontext
-     (Website, Impressum, OpenAlex, idw, Wayback, Datenbanksuche) und Scoring, Stand 21.11.2026. Lädt in unter
-     einer Sekunde aus `demo_snapshot/` und braucht kein Netz.
-   - **Demo-Fixtures (fiktiv)**: 30 erfundene Startups pro Kategorie.
-   - **Live-Pipeline (Netz)**: bis zu 10 echte Leads pro Kategorie, ca. 10–15 s pro Lead.
-2. Das Dashboard zeigt Filter (Branche, Stage, „Nur ohne DB-Profil“, Top 10/20/50), KPI-Karten, im Snapshot und
-   Live-Modus zusätzlich die Earliness (Backtest-Headline 11/11, Median 21 Monate, n=11 Handauswahl; Anteil ohne
-   DB-Profil; Monate Vorsprung) und im Snapshot den **Best Find** mit Signal-Zeitleiste und Quellen. Dazu
-   3D-Potenzialraum, Stage-Verteilung, Vergleich der besten zehn, die Ranking-Tabelle (Score, Stage, Branche,
-   Website, Gründer, erstes Signal, DB-Check, Vorsprung), den Abschnitt „Noise und Abgelehnt“ und den JSON-Export.
-3. Tabellenzeile, „Startup kennenlernen“ oder „Deep Dive öffnen“ öffnet den Deep Dive: Scores, Earliness-Chips,
-   Signal-Zeitleiste mit Quell-URLs, Team-Karte (Person, Rolle, Herkunft, Publikationen), Investmenthypothese,
-   Risiken, Belege und Kontakt. Der Kontaktbutton öffnet einen Mailentwurf und versendet nichts.
-4. **Zurück zur Übersicht** behält Filter und Top-N; **Neue Analyse** verwirft Ergebnisse und Detailauswahl.
+1. On the start page choose the **Data source** and press **Start analysis**:
+   - **Snapshot (real leads)**, default: frozen real run over 52 funding-catalogue leads with context
+     (website, imprint, OpenAlex, idw, Wayback, database search) and scoring, as of 21.11.2026. Loads in under
+     a second from `demo_snapshot/` and needs no network.
+   - **Demo fixtures (fictional)**: 30 invented startups per category.
+   - **Live pipeline (online)**: up to 10 real leads per category, about 10–15 s per lead.
+2. The dashboard shows filters (industry, stage, "Only without DB profile", top 10/20/50) and KPI cards; in snapshot
+   and live mode also earliness (backtest headline 11/11, median 21 months, n=11 hand-picked; share without DB
+   profile; months of lead time) and, in the snapshot, the **Best Find** with signal timeline and sources. Plus the
+   3D potential space, stage distribution, comparison of the top ten, the ranking table (score, stage, industry,
+   website, founders, first signal, DB check, lead time), the "Noise and rejected" section and the JSON export.
+   The **Company Radar · young GmbH/UG (higher risk)** category shows registered young companies with their own
+   rule set and a separate ranking (`?iven=<id>` opens one).
+3. A table row, "Meet the startup" or "Open deep dive" opens the deep dive: scores, earliness chips, signal
+   timeline with source URLs, team card (person, role, background, publications), investment thesis, risks,
+   evidence and contact. The contact button opens an e-mail draft and sends nothing.
+4. **Back to overview** keeps filters and top-N; **New analysis** discards results and the selection.
 
-Snapshot neu bauen (nach Änderungen am Scoring; liest `AGENT_TEAM/reports/scratch/loop1/full_dossiers.json`,
-ohne Netz): `.venv/bin/python -m demo_snapshot.build_snapshot` (andere Dossiers mit `--dossiers PFAD`).
-Der Snapshot enthält echte Impressum- und Gründernamen (öffentliche Geschäftsdaten); vor einem Commit ins
-öffentliche Repo entscheidet das Team (siehe `AGENT_TEAM/reports/final_gate.md`, Datenschutz).
+Rebuild the snapshot (after scoring changes; reads `AGENT_TEAM/reports/scratch/loop1/full_dossiers.json`,
+offline): `.venv/bin/python -m demo_snapshot.build_snapshot` (other dossiers with `--dossiers PATH`).
+The snapshot contains real imprint and founder names (public business data); the team decides before committing it
+to the public repo (see `AGENT_TEAM/reports/final_gate.md`, data protection).
 
 Alle Scores liegen zwischen 0 und 100. Höhere Unternehmens- und Marktwerte sind besser, niedrigeres Risiko ist
 besser. KPI-Mittelwerte und Stage-Verteilung beziehen sich auf die sichtbaren Top-N. Fehlende Scores gelten als

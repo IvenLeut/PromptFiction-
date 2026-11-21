@@ -120,3 +120,40 @@ stimmt: EXIST-Start 01.12.2024, erste Finanzierung 16.10.2026, also gut 22 Monat
   Verhandlung. https://www.compositesworld.com/news/dlr-spacemast-completes-first-orbital-deploy-retract-cycle
 - **PoLightFilters** (03EFNW0392, Uni Köln): Patent angemeldet, Humboldt-Professur.
   https://uni-koeln.de/en/university/news/news/news-detail/federal-ministry-supports-start-up-project-on-pioneering-filter-technology
+
+<!-- best_find_en: English rendering of the sections above for the dashboard (demo_snapshot/build_snapshot.py
+parses this part when present). Keep it in sync with the German source; quotes stay as quoted. -->
+
+# Best Find (English rendering)
+
+## 1. Ymolution (FKZ 03EFMV0034): recommendation for "Your Best Find"
+
+Spin-off of University Medicine Greifswald. Ymolution produces nano-antibodies without animal testing, from synthetic
+gene libraries in a bacterial system. Rank 30 of the find list (priority), online score rank 6 of 52.
+
+| Date | Signal | Source |
+|---|---|---|
+| **01.11.2024** | **EXIST Research Transfer starts**, EUR 853,134, until 30.06.2026 (our signal) | https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFMV0034 |
+| 04/2025 | Innovation Award of the German BioRegions, first project from Mecklenburg-Western Pomerania | https://www.medizin.uni-greifswald.de/fileadmin/user_upload/Marketing/Pressemitteilungen/PM_Innovationspreis_Ymolution.pdf |
+| 08.01.2026 | Ymolution founded (GmbH). **University Medicine Greifswald is a shareholder**, by its own account for the first time in a spin-off (press release of 14.01.2026) | https://www.unimedizin-greifswald.de/fileadmin/user_upload/Marketing/Pressemitteilungen/PM-Ymolution-Gr%C3%BCndung.pdf |
+| 29.01.2026 | First Wayback capture of ymolution.com | https://web.archive.org/web/20260129101905/https://www.ymolution.com/ |
+| 29.10.2026 | **State funding Mecklenburg-Western Pomerania, about EUR 1.34m** for a joint research project of University Medicine and Ymolution (new approaches in cancer therapy). Date taken from the page timestamp of the report (Brave API `page_age`; the page itself blocks WebFetch). Ymolution's share open. Public money, no equity | https://www.ndr.de/nachrichten/mecklenburg-vorpommern/vorpommern/millionenfoerderung-fuer-greifswalder-krebsforschung,mvregiogreifswald-6120.html (same report on tagesschau.de) |
+| today | Imprint: Ymolution GmbH, Greifswald, HRB 23103 AG Stralsund, managing directors Dr. Alexander Reder, Dr. Christian Hentschker | https://www.ymolution.com/impressum |
+| today | Website: „Wir suchen strategische Investoren und institutionelle Partner für die Finanzierungsrunde 2026“ ("We are looking for strategic investors and institutional partners for the 2026 financing round") | https://www.ymolution.com/ |
+| today | Funding: still only public money (EXIST, state of MV) plus University Medicine as shareholder. No VC or angel report found (counter-searches 21.11.2026), no archived Crunchbase/Dealroom profile in Wayback | Counter-search, CDX check |
+
+**Team:** Dr. Alexander Reder, Dr. Christian Hentschker, Marc Schaffer, Jan Meiering.
+**Why call now:** The GmbH has existed since January 2026, EXIST funding ended on 30.06.2026, and according to its
+own website the investor search for 2026 is under way. The state funding from late October 2026 lowers the research
+risk but does not replace equity. A platform for research reagents, diagnostics and therapy addresses a large
+antibody market. Greifswald is far from the VC hubs, so competition for the deal should be low.
+**Open:** No paper or patent on the method found. Clarify the business model (service or platform) and University
+Medicine's stake.
+
+## Struck: InhalPlus (FKZ 03EFNI0124)
+
+Fraunhofer ITEM spin-off (aerosol therapy for premature infants, InhalPlus GmbH incorporated on 27.08.2026). **On
+16.10.2026 NBank Capital invested EUR 500,000 pre-seed** as the first external investor
+(https://startupvalley.news/de/inhalplus-fruehgeborenen-nbank-capital/). Profiles on nordic9 and VCBacked already
+exist. So the company comes too late for "Best Find". For the pitch it still proves the signal works: EXIST start
+01.12.2024, first funding 16.10.2026, a lead of a good 22 months.

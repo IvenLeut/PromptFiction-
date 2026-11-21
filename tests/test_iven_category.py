@@ -1,4 +1,4 @@
-"""Category "Höheres Risiko": Iven's 34 registered companies next to our 52 EXIST leads, never merged."""
+"""Category "Company Radar" (higher risk): Iven's 34 registered companies next to our 52 EXIST leads, never merged."""
 import csv
 import json
 import time
@@ -73,6 +73,21 @@ def test_filters_keep_ivens_order_and_linkedin():
     assert iven_view.mailto(refactum).startswith("mailto:info@refactum.de?")
 
 
+def test_english_rendering_of_ivens_engine_texts():
+    """Display copy is English; the stored data stays Iven's German 1:1."""
+    from demo_snapshot.iven_adapter import en, english
+    assert en("Prüfbedarf: Marktvalidierung") == "Needs review: market validation"
+    assert en("Finanzierungsphase offen") == "Funding stage open" and en("Bewertbar") == "Scorable"
+    assert en("Wenn sich der Ansatz „API“ für „Unternehmen“ in einem wiederkehrenden Ablauf bewährt, könnte daraus "
+              "ein bezahlbares Produkt werden. Entscheidend sind messbarer Nutzen, der Aufwand für die Einführung "
+              "und ein Vergleich mit dem heutigen Prozess.").startswith("If the approach “API” proves itself for “companies”")
+    assert en("Ein Zitat von der Website.") == "Ein Zitat von der Website."   # evidence stays as quoted
+    refactum = load_iven()["companies"][0]
+    shown = english(refactum)
+    assert shown["score"] == refactum["score"] and shown["id"] == refactum["id"]
+    assert refactum["status"] == "Bewertbar" and shown["status"] == "Scorable"
+
+
 def test_ymolution_cross_reference():
     import iven_view
     from demo_snapshot import load_snapshot
@@ -84,7 +99,7 @@ def test_ymolution_cross_reference():
 def _snapshot_app():
     from streamlit.testing.v1 import AppTest
     app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=60).run()
-    next(b for b in app.button if b.label == "Analyse starten").click().run()
+    next(b for b in app.button if b.label == "Start analysis").click().run()
     assert not app.exception
     return app
 
@@ -92,18 +107,18 @@ def _snapshot_app():
 def test_category_switch_shows_separate_rankings():
     import iven_view
     app = _snapshot_app()
-    category = next(x for x in app.get("button_group") if x.label == "Kategorie") if app.get("button_group") else None
+    category = next(x for x in app.get("button_group") if x.label == "Category") if app.get("button_group") else None
     assert category is not None
-    assert "Snapshot · echte Leads" in " ".join(str(x.value) for x in app.markdown)
+    assert "Snapshot · real leads" in " ".join(str(x.value) for x in app.markdown)
     category.set_value(iven_view.CATEGORY_RISK).run()
     assert not app.exception
     text = " ".join(str(x.value) for x in app.markdown) + " ".join(str(x.value) for x in app.caption)
-    assert "Firmen-Radar, Regelwerk early-stage.2, Stand 21.11.2026" in text
-    assert "nicht vergleichbar" in " ".join(str(x.value) for x in app.info)
+    assert "Company Radar, rule set early-stage.2, as of 21.11.2026" in text
+    assert "not comparable" in " ".join(str(x.value) for x in app.info)
     assert len(app.dataframe) == 1
     frame = app.dataframe[0].value
-    assert list(frame["Unternehmen"])[:2] == ["REFACTUM GmbH", "Fibryx GmbH"]
-    assert "Snapshot · echte Leads" not in text   # our EXIST ranking is not rendered in this category
+    assert list(frame["Company"])[:2] == ["REFACTUM GmbH", "Fibryx GmbH"]
+    assert "Snapshot · real leads" not in text   # our EXIST ranking is not rendered in this category
 
 
 def test_every_iven_deep_dive_renders():
@@ -117,5 +132,5 @@ def test_every_iven_deep_dive_renders():
         assert not app.exception, company["name"]
         assert company["name"] in " ".join(str(x.value) for x in app.title)
         html = " ".join(str(x.value) for x in app.markdown)
-        assert "Investmenthypothese" in html
+        assert "Investment hypothesis" in html
     assert time.perf_counter() - start < 120

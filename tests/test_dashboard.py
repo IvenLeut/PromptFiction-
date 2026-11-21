@@ -36,7 +36,7 @@ def test_top_selection_and_missing_values():
 
 def test_contact_draft_and_validation():
     lead = next(x for x in get_demo_result().leads if x.contact_email)
-    assert unquote(contact_url(lead)).startswith(f"mailto:{lead.contact_email}?subject=Austausch")
+    assert unquote(contact_url(lead)).startswith(f"mailto:{lead.contact_email}?subject=Intro")
     assert contact_url(lead.model_copy(update={"contact_email": None})) is None
     with pytest.raises(ValidationError):
         lead.contact_email = "hello@example.org\nBcc:other@example.org"
@@ -46,7 +46,7 @@ def test_contact_draft_and_validation():
 
 def choose_source(app, source):
     """Pick the data source on the start page ("snapshot" is the default)."""
-    radio = next(x for x in app.radio if x.label == "Datenquelle")
+    radio = next(x for x in app.radio if x.label == "Data source")
     assert radio.value == "snapshot"
     radio.set_value(source).run()
     assert not app.exception
@@ -61,8 +61,8 @@ def start_app(category=None):
     assert not app.get("plotly_chart")
     choose_source(app, "demo")
     if category:
-        next(x for x in app.radio if x.label == "Kategorie").set_value(category)
-    next(b for b in app.button if b.label == "Analyse starten").click().run()
+        next(x for x in app.radio if x.label == "Category").set_value(category)
+    next(b for b in app.button if b.label == "Start analysis").click().run()
     assert not app.exception
     return app
 
@@ -72,7 +72,7 @@ def test_dashboard_filters_and_detail():
     app = start_app(Industry.HEALTH)
     assert len(app.dataframe[0].value) == 10
     assert len(app.get("plotly_chart")) == 3
-    next(x for x in app.selectbox if x.label == "Ranking anzeigen").set_value(20).run()
+    next(x for x in app.selectbox if x.label == "Show ranking").set_value(20).run()
     assert len(app.dataframe[0].value) == 20
     from hashlib import sha256
     shown = shortlist(app.session_state.analysis.result.leads, top_n=20)
@@ -84,15 +84,15 @@ def test_dashboard_filters_and_detail():
     assert app.query_params["startup"] == shown[1].id
     assert app.title[0].value == shown[1].name
     assert not app.dataframe
-    assert len(app.tabs) == 4  # incl. "Investment-Briefing & Entscheidung" (cockpit branch)
+    assert len(app.tabs) == 4  # incl. the investment briefing & decision tab (cockpit branch)
     next(x for x in app.button if x.key == "back_to_portfolio").click().run()
     assert not app.exception
     assert len(app.dataframe[0].value) == 20
     assert not app.query_params.get("startup")
-    next(x for x in app.button if x.label == "Neue Analyse").click().run()
+    next(x for x in app.button if x.label == "New analysis").click().run()
     assert not app.dataframe
-    next(x for x in app.radio if x.label == "Kategorie").set_value(Industry.CLIMATE)
-    next(x for x in app.button if x.label == "Analyse starten").click().run()
+    next(x for x in app.radio if x.label == "Category").set_value(Industry.CLIMATE)
+    next(x for x in app.button if x.label == "Start analysis").click().run()
     assert all(x.industry == Industry.CLIMATE for x in app.session_state.analysis.result.leads)
     assert len(app.dataframe[0].value) == 10
     assert not app.exception
@@ -107,8 +107,8 @@ def test_detail_direct_link_and_unknown_id():
     assert app.title[0].value == lead.name
     app.query_params["startup"] = "unknown"
     app.run()
-    assert any("nicht vorhanden" in x.value for x in app.warning)
-    next(x for x in app.button if x.label == "Zurück zur Übersicht").click().run()
+    assert any("not in the current run" in x.value for x in app.warning)
+    next(x for x in app.button if x.label == "Back to overview").click().run()
     assert len(app.dataframe[0].value) == 10
 
 
@@ -130,7 +130,7 @@ def test_industrial_demo_renders_market_and_sources():
     app.query_params["startup"] = "industrial-16"
     app.run()
     assert not app.exception
-    assert "Marktrecherche" in [tab.label for tab in app.tabs]
+    assert "Market research" in [tab.label for tab in app.tabs]
     assert {"TAM", "SAM", "SOM"} <= {metric.label for metric in app.metric}
     assert any("Eurostat SBS" in item.value for item in app.markdown)
 
@@ -183,7 +183,7 @@ def start_live_app(monkeypatch, run=None, error=None):
     monkeypatch.setattr(pipeline, "run_pipeline", fake_run_pipeline)
     app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=30).run()
     choose_source(app, "live")
-    next(b for b in app.button if b.label == "Analyse starten").click().run()
+    next(b for b in app.button if b.label == "Start analysis").click().run()
     assert not app.exception
     return app, calls
 
@@ -201,14 +201,15 @@ def test_industry_label_priority_line_and_source_links():
 
     plain, unclassified = live_leads()
     assert industry_label(plain) == plain.industry.value
-    assert industry_label(unclassified) == "nicht klassifiziert"
+    assert industry_label(unclassified) == "unclassified"
     assert all(industry_label(x) == x.industry.value for x in get_demo_result().leads)
     number, rest = plain.prioritization_reason.split(":", 1)
-    assert priority_line(plain) == f"{number} – {rest.strip()}"
+    assert priority_line(plain) == f"{number.replace('Priorität', 'Priority')} – {rest.strip()}"
     assert priority_line(get_demo_result().leads[0]) is None
     text = source_link_markdown("Dünne Datenlage (Quelle: https://example.org/a?b=1)")
-    assert text == "Dünne Datenlage ([Quelle](https://example.org/a?b=1))"
-    assert source_link_markdown("Ohne Quelle") == "Ohne Quelle"
+    assert text == "Dünne Datenlage ([Source](https://example.org/a?b=1))"
+    assert source_link_markdown("Thin data (source: https://example.org/a?b=1)") == "Thin data ([Source](https://example.org/a?b=1))"
+    assert source_link_markdown("Without source") == "Without source"
 
 
 def test_live_toggle_runs_live_pipeline_and_renders_every_view(monkeypatch):
@@ -218,23 +219,23 @@ def test_live_toggle_runs_live_pipeline_and_renders_every_view(monkeypatch):
     assert kwargs["use_mock"] is False and criteria.limit == 10 and callable(kwargs["on_progress"])
     assert len(app.dataframe[0].value) == 2
     assert len(app.get("plotly_chart")) == 3
-    assert any("LIVE-ANALYSE" in x.value for x in app.caption)
+    assert any("LIVE ANALYSIS" in x.value for x in app.caption)
     for lead in leads:
         app.query_params["startup"] = lead.id
         app.run()
         assert not app.exception
         assert app.title[0].value == lead.name
-        assert any(x.value.startswith("Priorität ") for x in app.caption)
-    assert any("nicht klassifiziert" in x.value for x in app.markdown)
-    assert any(x.label.endswith("weitere Fragen") for x in app.expander)
-    assert any("[Quelle](https://" in x.value for x in app.warning)
+        assert any(x.value.startswith("Priority ") for x in app.caption)
+    assert any("unclassified" in x.value for x in app.markdown)
+    assert any(x.label.endswith("more questions") for x in app.expander)
+    assert any("[Source](https://" in x.value for x in app.warning)
 
 
 def test_live_sourcing_error_shows_readable_message(monkeypatch):
     from sourcing.engine import SourcingError
 
     app, _ = start_live_app(monkeypatch, error=SourcingError("Förderkatalog-Sourcing fehlgeschlagen: Timeout"))
-    assert any("Förderkatalog konnte gerade nicht abgefragt werden" in x.value for x in app.error)
+    assert any("funding catalogue (Förderkatalog) could not be queried" in x.value for x in app.error)
     assert "analysis" not in app.session_state
 
 
@@ -244,12 +245,12 @@ def test_sourced_signals_block_for_live_leads_only(monkeypatch):
     plain, unclassified = live_leads()
     rows = sourced_signals(plain)
     labels = [label for label, _, _ in rows]
-    assert labels[0] == "Öffentliche Förderung" and labels[-3:] == ["Startup-Datenbanken", "Erstes datiertes Signal", "Offene Fragen"]
+    assert labels[0] == "Public funding" and labels[-3:] == ["Startup databases", "First dated signal", "Open questions"]
     grant = plain.grants[0]
     _, value, url = rows[0]
-    assert grant.programme in value and f"FKZ {grant.reference}" in value and "Laufzeit" in value and " EUR" in value
+    assert grant.programme in value and f"FKZ {grant.reference}" in value and "Term" in value and " EUR" in value
     assert url == str(grant.url)
-    assert dict((label, value) for label, value, _ in rows)["Offene Fragen"] == \
+    assert dict((label, value) for label, value, _ in rows)["Open questions"] == \
         str(len(dict.fromkeys([*plain.open_questions, *plain.research_questions])))
     assert all(sourced_signals(lead) == [] for lead in get_demo_result().leads)
 
@@ -257,8 +258,8 @@ def test_sourced_signals_block_for_live_leads_only(monkeypatch):
     app.query_params["startup"] = plain.id
     app.run()
     assert not app.exception
-    assert any(x.value == "Belegte Signale" for x in app.subheader)
-    assert any("[Quelle öffnen](" in x.value for x in app.markdown)
+    assert any(x.value == "Documented signals" for x in app.subheader)
+    assert any("[Open source](" in x.value for x in app.markdown)
 
 
 def test_sourced_text_is_rendered_as_literal_markdown():
@@ -271,29 +272,29 @@ def test_sourced_text_is_rendered_as_literal_markdown():
     # line starts must not become lists or headings, line breaks survive, entities stay literal
     assert md_escape("- Punkt\n1. Schritt\n=== R&D") == "\\- Punkt  \n1\\. Schritt  \n\\=== R\\&D"
     assert source_link_markdown("Reife_grad $x$ (Quelle: https://example.org/a_b?c=1)") == \
-        r"Reife\_grad \$x\$ ([Quelle](https://example.org/a_b?c=1))"
+        r"Reife\_grad \$x\$ ([Source](https://example.org/a_b?c=1))"
 
 
 def test_screening_and_cockpit_views_and_decision_tab():
     """Integrated cockpit branch: screening longlist, investment cockpit and the decision form in the deep dive."""
     from models import Industry
     app = start_app(Industry.HEALTH)
-    view = next(x for x in app.get("button_group") if x.label == "Ansicht")
-    view.set_value("Screening & Entscheidungen").run()
+    view = next(x for x in app.get("button_group") if x.label == "View")
+    view.set_value("Screening & Decisions").run()
     assert not app.exception
     assert len(app.dataframe[0].value) == 30
     assert any("Screening" in x.value for x in app.title) or any("Screening" in str(x.value) for x in app.markdown)
-    next(x for x in app.get("button_group") if x.label == "Ansicht").set_value("Investment-Cockpit").run()
+    next(x for x in app.get("button_group") if x.label == "View").set_value("Investment Cockpit").run()
     assert not app.exception
     nav = next(x for x in app.radio if x.label == "Workspace")
     for page in ("Dealflow", "Company Deep Dive", "Activities", "Overview"):
         nav.set_value(page).run()
         assert not app.exception, page
         nav = next(x for x in app.radio if x.label == "Workspace")
-    next(x for x in app.get("button_group") if x.label == "Ansicht").set_value("Radar").run()
+    next(x for x in app.get("button_group") if x.label == "View").set_value("Radar").run()
     assert not app.exception and len(app.dataframe[0].value) == 10
     lead = app.session_state.analysis.result.leads[0]
     app.query_params["startup"] = lead.id
     app.run()
     assert not app.exception
-    assert any(x.label == "Entscheidung" for x in app.radio)
+    assert any(x.label == "Decision" for x in app.radio)

@@ -56,7 +56,7 @@ def test_only_real_signals_feed_first_signal_and_why_now():
     assert {s["datum"] for s in d["signals"]} == {"2024-10-01"}
     r, _ = run(lead)
     assert r["first_signal_date"] == "2024-10-01"
-    assert r["why_now"].endswith("jüngstes Signal vor 25 Monaten")
+    assert r["why_now"].endswith("latest signal 25 months ago")
     # a real idw release and a Wayback capture of the own website are signals
     real = sourced(evidence=sourced().evidence + [ev("idw", "https://idw-online.de/de/news9", "idw", date(2025, 3, 1)),
                                                   ev("first_web_capture", "https://web.archive.org/web/2025/x", "Wayback CDX", date(2025, 5, 1))])
@@ -71,8 +71,8 @@ def test_founding_year_hint_never_excludes():
     assert d["gruendungsdatum"] is None and d["gruendungsjahr_hinweis"] == {"wert": 2023, "quelle": IDW}
     r, _ = run(lead)
     assert r["gruendungsjahr"] == 2023 and r["gruendung_ist_proxy"] is True and r["gruendungsmonat"] is None
-    assert r["stage"] == "pre_seed" and "Pressetext" in next(e["aussage"] for e in r["evidence"] if e["dimension"] == "stage")
-    assert "Gründungsjahr 2023 nur aus Pressetext, nicht für Ausschluss verwendet" in r["offene_punkte"]
+    assert r["stage"] == "pre_seed" and "press text" in next(e["aussage"] for e in r["evidence"] if e["dimension"] == "stage")
+    assert "Founding year 2023 only from press text, not used for exclusion" in r["offene_punkte"]
 
     alt = sourced(founding_year_hint=2022, evidence=sourced().evidence + [hint])  # 47 months before the stichtag
     r, s = run(alt)
@@ -90,7 +90,7 @@ def test_founding_year_hint_far_before_first_signal_is_ignored():
     r, _ = run(procado)
     assert r["stage"] == "pre_gruendung" and r["ausschluss_grund"] == ""
     assert r["gruendungsjahr"] == 2024 and r["gruendung_ist_proxy"] is True  # EXIST start, not the press year
-    assert any(p.startswith("Gründungsjahr 2013 aus Pressetext liegt mehr als 24 Monate vor dem ersten Signal") for p in r["offene_punkte"])
+    assert any(p.startswith("Founding year 2013 from press text is more than 24 months before the first signal") for p in r["offene_punkte"])
     # a register/imprint date still excludes
     echt = sourced(founding_year=2013)
     assert run(echt)[0]["stage"] == "zu_spaet"
@@ -99,9 +99,9 @@ def test_founding_year_hint_far_before_first_signal_is_ignored():
 # 3 -----------------------------------------------------------------------------------------------
 def test_low_risk_evidence_is_a_driver_not_a_risk():
     r, s = run(sourced())
-    assert not any("Bisherige Förderung" in x for x in s["risks"])
-    assert any(x.startswith("Risikomindernd: Bisherige Förderung 598.747 EUR (EXIST-Forschungstransfer)") for x in s["score_drivers"])
-    assert any(x.startswith("Dünne Datenlage") for x in s["risks"])  # 80 points >= 50
+    assert not any("Prior funding" in x for x in s["risks"])
+    assert any(x.startswith("Risk-reducing: Prior funding EUR 598,747 (EXIST-Forschungstransfer)") for x in s["score_drivers"])
+    assert any(x.startswith("Thin data") for x in s["risks"])  # 80 points >= 50
     for x in s["risks"]:
         e = next(e for e in r["evidence"] if x.startswith(e["aussage"]))
         assert e["punkte"] >= CFG["texte"]["risiko_ab"] * 100
@@ -135,13 +135,13 @@ def test_exist_without_founders_reads_sensibly():
     r, _ = run(lead)
     # 59: Vollzeit (EXIST) + Forschungsteam-Proxy des Forschungstransfers (scoring_config: komplementaer.forschungsteam)
     assert r["team_score"] == 59.0 and r["confidence"] < CFG["texte"]["hypothese_min_confidence"]
-    assert r["investmenthypothese"].startswith("Datenlage zu dünn für eine Hypothese")
-    assert "Wir investieren" not in r["investmenthypothese"]
-    assert r["why_now"] == ("Noch vor der Gründung; EXIST-Forschungstransfer endete 09/2026; "
-                            "kein archiviertes Crunchbase-/Dealroom-Profil (Wayback); jüngstes Signal vor 13 Monaten")
+    assert r["investmenthypothese"].startswith("Data too thin for a thesis")
+    assert "We would invest" not in r["investmenthypothese"]
+    assert r["why_now"] == ("Not yet incorporated; EXIST-Forschungstransfer ended 09/2026; "
+                            "no archived Crunchbase/Dealroom profile (Wayback); latest signal 13 months ago")
     future = lead.model_copy(update={"grants": [lead.grants[0].model_copy(update={"end": date(2027, 9, 30)})]})
-    assert run(future)[0]["why_now"] == ("Noch vor der Gründung; EXIST-Forschungstransfer endet 09/2027; "
-                                         "kein archiviertes Crunchbase-/Dealroom-Profil (Wayback); jüngstes Signal vor 13 Monaten")
+    assert run(future)[0]["why_now"] == ("Not yet incorporated; EXIST-Forschungstransfer ends 09/2027; "
+                                         "no archived Crunchbase/Dealroom profile (Wayback); latest signal 13 months ago")
 
 
 # 6 -----------------------------------------------------------------------------------------------
@@ -151,13 +151,13 @@ def test_funding_evidence_names_the_programme_and_ended_grant_in_why_now():
                    signals=[SourceSignal(source="foekat", type="exist_projekt", url=FK, date=date(2025, 10, 1), evidence="FKZ")])
     r, _ = run(stip)
     fin = next(e for e in r["evidence"] if e["kriterium"] == "finanzierung")
-    assert fin["aussage"] == "Bisherige Förderung 135.000 EUR (EXIST-Gründungsstipendium)" and fin["punkte"] == 40.0
-    assert "EXIST-Gründungsstipendium endete 09/2026" in r["why_now"]
+    assert fin["aussage"] == "Prior funding EUR 135,000 (EXIST-Gründungsstipendium)" and fin["punkte"] == 40.0
+    assert "EXIST-Gründungsstipendium ended 09/2026" in r["why_now"]
     ft = next(e for e in run(sourced())[0]["evidence"] if e["kriterium"] == "finanzierung")
-    assert ft["aussage"] == "Bisherige Förderung 598.747 EUR (EXIST-Forschungstransfer)" and ft["punkte"] == 30.0
+    assert ft["aussage"] == "Prior funding EUR 598,747 (EXIST-Forschungstransfer)" and ft["punkte"] == 30.0
     # ended more than exist_nachlauf_monate ago: no longer mentioned
     alt = stip.model_copy(update={"grants": [stip.grants[0].model_copy(update={"start": date(2024, 1, 1), "end": date(2024, 12, 31)})]})
-    assert "endete" not in run(alt)[0]["why_now"]
+    assert "ended" not in run(alt)[0]["why_now"]
 
 
 # 7 -----------------------------------------------------------------------------------------------

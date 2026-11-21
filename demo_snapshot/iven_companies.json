@@ -1,8 +1,8 @@
 {
  "kind": "iven_companies",
- "category": "Firmen-Radar",
- "category_long": "Firmen-Radar · junge GmbH/UG (höheres Risiko)",
- "origin": "Firmen-Radar (mvp/, Branch feature/founderradar-investment-cockpit)",
+ "category": "Company Radar",
+ "category_long": "Company Radar · young GmbH/UG (higher risk)",
+ "origin": "Company Radar (mvp/, branch feature/founderradar-investment-cockpit)",
  "rule_version": "early-stage.2",
  "schema_version": "mvp.1",
  "run_id": "1684e5a54f024b02",
@@ -126,7 +126,7 @@
    "facts": [
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 34187; Amtsgericht Kaiserslautern",
      "quote": "HRB 34187",
      "url": "https://refactum.de/impressum/",
@@ -134,7 +134,7 @@
     },
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "HRB 34187",
      "url": "https://refactum.de/impressum/",
@@ -142,7 +142,7 @@
     },
     {
      "key": "project_link",
-     "label": "Förderprojekt-Bezug",
+     "label": "Funded-project link",
      "value": "foekat-03efwrp036",
      "quote": "Refactum",
      "url": "https://refactum.de/",
@@ -150,7 +150,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-02-01 bis 2025-02-28",
      "quote": "Februar 2025 – Vom Projekt zum Unternehmen",
      "url": "https://refactum.de/ueber-uns/",
@@ -158,7 +158,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "API",
      "quote": "oder direkt per API in bestehende Systeme übergeben. Warum Auftragsfertiger auf REFACTUM setzen. Mehr Anfragen pro Tag. Was heute Stunden",
      "url": "https://refactum.de/",
@@ -166,7 +166,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "unseren Kunden und unseren Lösungen",
      "quote": "die Brücke zwischen unseren Kunden und unseren Lösungen. LinkedIn Dr.-Ing. Oliver Kohn CTO & Co-Founder · Technologie & Zerspanung Oliver",
      "url": "https://refactum.de/ueber-uns/",
@@ -174,7 +174,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "Wissen bleibt im Unternehmen. Das Erfahrungswissen Ihres Experten steckt künftig in der Software, nicht nur in einem Kopf, der in",
      "url": "https://refactum.de/",
@@ -182,7 +182,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "automatisieren",
      "quote": "Kalkulation und Arbeitsvorbereitung automatisieren möchten. Ohne Excel-Chaos, ohne Bauchschmerzen — für detaillierte Arbeitspläne und profitable Aufträge. Bis zu 90 %",
      "url": "https://refactum.de/",
@@ -198,7 +198,7 @@
     },
     {
      "key": "validation",
-     "label": "Entwicklungsnachweis",
+     "label": "Development evidence",
      "value": "Pilotkunden",
      "quote": "die Funktionen. Unsere Pilotkunden setzen die Prioritäten in der Entwicklung. Fehlt Ihnen eine Funktion, bauen wir sie gemeinsam. Für unsere",
      "url": "https://refactum.de/",
@@ -206,7 +206,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Ja, der REFACTUM-Algorithmus kann Guss- und Schmiederohlinge aus dem Fertigteil-STEP ableiten.",
      "quote": "Schmiedeteile berechnet werden? Ja, der REFACTUM-Algorithmus kann Guss- und Schmiederohlinge aus dem Fertigteil-STEP ableiten. Brauche ich 3D-Daten? Für die Laufzeitkalkulation",
      "url": "https://refactum.de/",
@@ -214,7 +214,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@refactum.de",
      "quote": "info@refactum.de",
      "url": "https://refactum.de/impressum/",
@@ -396,7 +396,7 @@
    "facts": [
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 800741; Amtsgericht Stuttgart",
      "quote": "HRB 800741",
      "url": "https://www.fibryx.de/impressum",
@@ -404,7 +404,7 @@
     },
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "HRB 800741",
      "url": "https://www.fibryx.de/impressum",
@@ -412,7 +412,7 @@
     },
     {
      "key": "project_link",
-     "label": "Förderprojekt-Bezug",
+     "label": "Funded-project link",
      "value": "foekat-03efbw0284",
      "quote": "BEHtec",
      "url": "https://behtec.de/",
@@ -420,7 +420,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-01-01 bis 2025-12-31",
      "quote": "2025\nGegründet",
      "url": "https://www.fibryx.de/unternehmen",
@@ -428,7 +428,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "Algorithmus",
      "quote": "Schnittmuster & Patches (Fibryx-Algorithmus) Caravan Aufstelldach Caravan −35% Gewicht — Sandwichaufbau für große, steife Flächen Alle Projekte ansehen → Technologie",
      "url": "https://www.fibryx.de/",
@@ -436,7 +436,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "unserer Technologie",
      "quote": "Grund: Der Nutzen unserer Technologie entsteht erst im fertigen Bauteil. Ein Zulieferer, der unser Material verarbeitet, hat weniger davon als",
      "url": "https://www.fibryx.de/unternehmen",
@@ -444,7 +444,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Hersteller",
      "quote": "aus Naturfaser-Verbund — Hersteller | Fibryx Branchen NutzfahrzeugeCaravan / WohnmobilBusLandmaschinenBaumaschinenSonder- & EinsatzfahrzeugeBahnSeilbahn & People MoverSonderbauteile & Messebau Technologie MaterialProduktionNaturfaserverbund (NFK)NFK",
      "url": "https://www.fibryx.de/",
@@ -452,7 +452,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Automatisierung",
      "quote": "konstante Qualität Hohe Automatisierung, geringe Taktzeit Zur Produktionsseite → Projekte Von der Idee zum industriellen Leichtbauteil. Nutzfahrzeug Abdeckklappe Nutzfahrzeug −50%",
      "url": "https://www.fibryx.de/",
@@ -468,7 +468,7 @@
     },
     {
      "key": "validation",
-     "label": "Entwicklungsnachweis",
+     "label": "Development evidence",
      "value": "Prototypen",
      "quote": "Werkzeug & Fertigung Prototypen- & Serienwerkzeuge, reproduzierbare Serienqualität. 04 Finish & Montage Gelcoat, Lackierung, Inserts, montagefertige Baugruppen. Ein Ansprechpartner —",
      "url": "https://www.fibryx.de/",
@@ -476,7 +476,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Fibryx verbindet Materialtechnologie und ein eigenes Fertigungsverfahren — für wettbewerbsfähige Leichtbauteile mit Naturfaserverstärkung aus regionaler Wertschöpfung.",
      "quote": "Industrie in Europa. Fibryx verbindet Materialtechnologie und ein eigenes Fertigungsverfahren — für wettbewerbsfähige Leichtbauteile mit Naturfaserverstärkung aus regionaler Wertschöpfung. Bauteil",
      "url": "https://www.fibryx.de/unternehmen",
@@ -484,7 +484,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@fibryx.de",
      "quote": "info@fibryx.de",
      "url": "https://www.fibryx.de/impressum",
@@ -639,7 +639,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Bremen, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/3912006FW2JU2HF5DZ32",
@@ -647,7 +647,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-05-25",
      "quote": "entity.creationDate: 2025-05-25",
      "url": "https://api.gleif.org/api/v1/lei-records/3912006FW2JU2HF5DZ32",
@@ -655,7 +655,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 41502",
      "quote": "HRB 41502",
      "url": "https://api.gleif.org/api/v1/lei-records/3912006FW2JU2HF5DZ32",
@@ -663,7 +663,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "Sensor fusion",
      "quote": "Space & Defence Sensor fusion, AI-enabled analysis and traceable decision support in one operational context. Akilaris develops technology for satellite",
      "url": "https://akilaris.com/",
@@ -671,7 +671,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Our TechnologiesRequest",
      "quote": "decision authority. Explore Our TechnologiesRequest a Conversation THE CHALLENGE Space is Getting Dangerously Crowded As constellations grow, teams have more",
      "url": "https://akilaris.com/",
@@ -679,7 +679,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "operators",
      "quote": "data Chronology across operators, agents and systems Targeted filters for decisions, analyses and administration Exportable evidence for review and project-specific",
      "url": "https://akilaris.com/products/space-intelligence",
@@ -687,7 +687,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Automation",
      "quote": "events to assess. Automation can support triage and analysis, but its outputs must remain traceable and reviewable. People retain operational",
      "url": "https://akilaris.com/",
@@ -703,7 +703,7 @@
     },
     {
      "key": "regulation",
-     "label": "Regulierung",
+     "label": "Regulation",
      "value": "Defence",
      "quote": "for Space & Defence Skip to content Akilaris Mission Control 53.0793 N8.8017 E 01 · Monitor Orbital data in one",
      "url": "https://akilaris.com/",
@@ -711,7 +711,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Sensor fusion, AI-enabled analysis and traceable decision support in one operational context.",
      "quote": "Space & Defence Sensor fusion, AI-enabled analysis and traceable decision support in one operational context. Akilaris develops technology for satellite",
      "url": "https://akilaris.com/",
@@ -719,7 +719,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@akilaris.com",
      "quote": "info@akilaris.com",
      "url": "https://akilaris.com/impressum",
@@ -847,7 +847,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Berlin, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/391200WTZ2QSOXZH6F39",
@@ -855,7 +855,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-06-19",
      "quote": "entity.creationDate: 2025-06-19",
      "url": "https://api.gleif.org/api/v1/lei-records/391200WTZ2QSOXZH6F39",
@@ -863,7 +863,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 276246 B",
      "quote": "HRB 276246 B",
      "url": "https://api.gleif.org/api/v1/lei-records/391200WTZ2QSOXZH6F39",
@@ -871,7 +871,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "API",
      "quote": "& Gift Card API for European Platforms All prepaid. One API.Every market in Europe. One integration, one contract, one settlement.",
      "url": "https://finperks.com/",
@@ -879,7 +879,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "our Venture platform",
      "quote": "welcome them to our Venture platform at Motive Partners. Read article Quote COMPUTER BILD Article COMPUTER BILD Finanzguru: Sparbooster to",
      "url": "https://finperks.com/about-us",
@@ -887,7 +887,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "banks",
      "quote": "purchase. Built for banks, neobanks and money apps. Explore cashback 02 Employee Benefits Tax-free monthly perks that employees pick themselves.",
      "url": "https://finperks.com/",
@@ -895,7 +895,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "automated",
      "quote": "top-ups can be automated to a frequency of your own choosing. High-volume programs can also settle postpaid. Can we keep",
      "url": "https://finperks.com/",
@@ -911,7 +911,7 @@
     },
     {
      "key": "seed_round",
-     "label": "Finanzierungsrunde",
+     "label": "Funding round",
      "value": "pre-seed round",
      "quote": "vision, the $4M pre-seed round, and why prepaid infrastructure is the next fintech frontier. Spotify 01 / 02 TECH.EU Article",
      "url": "https://finperks.com/about-us",
@@ -919,7 +919,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "finperks is building API infrastructure that enables banks, fintechs, and HR platforms to offer digital rewards, cashback, employee benefits, and prepaid products through …",
      "quote": "$4M Pre-Seed Investment finperks is building API infrastructure that enables banks, fintechs, and HR platforms to offer digital rewards, cashback,",
      "url": "https://finperks.com/about-us",
@@ -927,7 +927,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@finperks.com",
      "quote": "info@finperks.com",
      "url": "https://finperks.com/legal-notice",
@@ -1077,7 +1077,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Hamburg, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/9845006593F4C0RFA345",
@@ -1085,7 +1085,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2024-11-21",
      "quote": "entity.creationDate: 2024-11-21",
      "url": "https://api.gleif.org/api/v1/lei-records/9845006593F4C0RFA345",
@@ -1093,7 +1093,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 190085",
      "quote": "HRB 190085",
      "url": "https://api.gleif.org/api/v1/lei-records/9845006593F4C0RFA345",
@@ -1101,7 +1101,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "semiconductor",
      "quote": "integration of advanced semiconductor materials. Reliable integration of advanced semiconductor materials. Reliable integration of advanced semiconductor materials. SMART SMART Reliability",
      "url": "https://www.xdefine.com/",
@@ -1109,7 +1109,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Our systems and integration technologies",
      "quote": "of advanced materials. Our systems and integration technologies apply across industry-proven semiconductor platforms such as silicon carbide (SiC) and other",
      "url": "https://www.xdefine.com/",
@@ -1117,7 +1117,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "vendors",
      "quote": "services Manage {vendor_count} vendors Read more about these purposes Accept Deny View preferences Save preferences View preferences {title} {title} {title}",
      "url": "https://www.xdefine.com/",
@@ -1125,7 +1125,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Accelerated",
      "quote": "SMART reliability systems Accelerated reliability testing for WBG/UWBG devices. Accelerated reliability testing for WBG/UWBG devices. Accelerated reliability testing for WBG/UWBG",
      "url": "https://www.xdefine.com/",
@@ -1141,7 +1141,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "XDefine® is a German deep-tech semiconductor company developing accelerated reliability systems and advanced materials integration technologies.",
      "quote": "What We Do. XDefine® is a German deep-tech semiconductor company developing accelerated reliability systems and advanced materials integration technologies. We",
      "url": "https://www.xdefine.com/",
@@ -1251,7 +1251,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Hamburg, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/984500E3D57BEE2ACA09",
@@ -1259,7 +1259,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-11-13",
      "quote": "entity.creationDate: 2025-11-13",
      "url": "https://api.gleif.org/api/v1/lei-records/984500E3D57BEE2ACA09",
@@ -1267,7 +1267,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 195448",
      "quote": "HRB 195448",
      "url": "https://api.gleif.org/api/v1/lei-records/984500E3D57BEE2ACA09",
@@ -1275,7 +1275,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "Algorithmus",
      "quote": "Bessere Positionierung im Amazon-Algorithmus Eine höhere Conversion ist das stärkste Ranking Signal. Folge: bessere Platzierung in Such- und Kategorielisten —",
      "url": "https://www.ecomshield.eu/bewertungen-entfernen",
@@ -1283,7 +1283,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Software Plattform",
      "quote": "EcomShield ist eine Software Plattform und keine Kanzlei. Jetzt kostenlos anmelden Beratung buchen Keine GrundgebührAbrechnung nur bei Entfernung durch AmazonKein",
      "url": "https://www.ecomshield.eu/bewertungen-entfernen",
@@ -1291,7 +1291,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "AMAZON SELLER",
      "quote": "EcomShield SOFTWARE FÜR AMAZON SELLER UND VENDOREN Negative Amazon Rezensionen erfassen. Von einer Kanzlei prüfen lassen. EcomShield erfasst Ihre negativen",
      "url": "https://www.ecomshield.eu/bewertungen-entfernen",
@@ -1299,7 +1299,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Verbesserung",
      "quote": "Conversion Jede zehntel Sterne-Verbesserung über der psychologischen 4,5er-Marke macht sich in Klick- und Kaufquote bemerkbar bei identischem Listing-Traffic. Umsatz /",
      "url": "https://www.ecomshield.eu/bewertungen-entfernen",
@@ -1307,7 +1307,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "EcomShield erfasst Ihre negativen Amazon Rezensionen an einem Ort. Sie entscheiden, welche Sie der Partnerkanzlei DRM Legal in Hamburg vorlegen. Die Kanzlei prüft …",
      "quote": "Kanzlei prüfen lassen. EcomShield erfasst Ihre negativen Amazon Rezensionen an einem Ort. Sie entscheiden, welche Sie der Partnerkanzlei DRM Legal",
      "url": "https://www.ecomshield.eu/bewertungen-entfernen",
@@ -1315,7 +1315,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@ecomshield.eu",
      "quote": "info@ecomshield.eu",
      "url": "https://www.ecomshield.eu/impressum",
@@ -1436,7 +1436,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Köln, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/984500652CA151U86327",
@@ -1444,7 +1444,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-12-09",
      "quote": "entity.creationDate: 2025-12-09",
      "url": "https://api.gleif.org/api/v1/lei-records/984500652CA151U86327",
@@ -1452,7 +1452,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 125859",
      "quote": "HRB 125859",
      "url": "https://api.gleif.org/api/v1/lei-records/984500652CA151U86327",
@@ -1460,7 +1460,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "KI-Telefonassistent",
      "quote": "KI-Telefonassistent für Autohaus & Werkstatt | RUND Zum Inhalt springen Aus GetCarl wird RUND.Mehr erfahren Jeder Anruf angenommen. Jeder Auftrag",
      "url": "https://rund.ai/produkte/voice",
@@ -1468,7 +1468,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "KI-Telefonassistent",
      "quote": "KI-Telefonassistent für Autohaus & Werkstatt | RUND Zum Inhalt springen Aus GetCarl wird RUND.Mehr erfahren Jeder Anruf angenommen. Jeder Auftrag",
      "url": "https://rund.ai/produkte/voice",
@@ -1476,7 +1476,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Betriebe",
      "quote": "KI für Kfz-Betriebe: Ihr digitaler Mitarbeiter | RUND Zum Inhalt springen Aus GetCarl wird RUND.Mehr erfahren Der digitale Mitarbeiter für",
      "url": "https://rund.ai/",
@@ -1484,7 +1484,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Automatisierungen",
      "quote": "Rückfrage zum Fahrzeug Automatisierungen Aus wiederkehrenden Aufgaben werden klare Abläufe. Schritt für Schritt Anfrage Kurt Ihr Team Kampagnen Mit passenden",
      "url": "https://rund.ai/",
@@ -1500,7 +1500,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@rund.ai",
      "quote": "info@rund.ai",
      "url": "https://rund.ai/impressum",
@@ -1634,7 +1634,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Hamburg, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/98450067B52A8A085376",
@@ -1642,7 +1642,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-07-30",
      "quote": "entity.creationDate: 2025-07-30",
      "url": "https://api.gleif.org/api/v1/lei-records/98450067B52A8A085376",
@@ -1650,7 +1650,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 193784",
      "quote": "HRB 193784",
      "url": "https://api.gleif.org/api/v1/lei-records/98450067B52A8A085376",
@@ -1658,7 +1658,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "AI-driven",
      "quote": "passive sensing and AI-driven analysis: hardware-agnostic, engineered in Germany. Passive by design. Capabilities Understanding the spectrum takes more than a",
      "url": "https://datacept.ai/",
@@ -1666,7 +1666,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "our platform",
      "quote": "existing defense architectures, our platform unifies passive sensing and AI-driven analysis: hardware-agnostic, engineered in Germany. Passive by design. Capabilities Understanding",
      "url": "https://datacept.ai/",
@@ -1674,7 +1674,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "critical infrastructure",
      "quote": "detection range for critical infrastructure. Counter-EspionageEarly WarningSIGINT DC-002 EW Full C-UAS Platform Integrated detect-and-defeat pipeline for cUAS operations. Adaptive jamming",
      "url": "https://datacept.ai/",
@@ -1682,7 +1682,7 @@
     },
     {
      "key": "regulation",
-     "label": "Regulierung",
+     "label": "Regulation",
      "value": "defense",
      "quote": "integrate into existing defense architectures, our platform unifies passive sensing and AI-driven analysis: hardware-agnostic, engineered in Germany. Passive by design.",
      "url": "https://datacept.ai/",
@@ -1690,7 +1690,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Threats in the spectrum evolve quickly: new frequencies, new protocols, new platforms. Datacept builds capabilities that adapt at the same pace, engineered as …",
      "quote": "a single sensor. Threats in the spectrum evolve quickly: new frequencies, new protocols, new platforms. Datacept builds capabilities that adapt",
      "url": "https://datacept.ai/",
@@ -1698,7 +1698,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@datacept.ai",
      "quote": "info@datacept.ai",
      "url": "https://datacept.ai/",
@@ -1820,7 +1820,7 @@
    "facts": [
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 733491",
      "quote": "HRB 733491",
      "url": "https://www.cynus.de/impressum/",
@@ -1828,7 +1828,7 @@
     },
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "HRB 733491",
      "url": "https://www.cynus.de/impressum/",
@@ -1836,7 +1836,7 @@
     },
     {
      "key": "project_link",
-     "label": "Förderprojekt-Bezug",
+     "label": "Funded-project link",
      "value": "foekat-03egtbw057",
      "quote": "Cynus",
      "url": "https://uni-freiburg.de/fmf-en/research/spin-offs/",
@@ -1844,7 +1844,7 @@
     },
     {
      "key": "validation",
-     "label": "Entwicklungsnachweis",
+     "label": "Development evidence",
      "value": "Zugeordnetes EXIST-Forschungs-/Gründungsprojekt",
      "quote": "03EGTBW057",
      "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EGTBW057",
@@ -1852,7 +1852,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "3D Maus",
      "quote": "neue Generation der 3D Maus Zum Inhalt springen SphereOne Die erste vollständig flexibel konfigurierbare 3D Maus Entfalte das volle Potenzial",
      "url": "https://www.cynus.de/",
@@ -1860,7 +1860,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "unsere Interaktion mit diesen Systemen",
      "quote": "komplexe 3D-Anwendungen. Doch unsere Interaktion mit diesen Systemen ist weitgehend gleichgeblieben: PC-Maus und Tastatur, wie in den 80er Jahren. Unsere",
      "url": "https://www.cynus.de/ueber-uns/",
@@ -1868,7 +1868,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Architekten",
      "quote": "einer neuen Dimension. Architekten CAD Gaming Medizin Auszeichnungen Auszeichnungen, die wir für unsere SphereOne erhalten haben. Erfahren Sie mehr über",
      "url": "https://www.cynus.de/",
@@ -1876,7 +1876,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Effizienz",
      "quote": "und die mangelnde Effizienz kosten Zeit, Geld und Nerven. . . SphereOne - vollständig konfigurierbare 3D Maus Wir haben die",
      "url": "https://www.cynus.de/",
@@ -1892,7 +1892,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Wir haben die SphereOne entwickelt – die erste vollständig konfigurierbare, oberflächenunabhängige 3D Maus.",
      "quote": "konfigurierbare 3D Maus Wir haben die SphereOne entwickelt – die erste vollständig konfigurierbare, oberflächenunabhängige 3D Maus. Demo buchen Optimale Bewegungsfreiheit",
      "url": "https://www.cynus.de/",
@@ -1900,7 +1900,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "contact@cynus.de",
      "quote": "contact@cynus.de",
      "url": "https://www.cynus.de/impressum/",
@@ -2033,7 +2033,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Bad Homburg v. d. Höhe, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/984500BCB7B43CE81C53",
@@ -2041,7 +2041,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-06-30",
      "quote": "entity.creationDate: 2025-06-30",
      "url": "https://api.gleif.org/api/v1/lei-records/984500BCB7B43CE81C53",
@@ -2049,7 +2049,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 108217",
      "quote": "HRB 108217",
      "url": "https://api.gleif.org/api/v1/lei-records/984500BCB7B43CE81C53",
@@ -2057,7 +2057,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "KI-Assistenten",
      "quote": "nur im Prototyp. KI-Assistenten für Fachbereiche AI Agents für komplexe Workflows Wissens- und Recherchesysteme Transformation personell absichern Die richtigen Expert:innen",
      "url": "https://imriva.de/",
@@ -2065,7 +2065,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "KI-Assistenten",
      "quote": "nur im Prototyp. KI-Assistenten für Fachbereiche AI Agents für komplexe Workflows Wissens- und Recherchesysteme Transformation personell absichern Die richtigen Expert:innen",
      "url": "https://imriva.de/",
@@ -2073,7 +2073,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "& Datenlösungen für Unternehmen IMRIVA GmbH · KI · Software · Daten · Talent Gemeinsam gestalten wir die Zukunft. KI-",
      "url": "https://imriva.de/",
@@ -2081,7 +2081,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Automatisierungen",
      "quote": "entwickelt individuelle Systeme, Automatisierungen und Datenlösungen für Unternehmen mit komplexen Prozessen — von Strategie und Architektur bis Umsetzung, Integration und",
      "url": "https://imriva.de/",
@@ -2097,7 +2097,7 @@
     },
     {
      "key": "validation",
-     "label": "Entwicklungsnachweis",
+     "label": "Development evidence",
      "value": "Prototyp",
      "quote": "nicht nur im Prototyp. KI-Assistenten für Fachbereiche AI Agents für komplexe Workflows Wissens- und Recherchesysteme Transformation personell absichern Die richtigen",
      "url": "https://imriva.de/",
@@ -2105,7 +2105,7 @@
     },
     {
      "key": "regulation",
-     "label": "Regulierung",
+     "label": "Regulation",
      "value": "Regulatorik",
      "quote": "Markt, Technologie und Regulatorik – und übersetzen sie in einen klaren strategischen Impuls für Ihr Unternehmen. So benennen wir das",
      "url": "https://imriva.de/",
@@ -2113,7 +2113,7 @@
     },
     {
      "key": "service_business",
-     "label": "Dienstleistungsgeschäft",
+     "label": "Service business",
      "value": "individuelle Systeme",
      "quote": "werden. IMRIVA entwickelt individuelle Systeme, Automatisierungen und Datenlösungen für Unternehmen mit komplexen Prozessen — von Strategie und Architektur bis Umsetzung,",
      "url": "https://imriva.de/",
@@ -2121,7 +2121,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "IMRIVA entwickelt individuelle Systeme, Automatisierungen und Datenlösungen für Unternehmen mit komplexen Prozessen — von Strategie und Architektur bis Umsetzung, Integration und Betrieb.",
      "quote": "wirklich produktiv werden. IMRIVA entwickelt individuelle Systeme, Automatisierungen und Datenlösungen für Unternehmen mit komplexen Prozessen — von Strategie und Architektur",
      "url": "https://imriva.de/",
@@ -2129,7 +2129,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@imriva.de",
      "quote": "info@imriva.de",
      "url": "https://imriva.de/impressum",
@@ -2247,7 +2247,7 @@
    "facts": [
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 230263; Amtsgericht Hannover",
      "quote": "HRB 230263",
      "url": "https://www.deepvac.space/imprint/",
@@ -2255,7 +2255,7 @@
     },
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "HRB 230263",
      "url": "https://www.deepvac.space/imprint/",
@@ -2263,7 +2263,7 @@
     },
     {
      "key": "project_link",
-     "label": "Förderprojekt-Bezug",
+     "label": "Funded-project link",
      "value": "foekat-03egtni040",
      "quote": "DeepVac",
      "url": "https://starting-business.de/startups/deepvac",
@@ -2271,7 +2271,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Our chamber platforms",
      "quote": "and research applications. Our chamber platforms address a range of test requirements, from established workflows using modular standard systems to",
      "url": "https://www.deepvac.space/products/",
@@ -2279,7 +2279,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "manufacturers",
      "quote": "— for satellite manufacturers, aerospace suppliers, and research institutions building, qualifying, or upgrading test infrastructure. Start Your TVAC Project Talk",
      "url": "https://www.deepvac.space/",
@@ -2287,7 +2287,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "AUTOMATIONRETROFIT",
      "quote": "Sales CONTROL & AUTOMATIONRETROFIT & SERVICELONG-TERM SUPPORT A spin-off of Intelligence built inAI & analyticsTest analytics, anomaly detection & predictive",
      "url": "https://www.deepvac.space/",
@@ -2303,7 +2303,7 @@
     },
     {
      "key": "validation",
-     "label": "Entwicklungsnachweis",
+     "label": "Development evidence",
      "value": "Prototype",
      "quote": "campaigns. Development & Prototype Testing Flexible chamber configurations for development programs, prototype validation, early-stage testing, and iterative hardware refinement. Custom",
      "url": "https://www.deepvac.space/",
@@ -2311,7 +2311,7 @@
     },
     {
      "key": "regulation",
-     "label": "Regulierung",
+     "label": "Regulation",
      "value": "regulation",
      "quote": "Temperature Control ZonesIndependent regulation of individual areasAdditional Temperature SensorsIncreased number of measurement points Vacuum & cleanliness Heated Chamber Walls (Bake-out)Heating",
      "url": "https://www.deepvac.space/products/custom-tvac/",
@@ -2319,7 +2319,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Deepvac develops standardised and custom-engineered thermal vacuum systems for aerospace qualification, environmental simulation, and research applications. Our chamber platforms address a range of …",
      "quote": "Product Range Products Deepvac develops standardised and custom-engineered thermal vacuum systems for aerospace qualification, environmental simulation, and research applications. Our",
      "url": "https://www.deepvac.space/products/",
@@ -2327,7 +2327,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@deepvac.space",
      "quote": "info@deepvac.space",
      "url": "https://www.deepvac.space/imprint/",
@@ -2456,7 +2456,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Karlsruhe, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/984500C3DAC781CB6A25",
@@ -2464,7 +2464,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-04-30",
      "quote": "entity.creationDate: 2025-04-30",
      "url": "https://api.gleif.org/api/v1/lei-records/984500C3DAC781CB6A25",
@@ -2472,7 +2472,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 754387",
      "quote": "HRB 754387",
      "url": "https://api.gleif.org/api/v1/lei-records/984500C3DAC781CB6A25",
@@ -2480,7 +2480,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "KI-gestützter",
      "quote": "ein deutscher Hersteller KI-gestützter Integrationslösungen. Unsere Technologien verstehen Ziele, analysieren Systeme und generieren automatisch komplette Datenflüsse. So entsteht Integration ohne",
      "url": "https://nodeline.de/",
@@ -2488,7 +2488,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "unsere Lösungen",
      "quote": "das Ziel vor, unsere Lösungen übernehmen die Umsetzung - effektiv, sicher, souverän. Jetzt Beratung anfordern DER Enabler für Ihre KI-",
      "url": "https://nodeline.de/",
@@ -2496,7 +2496,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Hersteller",
      "quote": "ist ein deutscher Hersteller KI-gestützter Integrationslösungen. Unsere Technologien verstehen Ziele, analysieren Systeme und generieren automatisch komplette Datenflüsse. So entsteht Integration",
      "url": "https://nodeline.de/",
@@ -2504,7 +2504,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Automatisierte",
      "quote": "in Monaten entwickeln: Automatisierte Mappings, Datenpipelines und Security-Flows – effektiv, sicher, erklärbar und souverän. Use Case beschreiben Kostenlose Beratung anfordern",
      "url": "https://nodeline.de/",
@@ -2520,7 +2520,7 @@
     },
     {
      "key": "service_business",
-     "label": "Dienstleistungsgeschäft",
+     "label": "Service business",
      "value": "IT-Dienstleister",
      "quote": "generieren automatisch, was IT-Dienstleister oder Inhouse-Teams sonst in Monaten umsetzen: Endpoint-Mappings Daten-Pipelines Security-Hooks Transformationslogik Monitoring Audit-Trails So entsteht Integration in",
      "url": "https://nodeline.de/unternehmen/",
@@ -2528,7 +2528,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "nodeline ist ein deutscher Hersteller KI-gestützter Integrationslösungen.",
      "quote": "Kostenlose Beratung anfordern nodeline ist ein deutscher Hersteller KI-gestützter Integrationslösungen. Unsere Technologien verstehen Ziele, analysieren Systeme und generieren automatisch komplette",
      "url": "https://nodeline.de/",
@@ -2536,7 +2536,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@nodeline.de",
      "quote": "info@nodeline.de",
      "url": "https://nodeline.de/impressum/",
@@ -2664,7 +2664,7 @@
    "facts": [
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 23103; Amtsgericht Stralsund",
      "quote": "HRB 23103",
      "url": "https://www.ymolution.com/en/impressum",
@@ -2672,7 +2672,7 @@
     },
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "HRB 23103",
      "url": "https://www.ymolution.com/en/impressum",
@@ -2680,7 +2680,7 @@
     },
     {
      "key": "project_link",
-     "label": "Förderprojekt-Bezug",
+     "label": "Funded-project link",
      "value": "foekat-03efmv0034",
      "quote": "Ymolution",
      "url": "https://www.ymolution.com/en",
@@ -2688,7 +2688,7 @@
     },
     {
      "key": "validation",
-     "label": "Entwicklungsnachweis",
+     "label": "Development evidence",
      "value": "Zugeordnetes EXIST-Forschungs-/Gründungsprojekt",
      "quote": "03EFMV0034",
      "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFMV0034",
@@ -2696,7 +2696,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Our platform",
      "quote": "tissue-penetrating and modular. Our platform combines unlimited synthetic diversity with the functionality of the vertebrate immune system, recreated in bacteria.",
      "url": "https://www.ymolution.com/en",
@@ -2704,7 +2704,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "efficiency",
      "quote": "uncertain: low screening efficiency and limited reproducibility lead to high development risk. The technology Fully synthetic libraries, made easy to",
      "url": "https://www.ymolution.com/en",
@@ -2720,7 +2720,7 @@
     },
     {
      "key": "regulation",
-     "label": "Regulierung",
+     "label": "Regulation",
      "value": "regulatory",
      "quote": "considerable ethical and regulatory concerns. 02 Blind spots caused by homology Immune tolerance in animal systems prevents robust responses against",
      "url": "https://www.ymolution.com/en",
@@ -2728,7 +2728,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Ymolution at the 3rd Proteomics Conference in Doha: international insights, new contacts and strong interest in our nano-antibody technology ‘made in Greifswald’.",
      "quote": "Qatar Proteomics Conference Ymolution at the 3rd Proteomics Conference in Doha: international insights, new contacts and strong interest in our",
      "url": "https://www.ymolution.com/en",
@@ -2736,7 +2736,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@ymolution.com",
      "quote": "info@ymolution.com",
      "url": "https://www.ymolution.com/en/impressum",
@@ -2848,7 +2848,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Frankfurt am Main, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/39120095CCUUD7I12I34",
@@ -2856,7 +2856,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-10-06",
      "quote": "entity.creationDate: 2026-10-06",
      "url": "https://api.gleif.org/api/v1/lei-records/39120095CCUUD7I12I34",
@@ -2864,7 +2864,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 145056",
      "quote": "HRB 145056",
      "url": "https://api.gleif.org/api/v1/lei-records/39120095CCUUD7I12I34",
@@ -2872,7 +2872,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "eigene Software",
      "quote": "Abläufe automatisieren und eigene Software gezielt entwickeln. Leistungen↗ Lösungen für Ihr Vorhaben Individuell planen ›Sie stehen noch am Anfang Ihrer",
      "url": "https://gemitech.de/de/",
@@ -2880,7 +2880,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "Leistungen↗ Für Ihr Unternehmen Daten aus Sensoren nutzbar machen, Abläufe automatisieren und eigene Software gezielt entwickeln. Leistungen↗ Lösungen für Ihr",
      "url": "https://gemitech.de/de/",
@@ -2888,7 +2888,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Automatisierung",
      "quote": "Smart Home, IoT, Automatisierung und Softwareentwicklung aus Frankfurt am Main. Wir hören zu, planen sorgfältig und setzen die passende Lösung",
      "url": "https://gemitech.de/de/",
@@ -2904,7 +2904,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Daten aus Sensoren nutzbar machen, Abläufe automatisieren und eigene Software gezielt entwickeln.",
      "quote": "Für Ihr Unternehmen Daten aus Sensoren nutzbar machen, Abläufe automatisieren und eigene Software gezielt entwickeln. Leistungen↗ Lösungen für Ihr Vorhaben",
      "url": "https://gemitech.de/de/",
@@ -2912,7 +2912,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@gemitech.de",
      "quote": "info@gemitech.de",
      "url": "https://gemitech.de/de/impressum/",
@@ -3030,7 +3030,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Hanau, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/391200HKARJEJOEVYV57",
@@ -3038,7 +3038,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-03-26",
      "quote": "entity.creationDate: 2026-03-26",
      "url": "https://api.gleif.org/api/v1/lei-records/391200HKARJEJOEVYV57",
@@ -3046,7 +3046,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 101099",
      "quote": "HRB 101099",
      "url": "https://api.gleif.org/api/v1/lei-records/391200HKARJEJOEVYV57",
@@ -3054,7 +3054,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "unsere Lösungen",
      "quote": "haben. Für wen unsere Lösungen gemacht sind Wir unterstützen Organisationen in unterschiedlichen Phasen und Strukturen – mit Lösungen, die genau",
      "url": "https://selobia.de/",
@@ -3062,7 +3062,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "die zu Ihrem Unternehmen passt. Eigene Hardware und Serverräume werden damit überflüssig. KI & Prozessautomatisierung Bevor Copilot bei Ihnen zum",
      "url": "https://selobia.de/",
@@ -3070,7 +3070,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Automatisierung",
      "quote": "durchdachte Sicherheitsstandards und Automatisierung, wo sie Sinn ergibt. Hier trifft echte Expertise auf modernen Managed Service. Niklas Tinner Gründer, Oceanleaf",
      "url": "https://selobia.de/",
@@ -3086,7 +3086,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "basiert auf der Selobia Foundation: einem erprobten Fundament aus Sicherheitsrichtlinien, Gerätekonfigurationen und Cloud-Architektur, das wir über zahlreiche Projekte hinweg entwickelt und verfeinert haben.",
      "quote": "die wir aufbauen, basiert auf der Selobia Foundation: einem erprobten Fundament aus Sicherheitsrichtlinien, Gerätekonfigurationen und Cloud-Architektur, das wir über zahlreiche",
      "url": "https://selobia.de/",
@@ -3205,7 +3205,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Ellerbek, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/529900TOLBME0BXKHC69",
@@ -3213,7 +3213,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2024-12-10",
      "quote": "entity.creationDate: 2024-12-10",
      "url": "https://api.gleif.org/api/v1/lei-records/529900TOLBME0BXKHC69",
@@ -3221,7 +3221,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 189869",
      "quote": "HRB 189869",
      "url": "https://api.gleif.org/api/v1/lei-records/529900TOLBME0BXKHC69",
@@ -3229,7 +3229,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Unsere Produktionstechnologie",
      "quote": "​ ​​ Entwicklung Unsere Produktionstechnologie Modernste, puderlose Produktionstechnologie ermöglicht die Herstellung innovativer Produkte nach höchsten Qualitätsstandards.​ Clean-Label Rezepturen Unsere Produkte",
      "url": "https://www.greatnutrition.de/",
@@ -3237,7 +3237,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "effiziente",
      "quote": "Projektverlauf Für eine effiziente Umsetzung von Private-Label-Projekten orientieren wir uns an einem klar sturkturierten Ablauf. Im Anschluss an eine Anfrage",
      "url": "https://www.greatnutrition.de/produkte",
@@ -3253,7 +3253,7 @@
     },
     {
      "key": "validation",
-     "label": "Entwicklungsnachweis",
+     "label": "Development evidence",
      "value": "Prototypen",
      "quote": "können. Danach werden Prototypen des Produkts zur Bemusterung angefertigt. Auf Grundlage der Prototypen kann ein Finetuning der Produktbeschaffenheit und -eigenschaften",
      "url": "https://www.greatnutrition.de/produkte",
@@ -3261,7 +3261,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Private-Label Fruchtgummis von Great Nutrition können individuell nach Ihren Wünschen und Vorstellungen konzipiert werden. Unser Entwicklungsteam setzt ihre Vorstellungen professionell in ein qualitätiv …",
      "quote": "um. Private-Label Rezepturen Private-Label Fruchtgummis von Great Nutrition können individuell nach Ihren Wünschen und Vorstellungen konzipiert werden. Unser Entwicklungsteam setzt",
      "url": "https://www.greatnutrition.de/produkte",
@@ -3269,7 +3269,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@greatnutrition.de",
      "quote": "info@greatnutrition.de",
      "url": "https://www.greatnutrition.de/impressum",
@@ -3399,7 +3399,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Frankfurt am Main, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/529900W0SLWB72H55T88",
@@ -3407,7 +3407,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-02-11",
      "quote": "entity.creationDate: 2025-02-11",
      "url": "https://api.gleif.org/api/v1/lei-records/529900W0SLWB72H55T88",
@@ -3415,7 +3415,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 137642",
      "quote": "HRB 137642",
      "url": "https://api.gleif.org/api/v1/lei-records/529900W0SLWB72H55T88",
@@ -3423,7 +3423,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "unserer proprietären Systeme",
      "quote": "sich in einige unserer proprietären Systeme eingearbeitet, damit alles funktioniert. Implementierung von Logging für ein Docker-Compose-System aus USA Es war",
      "url": "https://optiop.de/",
@@ -3431,7 +3431,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "darauf, mit führenden Unternehmen der Branche zusammenzuarbeiten. Unsere Leistungen. Vier Spezialisierungen. Eine Mission: Ihr Engineering auf das nächste Level bringen.",
      "url": "https://optiop.de/",
@@ -3439,7 +3439,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "AutomatisierungSelf",
      "quote": "morgens zu wecken. KI-AutomatisierungSelf-HealingAgentenbetrieb Mehr erfahren Platform Engineering OptiPlatform Wir bauen Ihre Internal Developer Platform mit GitOps, Self-Service-Portalen und Infrastrukturautomatisierung,",
      "url": "https://optiop.de/",
@@ -3455,7 +3455,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Bei Optiop stehen nicht nur Technologien im Mittelpunkt – sondern die Ergebnisse. Unser Ansatz ist kollaborativ und kundenorientiert. Wir nehmen uns die Zeit, …",
      "quote": "Systeme. Unsere Herangehensweise Bei Optiop stehen nicht nur Technologien im Mittelpunkt – sondern die Ergebnisse. Unser Ansatz ist kollaborativ und",
      "url": "https://optiop.de/about/",
@@ -3580,7 +3580,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "München, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/875500K085ZSSH64OS91",
@@ -3588,7 +3588,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-05-15",
      "quote": "entity.creationDate: 2025-05-15",
      "url": "https://api.gleif.org/api/v1/lei-records/875500K085ZSSH64OS91",
@@ -3596,7 +3596,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 302502",
      "quote": "HRB 302502",
      "url": "https://api.gleif.org/api/v1/lei-records/875500K085ZSSH64OS91",
@@ -3604,7 +3604,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "eigene Produkte",
      "quote": "für Unternehmen, die eigene Produkte, Software oder Verfahren entwickeln – festgeschrieben im Forschungszulagengesetz. Es gibt keinen begrenzten Fördertopf und keine",
      "url": "https://7scale.de/",
@@ -3612,7 +3612,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "150+ erfolgreich beratene Unternehmen · knapp 90 % Förderquote Partner, deren Forschungszulage bereits bewilligt wurde WAS IST DIE FORSCHUNGSZULAGE? Kein",
      "url": "https://7scale.de/",
@@ -3620,7 +3620,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "effiziente",
      "quote": "die schlanke und effiziente Umsetzung konnte der gesamte Prozess schnell abgeschlossen werden, was letztlich zu einer Fördersumme von über 32.000",
      "url": "https://7scale.de/",
@@ -3636,7 +3636,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Unsere inhouse entwickelte 7SCALE Software bündelt unsere praktische Erfahrung aus der Antragserstellung und bildet genau die Punkte ab, auf die es bei einem …",
      "quote": "Weg zur Forschungszulage. Unsere inhouse entwickelte 7SCALE Software bündelt unsere praktische Erfahrung aus der Antragserstellung und bildet genau die Punkte",
      "url": "https://7scale.de/",
@@ -3644,7 +3644,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "contact@7scale.de",
      "quote": "contact@7scale.de",
      "url": "https://7scale.de/impressum",
@@ -3761,7 +3761,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Bamberg, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/984500FE2D8FE4XCE587",
@@ -3769,7 +3769,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-01-28",
      "quote": "entity.creationDate: 2025-01-28",
      "url": "https://api.gleif.org/api/v1/lei-records/984500FE2D8FE4XCE587",
@@ -3777,7 +3777,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 11923",
      "quote": "HRB 11923",
      "url": "https://api.gleif.org/api/v1/lei-records/984500FE2D8FE4XCE587",
@@ -3785,7 +3785,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Unsere Product",
      "quote": "Betreuung des Entwicklungsteams Unsere Product Owner und Project Manager begleiten Ihr Entwicklungsteam agil durch den gesamten Prozess. Mit klarer Priorisierung,",
      "url": "https://space-four.de/",
@@ -3793,7 +3793,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "Services boostet dein Unternehmen seine digitale Performance. Experience Design User Probleme lösen Steigern Sie die Usability Ihrer Anwendung durch Analysen",
      "url": "https://space-four.de/",
@@ -3801,7 +3801,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "verbessern",
      "quote": "digitale Experiences zu verbessern. Das Problem ist eher, dass... ...dein Team keine Kapazität für UX Design und Testing hat. ...externe",
      "url": "https://space-four.de/",
@@ -3817,7 +3817,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Unsere Product Owner und Project Manager begleiten Ihr Entwicklungsteam agil durch den gesamten Prozess. Mit klarer Priorisierung, schnellem Feedback und reibungslosem Stakeholder-Management sichern …",
      "quote": "Betreuung des Entwicklungsteams Unsere Product Owner und Project Manager begleiten Ihr Entwicklungsteam agil durch den gesamten Prozess. Mit klarer Priorisierung,",
      "url": "https://space-four.de/",
@@ -3929,7 +3929,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Dortmund, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/3912004HIZVEWTI8OF28",
@@ -3937,7 +3937,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-09-28",
      "quote": "entity.creationDate: 2026-09-28",
      "url": "https://api.gleif.org/api/v1/lei-records/3912004HIZVEWTI8OF28",
@@ -3945,7 +3945,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 38909",
      "quote": "HRB 38909",
      "url": "https://api.gleif.org/api/v1/lei-records/3912004HIZVEWTI8OF28",
@@ -3953,7 +3953,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "Ihr Bedarf. Zuhause Unternehmen ← → Vorteile Was für Ihr Projekt zählt. 01Komfort & Automatisierung− Audio, Licht und weitere Funktionen",
      "url": "https://nunrie-technology.de/",
@@ -3961,7 +3961,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Automatisierung",
      "quote": "zählt. 01Komfort & Automatisierung− Audio, Licht und weitere Funktionen können zu einfachen Abläufen verbunden werden. Welche Geräte zusammenpassen, klären wir",
      "url": "https://nunrie-technology.de/",
@@ -3977,7 +3977,7 @@
     },
     {
      "key": "service_business",
-     "label": "Dienstleistungsgeschäft",
+     "label": "Service business",
      "value": "IT consulting",
      "quote": "price. Services cover IT consulting, software configuration and digital integration of existing compatible technology. Electrical installation and building work are",
      "url": "https://nunrie-technology.de/en/",
@@ -4096,7 +4096,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Dortmund, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/3912008QX9LW1F4SWL77",
@@ -4104,7 +4104,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-12-28",
      "quote": "entity.creationDate: 2025-12-28",
      "url": "https://api.gleif.org/api/v1/lei-records/3912008QX9LW1F4SWL77",
@@ -4112,7 +4112,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 37913",
      "quote": "HRB 37913",
      "url": "https://api.gleif.org/api/v1/lei-records/3912008QX9LW1F4SWL77",
@@ -4120,7 +4120,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Unsere Produkte",
      "quote": "und aktueller Marktverfügbarkeit. Unsere Produkte Infrastruktur- & Technologieberatung Treffen Sie fundierte Entscheidungen zu Energie, Rechenleistung und Infrastruktur. Mehr erfahren DON'T",
      "url": "https://chainopsystems.com/de/",
@@ -4128,7 +4128,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "Effizienz",
      "quote": "an realer Energieverfügbarkeit, Effizienz und Wirtschaftlichkeit. Kontakt aufnehmen Mehr erfahren Energie und Rechenleistung wachsen zusammen. ChainOp Systems verbindet Rechenzentrumsinfrastruktur, beschleunigtes",
      "url": "https://chainopsystems.com/de/",
@@ -4144,7 +4144,7 @@
     },
     {
      "key": "regulation",
-     "label": "Regulierung",
+     "label": "Regulation",
      "value": "regulatorischen",
      "quote": "unter realen technischen, regulatorischen und wirtschaftlichen Rahmenbedingungen. Unsere Projektsicht betrachtet schwankende erneuerbare Einspeisung, Engpassmanagement, Phasen negativer Preise, steuerbares Lastverhalten, nachfrageseitige",
      "url": "https://chainopsystems.com/de/about/",
@@ -4152,7 +4152,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "ChainOp Systems entwickelt und integriert KI-, HPC- und flexible Recheninfrastruktur – ausgerichtet an realer Energieverfügbarkeit, Effizienz und Wirtschaftlichkeit.",
      "quote": "Generation der Rechenleistung. ChainOp Systems entwickelt und integriert KI-, HPC- und flexible Recheninfrastruktur – ausgerichtet an realer Energieverfügbarkeit, Effizienz und",
      "url": "https://chainopsystems.com/de/",
@@ -4160,7 +4160,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@chainopsystems.com",
      "quote": "info@chainopsystems.com",
      "url": "https://chainopsystems.com/de/imprint/",
@@ -4280,7 +4280,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Hamburg, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/3912009QHB57GLSJSC42",
@@ -4288,7 +4288,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-02-19",
      "quote": "entity.creationDate: 2025-02-19",
      "url": "https://api.gleif.org/api/v1/lei-records/3912009QHB57GLSJSC42",
@@ -4296,7 +4296,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 190928",
      "quote": "HRB 190928",
      "url": "https://api.gleif.org/api/v1/lei-records/3912009QHB57GLSJSC42",
@@ -4304,7 +4304,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "AI-powered",
      "quote": "For organizations running AI-powered applications, we design infrastructure optimized for AI service integration — API gateway configurations, intelligent caching for",
      "url": "https://www.tysktech.com/services/devops-and-cloud-solutions/",
@@ -4312,7 +4312,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "automatically",
      "quote": "frequently, and recover automatically. Traditional IT operations — manual deployments, static servers, ticket-based change management — can’t keep up. Whether",
      "url": "https://www.tysktech.com/services/devops-and-cloud-solutions/",
@@ -4328,7 +4328,7 @@
     },
     {
      "key": "service_business",
-     "label": "Dienstleistungsgeschäft",
+     "label": "Service business",
      "value": "IT Consulting",
      "quote": "IT Consulting & Software Engineering | TyskTech GmbH Skip to content Engineering Solutions That Move Your Business Forward Enterprise architecture,",
      "url": "https://www.tysktech.com/",
@@ -4336,7 +4336,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "From enterprise software architecture and cloud infrastructure to AI integration and team enablement — TyskTech covers every layer of your technology stack. Not …",
      "quote": "the full stack. From enterprise software architecture and cloud infrastructure to AI integration and team enablement — TyskTech covers every",
      "url": "https://www.tysktech.com/",
@@ -4344,7 +4344,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@tysktech.com",
      "quote": "info@tysktech.com",
      "url": "https://www.tysktech.com/impressum/",
@@ -4461,7 +4461,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Freiburg, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/391200Q5NABX8F4QSE35",
@@ -4469,7 +4469,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-01-21",
      "quote": "entity.creationDate: 2025-01-21",
      "url": "https://api.gleif.org/api/v1/lei-records/391200Q5NABX8F4QSE35",
@@ -4477,7 +4477,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 732442",
      "quote": "HRB 732442",
      "url": "https://api.gleif.org/api/v1/lei-records/391200Q5NABX8F4QSE35",
@@ -4485,7 +4485,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Unsere Produkte",
      "quote": "du dich verlassen. Unsere Produkte sind vollständig in Deutschland entwickelt. Unser Produkt Terminkalender und Kundenmanagement. Mit Termily entwickeln wir ein",
      "url": "https://vife-software.de/",
@@ -4493,7 +4493,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "effizient",
      "quote": "mit ihren Kund*innen effizient verwalten möchten – vom Friseursalon bis zur Therapiepraxis. Zur Termily-Website Launch geplant für Ende 2026 app.termi.ly",
      "url": "https://vife-software.de/",
@@ -4509,7 +4509,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "kontakt@vife-software.de",
      "quote": "kontakt@vife-software.de",
      "url": "https://vife-software.de/imprint/",
@@ -4620,7 +4620,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Berlin, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/9845007B2DZ361F48093",
@@ -4628,7 +4628,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-08-05",
      "quote": "entity.creationDate: 2025-08-05",
      "url": "https://api.gleif.org/api/v1/lei-records/9845007B2DZ361F48093",
@@ -4636,7 +4636,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 277826",
      "quote": "HRB 277826",
      "url": "https://api.gleif.org/api/v1/lei-records/9845007B2DZ361F48093",
@@ -4644,7 +4644,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "API",
      "quote": "Maßggeschneiderte dezentrale Identitätssysteme API-Entwicklung und Integration Mobile und Web-Applikationen Cloud-native Lösungen Mehr erfahren Bereit für Ihre Digital-Identity-Lösung? Lassen Sie uns",
      "url": "https://interid.io/",
@@ -4652,7 +4652,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "Identitätsstrategie für Ihr Unternehmen. Marktanalyse Machbarkeitsanalyse Business Case Entwicklung Go-to-Market-Strategie Mehr erfahren Erstellung von Software Solutions Digital Identity Entwicklung maßgeschneiderter",
      "url": "https://interid.io/",
@@ -4668,7 +4668,7 @@
     },
     {
      "key": "regulation",
-     "label": "Regulierung",
+     "label": "Regulation",
      "value": "Regulatorische",
      "quote": "Arbeitsgruppen. Technologische und Regulatorische Expertise European Digital Identity eIDAS 2.0 und Architecture Reference Framework Fundierte Kenntnisse in eIDAS 2.0, deren",
      "url": "https://interid.io/",
@@ -4676,7 +4676,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@interid.io",
      "quote": "info@interid.io",
      "url": "https://interid.io/impressum/",
@@ -4787,7 +4787,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Jülich, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/9845008A4EQ2E8BD9B25",
@@ -4795,7 +4795,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-04-22",
      "quote": "entity.creationDate: 2025-04-22",
      "url": "https://api.gleif.org/api/v1/lei-records/9845008A4EQ2E8BD9B25",
@@ -4803,7 +4803,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 10000",
      "quote": "HRB 10000",
      "url": "https://api.gleif.org/api/v1/lei-records/9845008A4EQ2E8BD9B25",
@@ -4811,7 +4811,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "Unternehmen",
      "quote": "erstellen Transformationspläne für Unternehmen zur langfristigen Erreichung der Klimaneutralität. Energieberatung Als zertifizierte Energieberater entwickeln wir für Sie nachhaltige Energiekonzepte unter",
      "url": "https://green-heat.com/",
@@ -4819,7 +4819,7 @@
     },
     {
      "key": "benefit",
-     "label": "Kundennutzen",
+     "label": "Customer benefit",
      "value": "sparen",
      "quote": "Energie und Kosten sparen und dabei Ihren ökologischen Fußabdruck verkleinern? Dann sind Sie bei uns genau richtig! Green Heat Solutions",
      "url": "https://green-heat.com/",
@@ -4835,7 +4835,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "info@green-heat.com",
      "quote": "info@green-heat.com",
      "url": "https://green-heat.com/impressum/",
@@ -4952,7 +4952,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Köln, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/98450051051EBCA95C16",
@@ -4960,7 +4960,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-05-26",
      "quote": "entity.creationDate: 2025-05-26",
      "url": "https://api.gleif.org/api/v1/lei-records/98450051051EBCA95C16",
@@ -4968,7 +4968,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 123370",
      "quote": "HRB 123370",
      "url": "https://api.gleif.org/api/v1/lei-records/98450051051EBCA95C16",
@@ -4976,7 +4976,7 @@
     },
     {
      "key": "technology",
-     "label": "Technischer Ansatz",
+     "label": "Technical approach",
      "value": "AI assistant",
      "quote": "typing. Personal platform AI assistant Family sharing 40+ languages Offline-first Explorelistub.com ↗ Partly online Kambana One platform to run an",
      "url": "https://galveo.de/",
@@ -4984,7 +4984,7 @@
     },
     {
      "key": "product",
-     "label": "Produkt",
+     "label": "Product",
      "value": "Our products",
      "quote": "ship in 24/7 Our products never sleep ∞ Ambition The products In flight. More coming. Each product stands alone. Together",
      "url": "https://galveo.de/",
@@ -4992,7 +4992,7 @@
     },
     {
      "key": "description",
-     "label": "Beschreibung",
+     "label": "Description",
      "value": "Galveo is a European product lab. It exists for a single reason: to build the products that always deserved to exist - and …",
      "quote": "an unreasonable goal. Galveo is a European product lab. It exists for a single reason: to build the products that",
      "url": "https://galveo.de/about",
@@ -5108,7 +5108,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Egenhausen, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/98450063FAF7ED966F49",
@@ -5116,7 +5116,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2025-08-14",
      "quote": "entity.creationDate: 2025-08-14",
      "url": "https://api.gleif.org/api/v1/lei-records/98450063FAF7ED966F49",
@@ -5124,7 +5124,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 801176",
      "quote": "HRB 801176",
      "url": "https://api.gleif.org/api/v1/lei-records/98450063FAF7ED966F49",
@@ -5132,7 +5132,7 @@
     },
     {
      "key": "buyer",
-     "label": "Kundentyp",
+     "label": "Customer type",
      "value": "businesses",
      "quote": "Expertise We help businesses grow through technology – with tailored software, IT services, and strategic guidance. Our work is driven",
      "url": "https://70xconsulting.com/",
@@ -5148,7 +5148,7 @@
     },
     {
      "key": "contact_email",
-     "label": "Firmenpostfach",
+     "label": "Company mailbox",
      "value": "hello@70xconsulting.com",
      "quote": "hello@70xconsulting.com",
      "url": "https://70xconsulting.com/imprint",
@@ -5269,7 +5269,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Seevetal, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/391200DXUOEB0FAC0866",
@@ -5277,7 +5277,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-11-16",
      "quote": "entity.creationDate: 2026-11-16",
      "url": "https://api.gleif.org/api/v1/lei-records/391200DXUOEB0FAC0866",
@@ -5285,7 +5285,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 110596",
      "quote": "HRB 110596",
      "url": "https://api.gleif.org/api/v1/lei-records/391200DXUOEB0FAC0866",
@@ -5388,7 +5388,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Horstmar, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/391200SL2K0OHQIW4289",
@@ -5396,7 +5396,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-11-12",
      "quote": "entity.creationDate: 2026-11-12",
      "url": "https://api.gleif.org/api/v1/lei-records/391200SL2K0OHQIW4289",
@@ -5404,7 +5404,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 16310",
      "quote": "HRB 16310",
      "url": "https://api.gleif.org/api/v1/lei-records/391200SL2K0OHQIW4289",
@@ -5507,7 +5507,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Bruckberg, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/391200VGEND1XXD4UI04",
@@ -5515,7 +5515,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-09-16",
      "quote": "entity.creationDate: 2026-09-16",
      "url": "https://api.gleif.org/api/v1/lei-records/391200VGEND1XXD4UI04",
@@ -5523,7 +5523,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 15579",
      "quote": "HRB 15579",
      "url": "https://api.gleif.org/api/v1/lei-records/391200VGEND1XXD4UI04",
@@ -5626,7 +5626,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Dresden, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/529900T59RPK5TWB2E33",
@@ -5634,7 +5634,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-10-18",
      "quote": "entity.creationDate: 2026-10-18",
      "url": "https://api.gleif.org/api/v1/lei-records/529900T59RPK5TWB2E33",
@@ -5642,7 +5642,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 48726",
      "quote": "HRB 48726",
      "url": "https://api.gleif.org/api/v1/lei-records/529900T59RPK5TWB2E33",
@@ -5745,7 +5745,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Hamburg, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/9845002CB6F10CB65A97",
@@ -5753,7 +5753,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-10-19",
      "quote": "entity.creationDate: 2026-10-19",
      "url": "https://api.gleif.org/api/v1/lei-records/9845002CB6F10CB65A97",
@@ -5761,7 +5761,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 202032",
      "quote": "HRB 202032",
      "url": "https://api.gleif.org/api/v1/lei-records/9845002CB6F10CB65A97",
@@ -5864,7 +5864,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Berlin, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/98450096580096EDE978",
@@ -5872,7 +5872,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-11-11",
      "quote": "entity.creationDate: 2026-11-11",
      "url": "https://api.gleif.org/api/v1/lei-records/98450096580096EDE978",
@@ -5880,7 +5880,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 293746",
      "quote": "HRB 293746",
      "url": "https://api.gleif.org/api/v1/lei-records/98450096580096EDE978",
@@ -5983,7 +5983,7 @@
    "facts": [
     {
      "key": "country",
-     "label": "Deutschland-Beleg",
+     "label": "Germany evidence",
      "value": "DE",
      "quote": "Landshut, DE",
      "url": "https://api.gleif.org/api/v1/lei-records/984500C6F69578981E82",
@@ -5991,7 +5991,7 @@
     },
     {
      "key": "founding",
-     "label": "Gründung",
+     "label": "Founding",
      "value": "2026-11-18",
      "quote": "entity.creationDate: 2026-11-18",
      "url": "https://api.gleif.org/api/v1/lei-records/984500C6F69578981E82",
@@ -5999,7 +5999,7 @@
     },
     {
      "key": "register",
-     "label": "Handelsregister",
+     "label": "Commercial register",
      "value": "HRB 15678",
      "quote": "HRB 15678",
      "url": "https://api.gleif.org/api/v1/lei-records/984500C6F69578981E82",

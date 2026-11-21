@@ -62,7 +62,7 @@ def test_missing_data_is_neutral_and_lowers_confidence(rows):
     r = rows["dummy-nur-pflicht"]
     assert r["team_score"] == 50 and r["marktpotenzial_score"] == 50
     assert r["confidence"] < 0.2 < rows["dummy-software"]["confidence"]
-    assert any(e["url"] is None and "keine Daten" in e["aussage"] for e in r["evidence"])
+    assert any(e["url"] is None and "no data" in e["aussage"] for e in r["evidence"])
 
 
 def test_every_counted_subscore_has_url(rows):
@@ -80,7 +80,7 @@ def test_unsourced_claims_do_not_count(rows):
     assert r["team_score"] == 50 and r["marktpotenzial_score"] == 50
     assert r["stage"] == "pre_seed"            # unbelegter Reifegrad "erste_kunden" hebt die Stage nicht auf seed
     assert r["confidence"] < 0.1
-    assert "unsicher" in next(e["aussage"] for e in r["evidence"] if e["kriterium"] == "datenlage")
+    assert "uncertain" in next(e["aussage"] for e in r["evidence"] if e["kriterium"] == "datenlage")
     for text in (r["investmenthypothese"], r["why_now"], json.dumps(r["evidence"], ensure_ascii=False)):
         assert "Großkunde" not in text and "Angebliche" not in text and "40 Papers" not in text
 
@@ -229,15 +229,15 @@ def test_existenzkredit_is_not_exist():
 
 def test_hypothesis_wording(rows):
     leer = score_dossier(basis(), stichtag=TAG)["investmenthypothese"]
-    assert leer == "Datenlage zu dünn für eine Hypothese (Confidence 0.09). Hauptrisiko: Dünne Datenlage: nur eine unabhängige Quelle."
+    assert leer == "Data too thin for a thesis (confidence 0.09). Main risk: Thin data: only one independent source."
     assert all("Technologierisiko" not in r["investmenthypothese"] for r in rows.values())
-    assert "Nächster Meilenstein: ein Prototyp beim Anwender." in rows["dummy-deeptech"]["investmenthypothese"]
-    assert rows["dummy-agentur"]["investmenthypothese"].startswith("Kein Investment-Case")
-    assert "Wir investieren" not in rows["dummy-finanziert"]["investmenthypothese"]
+    assert "Next milestone: a prototype at a user site." in rows["dummy-deeptech"]["investmenthypothese"]
+    assert rows["dummy-agentur"]["investmenthypothese"].startswith("No investment case")
+    assert "We would invest" not in rows["dummy-finanziert"]["investmenthypothese"]
     gut = score_dossier(basis(regulierter_markt={"wert": False, "quelle": U},
                               signals=[{"url": "https://a.example.org/1", "datum": "2026-01-01"}, {"url": "https://b.example.com/1", "datum": "2026-01-01"},
                                        {"url": "https://c.example.net/1", "datum": "2026-01-01"}]), stichtag=TAG)
-    assert "Kein Risikofaktor ab 50 Punkten belegt" in gut["investmenthypothese"]
+    assert "No risk factor of 50+ points documented" in gut["investmenthypothese"]
 
 
 def test_fuzz_never_crashes_and_stays_schema_valid():
@@ -362,7 +362,7 @@ def test_review_round2_founding_earliness_legal_form_noise_exist_csv(tmp_path):
         r = score_dossier(basis(foerderung=[{"programm": programm, "start": start, **q}]), stichtag=TAG)
         assert r["teilwerte"]["team"]["vollzeit"]["belegt"] is erwartet, programm
     doppelt = score_dossier(basis(foerderung=[{"programm": "X", "summe_eur": 100000, **q}] * 3), stichtag=TAG)
-    assert "100.000 EUR" in json.dumps(doppelt["evidence"], ensure_ascii=False)
+    assert "EUR 100,000" in json.dumps(doppelt["evidence"], ensure_ascii=False)
     # Reihenfolge im Input ändert nichts
     a = dossier("dummy-lifesciences")
     b = copy.deepcopy(a)
@@ -405,7 +405,7 @@ def test_sqlite_loader_does_not_invent_exist(tmp_path):
     assert k["foerderung"] == []
     assert f["foerderung"][0]["programm"] == "EXIST-Forschungstransfer"
     r = score_dossier(f, stichtag=TAG)
-    assert "100.000 EUR" in json.dumps(r["evidence"], ensure_ascii=False) and r["teilwerte"]["team"]["vollzeit"]["belegt"]
+    assert "EUR 100,000" in json.dumps(r["evidence"], ensure_ascii=False) and r["teilwerte"]["team"]["vollzeit"]["belegt"]
 
 
 def test_review_round3_description_grants_dates_legal_form_roles_loaders(tmp_path):
@@ -417,7 +417,7 @@ def test_review_round3_description_grants_dates_legal_form_roles_loaders(tmp_pat
     zwei = [{"programm": "ZIM", "summe_eur": 200000, "start": "2025-01-01", **q},
             {"programm": "EXIST-Forschungstransfer", "summe_eur": 800000, "start": "2025-06-01", **q}]
     a, b = score_dossier(basis(foerderung=zwei), stichtag=TAG), score_dossier(basis(foerderung=zwei[::-1]), stichtag=TAG)
-    assert a == b and a["teilwerte"]["team"]["vollzeit"]["belegt"] and "1,0 Mio. EUR" in json.dumps(a["evidence"], ensure_ascii=False)
+    assert a == b and a["teilwerte"]["team"]["vollzeit"]["belegt"] and "EUR 1.0M" in json.dumps(a["evidence"], ensure_ascii=False)
     eine = score_dossier(basis(foerderung=zwei[:1]), stichtag=TAG)
     assert a["confidence"] >= eine["confidence"]
     # Aus Jahr oder Monat wird kein Tag erfunden
@@ -453,7 +453,7 @@ def test_review_round3_description_grants_dates_legal_form_roles_loaders(tmp_pat
     con.commit()
     con.close()
     rows = {r["lead_id"]: r for r in score_all(load_dossiers(db), stichtag=TAG)}
-    assert len(rows) == 2 and "650.000 EUR" in json.dumps(rows["m"]["evidence"], ensure_ascii=False)
+    assert len(rows) == 2 and "EUR 650,000" in json.dumps(rows["m"]["evidence"], ensure_ascii=False)
     # Ordner: kaputte Datei und BOM
     ordner = tmp_path / "d"
     ordner.mkdir()
@@ -466,11 +466,11 @@ def test_review_round3_description_grants_dates_legal_form_roles_loaders(tmp_pat
 
 def test_why_now_month_wording():
     from scoring.engine import vor_monaten
-    assert (vor_monaten(0), vor_monaten(1), vor_monaten(13)) == ("in diesem Monat", "vor 1 Monat", "vor 13 Monaten")
+    assert (vor_monaten(0), vor_monaten(1), vor_monaten(13)) == ("this month", "1 month ago", "13 months ago")
     jetzt = score_dossier(basis(signals=[{"url": U, "datum": "2026-11-02"}]), stichtag=TAG)
-    assert jetzt["why_now"].endswith("jüngstes Signal in diesem Monat")
+    assert jetzt["why_now"].endswith("latest signal this month")
     einer = score_dossier(basis(signals=[{"url": U, "datum": "2026-10-20"}]), stichtag=TAG)
-    assert einer["why_now"].endswith("jüngstes Signal vor 1 Monat")
+    assert einer["why_now"].endswith("latest signal 1 month ago")
 
 
 def test_evaluate_stichtag_is_injectable():

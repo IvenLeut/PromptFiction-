@@ -3,14 +3,14 @@
 
 def screening_status(lead):
     if lead.hard_exclusions or lead.eligibility_status == "Excluded":
-        return "Ausgeschlossen"
+        return "Excluded"
     if lead.eligibility_status == "Unknown":
-        return "Fondskriterien prüfen"
+        return "Check fund criteria"
     if lead.funding_status in {"Unknown", "unknown", "conflicting"}:
-        return "Funding prüfen"
+        return "Check funding"
     if lead.funding_status in {"Pre-Seed", "Seed", "Later", "vc_backed", "non_vc_funded", "funded"}:
-        return "Finanzierung bekannt"
-    return "Kontakt prüfen"
+        return "Funding known"
+    return "Check contact"
 
 
 def source_label(lead):

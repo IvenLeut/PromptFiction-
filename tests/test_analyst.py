@@ -39,21 +39,21 @@ def test_decision_ui_roundtrip():
     from pathlib import Path
     app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=30).run()
     # The integrated app starts on the snapshot; the demo run keeps decisions in the "demo" namespace.
-    next(x for x in app.radio if x.label == "Datenquelle").set_value("demo").run()
-    next(x for x in app.button if x.label == "Analyse starten").click().run()
+    next(x for x in app.radio if x.label == "Data source").set_value("demo").run()
+    next(x for x in app.button if x.label == "Start analysis").click().run()
     lead = app.session_state.analysis.result.leads[0]
     app.query_params["startup"] = lead.id
     app.run()
-    decision = lambda: next(x for x in app.radio if x.label == "Entscheidung")
+    decision = lambda: next(x for x in app.radio if x.label == "Decision")
     decision().set_value("Watchlist")
-    next(x for x in app.text_area if x.label == "Analysten-Notizen").set_value("Test note")
-    next(x for x in app.text_area if x.label == "Begründung der Entscheidung").set_value("Verify market")
-    next(x for x in app.button if x.label == "Entscheidung speichern").click().run()
+    next(x for x in app.text_area if x.label == "Analyst notes").set_value("Test note")
+    next(x for x in app.text_area if x.label == "Reason for the decision").set_value("Verify market")
+    next(x for x in app.button if x.label == "Save decision").click().run()
     assert not app.exception
     assert load_decisions("demo")[lead.id]["decision"] == "Watchlist"
     app.run()
     assert decision().value == "Watchlist"
-    assert next(x for x in app.text_area if x.label == "Analysten-Notizen").value == "Test note"
+    assert next(x for x in app.text_area if x.label == "Analyst notes").value == "Test note"
 
 
 def test_parallel_first_writes_and_activity_keep_decisions(tmp_path, monkeypatch):

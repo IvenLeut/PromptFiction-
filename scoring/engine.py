@@ -52,27 +52,27 @@ BRANCHE_ALIAS = {
     "chemie materialien": "chemie_materialien",
 }
 NAECHSTER_MEILENSTEIN = {
-    "idee": "ein Funktionsnachweis", "paper": "ein Laborprototyp", "labor_prototyp": "ein Prototyp beim Anwender",
-    "prototyp": "ein erster Pilot", "pilot": "der erste zahlende Kunde", "erste_kunden": "wiederholbarer Vertrieb",
+    "idee": "a proof of concept", "paper": "a lab prototype", "labor_prototyp": "a prototype at a user site",
+    "prototyp": "a first pilot", "pilot": "the first paying customer", "erste_kunden": "repeatable sales",
 }
 KRITERIUM_LABEL = {
-    "forscher_match": "Forscher-Match (Papers im Produktfeld)", "komplementaer": "komplementäres Gründerteam",
-    "vollzeit": "Vollzeit-Signal", "vorerfahrung": "Vorerfahrung der Gründer", "marktvolumen": "Marktvolumen",
-    "traktion": "Partner, Piloten oder Kunden", "skalierbarkeit": "Skalierbarkeit (Produkttyp)",
-    "zielkunde": "Zielkunde und Geschäftsmodell", "wettbewerb": "Wettbewerber", "tech_reife": "Reifegrad der Technologie",
-    "regulatorik": "Regulatorik", "ip": "Schutzrechte (IP)", "finanzierung": "bisherige Förderung",
-    "datenlage": "Datenlage", "forschungsumfeld": "Forschungsumfeld (Institut)", "timing": "Timing (Förderphase)",
-    "tech_tiefe": "Tech-Tiefe (Programm und Fachgebiet)",
+    "forscher_match": "researcher match (papers in product field)", "komplementaer": "complementary founding team",
+    "vollzeit": "full-time signal", "vorerfahrung": "founder track record", "marktvolumen": "market size",
+    "traktion": "partners, pilots or customers", "skalierbarkeit": "scalability (product type)",
+    "zielkunde": "target customer and business model", "wettbewerb": "competitors", "tech_reife": "technology readiness",
+    "regulatorik": "regulation", "ip": "IP protection", "finanzierung": "prior funding",
+    "datenlage": "data coverage", "forschungsumfeld": "research environment (institute)", "timing": "timing (funding phase)",
+    "tech_tiefe": "tech depth (programme and field)",
 }
 BUNDESLAENDER = {"Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern",
                  "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt",
                  "Schleswig-Holstein", "Thüringen"}
-INSTITUT_TEXT = {"aussenuniversitaer": "außeruniversitäre Forschungseinrichtung", "forschungsuni": "TU9-/Exzellenzuniversität",
-                 "universitaet": "Universität", "hochschule": "Hochschule"}
-SKALIERUNG_TEXT = {"software": "Software", "hardware": "Hardware", "hardware_software": "Hardware mit Software",
-                   "wirkstoff": "Wirkstoff", "plattform": "Plattform"}
-STAGE_TEXT = {"pre_gruendung": "Noch vor der Gründung", "in_gruendung": "Gerade in Gründung", "pre_seed": "Gegründet, Pre-Seed",
-              "seed": "Seed-reif", "zu_spaet": "Zu spät für einen Erstkontakt"}
+INSTITUT_TEXT = {"aussenuniversitaer": "non-university research institute", "forschungsuni": "TU9/excellence university",
+                 "universitaet": "university", "hochschule": "university of applied sciences"}
+SKALIERUNG_TEXT = {"software": "software", "hardware": "hardware", "hardware_software": "hardware with software",
+                   "wirkstoff": "active compound", "plattform": "platform"}
+STAGE_TEXT = {"pre_gruendung": "Not yet incorporated", "in_gruendung": "Incorporation in progress", "pre_seed": "Incorporated, pre-seed",
+              "seed": "Seed-ready", "zu_spaet": "Too late for a first contact"}
 
 
 def load_config(path=None):
@@ -249,7 +249,7 @@ def rolle_kurz(m):
     teile = [re.sub(r"\s*\([^()]*\)\s*$", "", t.strip()) for t in str(m.get("rolle") or "").split(";")]
     teile = list(dict.fromkeys(t for t in teile if t))
     hg = {"tech": "Tech", "business": "Business", "beides": "Tech + Business"}.get(m.get("hintergrund"))
-    return clip(" / ".join(teile) or "Rolle offen", 50) + (", %s" % hg if hg else "")
+    return clip(" / ".join(teile) or "role unknown", 50) + (", %s" % hg if hg else "")
 
 
 def wort_unverneint(wort, s):
@@ -285,10 +285,10 @@ def monate_bis(stichtag, ende):
 
 def eur(v):
     if v >= 1e9:
-        return ("%.1f Mrd." % (v / 1e9)).replace(".", ",", 1)
+        return "%.1fbn" % (v / 1e9)
     if v >= 1e6:
-        return ("%.1f Mio." % (v / 1e6)).replace(".", ",", 1)
-    return "{:,.0f}".format(v).replace(",", ".")
+        return "%.1fM" % (v / 1e6)
+    return "{:,.0f}".format(v)
 
 
 class Scorer:
@@ -403,7 +403,7 @@ class Scorer:
                 best = (p, m["name"], m["_url"])
         if not best:
             return self.forscher_gesamt(k)
-        return dict(wert=stufe(k["stufen"], best[0]), aussage="%s: %d Papers im Produktfeld" % (best[1], best[0]), url=best[2])
+        return dict(wert=stufe(k["stufen"], best[0]), aussage="%s: %d papers in the product field" % (best[1], best[0]), url=best[2])
 
     def forscher_gesamt(self, k):
         """Proxy ohne Feldzuordnung: Publikationen insgesamt eines sicher zugeordneten OpenAlex-Profils (nie ein Malus)."""
@@ -416,7 +416,7 @@ class Scorer:
         if not best:
             return None
         return dict(wert=self.proxy(stufe(k["gesamt_stufen"], best[0])), proxy=True, url=best[2],
-                    aussage="%s: %d Publikationen insgesamt (OpenAlex, Feldbezug offen)" % (best[1], best[0]))
+                    aussage="%s: %d publications in total (OpenAlex, field fit unknown)" % (best[1], best[0]))
 
     def gruender(self):
         """Gründer bzw. Geschäftsführung; Teammitglieder ohne Gründerrolle (`gruender: false`) zählen nicht für n."""
@@ -456,34 +456,34 @@ class Scorer:
         # Eine einzelne gefundene Person (Impressum, LinkedIn, Presse …) ist kein Beleg für eine Solo-Gründung; "solo" nur
         # bei ausdrücklicher Angabe oder in einem handgepflegten Dossier ohne Herkunft. Sonst wie ohne Team (Förderdaten).
         if not gr or (einzeln is not None and not solo_beleg):
-            wer = ("%s (%s), Teamgröße offen; " % (einzeln["name"], rolle_kurz(einzeln)) if einzeln is not None
-                   else "%d Teammitglied(er) ohne Gründerrolle belegt; " % len(self.team) if self.team else "")
+            wer = ("%s (%s), team size unknown; " % (einzeln["name"], rolle_kurz(einzeln)) if einzeln is not None
+                   else "%d team member(s) without founder role documented; " % len(self.team) if self.team else "")
             sp = self.stipendium_personen()
             ef = next((e for e in self.katalog_exist() if e["art"] == "ef"), None)
             if (not sp or sp[0] < 2) and ef:  # Richtlinie: EXIST-Forschungstransfer fördert Forschungsteams
                 return dict(wert=self.proxy(k["werte"]["forschungsteam"]), proxy=True, url=ef["url"], datum=iso(ef["start"].isoformat()),
-                            aussage=wer + ("EXIST-Forschungstransfer fördert Forschungsteams" if wer else
-                                           "EXIST-Forschungstransfer fördert Forschungsteams, Gründer noch nicht namentlich belegt"))
+                            aussage=wer + ("EXIST Transfer of Research funds research teams" if wer else
+                                           "EXIST Transfer of Research funds research teams, founders not yet named"))
             if not sp or sp[0] < 2:
                 return None
             n, monate, e = sp
             return dict(wert=k["werte"]["foerderung_ab_drei" if n >= 3 else "foerderung_ab_zwei"], url=e["url"], datum=iso(e["start"].isoformat()),
-                        aussage=wer + "Stipendium %s EUR über %d Monate: nach EXIST-Obergrenzen mind. %d geförderte Personen" % (eur(e["summe"]), monate, n))
+                        aussage=wer + "Grant EUR %s over %d months: EXIST caps imply at least %d funded people" % (eur(e["summe"]), monate, n))
         n, mix = len(gr), self.mix()
         if n == 1:
-            return dict(wert=k["werte"]["solo"], aussage="Ein Gründer belegt: %s" % einzeln["name"], url=einzeln["_url"])
+            return dict(wert=k["werte"]["solo"], aussage="One founder documented: %s" % einzeln["name"], url=einzeln["_url"])
         personen = ", ".join("%s (%s)" % (m["name"], rolle_kurz(m)) for m in gr[:4]) + (" …" if n > 4 else "")
-        wer = "Personen in der Geschäftsführung" if all(m.get("herkunft") == "impressum" for m in gr) else "Gründer"
+        wer = "people in management" if all(m.get("herkunft") == "impressum" for m in gr) else "founders"
         if mix is True:
             biz = next((m for m in self.team if m.get("hintergrund") in ("business", "beides")), None)
             key, url = "mehrere_mit_mix", (biz or gr[0])["_url"]
-            aussage = "%d %s mit Technik und Business: %s" % (n, wer, personen)
+            aussage = "%d %s with tech and business: %s" % (n, wer, personen)
             if biz:
-                aussage += "; Business-Profil: %s" % biz["name"]
+                aussage += "; business profile: %s" % biz["name"]
         elif mix is False:
-            key, url, aussage = "mehrere_ohne_business", gr[0]["_url"], "%d %s, alle mit Tech-Hintergrund, kein Business-Profil: %s" % (n, wer, personen)
+            key, url, aussage = "mehrere_ohne_business", gr[0]["_url"], "%d %s, all with tech background, no business profile: %s" % (n, wer, personen)
         else:
-            key, url, aussage = "mehrere_mix_unbekannt", gr[0]["_url"], "%d %s, Profil-Mix unbekannt: %s" % (n, wer, personen)
+            key, url, aussage = "mehrere_mix_unbekannt", gr[0]["_url"], "%d %s, profile mix unknown: %s" % (n, wer, personen)
         return dict(wert=k["werte"][key], aussage=aussage, url=url)
 
     def exist(self):
@@ -503,11 +503,11 @@ class Scorer:
     def k_vollzeit(self, k):
         ex = self.exist()
         if ex:
-            return dict(wert=k["werte"]["ja"], aussage="Vollzeit-Signal: %s" % clip(str(ex[0]["programm"]), 60), url=ex[0]["quelle"], datum=iso(ex[0].get("start")))
+            return dict(wert=k["werte"]["ja"], aussage="Full-time signal: %s" % clip(str(ex[0]["programm"]), 60), url=ex[0]["quelle"], datum=iso(ex[0].get("start")))
         v, url, datum = self.dated_fact(self.d.get("vollzeit_signal"))
         if isinstance(v, bool) and url:
             return dict(wert=k["werte"]["ja" if v else "nein"],
-                        aussage="Gründer arbeiten Vollzeit am Vorhaben" if v else "Kein Vollzeit-Engagement", url=url, datum=datum)
+                        aussage="Founders work full-time on the venture" if v else "No full-time commitment", url=url, datum=datum)
         return None
 
     def k_vorerfahrung(self, k):
@@ -519,7 +519,7 @@ class Scorer:
                     best = (k["werte"][e], e, m["name"], m["_url"])
         if not best:
             return None
-        wie = {"fruehere_gruendung": "hat bereits gegründet", "industrie": "hat Industrieerfahrung", "keine": "ohne Vorerfahrung"}[best[1]]
+        wie = {"fruehere_gruendung": "has founded before", "industrie": "has industry experience", "keine": "no prior experience"}[best[1]]
         return dict(wert=best[0], aussage="%s %s" % (best[2], wie), url=best[3])
 
     def k_forschungsumfeld(self, k):
@@ -541,7 +541,7 @@ class Scorer:
         inst, gruppe = kurz_stelle(best[2]["stelle"] or best[2]["empfaenger"])
         wo = clip(inst or "", 90) + (", %s" % clip(gruppe, 90) if gruppe else "")
         return dict(wert=self.proxy(best[0]), proxy=True, url=best[2]["url"], datum=iso(best[2]["start"].isoformat()) if best[2]["start"] else None,
-                    aussage="Forschungsumfeld: %s (%s)" % (wo, INSTITUT_TEXT[best[1]]))
+                    aussage="Research environment: %s (%s)" % (wo, INSTITUT_TEXT[best[1]]))
 
     # --- Marktpotenzial (1 = groß) -------------------------------------------
     def k_marktvolumen(self, k):
@@ -549,7 +549,7 @@ class Scorer:
         v = num(v)
         if v is None or not url:
             return None
-        return dict(wert=stufe(k["stufen"], v), aussage="Marktvolumen %s EUR" % eur(v), url=url, datum=datum)
+        return dict(wert=stufe(k["stufen"], v), aussage="Market size EUR %s" % eur(v), url=url, datum=datum)
 
     def partner_geprueft(self, k):
         """Partner mit Quelle -> (stark, schwach). Verworfen: Fördergeber, Programme, generische Phrasen ("Global Partners"),
@@ -586,10 +586,10 @@ class Scorer:
         best = max(ok, key=lambda p: (k["werte"][p["typ"]], text(p.get("name")) or "", p["quelle"]))
         wert = min(1.0, k["werte"][best["typ"]] + (k["bonus_ab_zwei"] if len(ok) >= 2 else 0))
         n = len(ok)
-        aussage = "%d %s; stärkster: %s (%s)" % (n, "belegter Partner" if n == 1 else "belegte Partner",
-                                                  clip(text(best.get("name")) or "ohne Namen", 60), best["typ"])
+        aussage = "%d %s; strongest: %s (%s)" % (n, "documented partner" if n == 1 else "documented partners",
+                                                  clip(text(best.get("name")) or "unnamed", 60), best["typ"])
         return dict(wert=self.proxy(wert) if proxy else wert, proxy=proxy, url=best["quelle"], datum=iso(best.get("datum")),
-                    aussage=aussage + (", Organisation nicht bestätigt" if proxy else ""))
+                    aussage=aussage + (", organisation not confirmed" if proxy else ""))
 
     def fach_produkttyp(self):
         """Produkttyp-Proxy aus dem Fachgebiet: (typ, treffer, url) oder None."""
@@ -610,12 +610,12 @@ class Scorer:
     def k_skalierbarkeit(self, k):
         v, url, datum = self.enum("produkt_typ", k["werte"])
         if v:
-            return dict(wert=k["werte"][v], aussage="Produkttyp: %s" % v, url=url, datum=datum)
+            return dict(wert=k["werte"][v], aussage="Product type: %s" % v, url=url, datum=datum)
         p = self.fach_produkttyp()
         if not p:
             return None
         return dict(wert=self.proxy(k["werte"][p[0]]), proxy=True, url=p[2],
-                    aussage="Produkttyp vermutlich %s (Fachgebiet: %s)" % (SKALIERUNG_TEXT[p[0]], clip(p[1], 60)))
+                    aussage="Product type probably %s (field: %s)" % (SKALIERUNG_TEXT[p[0]], clip(p[1], 60)))
 
     def k_zielkunde(self, k):
         zk, u1, _ = self.dated_fact(self.markt.get("zielkunde"))
@@ -624,14 +624,14 @@ class Scorer:
         if not (zk or mo):
             return None
         return dict(wert=k["werte"]["beides" if zk and mo else "eines"],
-                    aussage="Zielkunde: %s; Modell: %s" % (clip(zk, 80) if zk else "nicht belegt", mo or "nicht belegt"), url=u1 if zk else u2)
+                    aussage="Target customer: %s; model: %s" % (clip(zk, 80) if zk else "not documented", mo or "not documented"), url=u1 if zk else u2)
 
     def k_wettbewerb(self, k):
         ok = sorted((text(w.get("name")), w["quelle"]) for w in self.dated_rows(self.d.get("wettbewerber")) if text(w.get("name")) and is_url(w.get("quelle")))
         if not ok:
             return None
         key = "viele" if len(ok) >= k["viele_ab"] else "wenige"
-        return dict(wert=k["werte"][key], aussage="%d %s: %s" % (len(ok), "belegter Wettbewerber" if len(ok) == 1 else "belegte Wettbewerber", clip(", ".join(n for n, _ in ok[:3]), 120)), url=ok[0][1])
+        return dict(wert=k["werte"][key], aussage="%d %s: %s" % (len(ok), "documented competitor" if len(ok) == 1 else "documented competitors", clip(", ".join(n for n, _ in ok[:3]), 120)), url=ok[0][1])
 
     def foerderende(self):
         """(monate_bis_ende, eintrag) der EXIST-Förderung, die am spätesten endet; None ohne belegtes Enddatum."""
@@ -650,11 +650,11 @@ class Scorer:
         rf = self.rechtsform()
         if rf[0] and rf[0] != "keine" and abs(m) <= k["gegruendet_fenster_monate"]:
             # Gegründet und die EXIST-Förderung endet bzw. endete gerade: jetzt fällt die Anschlussfinanzierung an.
-            wann = "endet %s" % e["ende"].strftime("%m/%Y") if m >= 0 else "endete %s" % e["ende"].strftime("%m/%Y")
-            return dict(wert=k["gegruendet_wert"], url=rf[2], aussage="Gegründet (%s), %s %s – Anschlussfinanzierung steht an" % (rf[0], prog, wann))
-        wann = ("endet %s (in %s)" % (e["ende"].strftime("%m/%Y"), "1 Monat" if m == 1 else "%d Monaten" % m) if m > 0 else
-                "endet %s" % e["ende"].strftime("%m/%Y") if m == 0 else "endete %s (%s)" % (e["ende"].strftime("%m/%Y"), vor_monaten(-m)))
-        fenster = " – Gründungsfenster" if -6 <= m <= 6 else ""
+            wann = "ends %s" % e["ende"].strftime("%m/%Y") if m >= 0 else "ended %s" % e["ende"].strftime("%m/%Y")
+            return dict(wert=k["gegruendet_wert"], url=rf[2], aussage="Incorporated (%s), %s %s; follow-on funding due" % (rf[0], prog, wann))
+        wann = ("ends %s (in %s)" % (e["ende"].strftime("%m/%Y"), "1 month" if m == 1 else "%d months" % m) if m > 0 else
+                "ends %s" % e["ende"].strftime("%m/%Y") if m == 0 else "ended %s (%s)" % (e["ende"].strftime("%m/%Y"), vor_monaten(-m)))
+        fenster = "; founding window" if -6 <= m <= 6 else ""
         return dict(wert=stufe(k["stufen"], m), url=e["url"], datum=e["ende"].isoformat() if e["ende"] <= self.stichtag else None,
                     aussage="%s %s%s" % (prog, wann, fenster))
 
@@ -676,10 +676,10 @@ class Scorer:
             if not ohne:
                 return None
             key, mint = "ohne_tech", ohne
-        aussage = {"forschungstransfer_mint": "EXIST-Forschungstransfer (forschungsbasiert) im Fachgebiet „%s“" % mint,
-                   "forschungstransfer": "EXIST-Forschungstransfer (forschungsbasiertes Vorhaben)",
-                   "mint": "Technisches Fachgebiet: „%s“" % mint,
-                   "ohne_tech": "Fachgebiet ohne Technologiebezug: „%s“" % mint}[key]
+        aussage = {"forschungstransfer_mint": "EXIST Transfer of Research (research-based) in the field \"%s\"" % mint,
+                   "forschungstransfer": "EXIST Transfer of Research (research-based venture)",
+                   "mint": "Technical field: \"%s\"" % mint,
+                   "ohne_tech": "Field without technology focus: \"%s\"" % mint}[key]
         return dict(wert=self.proxy(k["werte"][key]), proxy=True, url=url, aussage=aussage)
 
     # --- Risiko (1 = hoch) ----------------------------------------------------
@@ -699,9 +699,9 @@ class Scorer:
         if not v:
             return None
         if self.reifegrad_bestaetigt():
-            return dict(wert=k["werte"][v], aussage="Reifegrad: %s" % v, url=url, datum=datum)
+            return dict(wert=k["werte"][v], aussage="Readiness: %s" % v, url=url, datum=datum)
         return dict(wert=self.proxy(k["werte"][v]), proxy=True, url=url, datum=datum,
-                    aussage="Reifegrad: %s (Textklassifikation, nur eine Quelle)" % v)
+                    aussage="Readiness: %s (text classification, single source)" % v)
 
     def k_regulatorik(self, k):
         v, url, datum = self.dated_fact(self.d.get("regulierter_markt"))
@@ -711,16 +711,16 @@ class Scorer:
             if not med:  # ohne Medizin-Bezug bleibt die Regulatorik offen, nicht "unreguliert"
                 return None
             return dict(wert=self.proxy(k["werte"]["reguliert"]), proxy=True, url=url,
-                        aussage="Vermutlich regulierter Markt (Medizin-Bezug: „%s“)" % clip(med, 40))
+                        aussage="Probably a regulated market (medical link: \"%s\")" % clip(med, 40))
         return dict(wert=k["werte"]["reguliert" if v else "nicht_reguliert"],
-                    aussage="Regulierter Markt, Zulassung nötig" if v else "Kein regulierter Markt", url=url, datum=datum)
+                    aussage="Regulated market, approval required" if v else "Not a regulated market", url=url, datum=datum)
 
     def k_ip(self, k):
         v, url, datum = self.enum("ip", k["werte"])
         if not v:
             return None
         return dict(wert=k["werte"][v], url=url, datum=datum,
-                    aussage={"patent_erteilt": "Patent erteilt", "patent_angemeldet": "Patent angemeldet", "keine": "Keine Schutzrechte"}[v])
+                    aussage={"patent_erteilt": "Patent granted", "patent_angemeldet": "Patent filed", "keine": "No IP protection"}[v])
 
     def k_finanzierung(self, k):
         mit_summe = [(num(f.get("summe_eur")), f) for f in self.foerderung if num(f.get("summe_eur")) is not None]
@@ -733,18 +733,18 @@ class Scorer:
         programme = list(dict.fromkeys(clip(text(str(f.get("programm") or "")) or "", 60) for _, f in mit_summe))
         programme = [p for p in programme if p]
         zusatz = " (%s)" % ", ".join(programme[:3]) if programme else ""
-        return dict(wert=stufe(k["stufen"], summe), aussage="Bisherige Förderung %s EUR%s" % (eur(summe), zusatz), url=erster["quelle"], datum=iso(erster.get("start")))
+        return dict(wert=stufe(k["stufen"], summe), aussage="Prior funding EUR %s%s" % (eur(summe), zusatz), url=erster["quelle"], datum=iso(erster.get("start")))
 
     def k_datenlage(self, k):
         if not self.signals:
             return None
         n = len({domain(s["url"]) for s in self.signals})
         wert = stufe(k["stufen"], n)
-        aussage = ("Dünne Datenlage: nur eine unabhängige Quelle" if n == 1
-                   else "Dünne Datenlage: %d unabhängige Quellen" % n if wert >= 0.5 else "%d unabhängige Quellen" % n)
+        aussage = ("Thin data: only one independent source" if n == 1
+                   else "Thin data: %d independent sources" % n if wert >= 0.5 else "%d independent sources" % n)
         mc = num(self.d.get("match_confidence"))
         if mc is not None and mc < k["match_confidence_min"]:
-            wert, aussage = max(wert, k["wert_bei_unsicherem_match"]), aussage + "; Zuordnung Projekt→Firma laut Sourcing unsicher (%.2f)" % mc
+            wert, aussage = max(wert, k["wert_bei_unsicherem_match"]), aussage + "; project-to-company match uncertain per sourcing (%.2f)" % mc
         return dict(wert=wert, aussage=aussage, url=self.signals[0]["url"], datum=self.signals[0]["datum"].isoformat())
 
     # --- Einordnung -----------------------------------------------------------
@@ -866,21 +866,21 @@ class Scorer:
         if h and cfg["zu_spaet_wenn_alter_hinweis_bestaetigt"] and months_between(dt.date(h[0], 12, 31), self.stichtag) > maxm:
             bestaetigt = self.hinweis_bestaetigung()
             if bestaetigt:
-                return "älter als %d Monate (gegründet %d laut Pressetext, bestätigt durch %s)" % (maxm, h[0], " und ".join(bestaetigt)), h[1]
+                return "older than %d months (founded %d per press text, confirmed by %s)" % (maxm, h[0], " and ".join(bestaetigt)), h[1]
         db = voll(self.d.get("first_db_date"))
         if (cfg["zu_spaet_wenn_alter_db_eintrag"] and self.d.get("in_databases") is True and not self.d.get("in_databases_konflikt")
                 and db and db <= self.stichtag
                 and months_between(db, self.stichtag) > maxm
                 and (not self.signals or months_between(db, self.signals[0]["datum"]) <= cfg["hinweis_max_vor_signal_monate"])):
             q = self.d.get("in_databases_quelle")
-            return "Datenbankprofil seit %s, älter als %d Monate (laut Sourcing)" % (db.strftime("%m/%Y"), maxm), (q if is_url(q) else None)
+            return "database profile since %s, older than %d months (per sourcing)" % (db.strftime("%m/%Y"), maxm), (q if is_url(q) else None)
         return None
 
     def hinweis_bestaetigung(self):
         rf = self.rechtsform()[0]
-        out = ["Rechtsform %s" % rf] if rf and rf != "keine" else []
+        out = ["legal form %s" % rf] if rf and rf != "keine" else []
         if self.d.get("in_databases") is True and not self.d.get("in_databases_konflikt"):
-            out.append("Datenbankeintrag")
+            out.append("database entry")
         return out
     def beyond_age_limit(self, founded):
         raw, _, _ = self.dated_fact(self.d.get("gruendungsdatum"))
@@ -899,32 +899,32 @@ class Scorer:
         rf, ig, rf_url = self.rechtsform()
         gr, proxy, gr_url, monat = self.gruendung()
         if self.funding():
-            return "zu_spaet", "Finanzierung gemeldet", self.funding()
+            return "zu_spaet", "funding round reported", self.funding()
         if noise == "bereits_finanziert":
-            return "zu_spaet", "laut Sourcing bereits finanziert", None
+            return "zu_spaet", "already funded per sourcing", None
         if self.d.get("in_databases") is True and cfg["zu_spaet_wenn_in_databases"]:
-            return "zu_spaet", "bereits in Datenbanken gelistet", text(self.d.get("in_databases_quelle"))
+            return "zu_spaet", "already listed in databases", text(self.d.get("in_databases_quelle"))
         if gr and not proxy and self.beyond_age_limit(gr):
-            return "zu_spaet", "älter als %d Monate (gegründet %s)" % (cfg["htgf_max_alter_monate"], gr.strftime("%m/%Y") if monat else str(gr.year)), gr_url
+            return "zu_spaet", "older than %d months (founded %s)" % (cfg["htgf_max_alter_monate"], gr.strftime("%m/%Y") if monat else str(gr.year)), gr_url
         alt = None if gr and not proxy else self.alt_belegt()
         if alt:
             return "zu_spaet", alt[0], alt[1]
         if (not rf or rf == "keine") and gr and not proxy:
-            return "pre_seed", "gegründet laut Quelle (%s), Rechtsform nicht belegt" % (gr.strftime("%m/%Y") if monat else gr.year), gr_url
+            return "pre_seed", "founded per source (%s), legal form not documented" % (gr.strftime("%m/%Y") if monat else gr.year), gr_url
         h = self.hinweis()
         if (not rf or rf == "keine") and h and gr_url == h[1]:
-            return "pre_seed", "gegründet laut Quelle (Pressetext, %d), Rechtsform nicht belegt" % h[0], h[1]
+            return "pre_seed", "founded per source (press text, %d), legal form not documented" % h[0], h[1]
         if not rf or rf == "keine":
-            return "pre_gruendung", "keine Rechtsform belegt", rf_url
+            return "pre_gruendung", "no legal form documented", rf_url
         if ig:
-            return "in_gruendung", "Rechtsform %s" % rf, rf_url
+            return "in_gruendung", "legal form %s" % rf, rf_url
         if self.reifegrad()[0] in ("pilot", "erste_kunden"):
             # seed nur mit unabhängig bestätigtem Reifegrad oder belegtem Kunden/Piloten, nicht aus einer Textstelle allein
             kunden = [p for p in self.dated_rows(self.d.get("partner")) if p.get("typ") in ("kunde", "pilot") and is_url(p.get("quelle"))]
             if self.reifegrad_bestaetigt() or kunden:
-                return "seed", "Rechtsform %s, Reifegrad %s" % (rf, self.reifegrad()[0]), rf_url
-            return "pre_seed", "Rechtsform %s; Reifegrad %s nur aus einer Quelle, für seed nicht ausreichend" % (rf, self.reifegrad()[0]), rf_url
-        return "pre_seed", "Rechtsform %s" % rf, rf_url
+                return "seed", "legal form %s, readiness %s" % (rf, self.reifegrad()[0]), rf_url
+            return "pre_seed", "legal form %s; readiness %s from a single source, not enough for seed" % (rf, self.reifegrad()[0]), rf_url
+        return "pre_seed", "legal form %s" % rf, rf_url
 
     def db_pruefung(self):
         """'wayback' | 'suche' | None: Art der Datenbankprüfung nach Host der Quelle (web.archive.org = nur Wayback-Snapshots)."""
@@ -948,12 +948,12 @@ def pflicht_fehlt(s, name):
     if not name:
         fehlt.append("name_unternehmen")
     if not s.rohtext:
-        fehlt.append("beschreibung_rohtext (mit Quellen-URL)")
+        fehlt.append("beschreibung_rohtext (with source URL)")
     if not s.signals:
-        fehlt.append("signals (mind. 1 mit URL und Datum bis zum Stichtag)")
+        fehlt.append("signals (at least 1 with URL and date up to the cut-off date)")
     de, url, documented = fact(s.d.get("deutschland_beleg"))
     if not text(de) or not url or (documented and documented > s.stichtag.isoformat()):
-        fehlt.append("deutschland_beleg (mit Quellen-URL)")
+        fehlt.append("deutschland_beleg (with source URL)")
     return fehlt
 
 
@@ -1000,7 +1000,7 @@ def score_dossier(dossier, cfg=None, stichtag=None):
         d = clean(dossier) if isinstance(dossier, dict) else {}
         rec = _leer(_lead_id(d if isinstance(d, dict) else {}, None), None, cfg, tag)
         logger.exception("Scoring fehlgeschlagen für lead_id=%s", rec["lead_id"])
-        rec["ausschluss_grund"] = "Dossier nicht lesbar (%s)" % type(e).__name__
+        rec["ausschluss_grund"] = "Dossier not readable (%s)" % type(e).__name__
         rec["offene_punkte"] = [rec["ausschluss_grund"]]
         return rec
 
@@ -1013,16 +1013,16 @@ def _score(dossier, cfg, stichtag):
     _stammdaten(s, rec)
     fehlt = pflicht_fehlt(s, name)
     if fehlt:
-        rec.update(ausschluss_grund="Pflichtangaben fehlen: " + ", ".join(fehlt), offene_punkte=fehlt)
+        rec.update(ausschluss_grund="Required fields missing: " + ", ".join(fehlt), offene_punkte=fehlt)
         return rec
     _hinweis_punkte(s, rec)
     if rec["in_databases"] is True and s.d.get("in_databases_konflikt"):
-        rec["offene_punkte"].append("Datenbankprofil nur als archivierter Slug, Datenbanksuche ohne Treffer – Namensvetter prüfen")
+        rec["offene_punkte"].append("Database profile only as archived slug, database search found nothing; check for name clash")
     if rec["in_databases"] is True and rec["earliness_delta_monate"] is None and rec["first_signal_date"]:
-        rec["offene_punkte"].append("Datenbankprofil vorhanden, Eintragsdatum unbekannt – Earliness nicht berechenbar")
+        rec["offene_punkte"].append("Database profile exists, entry date unknown; earliness not computable")
     scores, abdeckung, treffer = _bewerte_dimensionen(s, rec)
     if s.mix() is False and len(s.gruender()) >= 2:  # nur wenn das Fehlen belegt ist, nie aus fehlenden Daten
-        rec["offene_punkte"].append("Business-Profil im Team nicht belegt – prüfen")
+        rec["offene_punkte"].append("No business profile documented in the team; check")
     gruende = _einordnung(s, rec, scores, abdeckung)
     rec["investmenthypothese"] = clip(_investmenthypothese(s, rec, treffer, gruende), 400)
     rec["why_now"] = _why_now(s, rec)
@@ -1070,7 +1070,7 @@ def _katalog_satzteile(s):
     # lange Institutionsnamen ("Rheinisch-Westfälische Technische Hochschule Aachen") nicht mitten im Wort abschneiden:
     # mit Gruppe (Lehrstuhl) reicht die Gruppe, die Institution nur, wenn sie kurz ist
     wo = (clip(gruppe, 110) + (" (%s)" % inst if inst and len(inst) <= 45 else "")) if gruppe else clip(inst or "", 110)
-    return titel, clip(e["programm"] or "Förderprojekt", 60), wo, e
+    return titel, clip(e["programm"] or "funded project", 60), wo, e
 
 
 def _website_saetze(s):
@@ -1124,14 +1124,14 @@ def _produktbeschreibung(s):
     if not teile:
         return s.rohtext
     titel, programm, wo, e = teile
-    satz = "„%s“: %s%s" % (titel, programm, " an " + wo if wo else "")
+    satz = "\"%s\": %s%s" % (titel, programm, " at " + wo if wo else "")
     if e["summe"]:
-        satz += ", %s EUR" % eur(e["summe"])
+        satz += ", EUR %s" % eur(e["summe"])
     if e["start"] and e["ende"]:
-        satz += ", Laufzeit %s–%s" % (e["start"].strftime("%m/%Y"), e["ende"].strftime("%m/%Y"))
+        satz += ", term %s–%s" % (e["start"].strftime("%m/%Y"), e["ende"].strftime("%m/%Y"))
     p = s.fach_produkttyp()
-    satz += "." + (" Fachgebiet deutet auf %s." % SKALIERUNG_TEXT[p[0]] if p else "")
-    return satz + " Produkt und Zielkunde sind noch nicht belegt."
+    satz += "." + (" Field suggests %s." % SKALIERUNG_TEXT[p[0]] if p else "")
+    return satz + " Product and target customer not yet documented."
 
 
 def _value_proposition(s):
@@ -1148,7 +1148,7 @@ def _value_proposition(s):
     if not teile:
         return s.rohtext
     titel, programm, wo, _ = teile
-    return "„%s“ – %s-Vorhaben%s; Problem und Nutzen noch nicht belegt." % (titel, programm, " aus " + wo if wo else "")
+    return "\"%s\": %s venture%s; problem and benefit not yet documented." % (titel, programm, " from " + wo if wo else "")
 
 
 def _hinweis_punkte(s, rec):
@@ -1159,12 +1159,12 @@ def _hinweis_punkte(s, rec):
     if h and proxy and gr and gr.year == h[0] and alt and s.hinweis_bestaetigung() and s.cfg["zu_spaet_wenn_alter_hinweis_bestaetigt"]:
         pass  # wird als zu_spaet ausgeschlossen, Grund steht in ausschluss_grund
     elif h and proxy and gr and gr.year == h[0] and alt:
-        rec["offene_punkte"].append("Gründungsjahr %d aus Pressetext ist älter als %d Monate, aber nicht durch Rechtsform oder "
-                                    "Datenbankeintrag bestätigt – vor Kontakt prüfen" % (h[0], s.cfg["htgf_max_alter_monate"]))
+        rec["offene_punkte"].append("Founding year %d from press text is older than %d months but not confirmed by legal form or "
+                                    "database entry; check before contact" % (h[0], s.cfg["htgf_max_alter_monate"]))
     elif h and proxy and gr and gr.year == h[0]:
-        rec["offene_punkte"].append("Gründungsjahr %d nur aus Pressetext, nicht für Ausschluss verwendet" % h[0])
+        rec["offene_punkte"].append("Founding year %d only from press text, not used for exclusion" % h[0])
     elif s.hinweis_ignoriert() and not (gr and not proxy):
-        rec["offene_punkte"].append("Gründungsjahr %d aus Pressetext liegt mehr als %d Monate vor dem ersten Signal, ignoriert"
+        rec["offene_punkte"].append("Founding year %d from press text is more than %d months before the first signal, ignored"
                                     % (s.hinweis_ignoriert(), s.cfg["hinweis_max_vor_signal_monate"]))
 
 
@@ -1188,9 +1188,9 @@ def _bewerte_dimensionen(s, rec):
                                         "datum": r.get("datum"), "punkte": r1(wert * 100)})
             else:
                 wert = neutral
-                rec["evidence"].append({"dimension": dim, "kriterium": krit, "aussage": "keine Daten – neutral gesetzt",
+                rec["evidence"].append({"dimension": dim, "kriterium": krit, "aussage": "no data, set neutral",
                                         "url": None, "datum": None, "punkte": r1(wert * 100)})
-                rec["offene_punkte"].append("Kein Beleg für: %s" % KRITERIUM_LABEL[krit])
+                rec["offene_punkte"].append("No evidence for: %s" % KRITERIUM_LABEL[krit])
             total += k["gewicht"] * wert
             rec["teilwerte"][dim][krit] = {"punkte": r1(wert * 100), "gewicht": k["gewicht"], "belegt": belegt,
                                            "proxy": bool(belegt and r.get("proxy"))}
@@ -1215,16 +1215,16 @@ def _einordnung(s, rec, scores, abdeckung):
     stage, stage_grund, stage_url = s.stage(noise)
     gruende = []
     if noise != "vc_potenzial":
-        gruende.append("noise_class = %s (%s)" % (noise, "laut Sourcing" if noise_quelle == "sourcing" else "Regel"))
+        gruende.append("noise_class = %s (%s)" % (noise, "per sourcing" if noise_quelle == "sourcing" else "rule"))
         rec["evidence"].append({"dimension": "noise", "kriterium": "noise_class",
-                                "aussage": "%s (%s)" % (noise, noise_quelle if noise_url else "laut Sourcing, ohne URL"),
+                                "aussage": "%s (%s)" % (noise, noise_quelle if noise_url else "per sourcing, no URL"),
                                 "url": noise_url, "datum": None, "punkte": None})
     if stage == "zu_spaet":
         gruende.append("stage = zu_spaet (%s)" % stage_grund)
     if gruende:
         gesamt = min(gesamt, cfg["ausschluss_max_gesamt"])
     if not stage_url:  # Regel ohne Beleg-URL: Sourcing-Metadatum (so benannt) oder ausdrücklich neutral
-        stage_grund += " (ohne URL)" if "laut Sourcing" in stage_grund else " – keine Daten, neutral gesetzt"
+        stage_grund += " (no URL)" if "per sourcing" in stage_grund else "; no data, set neutral"
     rec["evidence"].append({"dimension": "stage", "kriterium": "stage", "aussage": "%s: %s" % (stage, stage_grund),
                             "url": stage_url, "datum": None, "punkte": None})
     rec.update(status="bewertet", risiko_score=scores["risiko"], marktpotenzial_score=scores["marktpotenzial"], team_score=scores["team"],
@@ -1239,9 +1239,9 @@ def _investmenthypothese(s, rec, treffer, gruende):
     tx = cfg["texte"]
     risiken = sorted(((cfg["kriterien"]["risiko"][krit]["gewicht"] * r["wert"], r["aussage"]) for (dim, krit), r in treffer.items()
                       if dim == "risiko" and r["wert"] >= tx["risiko_ab"]), key=lambda x: (-x[0], x[1]))
-    risiko_satz = "Hauptrisiko: %s." % risiken[0][1] if risiken else "Kein Risikofaktor ab %d Punkten belegt." % round(tx["risiko_ab"] * 100)
+    risiko_satz = "Main risk: %s." % risiken[0][1] if risiken else "No risk factor of %d+ points documented." % round(tx["risiko_ab"] * 100)
     if gruende:
-        return "Kein Investment-Case: %s." % rec["ausschluss_grund"]
+        return "No investment case: %s." % rec["ausschluss_grund"]
     staerken = sorted(((cfg["kriterien"][dim][krit]["gewicht"] * r["wert"], r["aussage"]) for (dim, krit), r in treffer.items()
                        if dim != "risiko" and r["wert"] >= tx["staerke_ab"]), key=lambda x: (-x[0], x[1]))[:2]
     reife = s.reifegrad()[0]
@@ -1250,19 +1250,19 @@ def _investmenthypothese(s, rec, treffer, gruende):
         kunde = any(p["typ"] == "kunde" for p in s.partner_geprueft(cfg["kriterien"]["marktpotenzial"]["traktion"])[0])
         if reife == "erste_kunden" and not (kunde or s.reifegrad_bestaetigt()):
             # "erste Kunden" nur aus einer Textstelle: wiederholbarer Vertrieb wäre ein Schritt zu weit
-            meilenstein = "Nächster Meilenstein: ein belegter zahlender Kunde."
+            meilenstein = "Next milestone: a documented paying customer."
         else:
-            meilenstein = "Nächster Meilenstein: %s." % NAECHSTER_MEILENSTEIN[reife]
+            meilenstein = "Next milestone: %s." % NAECHSTER_MEILENSTEIN[reife]
     elif fe and fe[0] >= 0 and rec["stage"] in ("pre_gruendung", "in_gruendung"):
-        meilenstein = "Wenn bis Förderende %s die Gründung gelingt, ist das Team ein Pre-Seed-Kandidat." % fe[1]["ende"].strftime("%m/%Y")
+        meilenstein = "If incorporation is reached by the funding end %s, the team is a pre-seed candidate." % fe[1]["ende"].strftime("%m/%Y")
     else:
         meilenstein = ""
     if rec["confidence"] < tx["hypothese_min_confidence"]:
-        belegt = " Belegt: %s." % "; ".join(x[1] for x in staerken) if staerken else ""
-        return " ".join(x for x in ("Datenlage zu dünn für eine Hypothese (Confidence %.2f).%s" % (rec["confidence"], belegt),
+        belegt = " Evidence: %s." % "; ".join(x[1] for x in staerken) if staerken else ""
+        return " ".join(x for x in ("Data too thin for a thesis (confidence %.2f).%s" % (rec["confidence"], belegt),
                                     meilenstein, risiko_satz) if x)
-    teile = ["Wir investieren, weil: %s." % "; ".join(x[1] for x in staerken) if staerken
-             else "Noch keine Stärke belegt, die Hypothese ist offen."]
+    teile = ["We would invest because: %s." % "; ".join(x[1] for x in staerken) if staerken
+             else "No strength documented yet; the thesis is open."]
     if meilenstein:
         teile.append(meilenstein)
     teile.append(risiko_satz)
@@ -1272,8 +1272,8 @@ def _investmenthypothese(s, rec, treffer, gruende):
 def vor_monaten(n):
     """Abstand in Monaten als Text: 'in diesem Monat', 'vor 1 Monat', 'vor 5 Monaten'."""
     if n <= 0:
-        return "in diesem Monat"
-    return "vor 1 Monat" if n == 1 else "vor %d Monaten" % n
+        return "this month"
+    return "1 month ago" if n == 1 else "%d months ago" % n
 
 
 def _why_now(s, rec):
@@ -1282,30 +1282,30 @@ def _why_now(s, rec):
     for f in s.exist():
         ende = parse_date(f.get("ende"))
         if ende and ende < stichtag:  # exist() enthält nur Förderungen, die höchstens exist_nachlauf_monate vorbei sind
-            now.append("%s endete %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
+            now.append("%s ended %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
             break
         if ende and months_between(stichtag, ende) <= tx["foerderende_in_monaten"]:
-            now.append("%s endet %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
+            now.append("%s ends %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
             break
         if ende:
-            now.append("%s läuft bis %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
+            now.append("%s runs until %s" % (clip(str(f["programm"]), 60), ende.strftime("%m/%Y")))
             break
     else:
         fe = s.foerderende()
         if fe and fe[0] < -s.cfg["exist_nachlauf_monate"]:  # lange vorbei: Gründung oder Abbruch, Status offen
-            now.append("%s lief bis %s – Status prüfen" % (clip(fe[1]["programm"] or "EXIST", 60), fe[1]["ende"].strftime("%m/%Y")))
+            now.append("%s ran until %s; check status" % (clip(fe[1]["programm"] or "EXIST", 60), fe[1]["ende"].strftime("%m/%Y")))
     pruefung = s.db_pruefung()
     if rec["in_databases"] is False:
         # Nur eine echte Datenbanksuche darf "nicht gefunden" sagen; Wayback prüft nur archivierte Profil-Slugs
-        now.append({"suche": "in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche)",
-                    "wayback": "kein archiviertes Crunchbase-/Dealroom-Profil (Wayback)"}.get(pruefung, "laut Sourcing kein Datenbankprofil gefunden"))
+        now.append({"suche": "not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search)",
+                    "wayback": "no archived Crunchbase/Dealroom profile (Wayback)"}.get(pruefung, "no database profile found per sourcing"))
     elif rec["in_databases"] is True and s.d.get("in_databases_konflikt"):
-        now.append("Crunchbase-/Dealroom-Slug im Webarchiv, Datenbanksuche ohne Profil – Namensvetter prüfen")
+        now.append("Crunchbase/Dealroom slug in web archive, database search without profile; check for name clash")
     elif rec["in_databases"] is True and rec["stage"] != "zu_spaet":
         q = s.d.get("in_databases_quelle")
-        wo = " (archiviertes Profil, Wayback)" if is_url(q) and host(q).endswith("web.archive.org") else " (%s)" % host(q) if is_url(q) else " laut Sourcing"
-        now.append("bereits mit Datenbankprofil gelistet%s – Vorsprung prüfen" % wo)
-    now.append("jüngstes Signal %s" % vor_monaten(months_between(s.signals[-1]["datum"], stichtag)))
+        wo = " (archived profile, Wayback)" if is_url(q) and host(q).endswith("web.archive.org") else " (%s)" % host(q) if is_url(q) else " per sourcing"
+        now.append("already listed with a database profile%s; check lead time" % wo)
+    now.append("latest signal %s" % vor_monaten(months_between(s.signals[-1]["datum"], stichtag)))
     return "; ".join(now)
 
 
@@ -1319,7 +1319,7 @@ def score_all(dossiers, cfg=None, stichtag=None, *, scorer=score_dossier):
             n, alt = 2, r["lead_id"]
             while "%s-dup%d" % (alt, n) in vergeben or any(x["lead_id"] == "%s-dup%d" % (alt, n) for x in rows):
                 n += 1
-            r["offene_punkte"] = r["offene_punkte"] + ["lead_id doppelt im Input: %s" % alt]
+            r["offene_punkte"] = r["offene_punkte"] + ["lead_id duplicated in input: %s" % alt]
             r["lead_id"] = "%s-dup%d" % (alt, n)
         vergeben.add(r["lead_id"])
     rows.sort(key=lambda r: (r["gesamt_score"] is None, -(r["gesamt_score"] or 0), r["lead_id"]))

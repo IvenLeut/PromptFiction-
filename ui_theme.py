@@ -30,7 +30,7 @@ import streamlit as st
 WHITE = "#ffffff"
 FOND = "#f0eeeb"           # warm grey panels (htgf fond / accent-1)
 FOND_LIGHT = "#f7f6f5"     # lighter panel (htgf accent-2)
-STONE = "#d9d4cc"          # borders, "Unbekannt" slice (htgf grey)
+STONE = "#d9d4cc"          # borders, "Unknown" slice (htgf grey)
 INK = "#221f19"            # dark panels, hover labels, thesis box (htgf fond-dark)
 TEXT = "#313131"           # body text
 CHARCOAL = "#161616"       # company score bars
@@ -53,8 +53,8 @@ RISK_HIGH = "#aa2c20"
 HEAD_FONT = "Questrial"
 BODY_FONT = "Hanken Grotesk"
 FONT = f"{BODY_FONT}, Arial, sans-serif"
-STAGE_COLORS = {"Pre-Gründung": AMBER, "In Gründung": MINT, "Pre-Seed": ORANGE, "Seed": BLACK,
-                "Early Growth": TEAL_DARK, "Zu spät": RUST, "Unbekannt": NEUTRAL}
+STAGE_COLORS = {"Pre-founding": AMBER, "Founding in progress": MINT, "Pre-Seed": ORANGE, "Seed": BLACK,
+                "Early Growth": TEAL_DARK, "Too late": RUST, "Unknown": NEUTRAL, "Unbekannt": NEUTRAL}
 
 # Layout
 SCORE_MAX = 100
@@ -64,7 +64,7 @@ QUESTION_PREVIEW = 8       # open questions shown before collapsing the rest
 TABLE_ROW_HEIGHT = 44
 TABLE_MAX_HEIGHT = 740
 
-UNKNOWN = "Unbekannt"
+UNKNOWN = "Unknown"
 FONT_DIR = Path(__file__).resolve().parent / "assets" / "fonts"
 
 
@@ -74,7 +74,7 @@ def format_score(score: float | None, missing: str = UNKNOWN) -> str:
 
 
 def format_number(amount: float | int | None, suffix: str = "") -> str:
-    """Whole number with German thousands separator, e.g. "1.029.852 EUR"."""
+    """Whole number with German thousands separator (kept for the German source amounts), e.g. "1.029.852 EUR"."""
     return UNKNOWN if amount is None else f"{amount:,.0f}{suffix}".replace(",", ".")
 
 
@@ -84,22 +84,22 @@ _MARKDOWN_LINE_START = re.compile(r"(?m)^([ \t]*)(?:([-+=])|(\d+)([.)]))")
 
 # Raw enum values of steps 2/3 as shown in the UI (snake_case never reaches the screen).
 VALUE_LABELS = {
-    "pre_gruendung": "Pre-Gründung", "in_gruendung": "In Gründung", "pre_seed": "Pre-Seed", "seed": "Seed",
-    "zu_spaet": "Zu spät", "am_markt": "Am Markt", "pilot": "Pilot", "erste_kunden": "Erste Kunden",
-    "prototyp": "Prototyp", "labor_prototyp": "Laborprototyp", "paper": "Forschung / Paper", "idee": "Idee",
-    "hardware": "Hardware", "hardware_software": "Hardware + Software", "software": "Software",
-    "plattform": "Plattform", "wirkstoff": "Wirkstoff", "b2b": "B2B", "b2c": "B2C", "b2b2c": "B2B2C",
-    "patent_erteilt": "Patent erteilt", "patent_angemeldet": "Patent angemeldet",
-    "non_vc_funded": "Öffentlich gefördert, kein VC belegt", "vc_backed": "VC-finanziert", "unfunded": "Ohne Finanzierung",
-    "funded": "Finanziert", "conflicting": "Widersprüchlich", "confirmed": "Bestätigt", "reported_none": "Kein VC laut Quelle",
-    "unknown": "Unbekannt", "Unknown": "Unbekannt", "vc_potenzial": "VC-Potenzial", "agentur": "Agentur",
-    "beratung": "Beratung", "studi_projekt": "Studienprojekt", "hobby": "Hobby", "bereits_finanziert": "Bereits finanziert",
-    "bewertet": "Bewertet", "zurueck_an_sourcing": "Zurück an Sourcing",
+    "pre_gruendung": "Pre-founding", "in_gruendung": "Founding in progress", "pre_seed": "Pre-Seed", "seed": "Seed",
+    "zu_spaet": "Too late", "am_markt": "On the market", "pilot": "Pilot", "erste_kunden": "First customers",
+    "prototyp": "Prototype", "labor_prototyp": "Lab prototype", "paper": "Research / paper", "idee": "Idea",
+    "hardware": "Hardware", "hardware_software": "Hardware + software", "software": "Software",
+    "plattform": "Platform", "wirkstoff": "Drug compound", "b2b": "B2B", "b2c": "B2C", "b2b2c": "B2B2C",
+    "patent_erteilt": "Patent granted", "patent_angemeldet": "Patent pending",
+    "non_vc_funded": "Publicly funded, no VC on record", "vc_backed": "VC-backed", "unfunded": "Unfunded",
+    "funded": "Funded", "conflicting": "Conflicting", "confirmed": "Confirmed", "reported_none": "No VC per source",
+    "unknown": "Unknown", "Unknown": "Unknown", "Unbekannt": "Unknown", "vc_potenzial": "VC potential", "agentur": "Agency",
+    "beratung": "Consultancy", "studi_projekt": "Student project", "hobby": "Hobby", "bereits_finanziert": "Already funded",
+    "bewertet": "Scored", "zurueck_an_sourcing": "Back to sourcing",
 }
 
 
 def readable(value: object) -> str:
-    """Display label for a raw enum value ("am_markt" -> "Am Markt"); other text is returned unchanged."""
+    """Display label for a raw enum value ("am_markt" -> "On the market"); other text is returned unchanged."""
     if value is None:
         return UNKNOWN
     text = str(value)
@@ -123,7 +123,7 @@ def md_escape(text: object) -> str:
 
 
 def format_date(day: date) -> str:
-    """German date, e.g. "21.11.2026"."""
+    """Date as DD.MM.YYYY, e.g. "21.11.2026"."""
     return f"{day:%d.%m.%Y}"
 
 
@@ -272,24 +272,24 @@ def apply_theme():
 def brand():
     """Top bar with the product name (own wordmark, no third-party logo)."""
     st.markdown('<div class="fr-brand"><div class="fr-word"><i class="fr-dot"></i>FounderRadar</div>'
-                '<span class="fr-tag">Venture Intelligence · Deutschland</span></div>', unsafe_allow_html=True)
+                '<span class="fr-tag">Venture Intelligence · Germany</span></div>', unsafe_allow_html=True)
 
 
 def landing(source: str = "snapshot"):
     """Start-page hero; the caption names the data source of the selected mode."""
     st.markdown('''<div class="fr-hero"><div class="fr-blob"></div>
     <div class="fr-eyebrow">Find the founders before everyone else</div>
-    <h1>Gründerteams finden,<br><span class="fr-grad">bevor es alle tun.</span></h1>
-    <p class="fr-intro">FounderRadar liest Frühsignale aus öffentlichen Förderprojekten, Hochschul-Ausgründungen,
-    Impressum und Forschung, prüft sie gegen Startup-Datenbanken und bewertet jedes Team mit Quellen.</p></div>
-    <div class="fr-flow"><div><b>01 / DISCOVER</b><span>Förderkatalog als Frühsignal</span></div>
-    <div><b>02 / RESEARCH</b><span>Website, Team, Forschung, DB-Check</span></div>
-    <div><b>03 / EVALUATE</b><span>Team, Markt, Risiko, Earliness</span></div>
-    <div><b>04 / EXPLORE</b><span>Ranking, Deep Dive, Belege</span></div></div>''', unsafe_allow_html=True)
+    <h1>Find founding teams<br><span class="fr-grad">before everyone else does.</span></h1>
+    <p class="fr-intro">FounderRadar reads early signals from public research grants, university spin-offs,
+    company imprints and research, checks them against startup databases and scores every team with sources.</p></div>
+    <div class="fr-flow"><div><b>01 / DISCOVER</b><span>Funding catalogue as early signal</span></div>
+    <div><b>02 / RESEARCH</b><span>Website, team, research, DB check</span></div>
+    <div><b>03 / EVALUATE</b><span>Team, market, risk, earliness</span></div>
+    <div><b>04 / EXPLORE</b><span>Ranking, deep dive, evidence</span></div></div>''', unsafe_allow_html=True)
     captions = {
-        "snapshot": "Snapshot: eingefrorener echter Lauf über 52 Förderkatalog-Leads mit Kontext und Scoring. Läuft ohne Netz.",
-        "demo": "Demo-Fixtures: interaktiver Prototyp mit fiktiven Daten. Quellen und Kontakte sind Platzhalter.",
-        "live": "Live-Pipeline: Förderprojekte aus dem Förderkatalog des Bundes, ergänzt um öffentliche Quellen (Netz nötig).",
+        "snapshot": "Snapshot: frozen real run over 52 funding-catalogue leads with context and scoring. Runs offline.",
+        "demo": "Demo fixtures: interactive prototype with fictional data. Sources and contacts are placeholders.",
+        "live": "Live pipeline: projects from the federal funding catalogue (Förderkatalog), enriched with public sources (needs network).",
     }
     st.caption(captions.get(source, captions["snapshot"]))
 
@@ -311,10 +311,10 @@ def summary_kpis(leads):
         values = [getattr(x, field) for x in leads if getattr(x, field) is not None]
         return sum(values) / len(values) if values else None
     cards = []
-    for label, field, hint in [("Ø Gesamt-Score", "overall_score", "Gesamtbewertung aus Schritt 3"),
-                                ("Ø Unternehmensscore", "company_score", "Unternehmensstärke · höher ist besser"),
-                                ("Ø Marktpotenzial", "market_potential_score", "Marktchance · höher ist besser"),
-                                ("Ø Risiko", "risk_score", "Risikowert · niedriger ist besser")]:
+    for label, field, hint in [("Avg. overall score", "overall_score", "overall rating from step 3"),
+                                ("Avg. company score", "company_score", "company strength · higher is better"),
+                                ("Avg. market potential", "market_potential_score", "market opportunity · higher is better"),
+                                ("Avg. risk", "risk_score", "risk score · lower is better")]:
         score = mean(field)
         cards.append((label, format_score(score, missing="—"), hint, score or 0))
     kpi_cards(cards)

@@ -1,4 +1,4 @@
-"""Category "Höheres Risiko": Iven's registered companies in our dashboard (presentation only).
+"""Category "Company Radar" (higher risk): Iven's registered companies in our dashboard (presentation only).
 
 Data: demo_snapshot/iven_companies.json (demo_snapshot/iven_adapter.py), values copied 1:1 from Iven's reference
 run. Nothing is rescored here. Iven's ranking (rule set early-stage.2) is shown on its own and never merged with
@@ -15,18 +15,18 @@ import streamlit as st
 
 from ui_theme import SCORE_MAX, TABLE_MAX_HEIGHT, TABLE_ROW_HEIGHT, chips, fact, heading, kpi_cards, md_escape
 
-CATEGORY_EARLY = "Spin-off-Radar · vor der Gründung (EXIST)"
-CATEGORY_RISK = "Firmen-Radar · junge GmbH/UG (höheres Risiko)"
+CATEGORY_EARLY = "Spin-off Radar · pre-founding (EXIST)"
+CATEGORY_RISK = "Company Radar · young GmbH/UG (higher risk)"
 CATEGORIES = [CATEGORY_EARLY, CATEGORY_RISK]
-ALL_SECTORS = "Alle Branchen"
-ALL_STATUS = "Alle"
+ALL_SECTORS = "All industries"
+ALL_STATUS = "All"
 TOP_OPTIONS = [10, 20, 34]
 QUERY_KEY = "iven"
 LINKEDIN_SEARCH = "https://www.linkedin.com/search/results/people/?keywords="
-NOT_COMPARABLE = ("Zwei getrennte Rankings: Die frühen Vorhaben bewertet unser Regelwerk (Team, Markt, Risiko, "
-                  "Earliness). Die Firmen bewertet das Regelwerk {rule} (Produkt & Technologie 40 %, Kunde & "
-                  "Nutzen 35 %, Entwicklungsnachweis 25 %; belegte Untergrenze, offene Kriterien ohne Ersatzpunkte). "
-                  "Die Scores sind nicht vergleichbar und werden deshalb nicht gemischt.")
+NOT_COMPARABLE = ("Two separate rankings: our rule set scores the early-stage projects (team, market, risk, "
+                  "earliness). Rule set {rule} scores the companies (product & technology 40 %, customer & "
+                  "benefit 35 %, development evidence 25 %; evidenced lower bound, open criteria get no substitute "
+                  "points). The scores are not comparable and are therefore never merged.")
 _LEGAL = re.compile(r"\b(gmbh|ug|haftungsbeschränkt|ag|kg|se|e\.?\s?v|i\.\s?g)\b", re.I)
 
 
@@ -43,13 +43,19 @@ def origin(data: dict) -> str:
     return origin_line(data)
 
 
-def _fmt(value, missing: str = "offen") -> str:
+def en(text):
+    """English rendering of Iven's German engine labels/texts (display only; data stays 1:1)."""
+    from demo_snapshot.iven_adapter import en as translate
+    return translate(text)
+
+
+def _fmt(value, missing: str = "open") -> str:
     return missing if value is None else (f"{value:.1f}" if isinstance(value, float) and value % 1 else f"{value:.0f}")
 
 
 def _date(text: str | None) -> str:
     if not text:
-        return "offen"
+        return "open"
     y, m, d = text.split("-")
     return f"{d}.{m}.{y}"
 
@@ -57,7 +63,7 @@ def _date(text: str | None) -> str:
 def founding_text(company: dict) -> str:
     f = company["founding"]
     if not f["earliest"]:
-        return "offen"
+        return "open"
     if f["earliest"] == f["latest"]:
         return _date(f["earliest"])
     if f["earliest"][:7] == f["latest"][:7]:
@@ -82,16 +88,16 @@ def linkedin(person: dict, company: dict) -> tuple[str, str, bool]:
     """(label, url, is_profile): the profile Iven's team search found, else a people search."""
     if person.get("linkedin"):
         return "LinkedIn", person["linkedin"], True
-    return "Auf LinkedIn suchen", LINKEDIN_SEARCH + quote(f"{person['name']} {company['name']}", safe=""), False
+    return "Search on LinkedIn", LINKEDIN_SEARCH + quote(f"{person['name']} {company['name']}", safe=""), False
 
 
 def mailto(company: dict) -> str | None:
     if not company.get("email"):
         return None
-    subject = quote(f"Austausch zu {company['name']}", safe="")
-    body = quote(f"Hallo,\n\nwir sind auf {company['name']} aufmerksam geworden und würden gerne mehr über den "
-                 "Produktstand und Ihre ersten Kundenerfahrungen erfahren. Haben Sie Zeit für einen kurzen "
-                 "Austausch?\n\nViele Grüße", safe="")
+    subject = quote(f"Intro call: {company['name']}", safe="")
+    body = quote(f"Hello,\n\nwe came across {company['name']} and would like to learn more about your product "
+                 "status and your first customer experiences. Do you have time for a short call?\n\nBest regards",
+                 safe="")
     return f"mailto:{quote(company['email'], safe='@')}?subject={subject}&body={body}"
 
 
@@ -101,9 +107,9 @@ def category_switch(data: dict | None) -> str:
         return CATEGORY_EARLY
     saved = st.session_state.get("portfolio_category", CATEGORY_EARLY)
     labels = {CATEGORY_EARLY: CATEGORY_EARLY, CATEGORY_RISK: f"{CATEGORY_RISK} · {len(data['companies'])}"}
-    choice = st.segmented_control("Kategorie", CATEGORIES, key="dashboard_category", format_func=labels.get,
+    choice = st.segmented_control("Category", CATEGORIES, key="dashboard_category", format_func=labels.get,
                                   default=saved if saved in CATEGORIES else CATEGORY_EARLY,
-                                  help="Zwei getrennte Suchen mit eigenen Regelwerken; die Scores werden nicht gemischt.")
+                                  help="Two separate searches with their own rule sets; the scores are never merged.")
     choice = choice or CATEGORY_EARLY
     st.session_state.portfolio_category = choice
     return choice
@@ -133,27 +139,28 @@ def render_overview(data: dict):
     """Heading, provenance, filters, KPI cards and Iven's ranking; a row click opens the deep dive."""
     companies = data["companies"]
     ranked = [c for c in companies if c["queue"] == "ranked"]
-    heading(f"Firmen-Radar · junge GmbH/UG · Stand {_date(data['source_snapshot_date'])}",
-            f"{len(companies)} registrierte Firmen, höheres Risiko.",
-            "Bereits gegründete Unternehmen (GLEIF-Register, Förderprojekte, Firmenwebsites) aus den letzten "
-            f"{data['max_age_months']} Monaten. Später als unsere EXIST-Vorhaben, daher mehr Konkurrenz um den Deal "
-            "und ein höheres Risiko, zu spät zu kommen.")
-    st.caption(f"HERKUNFT: {origin(data).upper()} · LAUF {data['run_id']} · STICHTAG {_date(data['as_of'])}")
+    heading(f"Company Radar · young GmbH/UG · as of {_date(data['source_snapshot_date'])}",
+            f"{len(companies)} registered companies, higher risk.",
+            "Companies already incorporated (GLEIF register, funded projects, company websites) in the last "
+            f"{data['max_age_months']} months. Later than our EXIST projects, so more competition for the deal "
+            "and a higher risk of arriving too late.")
+    st.caption(f"ORIGIN: {origin(data).upper()} · RUN {data['run_id']} · REFERENCE DATE {_date(data['as_of'])}")
     st.info(NOT_COMPARABLE.format(rule=data["rule_version"]), icon="ℹ️")
 
+    # Filter values stay Iven's German labels internally (his data); only the display is English.
     sectors = [ALL_SECTORS, *sorted({s for c in companies for s in c["sectors"]})]
     statuses = [ALL_STATUS, *sorted({c["status"] for c in companies})]
     risks = [ALL_STATUS, *sorted({c["risk"] for c in companies})]
     a, b, c_, d = st.columns([1.3, 1, 1.3, .8])
-    sector = a.selectbox("Branche", sectors, key="iven_filter_sector",
+    sector = a.selectbox("Industry", sectors, key="iven_filter_sector",
                          index=sectors.index(_saved("iven_sector", sectors, ALL_SECTORS)))
-    status = b.selectbox("Status", statuses, key="iven_filter_status",
+    status = b.selectbox("Status", statuses, key="iven_filter_status", format_func=en,
                          index=statuses.index(_saved("iven_status", statuses, ALL_STATUS)))
-    risk = c_.selectbox("Risiko (Prüf-Label)", risks, key="iven_filter_risk",
+    risk = c_.selectbox("Risk (review label)", risks, key="iven_filter_risk", format_func=en,
                         index=risks.index(_saved("iven_risk", risks, ALL_STATUS)))
-    top_n = d.selectbox("Ranking anzeigen", TOP_OPTIONS, key="iven_filter_top",
+    top_n = d.selectbox("Show ranking", TOP_OPTIONS, key="iven_filter_top",
                         index=TOP_OPTIONS.index(_saved("iven_top", TOP_OPTIONS, 20)),
-                        format_func=lambda x: "Alle" if x == TOP_OPTIONS[-1] else f"Top {x}")
+                        format_func=lambda x: "All" if x == TOP_OPTIONS[-1] else f"Top {x}")
     st.session_state.update(iven_sector=sector, iven_status=status, iven_risk=risk, iven_top=top_n)
     shown = filter_companies(companies, sector, status, risk, top_n)
 
@@ -162,32 +169,32 @@ def render_overview(data: dict):
     mean_product = _mean(c["company_score"] for c in scored)
     mean_market = _mean(c["market_score"] for c in scored)
     kpi_cards([
-        ("Bewertbar", f"{len(scored)} / {len(shown)}", f"{len(shown) - len(scored)} mit offenen Nachweisen (Score offen)",
+        ("Scorable", f"{len(scored)} / {len(shown)}", f"{len(shown) - len(scored)} with open evidence (score open)",
          100 * len(scored) / len(shown) if shown else 0),
-        ("Ø Screening-Score", _fmt(mean_score, "—"), "Belegte Untergrenze · höher ist besser", mean_score or 0),
-        ("Ø Produkt & Technologie", _fmt(mean_product, "—"), "Unternehmensscore · höher ist besser", mean_product or 0),
-        ("Ø Kunde & Nutzen", _fmt(mean_market, "—"), "Marktpotenzialscore · höher ist besser", mean_market or 0),
+        ("Ø Screening score", _fmt(mean_score, "—"), "Evidenced lower bound · higher is better", mean_score or 0),
+        ("Ø Product & technology", _fmt(mean_product, "—"), "Company score · higher is better", mean_product or 0),
+        ("Ø Customer & benefit", _fmt(mean_market, "—"), "Market potential score · higher is better", mean_market or 0),
     ], dark_first=True)
-    st.caption(f"Gesamt: {len(ranked)} bewertbar, {len(companies) - len(ranked)} mit offenen Nachweisen. "
-               "Mittelwerte nur über bewertbare Firmen der Auswahl. Risiko ist hier ein Prüf-Label, kein Zahlenwert.")
+    st.caption(f"Total: {len(ranked)} scorable, {len(companies) - len(ranked)} with open evidence. "
+               "Averages only over scorable companies in the selection. Risk here is a review label, not a number.")
     if not shown:
-        st.info("Keine Firma passt zu den Filtern.")
+        st.info("No company matches the filters.")
         return
-    st.subheader("Ranking Firmen-Radar")
-    st.caption("Reihenfolge und Werte exakt wie im Referenzlauf des Firmen-Radars (Ergebnisse/Longlist.csv). Klick öffnet den Deep Dive.")
-    rows = [{"Rang": c["rank"], "Unternehmen": c["name"], "Branchen": ", ".join(c["sectors"]) or "offen",
-             "Status": c["status"], "Score": c["score"], "Produkt & Technologie": c["company_score"],
-             "Kunde & Nutzen": c["market_score"], "Entwicklungsnachweis": c["validation_score"],
-             "Risiko": c["risk"], "Stage": c["stage"], "Gründung": founding_text(c), "Website": c["website"]}
+    st.subheader("Company Radar ranking")
+    st.caption("Order and values exactly as in the Company Radar reference run (Ergebnisse/Longlist.csv). Click a row for the deep dive.")
+    rows = [{"Rank": c["rank"], "Company": c["name"], "Industry": ", ".join(c["sectors"]) or "open",
+             "Status": en(c["status"]), "Score": c["score"], "Product & technology": c["company_score"],
+             "Customer & benefit": c["market_score"], "Development evidence": c["validation_score"],
+             "Risk": en(c["risk"]), "Stage": en(c["stage"]), "Founded": founding_text(c), "Website": c["website"]}
             for c in shown]
     config = {
-        "Rang": st.column_config.NumberColumn("#", width="small", format="%d"),
-        "Unternehmen": st.column_config.TextColumn("Unternehmen / Deep Dive", width="medium"),
+        "Rank": st.column_config.NumberColumn("#", width="small", format="%d"),
+        "Company": st.column_config.TextColumn("Company / deep dive", width="medium"),
         "Score": st.column_config.ProgressColumn("Score", min_value=0, max_value=SCORE_MAX, format="%.1f",
-                                                 help="Screening-Score (belegte Untergrenze). Leer = offen."),
-        "Produkt & Technologie": st.column_config.NumberColumn("Produkt", format="%.0f"),
-        "Kunde & Nutzen": st.column_config.NumberColumn("Markt", format="%.0f"),
-        "Entwicklungsnachweis": st.column_config.NumberColumn("Nachweis", format="%.0f"),
+                                                 help="Screening score (evidenced lower bound). Empty = open."),
+        "Product & technology": st.column_config.NumberColumn("Product", format="%.0f"),
+        "Customer & benefit": st.column_config.NumberColumn("Market", format="%.0f"),
+        "Development evidence": st.column_config.NumberColumn("Evidence", format="%.0f"),
         "Website": st.column_config.LinkColumn("Website", display_text=r"https?://(?:www\.)?([^/]+)"),
     }
     key = f"iven_ranking_{len(shown)}_{sector}_{status}_{risk}_{st.session_state.get('table_generation', 0)}"
@@ -198,8 +205,8 @@ def render_overview(data: dict):
     if selected and 0 <= selected[0] < len(shown):
         st.query_params[QUERY_KEY] = shown[selected[0]]["id"]
         st.rerun()
-    st.caption(f"Quelle: {data['reference_file']} ({origin(data)}). Werte unverändert übernommen; "
-               "keine Neubewertung im Dashboard. Handprüfung vor jedem Kontakt.")
+    st.caption(f"Source: {data['reference_file']} ({origin(data)}). Values taken over unchanged; "
+               "no rescoring in the dashboard. Manual check before every contact.")
 
 
 def back():
@@ -207,83 +214,85 @@ def back():
     st.session_state.table_generation = st.session_state.get("table_generation", 0) + 1
 
 
-def _link(url: str, label: str = "Quelle") -> str:
+def _link(url: str, label: str = "Source") -> str:
     return f'<a href="{escape(url, quote=True)}" target="_blank" rel="noopener noreferrer">{escape(label)}</a>'
 
 
 def render_deep_dive(company: dict, data: dict, early_leads=None):
     """Description, hypothesis, scorecard, open points, evidence with links, team with LinkedIn, contact."""
-    st.button("Zurück zur Übersicht", on_click=back, key="iven_back")
-    heading(f"Firmen-Radar / Deep Dive · Rang {company['rank']}", company["name"],
-            f"{', '.join(company['sectors']) or 'Branche offen'} · {company['stage']} · Gründung {founding_text(company)}")
+    from demo_snapshot.iven_adapter import english
+    raw, company = company, english(company)   # display copy in English; numbers and IDs unchanged
+    st.button("Back to overview", on_click=back, key="iven_back")
+    heading(f"Company Radar / Deep Dive · Rank {company['rank']}", company["name"],
+            f"{', '.join(company['sectors']) or 'Industry open'} · {company['stage']} · Founded {founding_text(company)}")
     tone = "good" if company["queue"] == "ranked" else "warn"
     st.markdown(chips([(company["status"], tone), (company["risk"], "warn"), (company["htgf_fit"], ""),
-                       (f"Datenabdeckung {company['coverage'] * 100:.0f} %", "")]), unsafe_allow_html=True)
-    st.caption(f"Herkunft: {origin(data)} · Werte unverändert aus dem Referenzlauf")
+                       (f"Data coverage {company['coverage'] * 100:.0f} %", "")]), unsafe_allow_html=True)
+    st.caption(f"Origin: {origin(data)} · values unchanged from the reference run")
     for lead in also_early(company, early_leads):
-        st.info(f"Auch unter „{CATEGORY_EARLY}“ als **{md_escape(lead.name)}** geführt, dort mit unserem eigenen Score. "
-                "Die beiden Scores sind nicht vergleichbar.", icon="🔁")
-    st.markdown("**Produktbeschreibung**")
+        st.info(f"Also listed under “{CATEGORY_EARLY}” as **{md_escape(lead.name)}**, there with our own score. "
+                "The two scores are not comparable.", icon="🔁")
+    st.markdown("**Product description**")
     st.write(md_escape(company["summary"]))
     cols = st.columns(5)
-    upper = (f"Obergrenze {_fmt(company['score_upper'])}" if company["score_upper"] not in (None, company["score"]) else None)
-    cols[0].metric("Screening-Score", f"{_fmt(company['score'])} / 100" if company["score"] is not None else "offen",
+    upper = (f"Upper bound {_fmt(company['score_upper'])}" if company["score_upper"] not in (None, company["score"]) else None)
+    cols[0].metric("Screening score", f"{_fmt(company['score'])} / 100" if company["score"] is not None else "open",
                    delta=upper, delta_color="off")
-    for column, label, value in zip(cols[1:4], ["Produkt & Technologie", "Kunde & Nutzen", "Entwicklungsnachweis"],
+    for column, label, value in zip(cols[1:4], ["Product & technology", "Customer & benefit", "Development evidence"],
                                     [company["company_score"], company["market_score"], company["validation_score"]]):
-        column.metric(label, f"{_fmt(value)} / 100" if value is not None else "offen")
-    cols[4].metric("Risiko (Label)", company["risk"].replace("Prüfbedarf: ", "") or "offen",
-                   help=f"Risiko-Label: {company['risk']}. Kein Zahlenwert.")
-    st.caption("Scorecard Firmen-Radar: Produkt & Technologie 40 %, Kunde & Nutzen 35 %, Entwicklungsnachweis 25 %. "
-               "Offene Kriterien erhalten keine Ersatzpunkte; Score = belegte Untergrenze. Höher ist besser.")
+        column.metric(label, f"{_fmt(value)} / 100" if value is not None else "open")
+    cols[4].metric("Risk (label)", company["risk"].replace("Needs review: ", "") or "open",
+                   help=f"Risk label: {company['risk']}. Not a number.")
+    st.caption("Company Radar scorecard: product & technology 40 %, customer & benefit 35 %, development evidence 25 %. "
+               "Open criteria get no substitute points; score = evidenced lower bound. Higher is better.")
     main, contact = st.columns([2.2, 1], gap="large")
     with main:
-        st.markdown('<div class="fr-thesis"><div class="fr-eyebrow">Investmenthypothese</div>'
+        st.markdown('<div class="fr-thesis"><div class="fr-eyebrow">Investment hypothesis</div>'
                     f'<p>{escape(company["thesis"])}</p></div>', unsafe_allow_html=True)
-        st.markdown(f"**Warum jetzt Kontakt?** {md_escape(company['why'])}")
-        st.markdown(f"**Erste Frage:** {md_escape(company['question'])}")
-        tabs = st.tabs(["Scorecard", "Offene Punkte & Risiko", "Belege & Quellen", "Team"])
+        st.markdown(f"**Why contact now?** {md_escape(company['why'])}")
+        st.markdown(f"**First question:** {md_escape(company['question'])}")
+        tabs = st.tabs(["Scorecard", "Open points & risk", "Evidence & sources", "Team"])
         with tabs[0]:
             for c in company["criteria"]:
                 with st.container(border=True):
-                    points = f"{c['points']} / 100" if c["points"] is not None else "offen"
-                    st.markdown(f"**{md_escape(c['label'])}** · Gewicht {c['weight']} % · **{points}**")
+                    points = f"{c['points']} / 100" if c["points"] is not None else "open"
+                    st.markdown(f"**{md_escape(c['label'])}** · weight {c['weight']} % · **{points}**")
                     st.caption(md_escape(c["reason"]))
                     if c["facts"]:
-                        st.caption("Gestützt auf: " + ", ".join(md_escape(f) for f in c["facts"]))
+                        st.caption("Based on: " + ", ".join(md_escape(f) for f in c["facts"]))
             st.caption(f"Segment: {company['segment']}")
         with tabs[1]:
-            st.warning(f"Risiko: {md_escape(company['risk'])}", icon="⚠️")
-            fact("HTGF-Fit (Einschätzung Firmen-Radar)", company["htgf_fit"])
+            st.warning(f"Risk: {md_escape(company['risk'])}", icon="⚠️")
+            fact("HTGF fit (Company Radar assessment)", company["htgf_fit"])
             if company["reasons"]:
-                st.markdown("**Offene Nachweise**")
+                st.markdown("**Open evidence**")
                 for reason in company["reasons"]:
                     st.markdown(f"• {md_escape(reason)}")
-            st.markdown("**Nächste Schritte**")
+            st.markdown("**Next steps**")
             for step in company["next_steps"]:
                 st.markdown(f"• {md_escape(step)}")
         with tabs[2]:
             f = company["founding"]
             if f["basis"]:
-                st.caption(f"Gründung: {md_escape(founding_text(company))} · {md_escape(f['basis'])}")
+                st.caption(f"Founded: {md_escape(founding_text(company))} · {md_escape(f['basis'])}")
             for item in company["facts"]:
                 with st.container(border=True):
                     st.markdown(f"**{md_escape(item['label'])}:** {md_escape(item['value'])}")
-                    st.caption(f"„{md_escape(item['quote'])}“ · {md_escape(item['basis'])}")
+                    st.caption(f"“{md_escape(item['quote'])}” · {md_escape(item['basis'])}")
                     if item["url"].startswith(("https://", "http://")):
-                        st.markdown(_link(item["url"], "Beleg öffnen"), unsafe_allow_html=True)
-            st.markdown("**Abgerufene Quellen**")
+                        st.markdown(_link(item["url"], "Open evidence"), unsafe_allow_html=True)
+            st.markdown("**Retrieved sources**")
             for s in company["sources"]:
                 if s["url"].startswith(("https://", "http://")):
-                    st.markdown(f"{_link(s['url'], s['title'] or s['url'])} <small>· abgerufen {escape(s['retrieved_at'][:10])}</small>",
+                    st.markdown(f"{_link(s['url'], s['title'] or s['url'])} <small>· retrieved {escape(s['retrieved_at'][:10])}</small>",
                                 unsafe_allow_html=True)
             for m in company["market_comparisons"]:
-                st.markdown(f"Vergleich **{md_escape(m['name'])}**: {md_escape(m['text'])} ", unsafe_allow_html=False)
+                st.markdown(f"Comparison **{md_escape(m['name'])}**: {md_escape(m['text'])} ", unsafe_allow_html=False)
                 st.markdown(_link(m["url"]), unsafe_allow_html=True)
         with tabs[3]:
             if not company["team"]:
-                team_fact = next((x for x in company["facts"] if x["key"] == "team"), None)
-                st.caption("Noch keine Person namentlich belegt." + (f" Website nennt: „{team_fact['quote']}“" if team_fact else ""))
+                team_fact = next((x for x in raw["facts"] if x["key"] == "team"), None)
+                st.caption("No person named with evidence yet." + (f" Website mentions: “{team_fact['quote']}”" if team_fact else ""))
             people = []
             for person in company["team"]:
                 label, url, found = linkedin(person, company)
@@ -296,24 +305,24 @@ def render_deep_dive(company: dict, data: dict, early_leads=None):
                 st.markdown('<div class="fr-team">' + "".join(people) + "</div>", unsafe_allow_html=True)
     with contact:
         with st.container(border=True):
-            st.subheader("Gründer kontaktieren")
+            st.subheader("Contact founders")
             names = [p["name"] for p in company["team"]]
-            st.write(md_escape(", ".join(names) or "Gründer noch nicht namentlich belegt"))
+            st.write(md_escape(", ".join(names) or "Founders not yet named with evidence"))
             for i, person in enumerate(company["team"]):
                 label, url, found = linkedin(person, company)
                 st.link_button(f"{label} · {person['name']}", url, width="stretch", key=f"iven_li_{company['id']}_{i}",
-                               help="Profil aus der Team-Recherche." if found else
-                                    "Kein Profil belegt: öffnet die LinkedIn-Personensuche nach Name und Firma.")
+                               help="Profile from the team research." if found else
+                                    "No profile evidenced: opens the LinkedIn people search by name and company.")
             if names:
-                st.caption("LinkedIn öffnet sich in einem neuen Tab; es wird nichts automatisch gesendet.")
-            fact("E-Mail (Firmenpostfach)", company["email"] or "Noch nicht verfügbar")
+                st.caption("LinkedIn opens in a new tab; nothing is sent automatically.")
+            fact("E-mail (company mailbox)", company["email"] or "Not yet available")
             if url := mailto(company):
-                st.link_button("Kontakt aufnehmen", url, type="primary", width="stretch")
-                st.caption("Öffnet einen E-Mail-Entwurf. Kein automatischer Versand.")
+                st.link_button("Get in touch", url, type="primary", width="stretch")
+                st.caption("Opens an e-mail draft. Nothing is sent automatically.")
             if company["website"]:
-                st.link_button("Unternehmenswebsite", company["website"], width="stretch")
-            fact("Entdeckt über", "Firmen-Radar (GLEIF / Förderprojekt / Website)")
+                st.link_button("Company website", company["website"], width="stretch")
+            fact("Discovered via", "Company Radar (GLEIF / funded project / website)")
         import json
-        st.download_button("Firmen-Dossier exportieren", json.dumps(company, ensure_ascii=False, indent=2),
+        st.download_button("Export company dossier", json.dumps(raw, ensure_ascii=False, indent=2),
                            file_name=f"{company['id']}.json", mime="application/json", width="stretch",
                            key=f"iven_export_{company['id']}")

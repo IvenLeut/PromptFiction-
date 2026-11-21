@@ -17,8 +17,8 @@
     "stage": "pre_seed",
     "produktbeschreibung": "Ausgründung aus dem Helmholtz-Zentrum Dresden-Rossendorf: biotechnologische Rückgewinnung von Gallium und Germanium aus Industrieabwässern mit Siderophoren.",
     "value_proposition": "Ausgründung aus dem Helmholtz-Zentrum Dresden-Rossendorf: biotechnologische Rückgewinnung von Gallium und Germanium aus Industrieabwässern mit Siderophoren.",
-    "investmenthypothese": "Wir investieren, weil: 1 belegter Partner; stärkster: Freiberger Compound Materials (pilot); Person 14: 6 Papers im Produktfeld. Nächster Meilenstein: der erste zahlende Kunde. Kein Risikofaktor ab 50 Punkten belegt.",
-    "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 07/2027; kein archiviertes Crunchbase-/Dealroom-Profil (Wayback); jüngstes Signal vor 1 Monat",
+    "investmenthypothese": "We would invest because: 1 documented partner; strongest: Freiberger Compound Materials (pilot); Person 14: 6 papers in the product field. Next milestone: the first paying customer. No risk factor of 50+ points documented.",
+    "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ends 07/2027; no archived Crunchbase/Dealroom profile (Wayback); latest signal 1 month ago",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
     "status": "bewertet",
@@ -27,7 +27,7 @@
       {
         "dimension": "team",
         "kriterium": "forscher_match",
-        "aussage": "Person 14: 6 Papers im Produktfeld",
+        "aussage": "Person 14: 6 papers in the product field",
         "url": "https://openalex.org/A0000000004",
         "datum": null,
         "punkte": 80.0
@@ -35,7 +35,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "4 Gründer, Profil-Mix unbekannt: Person 03 (Gründer), Person 08 (Gründer), Person 13 (Gründer), Person 14 (Gründer)",
+        "aussage": "4 founders, profile mix unknown: Person 03 (Gründer), Person 08 (Gründer), Person 13 (Gründer), Person 14 (Gründer)",
         "url": "https://openalex.org/A0000000005",
         "datum": null,
         "punkte": 60.0
@@ -43,7 +43,7 @@
       {
         "dimension": "team",
         "kriterium": "vollzeit",
-        "aussage": "Vollzeit-Signal: EXIST-Forschungstransfer",
+        "aussage": "Full-time signal: EXIST-Forschungstransfer",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFSN0258",
         "datum": "2026-08-01",
         "punkte": 100.0
@@ -51,7 +51,7 @@
       {
         "dimension": "team",
         "kriterium": "vorerfahrung",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -59,7 +59,7 @@
       {
         "dimension": "team",
         "kriterium": "forschungsumfeld",
-        "aussage": "Forschungsumfeld: Helmholtz-Zentrum Dresden, Helmholtz-Institut Freiberg für Ressourcentechnologie (HIF) (außeruniversitäre Forschungseinrichtung) (Proxy)",
+        "aussage": "Research environment: Helmholtz-Zentrum Dresden, Helmholtz-Institut Freiberg für Ressourcentechnologie (HIF) (non-university research institute) (Proxy)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFSN0258",
         "datum": "2026-08-01",
         "punkte": 80.0
@@ -67,7 +67,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "marktvolumen",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -75,7 +75,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "traktion",
-        "aussage": "1 belegter Partner; stärkster: Freiberger Compound Materials (pilot)",
+        "aussage": "1 documented partner; strongest: Freiberger Compound Materials (pilot)",
         "url": "https://idw-online.de/de/news876491",
         "datum": null,
         "punkte": 85.0
@@ -83,7 +83,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "skalierbarkeit",
-        "aussage": "Produkttyp: hardware",
+        "aussage": "Product type: hardware",
         "url": "https://idw-online.de/de/news876492",
         "datum": null,
         "punkte": 40.0
@@ -91,7 +91,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "zielkunde",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -99,7 +99,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "wettbewerb",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -107,7 +107,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "timing",
-        "aussage": "EXIST-Forschungstransfer endet 07/2027 (in 8 Monaten)",
+        "aussage": "EXIST-Forschungstransfer ends 07/2027 (in 8 months)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFSN0258",
         "datum": null,
         "punkte": 85.0
@@ -115,7 +115,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "tech_tiefe",
-        "aussage": "EXIST-Forschungstransfer (forschungsbasiertes Vorhaben) (Proxy)",
+        "aussage": "EXIST Transfer of Research (research-based venture) (Proxy)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFSN0258",
         "datum": null,
         "punkte": 76.3
@@ -123,7 +123,7 @@
       {
         "dimension": "risiko",
         "kriterium": "tech_reife",
-        "aussage": "Reifegrad: pilot (Textklassifikation, nur eine Quelle) (Proxy)",
+        "aussage": "Readiness: pilot (text classification, single source) (Proxy)",
         "url": "https://idw-online.de/de/news876492",
         "datum": null,
         "punkte": 35.0
@@ -131,7 +131,7 @@
       {
         "dimension": "risiko",
         "kriterium": "regulatorik",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -139,7 +139,7 @@
       {
         "dimension": "risiko",
         "kriterium": "ip",
-        "aussage": "Patent erteilt",
+        "aussage": "Patent granted",
         "url": "https://idw-online.de/de/news876492",
         "datum": null,
         "punkte": 15.0
@@ -147,7 +147,7 @@
       {
         "dimension": "risiko",
         "kriterium": "finanzierung",
-        "aussage": "Bisherige Förderung 774.408 EUR (EXIST-Forschungstransfer)",
+        "aussage": "Prior funding EUR 774,408 (EXIST-Forschungstransfer)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFSN0258",
         "datum": "2026-08-01",
         "punkte": 30.0
@@ -155,7 +155,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "3 unabhängige Quellen",
+        "aussage": "3 independent sources",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFSN0258",
         "datum": "2026-08-01",
         "punkte": 20.0
@@ -163,7 +163,7 @@
       {
         "dimension": "stage",
         "kriterium": "stage",
-        "aussage": "pre_seed: gegründet laut Quelle (Pressetext, 2026), Rechtsform nicht belegt",
+        "aussage": "pre_seed: founded per source (press text, 2026), legal form not documented",
         "url": "https://idw-online.de/de/news876491",
         "datum": null,
         "punkte": null
@@ -280,12 +280,12 @@
       }
     },
     "offene_punkte": [
-      "Gründungsjahr 2026 nur aus Pressetext, nicht für Ausschluss verwendet",
-      "Kein Beleg für: Vorerfahrung der Gründer",
-      "Kein Beleg für: Marktvolumen",
-      "Kein Beleg für: Zielkunde und Geschäftsmodell",
-      "Kein Beleg für: Wettbewerber",
-      "Kein Beleg für: Regulatorik"
+      "Founding year 2026 only from press text, not used for exclusion",
+      "No evidence for: founder track record",
+      "No evidence for: market size",
+      "No evidence for: target customer and business model",
+      "No evidence for: competitors",
+      "No evidence for: regulation"
     ],
     "first_signal_date": "2026-08-01",
     "earliness_delta_monate": 3,
@@ -313,8 +313,8 @@
     "stage": "pre_gruendung",
     "produktbeschreibung": "EXIST-Forschungstransfer der Universität Stuttgart: miniaturisierte Elektronenspinresonanz-Sensorik (ESR) auf Chipbasis für Materialanalyse und Qualitätskontrolle.",
     "value_proposition": "EXIST-Forschungstransfer der Universität Stuttgart: miniaturisierte Elektronenspinresonanz-Sensorik (ESR) auf Chipbasis für Materialanalyse und Qualitätskontrolle.",
-    "investmenthypothese": "Wir investieren, weil: Forschungsumfeld: Universität Stuttgart, Institut für Intelligente Sensorik und Theoretische Elektrotechnik (IIS) (TU9-/Exzellenzuniversität) (Proxy); Vollzeit-Signal: EXIST-Forschungstransfer. Hauptrisiko: Dünne Datenlage: 2 unabhängige Quellen.",
-    "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 09/2026; kein archiviertes Crunchbase-/Dealroom-Profil (Wayback); jüngstes Signal vor 23 Monaten",
+    "investmenthypothese": "We would invest because: Research environment: Universität Stuttgart, Institut für Intelligente Sensorik und Theoretische Elektrotechnik (IIS) (TU9/excellence university) (Proxy); Full-time signal: EXIST-Forschungstransfer. Main risk: Thin data: 2 independent sources.",
+    "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 09/2026; no archived Crunchbase/Dealroom profile (Wayback); latest signal 23 months ago",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
     "status": "bewertet",
@@ -323,7 +323,7 @@
       {
         "dimension": "team",
         "kriterium": "forscher_match",
-        "aussage": "Person 11: 2 Papers im Produktfeld",
+        "aussage": "Person 11: 2 papers in the product field",
         "url": "https://openalex.org/A0000000002",
         "datum": null,
         "punkte": 50.0
@@ -331,7 +331,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "4 Gründer, Profil-Mix unbekannt: Person 02 (Gründer), Person 04 (Gründer), Person 05 (Gründer), Person 11 (Gründer)",
+        "aussage": "4 founders, profile mix unknown: Person 02 (Gründer), Person 04 (Gründer), Person 05 (Gründer), Person 11 (Gründer)",
         "url": "https://openalex.org/A0000000001",
         "datum": null,
         "punkte": 60.0
@@ -339,7 +339,7 @@
       {
         "dimension": "team",
         "kriterium": "vollzeit",
-        "aussage": "Vollzeit-Signal: EXIST-Forschungstransfer",
+        "aussage": "Full-time signal: EXIST-Forschungstransfer",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
         "datum": "2024-09-01",
         "punkte": 100.0
@@ -347,7 +347,7 @@
       {
         "dimension": "team",
         "kriterium": "vorerfahrung",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -355,7 +355,7 @@
       {
         "dimension": "team",
         "kriterium": "forschungsumfeld",
-        "aussage": "Forschungsumfeld: Universität Stuttgart, Institut für Intelligente Sensorik und Theoretische Elektrotechnik (IIS) (TU9-/Exzellenzuniversität) (Proxy)",
+        "aussage": "Research environment: Universität Stuttgart, Institut für Intelligente Sensorik und Theoretische Elektrotechnik (IIS) (TU9/excellence university) (Proxy)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
         "datum": "2024-09-01",
         "punkte": 76.3
@@ -363,7 +363,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "marktvolumen",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -371,7 +371,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "traktion",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -379,7 +379,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "skalierbarkeit",
-        "aussage": "Produkttyp: hardware",
+        "aussage": "Product type: hardware",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
         "datum": null,
         "punkte": 40.0
@@ -387,7 +387,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "zielkunde",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -395,7 +395,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "wettbewerb",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -403,7 +403,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "timing",
-        "aussage": "EXIST-Forschungstransfer endete 09/2026 (vor 1 Monat) – Gründungsfenster",
+        "aussage": "EXIST-Forschungstransfer ended 09/2026 (1 month ago); founding window",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
         "datum": "2026-09-30",
         "punkte": 100.0
@@ -411,7 +411,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "tech_tiefe",
-        "aussage": "EXIST-Forschungstransfer (forschungsbasiert) im Fachgebiet „elektrotechnik“ (Proxy)",
+        "aussage": "EXIST Transfer of Research (research-based) in the field \"elektrotechnik\" (Proxy)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
         "datum": null,
         "punkte": 87.5
@@ -419,7 +419,7 @@
       {
         "dimension": "risiko",
         "kriterium": "tech_reife",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -427,7 +427,7 @@
       {
         "dimension": "risiko",
         "kriterium": "regulatorik",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -435,7 +435,7 @@
       {
         "dimension": "risiko",
         "kriterium": "ip",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -443,7 +443,7 @@
       {
         "dimension": "risiko",
         "kriterium": "finanzierung",
-        "aussage": "Bisherige Förderung 972.638 EUR (EXIST-Forschungstransfer)",
+        "aussage": "Prior funding EUR 972,638 (EXIST-Forschungstransfer)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
         "datum": "2024-09-01",
         "punkte": 25.0
@@ -451,7 +451,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "Dünne Datenlage: 2 unabhängige Quellen",
+        "aussage": "Thin data: 2 independent sources",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBW0275",
         "datum": "2024-09-01",
         "punkte": 50.0
@@ -459,7 +459,7 @@
       {
         "dimension": "stage",
         "kriterium": "stage",
-        "aussage": "pre_gruendung: keine Rechtsform belegt – keine Daten, neutral gesetzt",
+        "aussage": "pre_gruendung: no legal form documented; no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": null
@@ -576,14 +576,14 @@
       }
     },
     "offene_punkte": [
-      "Kein Beleg für: Vorerfahrung der Gründer",
-      "Kein Beleg für: Marktvolumen",
-      "Kein Beleg für: Partner, Piloten oder Kunden",
-      "Kein Beleg für: Zielkunde und Geschäftsmodell",
-      "Kein Beleg für: Wettbewerber",
-      "Kein Beleg für: Reifegrad der Technologie",
-      "Kein Beleg für: Regulatorik",
-      "Kein Beleg für: Schutzrechte (IP)"
+      "No evidence for: founder track record",
+      "No evidence for: market size",
+      "No evidence for: partners, pilots or customers",
+      "No evidence for: target customer and business model",
+      "No evidence for: competitors",
+      "No evidence for: technology readiness",
+      "No evidence for: regulation",
+      "No evidence for: IP protection"
     ],
     "first_signal_date": "2024-09-01",
     "earliness_delta_monate": 26,
@@ -611,8 +611,8 @@
     "stage": "pre_gruendung",
     "produktbeschreibung": "EXIST-Forschungstransfer der BTU Cottbus-Senftenberg: Herstellung hochreiner Materialien in Quantenqualität (quantum grade materials) für Quantentechnologien.",
     "value_proposition": "EXIST-Forschungstransfer der BTU Cottbus-Senftenberg: Herstellung hochreiner Materialien in Quantenqualität (quantum grade materials) für Quantentechnologien.",
-    "investmenthypothese": "Wir investieren, weil: Vollzeit-Signal: EXIST-Forschungstransfer; EXIST-Forschungstransfer (forschungsbasiertes Vorhaben) (Proxy). Hauptrisiko: Dünne Datenlage: 2 unabhängige Quellen.",
-    "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 09/2026; kein archiviertes Crunchbase-/Dealroom-Profil (Wayback); jüngstes Signal vor 27 Monaten",
+    "investmenthypothese": "We would invest because: Full-time signal: EXIST-Forschungstransfer; EXIST Transfer of Research (research-based venture) (Proxy). Main risk: Thin data: 2 independent sources.",
+    "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 09/2026; no archived Crunchbase/Dealroom profile (Wayback); latest signal 27 months ago",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
     "status": "bewertet",
@@ -621,7 +621,7 @@
       {
         "dimension": "team",
         "kriterium": "forscher_match",
-        "aussage": "Person 12: 0 Papers im Produktfeld",
+        "aussage": "Person 12: 0 papers in the product field",
         "url": "https://openalex.org/A0000000003",
         "datum": null,
         "punkte": 20.0
@@ -629,7 +629,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "Person 12 (Gründer), Teamgröße offen; EXIST-Forschungstransfer fördert Forschungsteams (Proxy)",
+        "aussage": "Person 12 (Gründer), team size unknown; EXIST Transfer of Research funds research teams (Proxy)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
         "datum": "2024-06-01",
         "punkte": 57.5
@@ -637,7 +637,7 @@
       {
         "dimension": "team",
         "kriterium": "vollzeit",
-        "aussage": "Vollzeit-Signal: EXIST-Forschungstransfer",
+        "aussage": "Full-time signal: EXIST-Forschungstransfer",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
         "datum": "2024-06-01",
         "punkte": 100.0
@@ -645,7 +645,7 @@
       {
         "dimension": "team",
         "kriterium": "vorerfahrung",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -653,7 +653,7 @@
       {
         "dimension": "team",
         "kriterium": "forschungsumfeld",
-        "aussage": "Forschungsumfeld: Brandenburgische Technische Universität Cottbus-Senftenberg (Universität) (Proxy)",
+        "aussage": "Research environment: Brandenburgische Technische Universität Cottbus-Senftenberg (university) (Proxy)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
         "datum": "2024-06-01",
         "punkte": 65.0
@@ -661,7 +661,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "marktvolumen",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -669,7 +669,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "traktion",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -677,7 +677,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "skalierbarkeit",
-        "aussage": "Produkttyp: hardware",
+        "aussage": "Product type: hardware",
         "url": "https://idw-online.de/de/news838372",
         "datum": null,
         "punkte": 40.0
@@ -685,7 +685,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "zielkunde",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -693,7 +693,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "wettbewerb",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -701,7 +701,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "timing",
-        "aussage": "EXIST-Forschungstransfer endete 09/2026 (vor 1 Monat) – Gründungsfenster",
+        "aussage": "EXIST-Forschungstransfer ended 09/2026 (1 month ago); founding window",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
         "datum": "2026-09-30",
         "punkte": 100.0
@@ -709,7 +709,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "tech_tiefe",
-        "aussage": "EXIST-Forschungstransfer (forschungsbasiertes Vorhaben) (Proxy)",
+        "aussage": "EXIST Transfer of Research (research-based venture) (Proxy)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
         "datum": null,
         "punkte": 76.3
@@ -717,7 +717,7 @@
       {
         "dimension": "risiko",
         "kriterium": "tech_reife",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -725,7 +725,7 @@
       {
         "dimension": "risiko",
         "kriterium": "regulatorik",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -733,7 +733,7 @@
       {
         "dimension": "risiko",
         "kriterium": "ip",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -741,7 +741,7 @@
       {
         "dimension": "risiko",
         "kriterium": "finanzierung",
-        "aussage": "Bisherige Förderung 876.964 EUR (EXIST-Forschungstransfer)",
+        "aussage": "Prior funding EUR 876,964 (EXIST-Forschungstransfer)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
         "datum": "2024-06-01",
         "punkte": 25.0
@@ -749,7 +749,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "Dünne Datenlage: 2 unabhängige Quellen",
+        "aussage": "Thin data: 2 independent sources",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFBB0063",
         "datum": "2024-06-01",
         "punkte": 50.0
@@ -757,7 +757,7 @@
       {
         "dimension": "stage",
         "kriterium": "stage",
-        "aussage": "pre_gruendung: keine Rechtsform belegt – keine Daten, neutral gesetzt",
+        "aussage": "pre_gruendung: no legal form documented; no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": null
@@ -874,14 +874,14 @@
       }
     },
     "offene_punkte": [
-      "Kein Beleg für: Vorerfahrung der Gründer",
-      "Kein Beleg für: Marktvolumen",
-      "Kein Beleg für: Partner, Piloten oder Kunden",
-      "Kein Beleg für: Zielkunde und Geschäftsmodell",
-      "Kein Beleg für: Wettbewerber",
-      "Kein Beleg für: Reifegrad der Technologie",
-      "Kein Beleg für: Regulatorik",
-      "Kein Beleg für: Schutzrechte (IP)"
+      "No evidence for: founder track record",
+      "No evidence for: market size",
+      "No evidence for: partners, pilots or customers",
+      "No evidence for: target customer and business model",
+      "No evidence for: competitors",
+      "No evidence for: technology readiness",
+      "No evidence for: regulation",
+      "No evidence for: IP protection"
     ],
     "first_signal_date": "2024-06-01",
     "earliness_delta_monate": 29,
@@ -909,17 +909,17 @@
     "stage": "zu_spaet",
     "produktbeschreibung": "Kryogene Kühlsysteme auf Basis magnetischer Kühlung für Quantentechnologie und Forschung, ohne Helium-3.",
     "value_proposition": "Kryogene Kühlsysteme auf Basis magnetischer Kühlung für Quantentechnologie und Forschung, ohne Helium-3.",
-    "investmenthypothese": "Kein Investment-Case: stage = zu_spaet (älter als 36 Monate (gegründet 2018 laut Pressetext, bestätigt durch Rechtsform GmbH und Datenbankeintrag)).",
-    "why_now": "Zu spät für einen Erstkontakt; jüngstes Signal vor 4 Monaten",
+    "investmenthypothese": "No investment case: stage = zu_spaet (older than 36 months (founded 2018 per press text, confirmed by legal form GmbH and database entry)).",
+    "why_now": "Too late for a first contact; latest signal 4 months ago",
     "noise_class": "vc_potenzial",
     "noise_quelle": "heuristik",
     "status": "bewertet",
-    "ausschluss_grund": "stage = zu_spaet (älter als 36 Monate (gegründet 2018 laut Pressetext, bestätigt durch Rechtsform GmbH und Datenbankeintrag))",
+    "ausschluss_grund": "stage = zu_spaet (older than 36 months (founded 2018 per press text, confirmed by legal form GmbH and database entry))",
     "evidence": [
       {
         "dimension": "team",
         "kriterium": "forscher_match",
-        "aussage": "Person 01: 2 Papers im Produktfeld",
+        "aussage": "Person 01: 2 papers in the product field",
         "url": "https://openalex.org/A0000000008",
         "datum": null,
         "punkte": 50.0
@@ -927,7 +927,7 @@
       {
         "dimension": "team",
         "kriterium": "komplementaer",
-        "aussage": "3 Gründer, Profil-Mix unbekannt: Person 01 (Gründer), Person 06 (Gründer), Person 15 (Gründer)",
+        "aussage": "3 founders, profile mix unknown: Person 01 (Gründer), Person 06 (Gründer), Person 15 (Gründer)",
         "url": "https://openalex.org/A0000000008",
         "datum": null,
         "punkte": 60.0
@@ -935,7 +935,7 @@
       {
         "dimension": "team",
         "kriterium": "vollzeit",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -943,7 +943,7 @@
       {
         "dimension": "team",
         "kriterium": "vorerfahrung",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -951,7 +951,7 @@
       {
         "dimension": "team",
         "kriterium": "forschungsumfeld",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -959,7 +959,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "marktvolumen",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -967,7 +967,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "traktion",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -975,7 +975,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "skalierbarkeit",
-        "aussage": "Produkttyp: hardware_software",
+        "aussage": "Product type: hardware_software",
         "url": "https://kiutra.com/",
         "datum": null,
         "punkte": 60.0
@@ -983,7 +983,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "zielkunde",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -991,7 +991,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "wettbewerb",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -999,7 +999,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "timing",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -1007,7 +1007,7 @@
       {
         "dimension": "marktpotenzial",
         "kriterium": "tech_tiefe",
-        "aussage": "Technisches Fachgebiet: „quantum“ (Proxy)",
+        "aussage": "Technical field: \"quantum\" (Proxy)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=01N126058A",
         "datum": null,
         "punkte": 68.8
@@ -1015,7 +1015,7 @@
       {
         "dimension": "risiko",
         "kriterium": "tech_reife",
-        "aussage": "Reifegrad: erste_kunden (Textklassifikation, nur eine Quelle) (Proxy)",
+        "aussage": "Readiness: erste_kunden (text classification, single source) (Proxy)",
         "url": "https://kiutra.com/",
         "datum": null,
         "punkte": 23.8
@@ -1023,7 +1023,7 @@
       {
         "dimension": "risiko",
         "kriterium": "regulatorik",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -1031,7 +1031,7 @@
       {
         "dimension": "risiko",
         "kriterium": "ip",
-        "aussage": "keine Daten – neutral gesetzt",
+        "aussage": "no data, set neutral",
         "url": null,
         "datum": null,
         "punkte": 50.0
@@ -1039,7 +1039,7 @@
       {
         "dimension": "risiko",
         "kriterium": "finanzierung",
-        "aussage": "Bisherige Förderung 2,1 Mio. EUR (Quantentechnologien: Quantencomputing und -simulation, Quantentechnologien: applikationsübergreifende…)",
+        "aussage": "Prior funding EUR 2.1M (Quantentechnologien: Quantencomputing und -simulation, Quantentechnologien: applikationsübergreifende…)",
         "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=01N15865",
         "datum": "2021-09-01",
         "punkte": 20.0
@@ -1047,7 +1047,7 @@
       {
         "dimension": "risiko",
         "kriterium": "datenlage",
-        "aussage": "3 unabhängige Quellen",
+        "aussage": "3 independent sources",
         "url": "https://web.archive.org/cdx/search/cdx?url=kiutra.com&output=json&fl=timestamp%2Coriginal%2Cstatuscode&filter=statuscode%3A200&limit=1",
         "datum": "2019-03-04",
         "punkte": 20.0
@@ -1055,7 +1055,7 @@
       {
         "dimension": "stage",
         "kriterium": "stage",
-        "aussage": "zu_spaet: älter als 36 Monate (gegründet 2018 laut Pressetext, bestätigt durch Rechtsform GmbH und Datenbankeintrag)",
+        "aussage": "zu_spaet: older than 36 months (founded 2018 per press text, confirmed by legal form GmbH and database entry)",
         "url": "https://idw-online.de/de/news797717",
         "datum": null,
         "punkte": null
@@ -1172,16 +1172,16 @@
       }
     },
     "offene_punkte": [
-      "Kein Beleg für: Vollzeit-Signal",
-      "Kein Beleg für: Vorerfahrung der Gründer",
-      "Kein Beleg für: Forschungsumfeld (Institut)",
-      "Kein Beleg für: Marktvolumen",
-      "Kein Beleg für: Partner, Piloten oder Kunden",
-      "Kein Beleg für: Zielkunde und Geschäftsmodell",
-      "Kein Beleg für: Wettbewerber",
-      "Kein Beleg für: Timing (Förderphase)",
-      "Kein Beleg für: Regulatorik",
-      "Kein Beleg für: Schutzrechte (IP)"
+      "No evidence for: full-time signal",
+      "No evidence for: founder track record",
+      "No evidence for: research environment (institute)",
+      "No evidence for: market size",
+      "No evidence for: partners, pilots or customers",
+      "No evidence for: target customer and business model",
+      "No evidence for: competitors",
+      "No evidence for: timing (funding phase)",
+      "No evidence for: regulation",
+      "No evidence for: IP protection"
     ],
     "first_signal_date": "2019-03-04",
     "earliness_delta_monate": 0,

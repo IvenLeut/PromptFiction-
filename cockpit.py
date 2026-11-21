@@ -17,7 +17,7 @@ from cockpit_visuals import pipeline_scatter, stage_bars
 from models import Industry
 
 PAGES = ["Overview", "Dealflow", "Company Deep Dive", "Activities"]
-PAGE_LABELS = {"Overview": "Überblick", "Dealflow": "Dealflow", "Company Deep Dive": "Firmenbrief", "Activities": "Aktivitäten"}
+PAGE_LABELS = {"Overview": "Overview", "Dealflow": "Dealflow", "Company Deep Dive": "Company brief", "Activities": "Activities"}
 
 
 def status(lead, decisions):
@@ -274,7 +274,7 @@ def render_workspace(run, *, embedded=True):
         open_company(st.session_state.pop("pending_company"))
     leads = load_workspace(run)
     if not leads:
-        st.info("Die Pipeline hat keine Unternehmen geliefert. Hinweise zum Suchlauf prüfen.")
+        st.info("The pipeline returned no companies. Check the search run notes.")
         return
     decisions = _decisions(leads)
     if st.session_state.get("navigation") not in PAGES:

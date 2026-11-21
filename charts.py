@@ -16,7 +16,7 @@ def stage_figure(leads: list[EvaluatedLead], labels: list[str] | None = None) ->
     stages = [stage for stage in STAGE_COLORS if stage in counts] + sorted(set(counts) - set(STAGE_COLORS))
     fig = go.Figure(go.Pie(labels=stages, values=[counts[stage] for stage in stages], hole=.76,
         sort=False, marker=dict(colors=[STAGE_COLORS.get(stage, NEUTRAL) for stage in stages], line=dict(color=WHITE, width=4)),
-        textinfo="none", hovertemplate="%{label}: %{value} Startups (%{percent})<extra></extra>"))
+        textinfo="none", hovertemplate="%{label}: %{value} startups (%{percent})<extra></extra>"))
     fig.update_layout(height=300, margin=dict(l=10, r=10, t=10, b=40), paper_bgcolor=WHITE,
         font=dict(family=FONT, color=INK, size=13),
         annotations=[dict(text=f"<b>{len(leads):02}</b><br><span style='font-size:12px'>STARTUPS</span>",
@@ -29,9 +29,9 @@ def comparison_figure(leads: list[EvaluatedLead]) -> go.Figure:
     """Grouped bars for the first ``COMPARISON_LIMIT`` leads, best on top."""
     chosen = list(reversed(leads[:COMPARISON_LIMIT]))
     fig = go.Figure()
-    for name, field, color in [("Unternehmen", "company_score", CHARCOAL),
-                                ("Marktpotenzial", "market_potential_score", ORANGE),
-                                ("Risiko · niedriger ist besser", "risk_score", TEAL_DARK)]:
+    for name, field, color in [("Company", "company_score", CHARCOAL),
+                                ("Market potential", "market_potential_score", ORANGE),
+                                ("Risk · lower is better", "risk_score", TEAL_DARK)]:
         fig.add_trace(go.Bar(name=name, y=[lead.name for lead in chosen], x=[getattr(lead, field) for lead in chosen],
                             orientation="h", marker_color=color,
                             hovertemplate="%{y}<br>%{x}/100<extra>" + name + "</extra>"))
@@ -47,7 +47,7 @@ def comparison_figure(leads: list[EvaluatedLead]) -> go.Figure:
 
 def profile_figure(lead: EvaluatedLead) -> go.Figure:
     """Horizontal bars with the four scores of one lead."""
-    labels = ["Score", "Unternehmen", "Marktpotenzial", "Risiko"]
+    labels = ["Score", "Company", "Market potential", "Risk"]
     values = [lead.overall_score, lead.company_score, lead.market_potential_score, lead.risk_score]
     fig = go.Figure(go.Bar(x=values[::-1], y=labels[::-1], orientation="h",
         marker_color=[TEAL, ORANGE, BLACK, RUST],
@@ -71,13 +71,13 @@ def backtest_figure(companies: list[dict]) -> go.Figure:
         marker_color=[ORANGE if c.get("in_headline") else NEUTRAL for c in rows],
         text=[f"{c['lead_months']:.0f}" for c in rows], textposition="outside",
         customdata=[[c.get("signal_date") or "?", c.get("external_date") or "?",
-                     "Finanzierungsmeldung" if c.get("external_kind") == "finanzierungsmeldung" else "DB-Eintrag",
-                     "" if c.get("in_headline") else " · nicht in der Headline"] for c in rows],
-        hovertemplate="<b>%{y}</b>%{customdata[3]}<br>Förderkatalog-Signal %{customdata[0]}<br>"
-                      "erste %{customdata[2]} %{customdata[1]}<br>%{x:.1f} Monate Vorsprung<extra></extra>"))
+                     "funding announcement" if c.get("external_kind") == "finanzierungsmeldung" else "DB entry",
+                     "" if c.get("in_headline") else " · not in the headline"] for c in rows],
+        hovertemplate="<b>%{y}</b>%{customdata[3]}<br>Funding-catalogue signal %{customdata[0]}<br>"
+                      "first %{customdata[2]} %{customdata[1]}<br>%{x:.1f} months lead time<extra></extra>"))
     fig.update_layout(height=max(260, 30 * len(rows) + 60), paper_bgcolor=WHITE, plot_bgcolor=WHITE,
                       margin=dict(l=0, r=30, t=10, b=30), font=dict(family=FONT, color=INK, size=13),
-                      xaxis=dict(title="Monate Vorsprung", gridcolor=GRID_LIGHT, fixedrange=True, color=MUTED),
+                      xaxis=dict(title="Months lead time", gridcolor=GRID_LIGHT, fixedrange=True, color=MUTED),
                       yaxis=dict(automargin=True, fixedrange=True),
                       hoverlabel=dict(bgcolor=INK, font_color=WHITE))
     return fig

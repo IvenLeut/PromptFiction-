@@ -1,4 +1,4 @@
-"""Snapshot mode ("Snapshot (echte Leads)"): frozen real run, every view, no network."""
+"""Snapshot mode ("Snapshot (real leads)"): frozen real run, every view, no network."""
 import time
 from datetime import date
 from pathlib import Path
@@ -15,9 +15,9 @@ def snapshot_app():
     from streamlit.testing.v1 import AppTest
     app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=30).run()
     assert not app.exception
-    assert next(x for x in app.radio if x.label == "Datenquelle").value == "snapshot"
-    assert not any(x.label == "Kategorie" for x in app.radio)
-    next(b for b in app.button if b.label == "Analyse starten").click().run()
+    assert next(x for x in app.radio if x.label == "Data source").value == "snapshot"
+    assert not any(x.label == "Category" for x in app.radio)
+    next(b for b in app.button if b.label == "Start analysis").click().run()
     assert not app.exception
     return app
 
@@ -31,7 +31,7 @@ def test_snapshot_loads_fast_and_is_real():
     assert not any(x.is_demo for x in leads)
     assert all(str(x.source_url).startswith("https://foerderportal.bund.de/") for x in leads)
     assert meta["kind"] == "snapshot" and set(meta["leads"]) == {x.id for x in leads}
-    assert meta["backtest"]["headline"].startswith("11/11 früh erkannt")
+    assert meta["backtest"]["headline"].startswith("11/11 spotted early")
     best = meta["best_find"]
     assert best["name"] == "Ymolution" and best["lead_id"] in meta["leads"]
     assert len(best["timeline"]) >= 5 and all(r["source"] or r["source_note"] for r in best["timeline"])
@@ -75,7 +75,7 @@ def test_earliness_helpers():
 
     run, meta = load_snapshot()
     lead = next(x for x in run.result.leads if x.name == "Ymolution")
-    assert db_status(lead) == ("kein DB-Profil (Wayback/Datenbanksuche)", "good")
+    assert db_status(lead) == ("no DB profile (Wayback/Database search)", "good")
     assert founder_names(lead)[:2] == ["Alexander Reder", "Christian Hentschker"]
     assert stage_label(lead, meta) == "Pre-Seed"
     assert lead_time_months(lead, meta) == meta["leads"][lead.id]["earliness_delta_monate"]
@@ -83,9 +83,9 @@ def test_earliness_helpers():
     assert lead_time_months(stripped, None, date(2026, 11, 21)) == 24
     events = signal_timeline(lead, date(2026, 11, 21))
     first = next(e for e in events if e[4])
-    assert first[0] == date(2024, 11, 1) and "Förderbeginn" in first[1] and "foerderportal" in first[3]
+    assert first[0] == date(2024, 11, 1) and "Funding start" in first[1] and "foerderportal" in first[3]
     assert [e[0] for e in events] == sorted(e[0] for e in events)
-    assert any("endete" in e[1] for e in events)
+    assert any("Funding ended" in e[1] for e in events)
 
 
 def test_snapshot_overview_filters_and_best_find():
@@ -95,32 +95,32 @@ def test_snapshot_overview_filters_and_best_find():
     assert len(app.dataframe[0].value) == 10
     assert len(app.get("plotly_chart")) == 4  # 3D, stages, comparison, backtest
     assert any("Best Find" in x.value for x in app.markdown)
-    assert any(x.value == "Noise und Abgelehnt" for x in app.subheader)
-    assert any("Gestrichen: InhalPlus" in x.value for x in app.warning)
+    assert any(x.value == "Noise and rejected" for x in app.subheader)
+    assert any("Removed: InhalPlus" in x.value for x in app.warning)
     table = app.dataframe[0].value
-    assert {"Website", "Gründer", "Erstes Signal", "DB-Check", "Vorsprung", "Branche", "Stage"} <= set(table.columns)
+    assert {"Website", "Founders", "First signal", "DB check", "Lead time", "Industry", "Stage"} <= set(table.columns)
 
-    next(x for x in app.toggle if x.label == "Nur ohne DB-Profil").set_value(True).run()
+    next(x for x in app.toggle if x.label == "Only without DB profile").set_value(True).run()
     assert not app.exception
-    names = set(app.dataframe[0].value["Unternehmen"])
+    names = set(app.dataframe[0].value["Company"])
     assert all(x.in_databases is False for x in run.result.leads if x.name in names)
-    next(x for x in app.selectbox if x.label == "Branche").set_value("HealthTech").run()
+    next(x for x in app.selectbox if x.label == "Industry").set_value("HealthTech").run()
     assert not app.exception
-    assert set(app.dataframe[0].value["Branche"]) == {"HealthTech"}
-    next(x for x in app.toggle if x.label == "Nur ohne DB-Profil").set_value(False).run()
-    next(x for x in app.selectbox if x.label == "Branche").set_value("Alle Branchen").run()
-    next(x for x in app.selectbox if x.label == "Ranking anzeigen").set_value(50).run()
+    assert set(app.dataframe[0].value["Industry"]) == {"HealthTech"}
+    next(x for x in app.toggle if x.label == "Only without DB profile").set_value(False).run()
+    next(x for x in app.selectbox if x.label == "Industry").set_value("All industries").run()
+    next(x for x in app.selectbox if x.label == "Show ranking").set_value(50).run()
     assert not app.exception
     assert len(app.dataframe[0].value) == 50
 
     next(x for x in app.button if x.key == "best_find_open").click().run()
     assert not app.exception
     assert app.title[0].value == "Ymolution"
-    assert any(x.value == "Signal-Zeitleiste" for x in app.subheader)
+    assert any(x.value == "Signal timeline" for x in app.subheader)
     next(x for x in app.button if x.key == "back_to_portfolio").click().run()
     assert not app.exception
     assert len(app.dataframe[0].value) == 50  # Top-N kept
-    next(x for x in app.button if x.label == "Neue Analyse").click().run()
+    next(x for x in app.button if x.label == "New analysis").click().run()
     assert not app.exception and not app.dataframe
 
 
@@ -135,7 +135,7 @@ def test_every_snapshot_deep_dive_renders():
         assert not app.exception, lead.id
         assert app.title[0].value == md_escape(lead.name)
         assert any(x.value == "Team" for x in app.subheader)
-        assert any(x.label == "Quellen & Belege" for x in app.tabs)
+        assert any(x.label == "Sources & evidence" for x in app.tabs)
 
 
 def test_build_snapshot_reproduces_from_dossiers(tmp_path):
@@ -169,7 +169,7 @@ def test_linkedin_profile_or_search_per_person():
             label, url, found = linkedin_link(lead, name)
             assert url.startswith("https://") and "linkedin.com/" in url
             if not found:
-                assert label == "Auf LinkedIn suchen"
+                assert label == "Search on LinkedIn"
                 assert unquote(url).endswith(f"keywords={name} {lead.name}")
     assert linkedin_profile(bot, "Niemand Erfunden") is None
 
@@ -197,12 +197,14 @@ def test_polish_founding_labels_thesis_and_review_flags():
     ymo = documented_founding(leads["Ymolution"], meta)
     assert ymo["text"] == "08.01.2026" and ymo["url"].startswith("https://")
     assert documented_founding(leads["Ymolution"], None) is None          # nothing invented without the source
-    assert readable("am_markt") == "Am Markt" and readable("pre_gruendung") == "Pre-Gründung"
+    assert readable("am_markt") == "On the market" and readable("pre_gruendung") == "Pre-founding"
     assert readable("Freitext bleibt") == "Freitext bleibt"
     parts = dict(thesis_parts(leads["Ymolution"].investment_thesis))
-    assert ("Vollzeit-Signal: EXIST-Forschungstransfer", False) in parts["Warum investieren"]
+    # German (frozen snapshot) or English (snapshot rebuilt with the English scoring texts) wording.
+    assert {("Vollzeit-Signal: EXIST-Forschungstransfer", False),
+            ("Full-time signal: EXIST-Forschungstransfer", False)} & set(parts["Why invest"])
     assert all("(Proxy)" not in item for items in parts.values() for item, _ in items)
-    assert any(proxy for _, proxy in parts["Hauptrisiko"])
+    assert any(proxy for _, proxy in parts["Main risk"])
     flags = review_flags(leads["dentson"], meta)
-    assert flags and flags[0]["flag"].startswith("Möglicherweise Angel-finanziert") and flags[0]["url"].startswith("https://")
+    assert flags and flags[0]["flag"].startswith(("Possibly angel-funded", "Möglicherweise Angel-finanziert")) and flags[0]["url"].startswith("https://")
     assert review_flags(leads["Ymolution"], meta) == []

@@ -1,7 +1,7 @@
 {
  "kind": "snapshot",
  "stichtag": "2026-11-21",
- "built_at": "2026-11-21T08:23:41+00:00",
+ "built_at": "2026-11-21T08:35:55+00:00",
  "source_file": "AGENT_TEAM/reports/scratch/loop1/full_dossiers.json",
  "lead_count": 52,
  "issue_count": 0,
@@ -9,12 +9,12 @@
   "counts": {
    "vc_potenzial": 52
   },
-  "note": "noise_class aus scoring/engine.py (Agentur/Beratung-Heuristik)"
+  "note": "noise_class from scoring/engine.py (agency/consultancy heuristic)"
  },
  "leads": {
   "foekat-03efsn0252": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 6 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 6 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -26,7 +26,7 @@
   },
   "foekat-03efsn0258": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 07/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 2 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ends 07/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 2 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -38,7 +38,7 @@
   },
   "foekat-03efby0324": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 12/2026; bereits mit Datenbankprofil gelistet (pitchbook.com) – Vorsprung prüfen; jüngstes Signal vor 7 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ends 12/2026; already listed with a database profile (pitchbook.com); check lead time; latest signal 7 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -50,7 +50,7 @@
   },
   "foekat-03efsn0241": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 04/2026; bereits mit Datenbankprofil gelistet (tracxn.com) – Vorsprung prüfen; jüngstes Signal vor 17 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ended 04/2026; already listed with a database profile (tracxn.com); check lead time; latest signal 17 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -62,7 +62,7 @@
   },
   "foekat-03efmv0034": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 06/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 9 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ended 06/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 9 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -74,7 +74,7 @@
   },
   "foekat-03efsn0248": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 06/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 1 Monat",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 06/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 1 month ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -86,7 +86,7 @@
   },
   "foekat-03efbw0275": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 09/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 23 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 09/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 23 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -98,7 +98,7 @@
   },
   "foekat-03efhe0097": {
    "stage": "in_gruendung",
-   "why_now": "Gerade in Gründung; EXIST-Forschungstransfer endet 02/2027; bereits mit Datenbankprofil gelistet (pitchbook.com) – Vorsprung prüfen; jüngstes Signal vor 19 Monaten",
+   "why_now": "Incorporation in progress; EXIST-Forschungstransfer ends 02/2027; already listed with a database profile (pitchbook.com); check lead time; latest signal 19 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -110,7 +110,7 @@
   },
   "foekat-03efnw0382": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 02/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 22 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ends 02/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 22 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -122,7 +122,7 @@
   },
   "foekat-03efnw0396": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 12/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 8 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ends 12/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 8 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -134,7 +134,7 @@
   },
   "foekat-03efhe0108": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 02/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 17 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ends 02/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 17 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -146,7 +146,7 @@
   },
   "foekat-03efby0327": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 03/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 25 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ended 03/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 25 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -158,7 +158,7 @@
   },
   "foekat-03efsn0245": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 06/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 11 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ended 06/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 11 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -170,7 +170,7 @@
   },
   "foekat-03efnw0363": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 12/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 31 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 12/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 31 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -182,7 +182,7 @@
   },
   "foekat-03efnw0408": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 02/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 14 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ends 02/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 14 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -194,7 +194,7 @@
   },
   "foekat-03efby0316": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 12/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 28 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 12/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 28 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -206,7 +206,7 @@
   },
   "foekat-03efsn0250": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 02/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 8 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 02/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 8 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -218,7 +218,7 @@
   },
   "foekat-03efbw0293": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 13 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 13 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -230,7 +230,7 @@
   },
   "foekat-03efnw0392": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 18 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 18 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -242,7 +242,7 @@
   },
   "foekat-03efbw0284": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 06/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 26 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ended 06/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 26 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -254,7 +254,7 @@
   },
   "foekat-03efnw0375": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 06/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 28 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ended 06/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 28 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -266,7 +266,7 @@
   },
   "foekat-03efvhe091": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 02/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 1 Monat",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 02/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 1 month ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -278,7 +278,7 @@
   },
   "foekat-03efsn0242": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 04/2026; bereits mit Datenbankprofil gelistet (tracxn.com) – Vorsprung prüfen; jüngstes Signal vor 27 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ended 04/2026; already listed with a database profile (tracxn.com); check lead time; latest signal 27 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -290,7 +290,7 @@
   },
   "foekat-03efhb0044": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endet 04/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 12 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ends 04/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 12 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -302,7 +302,7 @@
   },
   "foekat-03efhe0094": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 03/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 31 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 03/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 31 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -314,7 +314,7 @@
   },
   "foekat-03efbw0289": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 22 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 22 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -326,7 +326,7 @@
   },
   "foekat-03efnw0388": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 13 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 13 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -338,7 +338,7 @@
   },
   "foekat-03efbb0063": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 09/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 27 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 09/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 27 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -350,7 +350,7 @@
   },
   "foekat-03efbw0285": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 05/2026; bereits mit Datenbankprofil gelistet (crunchbase.com) – Vorsprung prüfen; jüngstes Signal vor 25 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ended 05/2026; already listed with a database profile (crunchbase.com); check lead time; latest signal 25 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -362,7 +362,7 @@
   },
   "foekat-03efby0340": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 04/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 18 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 04/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 18 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -374,7 +374,7 @@
   },
   "foekat-03efbw0316": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 13 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 13 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -386,7 +386,7 @@
   },
   "foekat-03efby0358": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 13 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 13 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -398,7 +398,7 @@
   },
   "foekat-03efni0127": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 19 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 19 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -410,7 +410,7 @@
   },
   "foekat-03efnw0391": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 19 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 19 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -422,7 +422,7 @@
   },
   "foekat-03efwni117": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 03/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 31 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 03/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 31 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -434,7 +434,7 @@
   },
   "foekat-03efni0120": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 12/2025; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 28 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 12/2025; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 28 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -446,7 +446,7 @@
   },
   "foekat-03efnw0389": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 04/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 16 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 04/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 16 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -458,7 +458,7 @@
   },
   "foekat-03efnw0410": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 13 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 13 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -470,7 +470,7 @@
   },
   "foekat-03efni0124": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 08/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 23 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 08/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 23 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -482,7 +482,7 @@
   },
   "foekat-03efnw0356": {
    "stage": "pre_seed",
-   "why_now": "Gegründet, Pre-Seed; EXIST-Forschungstransfer endete 08/2026; bereits mit Datenbankprofil gelistet (tracxn.com) – Vorsprung prüfen; jüngstes Signal vor 28 Monaten",
+   "why_now": "Incorporated, pre-seed; EXIST-Forschungstransfer ended 08/2026; already listed with a database profile (tracxn.com); check lead time; latest signal 28 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -494,7 +494,7 @@
   },
   "foekat-03efbe0154": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 06/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 30 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 06/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 30 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -506,7 +506,7 @@
   },
   "foekat-03efbw0290": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 04/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 22 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 04/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 22 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -518,7 +518,7 @@
   },
   "foekat-03efby0331": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 05/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 25 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 05/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 25 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -530,7 +530,7 @@
   },
   "foekat-03efhe0103": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 12/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 20 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 12/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 20 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -542,7 +542,7 @@
   },
   "foekat-03efnw0406": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 04/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 16 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 04/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 16 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -554,7 +554,7 @@
   },
   "foekat-03efby0312": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 02/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 28 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 02/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 28 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -566,7 +566,7 @@
   },
   "foekat-03efby0323": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 07/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 25 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 07/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 25 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -578,7 +578,7 @@
   },
   "foekat-03efby0308": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endete 03/2026; Crunchbase-/Dealroom-Slug im Webarchiv, Datenbanksuche ohne Profil – Namensvetter prüfen; jüngstes Signal vor 32 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ended 03/2026; Crunchbase/Dealroom slug in web archive, database search without profile; check for name clash; latest signal 32 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -590,7 +590,7 @@
   },
   "foekat-03efby0337": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 12/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 22 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 12/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 22 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -602,7 +602,7 @@
   },
   "foekat-03efsn0249": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 22 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 22 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -614,7 +614,7 @@
   },
   "foekat-03efbe0155": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 12/2026; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 25 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 12/2026; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 25 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -626,7 +626,7 @@
   },
   "foekat-03efni0137": {
    "stage": "pre_gruendung",
-   "why_now": "Noch vor der Gründung; EXIST-Forschungstransfer endet 03/2027; in Crunchbase/Dealroom/PitchBook/Tracxn nicht gefunden (Datenbanksuche); jüngstes Signal vor 13 Monaten",
+   "why_now": "Not yet incorporated; EXIST-Forschungstransfer ends 03/2027; not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search); latest signal 13 months ago",
    "noise_class": "vc_potenzial",
    "noise_quelle": "heuristik",
    "status": "bewertet",
@@ -638,7 +638,7 @@
   }
  },
  "backtest": {
-  "headline": "11/11 früh erkannt, Median 21 Monate vor erster Finanzierungsmeldung/DB-Eintrag (Spanne 8–40 Monate; n=11, Handauswahl bekannter Ausgründungen, Selektionsbias siehe bias)",
+  "headline": "11/11 spotted early, median 21 months before the first funding announcement or database entry (range 8–40 months; n=11, hand-picked known spin-offs, see selection bias below)",
   "generated_at": "2026-11-21T03:12:18Z",
   "n": 11,
   "early": 11,
@@ -646,12 +646,12 @@
   "min_months": 7.9,
   "max_months": 39.7,
   "bias": [
-   "Survivorship: Die Referenzliste enthält nur Firmen, die später bekannt wurden und Geld eingesammelt haben. Sie misst, wie früh das Signal bei Gewinnern kommt, nicht wie viele EXIST-Projekte Gewinner werden (Precision). Dafür ist precision.py mit Handlabels da.",
-   "Namensbias: Aufgenommen wurden nur Firmen, deren Name im Thema des EXIST-Vorhabens steht. Firmen, deren Vorhaben anders hieß, findet der Backtest nicht; die Trefferquote N/M ist deshalb nach oben verzerrt. Gleichzeitig ist das genau der Fall, den die Pipeline ohne Website-Match (T1) heute schon abdeckt.",
-   "Katalog-Verzögerung: Als Signaldatum zählt der Projektbeginn. Wann der Eintrag tatsächlich öffentlich im Förderkatalog stand, ist nicht archiviert (kein Wayback für Detailseiten); realistisch einige Wochen bis Monate später. Der Vorsprung ist also eine Obergrenze um diese Verzögerung.",
-   "Datenbank-Datum: Wayback archiviert Crunchbase/Dealroom lückenhaft; die erste Aufnahme ist eine Obergrenze für den Profilbeginn. Darum zählt zusätzlich die erste Finanzierungsmeldung, und gewertet wird das frühere der beiden Daten.",
-   "Kleine Stichprobe (n<=13), handrecherchiert, überwiegend TUM/München (Pressedichte). Median statt Mittelwert; Einzelwerte stehen in companies[].",
-   "Kein Replay der Pipeline: Das heutige Sourcing liest nur Vorhaben ab 2024. Der Backtest wendet dieselbe Abbildung (map_project, Priorität) auf die historischen Katalogzeilen an, aber nicht Kontext und Scoring."
+   "Survivorship: the reference list only contains companies that later became known and raised money. It measures how early the signal appears for winners, not how many EXIST projects become winners (precision) – that is what precision.py with hand labels is for.",
+   "Name bias: only companies whose name appears in the EXIST project title were included. Companies whose project had a different name are not found, so the hit rate N/M is biased upwards. At the same time this is exactly the case the pipeline already covers without website matching.",
+   "Catalogue delay: the signal date is the project start. When the entry actually became public in the Förderkatalog is not archived (no Wayback for detail pages); realistically weeks to months later. The lead time is therefore an upper bound by that delay.",
+   "Database date: Wayback archives Crunchbase/Dealroom patchily; the first capture is an upper bound for when the profile appeared. The first funding announcement is therefore also used, and the earlier of the two counts.",
+   "Small sample (n<=13), hand-researched, mostly TUM/Munich (press density). Median instead of mean; individual values are listed per company.",
+   "No pipeline replay: today's sourcing only reads projects from 2024 on. The backtest applies the same mapping (map_project, priority) to the historical catalogue rows, but not context and scoring."
   ],
   "companies": [
    {
@@ -817,65 +817,66 @@
   "name": "Ymolution",
   "fkz": "03EFMV0034",
   "lead_id": "foekat-03efmv0034",
-  "intro": "Ausgründung der Unimedizin Greifswald. Ymolution stellt Nano-Antikörper ohne Tierversuche her, aus synthetischen Genbibliotheken im bakteriellen System.",
+  "intro": "Spin-off of University Medicine Greifswald. Ymolution produces nano-antibodies without animal testing, from synthetic gene libraries in a bacterial system.",
   "timeline": [
    {
     "when": "01.11.2024",
-    "signal": "EXIST-Forschungstransfer startet, 853.134 EUR, bis 30.06.2026 (unser Signal)",
+    "signal": "EXIST Research Transfer starts, EUR 853,134, until 30.06.2026 (our signal)",
     "source": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EFMV0034",
     "source_note": null
    },
    {
     "when": "04/2025",
-    "signal": "Innovationspreis der BioRegionen Deutschlands, erstes Projekt aus Mecklenburg-Vorpommern",
+    "signal": "Innovation Award of the German BioRegions, first project from Mecklenburg-Western Pomerania",
     "source": "https://www.medizin.uni-greifswald.de/fileadmin/user_upload/Marketing/Pressemitteilungen/PM_Innovationspreis_Ymolution.pdf",
     "source_note": null
    },
    {
     "when": "08.01.2026",
-    "signal": "Ymolution gegründet. Die Unimedizin Greifswald ist Gesellschafterin, nach eigener Aussage zum ersten Mal bei einer Ausgründung (PM vom 14.01.2026)",
+    "signal": "Ymolution founded (GmbH). University Medicine Greifswald is a shareholder, by its own account for the first time in a spin-off (press release of 14.01.2026)",
     "source": "https://www.unimedizin-greifswald.de/fileadmin/user_upload/Marketing/Pressemitteilungen/PM-Ymolution-Gr%C3%BCndung.pdf",
     "source_note": null
    },
    {
     "when": "29.01.2026",
-    "signal": "Erste Wayback-Aufnahme von ymolution.com",
+    "signal": "First Wayback capture of ymolution.com",
     "source": "https://web.archive.org/web/20260129101905/https://www.ymolution.com/",
     "source_note": null
    },
    {
     "when": "29.10.2026",
-    "signal": "Landesförderung Mecklenburg-Vorpommern, rund 1,34 Mio. EUR für ein gemeinsames Forschungsprojekt von Unimedizin und Ymolution (neue Ansätze in der Krebstherapie). Das Datum stammt aus dem Seitenzeitstempel der Meldung (Brave-API page_age; die Seite selbst ist per WebFetch gesperrt). Anteil von Ymolution offen. Öffentliche Mittel, keine Beteiligung",
+    "signal": "State funding Mecklenburg-Western Pomerania, about EUR 1.34m for a joint research project of University Medicine and Ymolution (new approaches in cancer therapy). Date taken from the page timestamp of the report (Brave API page_age; the page itself blocks WebFetch). Ymolution's share open. Public money, no equity",
     "source": "https://www.ndr.de/nachrichten/mecklenburg-vorpommern/vorpommern/millionenfoerderung-fuer-greifswalder-krebsforschung,mvregiogreifswald-6120.html",
     "source_note": null
    },
    {
-    "when": "heute",
-    "signal": "Impressum: Ymolution GmbH, Greifswald, HRB 23103 AG Stralsund, GF Dr. Alexander Reder, Dr. Christian Hentschker",
+    "when": "today",
+    "signal": "Imprint: Ymolution GmbH, Greifswald, HRB 23103 AG Stralsund, managing directors Dr. Alexander Reder, Dr. Christian Hentschker",
     "source": "https://www.ymolution.com/impressum",
     "source_note": null
    },
    {
-    "when": "heute",
-    "signal": "Website: „Wir suchen strategische Investoren und institutionelle Partner für die Finanzierungsrunde 2026“",
+    "when": "today",
+    "signal": "Website: „Wir suchen strategische Investoren und institutionelle Partner für die Finanzierungsrunde 2026“ (\"We are looking for strategic investors and institutional partners for the 2026 financing round\")",
     "source": "https://www.ymolution.com/",
     "source_note": null
    },
    {
-    "when": "heute",
-    "signal": "Finanzierung: weiterhin nur öffentliche Mittel (EXIST, Land MV) plus Unimedizin als Gesellschafterin. Keine VC- oder Angel-Meldung gefunden (Gegensuchen 21.11.2026), kein archiviertes Crunchbase-/Dealroom-Profil in Wayback",
+    "when": "today",
+    "signal": "Funding: still only public money (EXIST, state of MV) plus University Medicine as shareholder. No VC or angel report found (counter-searches 21.11.2026), no archived Crunchbase/Dealroom profile in Wayback",
     "source": null,
-    "source_note": "Gegensuche, CDX-Check"
+    "source_note": "Counter-search, CDX check"
    }
   ],
   "team": "Dr. Alexander Reder, Dr. Christian Hentschker, Marc Schaffer, Jan Meiering.",
-  "why_now": "Die GmbH gibt es seit Januar 2026, die EXIST-Förderung endete am 30.06.2026, und laut eigener Website läuft die Investorensuche für 2026. Die Landesförderung von Ende Oktober 2026 senkt das Forschungsrisiko, ersetzt aber kein Eigenkapital. Eine Plattform für Forschungsreagenzien, Diagnostik und Therapie spricht einen großen Antikörpermarkt an. Greifswald liegt weit weg von den VC-Zentren, also dürfte es wenig Konkurrenz um den Deal geben.",
-  "open": "Paper oder Patent zum Verfahren wurden nicht gefunden. Geschäftsmodell (Service oder Plattform) und Anteil der Unimedizin klären.",
+  "why_now": "The GmbH has existed since January 2026, EXIST funding ended on 30.06.2026, and according to its own website the investor search for 2026 is under way. The state funding from late October 2026 lowers the research risk but does not replace equity. A platform for research reagents, diagnostics and therapy addresses a large antibody market. Greifswald is far from the VC hubs, so competition for the deal should be low.",
+  "open": "No paper or patent on the method found. Clarify the business model (service or platform) and University Medicine's stake.",
+  "language": "en",
   "rejected": [
    {
     "name": "InhalPlus",
     "fkz": "03EFNI0124",
-    "reason": "Fraunhofer-ITEM-Ausgründung (Aerosoltherapie für Frühgeborene, InhalPlus GmbH gegründet am 27.08.2026). Am 16.10.2026 beteiligte sich NBank Capital mit 500.000 EUR Pre-Seed als erster externer Geldgeber (https://startupvalley.news/de/inhalplus-fruehgeborenen-nbank-capital/). Profile bei nordic9 und VCBacked gibt es bereits. Damit kommt die Firma für „Best Find“ zu spät. Für den Pitch taugt sie trotzdem als Beleg, dass das Signal stimmt: EXIST-Start 01.12.2024, erste Finanzierung 16.10.2026, also gut 22 Monate Vorsprung.",
+    "reason": "Fraunhofer ITEM spin-off (aerosol therapy for premature infants, InhalPlus GmbH incorporated on 27.08.2026). On 16.10.2026 NBank Capital invested EUR 500,000 pre-seed as the first external investor (https://startupvalley.news/de/inhalplus-fruehgeborenen-nbank-capital/). Profiles on nordic9 and VCBacked already exist. So the company comes too late for \"Best Find\". For the pitch it still proves the signal works: EXIST start 01.12.2024, first funding 16.10.2026, a lead of a good 22 months.",
     "source": "https://startupvalley.news/de/inhalplus-fruehgeborenen-nbank-capital/"
    }
   ],
@@ -884,13 +885,13 @@
  "review_flags": {
   "foekat-03efsn0248": [
    {
-    "flag": "Möglicherweise Angel-finanziert – prüfen",
-    "detail": "Öffentlicher LinkedIn-Profiltext eines Investors (Suchtreffer der Brave Search API, Seitenstand 29.10.2026) nennt eine Beteiligung an dentson. Betrag, Zeitpunkt und Art der Beteiligung sind nicht belegt.",
+    "flag": "Possibly angel-funded – verify",
+    "detail": "A public LinkedIn profile text of an investor (Brave Search API hit, page as of 29.10.2026) mentions an investment in dentson. Amount, timing and type of the investment are not evidenced.",
     "quote": "That question is part of why I chose to invest in dentson.",
     "url": "https://www.linkedin.com/in/johankrusborg/",
     "date": "2026-10-29",
-    "origin": "Team-Recherche Loop-Runde 1 (AGENT_TEAM/reports/loop/round-1-plan.md), Rohsnippet im Cache .cache/context.db",
-    "question": "Habt ihr bereits Business-Angel- oder andere private Finanzierung aufgenommen (Betrag, Zeitpunkt, Investoren)?"
+    "origin": "Team research loop round 1 (AGENT_TEAM/reports/loop/round-1-plan.md), raw snippet in cache .cache/context.db",
+    "question": "Have you already raised business-angel or other private funding (amount, timing, investors)?"
    }
   ]
  }

@@ -90,7 +90,7 @@ def test_excellence_list_follows_the_funding_phase():
     def klasse(empf, tag):
         r = run(lead(empf=empf, stelle=empf), tag)
         return next(e["aussage"] for e in r["evidence"] if e["kriterium"] == "forschungsumfeld")
-    exz, uni = "(TU9-/Exzellenzuniversität)", "(Universität)"
+    exz, uni = "(TU9/excellence university)", "(university)"
     for empf, vorher, nachher in (("Universität Konstanz, Konstanz, Baden-Württemberg", exz, uni),
                                   ("Universität zu Köln, Köln, Nordrhein-Westfalen", uni, exz),
                                   ("Ruhr-Universität Bochum, Bochum, Nordrhein-Westfalen", uni, exz),
@@ -105,11 +105,11 @@ def test_stipendium_sum_gives_minimum_team_size():
     def eg(summe, ende=date(2026, 5, 31)):
         return run(lead(fkz="03EGBY0003", programm="EXIST-Gründungsstipendium", summe=summe, start=date(2025, 6, 1), ende=ende))
     drei, zwei, eins = eg(135_000), eg(100_500), eg(50_000)
-    assert "mind. 3 geförderte Personen" in next(e["aussage"] for e in drei["evidence"] if e["kriterium"] == "komplementaer")
+    assert "at least 3 funded people" in next(e["aussage"] for e in drei["evidence"] if e["kriterium"] == "komplementaer")
     assert teil(drei, "team", "komplementaer")["punkte"] > teil(zwei, "team", "komplementaer")["punkte"] > 50
     assert not teil(eins, "team", "komplementaer")["belegt"]  # eine Person ist kein Beleg für "solo"
     # 135.000 EUR über 15 statt 12 Monate: weniger Personen nötig
-    assert "mind. 2" in next(e["aussage"] for e in eg(120_000, ende=date(2026, 8, 31))["evidence"] if e["kriterium"] == "komplementaer")
+    assert "at least 2" in next(e["aussage"] for e in eg(120_000, ende=date(2026, 8, 31))["evidence"] if e["kriterium"] == "komplementaer")
 
 
 @pytest.mark.parametrize("ende,punkte", [
@@ -127,9 +127,9 @@ def test_timing_from_funding_end(ende, punkte):
 
 def test_long_running_and_long_ended_grants_in_why_now():
     lauf = run(lead(start=date(2026, 6, 1), ende=date(2028, 5, 31)))
-    assert "EXIST-Forschungstransfer läuft bis 05/2028" in lauf["why_now"]
+    assert "EXIST-Forschungstransfer runs until 05/2028" in lauf["why_now"]
     alt = run(lead(start=date(2023, 6, 1), ende=date(2024, 12, 31)))
-    assert "lief bis 12/2024 – Status prüfen" in alt["why_now"] and "endete" not in alt["why_now"]
+    assert "ran until 12/2024; check status" in alt["why_now"] and "ended" not in alt["why_now"]
 
 
 def test_subject_proxies_software_hardware_medicine_and_non_tech():
@@ -160,17 +160,17 @@ def test_proxies_count_half_for_confidence():
     voll = sum(v["gewicht"] for d in ("team", "marktpotenzial", "risiko") for v in r["teilwerte"][d].values() if v["belegt"] and not v["proxy"])
     assert any(v["proxy"] for d in r["teilwerte"].values() for v in d.values())
     assert 0 < r["confidence"] < 0.4 and voll > 0  # dünne Katalog-Leads bleiben unter der Hypothesen-Schwelle
-    assert r["investmenthypothese"].startswith("Datenlage zu dünn für eine Hypothese")
-    assert "Wenn bis Förderende 01/2027 die Gründung gelingt" in r["investmenthypothese"]
+    assert r["investmenthypothese"].startswith("Data too thin for a thesis")
+    assert "If incorporation is reached by the funding end 01/2027" in r["investmenthypothese"]
 
 
 # --- 4. Texte aus belegten Katalog-Fakten statt Platzhalter --------------------------------------------------------
 def test_placeholder_description_is_replaced_by_catalogue_facts():
     r = run(lead())
     assert "Projekt im Programm" not in r["value_proposition"]
-    assert r["value_proposition"].startswith("„QuantSense“ – EXIST-Forschungstransfer-Vorhaben aus Lehrstuhl für Physik der Quantensensorik")
-    assert "1,0 Mio. EUR" in r["produktbeschreibung"] and "06/2025–01/2027" in r["produktbeschreibung"]
-    assert "noch nicht belegt" in r["produktbeschreibung"]
+    assert r["value_proposition"].startswith("\"QuantSense\": EXIST-Forschungstransfer venture from Lehrstuhl für Physik der Quantensensorik")
+    assert "EUR 1.0M" in r["produktbeschreibung"] and "06/2025–01/2027" in r["produktbeschreibung"]
+    assert "not yet documented" in r["produktbeschreibung"]
     lang = run(lead(stelle="Technische Universität München - " + "Lehrstuhl für sehr lange Namen " * 20 + ", Garching, Bayern"))
     assert len(lang["value_proposition"]) <= 200 and len(lang["produktbeschreibung"]) <= 300 and len(lang["investmenthypothese"]) <= 400
 
@@ -200,15 +200,15 @@ def kiutra_like(**extra):
 def test_old_press_year_confirmed_by_legal_form_or_database_is_too_late():
     gmbh = score_dossier(kiutra_like(rechtsform={"wert": "GmbH", "quelle": "https://kiutra.example/impressum"}), CFG, TAG)
     assert gmbh["stage"] == "zu_spaet" and gmbh["gesamt_score"] <= 20
-    assert "gegründet 2018 laut Pressetext, bestätigt durch Rechtsform GmbH" in gmbh["ausschluss_grund"]
+    assert "founded 2018 per press text, confirmed by legal form GmbH" in gmbh["ausschluss_grund"]
     db = score_dossier(kiutra_like(in_databases=True), CFG, TAG)
-    assert db["stage"] == "zu_spaet" and "Datenbankeintrag" in db["ausschluss_grund"]
+    assert db["stage"] == "zu_spaet" and "database entry" in db["ausschluss_grund"]
 
 
 def test_old_press_year_without_confirmation_is_an_open_point_not_an_exclusion():
     r = score_dossier(kiutra_like(), CFG, TAG)
     assert r["stage"] == "pre_seed" and r["ausschluss_grund"] == ""
-    assert any("nicht durch Rechtsform oder Datenbankeintrag bestätigt" in p for p in r["offene_punkte"])
+    assert any("not confirmed by legal form or database entry" in p for p in r["offene_punkte"])
 
 
 def test_namesake_guard_still_wins():
@@ -217,7 +217,7 @@ def test_namesake_guard_still_wins():
                                   rechtsform={"wert": "GmbH", "quelle": "https://kiutra.example/impressum"},
                                   signals=[{"url": "https://exist.example/p", "datum": "2025-10-01"}]), CFG, TAG)
     assert r["stage"] == "pre_seed" and r["ausschluss_grund"] == ""
-    assert any(p.startswith("Gründungsjahr 2013 aus Pressetext liegt mehr als 24 Monate") for p in r["offene_punkte"])
+    assert any(p.startswith("Founding year 2013 from press text is more than 24 months") for p in r["offene_punkte"])
 
 
 def test_young_press_year_is_still_only_a_proxy():
@@ -229,7 +229,7 @@ def test_young_press_year_is_still_only_a_proxy():
 
 def test_old_database_profile_consistent_with_own_signals_is_too_late():
     alt = score_dossier(kiutra_like(gruendungsjahr_hinweis=None, in_databases=True, first_db_date="2019-03-11"), CFG, TAG)
-    assert alt["stage"] == "zu_spaet" and "Datenbankprofil seit 03/2019" in alt["ausschluss_grund"]
+    assert alt["stage"] == "zu_spaet" and "database profile since 03/2019" in alt["ausschluss_grund"]
     # Profil 2019, eigene Signale erst 2025: Namensvetter, kein Ausschluss
     fremd = score_dossier(kiutra_like(gruendungsjahr_hinweis=None, in_databases=True, first_db_date="2019-03-11",
                                       signals=[{"url": "https://exist.example/p", "datum": "2025-10-01"}]), CFG, TAG)
@@ -298,8 +298,8 @@ def test_every_evidence_without_url_is_marked_neutral_or_sourcing():
     rows += score_all(load_dossiers(ROOT / "scoring/testleads/dummy_leads.json", CFG), CFG, TAG)
     for r in rows:
         for e in r["evidence"]:
-            assert e["url"] or "neutral" in e["aussage"] or "laut Sourcing" in e["aussage"], (r["lead_id"], e)
-    assert any(e["aussage"] == "pre_gruendung: keine Rechtsform belegt – keine Daten, neutral gesetzt" for e in rows[0]["evidence"])
+            assert e["url"] or "neutral" in e["aussage"] or "per sourcing" in e["aussage"], (r["lead_id"], e)
+    assert any(e["aussage"] == "pre_gruendung: no legal form documented; no data, set neutral" for e in rows[0]["evidence"])
 
 
 # --- 5. Determinismus und Streuung ---------------------------------------------------------------------------------
@@ -365,7 +365,7 @@ def test_timing_rewards_founded_teams_at_funding_end():
     mit = run(gegruendet(start=date(2024, 6, 1), ende=date(2026, 2, 28)))
     assert teil(ohne, "marktpotenzial", "timing")["punkte"] == 60.0
     assert teil(mit, "marktpotenzial", "timing")["punkte"] == 90.0
-    assert "Anschlussfinanzierung" in next(e["aussage"] for e in mit["evidence"] if e["kriterium"] == "timing")
+    assert "follow-on funding" in next(e["aussage"] for e in mit["evidence"] if e["kriterium"] == "timing")
     lang_her = run(gegruendet(start=date(2023, 6, 1), ende=date(2025, 5, 31)))           # 17 Monate her: alte Stufe
     assert teil(lang_her, "marktpotenzial", "timing")["punkte"] == 30.0
 
@@ -376,7 +376,7 @@ def test_seed_needs_independent_maturity_evidence():
     einzeln = gegruendet(product_stage="erste_kunden", evidence=[ev("product_stage", web, "pricing", "Unternehmenswebsite"),
                                                                  ev("product_stage", "https://firma.example/", "kits", "Unternehmenswebsite")])
     r = run(einzeln)
-    assert r["stage"] == "pre_seed" and "nur aus einer Quelle" in next(e["aussage"] for e in r["evidence"] if e["dimension"] == "stage")
+    assert r["stage"] == "pre_seed" and "from a single source" in next(e["aussage"] for e in r["evidence"] if e["dimension"] == "stage")
     assert teil(r, "risiko", "tech_reife")["proxy"] and teil(r, "risiko", "tech_reife")["punkte"] > 15
     zwei = gegruendet(product_stage="erste_kunden", evidence=[ev("product_stage", web, "pricing", "Unternehmenswebsite"),
                                                               ev("product_stage", "https://idw-online.de/de/news1", "Kunden", "idw")])
@@ -426,12 +426,12 @@ def test_funders_and_generic_phrases_are_not_traction():
              [("EXIST", "design_partner", "gefördert durch EXIST")], [("Our Customers", "kunde", "Our Customers")]:
         r = run(partner_lead(*p))
         assert not teil(r, "marktpotenzial", "traktion")["belegt"], p
-        assert "belegte Partner" not in r["investmenthypothese"] and "belegter Partner" not in r["investmenthypothese"]
+        assert "documented partners" not in r["investmenthypothese"] and "documented partner" not in r["investmenthypothese"]
     zitat = "In Zusammenarbeit mit dem Fraunhofer-Institut für Software- und Systemtechnik ISST und der TU Dortmund"
     r = run(partner_lead(("Fraunhofer-Institut für Software", "forschungspartner", zitat),
                          ("Systemtechnik ISST", "design_partner", zitat)))
     e = next(e for e in r["evidence"] if e["kriterium"] == "traktion")
-    assert e["aussage"] == "1 belegter Partner; stärkster: Fraunhofer-Institut für Software- und Systemtechnik ISST (forschungspartner)"
+    assert e["aussage"] == "1 documented partner; strongest: Fraunhofer-Institut für Software- und Systemtechnik ISST (forschungspartner)"
     # Firma mit Rechtsform zählt voll, ein unbekannter Name nur als Proxy
     voll = teil(run(partner_lead(("Freiberger Compound Materials GmbH", "pilot", "Pilotanlage mit Freiberger Compound Materials GmbH"))),
                 "marktpotenzial", "traktion")
@@ -463,7 +463,7 @@ def test_long_institution_name_is_not_cut_mid_word():
     stelle = ("Rheinisch-Westfälische Technische Hochschule Aachen - Lehrstuhl für Heterogene Katalyse und Technische Chemie, "
               "Aachen, Nordrhein-Westfalen")
     r = run(lead(stelle=stelle, empf="Rheinisch-Westfälische Technische Hochschule Aachen, Aachen, Nordrhein-Westfalen"))
-    assert r["value_proposition"].startswith("„QuantSense“ – EXIST-Forschungstransfer-Vorhaben aus Lehrstuhl für Heterogene Katalyse und Technische Chemie;")
+    assert r["value_proposition"].startswith("\"QuantSense\": EXIST-Forschungstransfer venture from Lehrstuhl für Heterogene Katalyse und Technische Chemie;")
     assert "Technische…" not in r["value_proposition"] + r["produktbeschreibung"]
 
 
@@ -474,26 +474,26 @@ def db_ev(url, finding="x", source="Wayback CDX"):
 def test_why_now_names_the_kind_of_database_check():
     """M3: Wayback prüft nur archivierte Profil-Slugs; nur eine echte Suche darf "nicht gefunden" sagen."""
     wb = run(lead(in_databases=False, evidence=[db_ev("https://web.archive.org/cdx/search/cdx?url=dealroom.co/companies/x")]))
-    assert "kein archiviertes Crunchbase-/Dealroom-Profil (Wayback)" in wb["why_now"] and "nicht gefunden" not in wb["why_now"]
+    assert "no archived Crunchbase/Dealroom profile (Wayback)" in wb["why_now"] and "nicht gefunden" not in wb["why_now"]
     such = run(lead(in_databases=False, evidence=[db_ev("https://web.archive.org/cdx/x"),
                                                   db_ev("https://search.brave.com/search?q=x", "kein Profil gefunden", "Datenbanksuche (Brave)")]))
-    assert "nicht gefunden (Datenbanksuche)" in such["why_now"]
+    assert "not found in Crunchbase/Dealroom/PitchBook/Tracxn (database search)" in such["why_now"]
     treffer = run(lead(in_databases=True, evidence=[db_ev("https://app.dealroom.co/companies/quantsense", "Profil", "Datenbanksuche (Brave)")]))
-    assert "bereits mit Datenbankprofil gelistet (app.dealroom.co)" in treffer["why_now"]
+    assert "already listed with a database profile (app.dealroom.co)" in treffer["why_now"]
     assert treffer["earliness_delta_monate"] is None  # Profil ohne Datum: kein "noch nicht gelistet bis heute"
-    assert any("Earliness nicht berechenbar" in p for p in treffer["offene_punkte"])
+    assert any("earliness not computable" in p for p in treffer["offene_punkte"])
 
 
 def test_team_texts_agree_and_milestone_needs_customers():
     """m3: name_gruender gesetzt -> komplementaer-Text nennt die Person; erste_kunden aus einer Quelle -> kein 'wiederholbarer Vertrieb'."""
     r = run(gegruendet(managing_directors=["Anna Beispiel"]))
     e = next(e for e in r["evidence"] if e["kriterium"] == "komplementaer")
-    assert r["name_gruender"] == "Anna Beispiel" and e["aussage"].startswith("Anna Beispiel (Geschäftsführung), Teamgröße offen")
+    assert r["name_gruender"] == "Anna Beispiel" and e["aussage"].startswith("Anna Beispiel (Geschäftsführung), team size unknown")
     assert "nicht namentlich" not in e["aussage"]
     einzeln = gegruendet(product_stage="erste_kunden", evidence=[ev("product_stage", "https://firma.example/p", "pricing", "Unternehmenswebsite")])
     h = run(einzeln)["investmenthypothese"]
     assert "wiederholbarer Vertrieb" not in h
-    assert "1 belegter Partner" in next(e["aussage"] for e in run(partner_lead(("Beispiel GmbH", "kunde", "Kunde Beispiel GmbH")))["evidence"]
+    assert "1 documented partner" in next(e["aussage"] for e in run(partner_lead(("Beispiel GmbH", "kunde", "Kunde Beispiel GmbH")))["evidence"]
                                         if e["kriterium"] == "traktion")
 
 
@@ -516,7 +516,7 @@ def test_linkedin_founder_and_imprint_director_merge_without_duplicate():
     assert [t["name"] for t in team] == ["Anna Beispiel", "Ben Muster"]
     assert team[0]["herkuenfte"] == ["impressum", "linkedin"] and team[0]["gruender"] is True
     r, t, e = komp(x)
-    assert e["aussage"].startswith("2 Personen in der Geschäftsführung, Profil-Mix unbekannt: "
+    assert e["aussage"].startswith("2 people in management, profile mix unknown: "
                                    "Anna Beispiel (Geschäftsführung / CTO & Co-Founder, Tech), Ben Muster (Geschäftsführung)")
     assert t["punkte"] == 60.0  # Mix unbekannt bleibt 0,6, Ben ohne Hintergrund ist kein "ohne Business"
 
@@ -526,19 +526,19 @@ def test_business_cofounder_is_a_strength():
                                      fp("Tom Technik", "CTO & Co-Founder (LinkedIn)", "tech")])
     r, t, e = komp(x)
     assert t["punkte"] == 100.0 and not t["proxy"]
-    assert "Business-Profil: Eva Kauf" in e["aussage"] and e["url"] == "https://www.linkedin.com/in/eva-kauf/"
-    assert "Technik und Business" in r["investmenthypothese"]
-    assert not any("Business-Profil im Team nicht belegt" in p for p in r["offene_punkte"])
+    assert "business profile: Eva Kauf" in e["aussage"] and e["url"] == "https://www.linkedin.com/in/eva-kauf/"
+    assert "tech and business" in r["investmenthypothese"]
+    assert not any("No business profile documented in the team" in p for p in r["offene_punkte"])
 
 
 def test_without_business_only_when_all_founders_are_proven_tech():
     alle_tech = gegruendet(founder_profiles=[fp("A Eins", "CTO (LinkedIn)", "tech"), fp("B Zwei", "Co-Founder (LinkedIn)", "tech")])
     r, t, e = komp(alle_tech)
-    assert t["punkte"] == 50.0 and "kein Business-Profil" in e["aussage"]
-    assert "Business-Profil im Team nicht belegt – prüfen" in r["offene_punkte"]
+    assert t["punkte"] == 50.0 and "no business profile" in e["aussage"]
+    assert "No business profile documented in the team; check" in r["offene_punkte"]
     halb = gegruendet(founder_profiles=[fp("A Eins", "CTO (LinkedIn)", "tech"), fp("B Zwei", "CEO (LinkedIn)")])  # CEO allein: offen
     r, t, _ = komp(halb)
-    assert t["punkte"] == 60.0 and not any("Business-Profil im Team" in p for p in r["offene_punkte"])
+    assert t["punkte"] == 60.0 and not any("No business profile documented in the team" in p for p in r["offene_punkte"])
 
 
 def test_team_members_count_for_mix_not_for_n():
@@ -546,14 +546,14 @@ def test_team_members_count_for_mix_not_for_n():
                                                                                             url="https://idw-online.de/de/news9"),
                                      fp("C Drei", "Teammitglied (LinkedIn)", "business")])
     r, t, e = komp(x)
-    assert e["aussage"].startswith("2 Gründer mit Technik und Business") and "Business-Profil: C Drei" in e["aussage"]
+    assert e["aussage"].startswith("2 founders with tech and business") and "business profile: C Drei" in e["aussage"]
     assert t["punkte"] == 100.0 and r["name_gruender"] == "A Eins;B Zwei"  # Teammitglied nicht in name_gruender
     nur_mitglieder = gegruendet(founder_profiles=[fp("C Drei", "Teammitglied (LinkedIn)", "business")])
     assert run(nur_mitglieder)["name_gruender"] == ""
     nur_mitglied = gegruendet(founder_profiles=[fp("A Eins", "Geschäftsführung (Impressum)", url=IMP),
                                                 fp("C Drei", "Teammitglied (LinkedIn)", "business")])
     _, t, e = komp(nur_mitglied)
-    assert t["proxy"] and e["aussage"].startswith("A Eins (Geschäftsführung), Teamgröße offen")  # n = 1, aber kein "solo"
+    assert t["proxy"] and e["aussage"].startswith("A Eins (Geschäftsführung), team size unknown")  # n = 1, aber kein "solo"
 
 
 def test_single_person_is_solo_only_when_a_source_says_so():
@@ -561,7 +561,7 @@ def test_single_person_is_solo_only_when_a_source_says_so():
         _, t, _ = komp(gegruendet(founder_profiles=[fp("A Eins", role, "tech")]))
         assert t["punkte"] > 50, role
     _, t, e = komp(gegruendet(founder_profiles=[fp("A Eins", "Alleingründer (Presse)", "tech")]))
-    assert t["punkte"] == 20.0 and e["aussage"] == "Ein Gründer belegt: A Eins"
+    assert t["punkte"] == 20.0 and e["aussage"] == "One founder documented: A Eins"
 
 
 def test_database_hit_needs_a_profile_url_and_conflicts_are_flagged():
@@ -573,8 +573,8 @@ def test_database_hit_needs_a_profile_url_and_conflicts_are_flagged():
     d = to_dossier(x, CFG)
     assert d["in_databases_quelle"] == wb and d["in_databases_konflikt"] is True
     r = run(x)
-    assert "search.brave.com" not in r["why_now"] and "Namensvetter prüfen" in r["why_now"]
-    assert any("Namensvetter prüfen" in p for p in r["offene_punkte"])
+    assert "search.brave.com" not in r["why_now"] and "check for name clash" in r["why_now"]
+    assert any("check for name clash" in p for p in r["offene_punkte"])
     treffer = lead(in_databases=True, database_urls=["https://app.dealroom.co/companies/quantsense"],
                    evidence=[db_ev("https://app.dealroom.co/companies/quantsense", "Profil", "Datenbanksuche (Brave)")])
     d = to_dossier(treffer, CFG)
@@ -609,8 +609,8 @@ def test_openalex_fallback_tech_is_no_proof_of_missing_business():
           ev("founder_profiles", "https://openalex.org/A2", "Chris Hentschel: background tech aus OpenAlex (12 Arbeiten)", "OpenAlex")]
     profile = [fp("Alexander Reder", "Geschäftsführung (Impressum)", "tech", url=IMP), fp("Chris Hentschel", "Geschäftsführung (Impressum)", "tech", url=IMP)]
     r, t, e = komp(gegruendet(founder_profiles=profile, evidence=oa))
-    assert t["punkte"] == 60.0 and "Profil-Mix unbekannt" in e["aussage"]
-    assert not any("Business-Profil im Team nicht belegt" in p for p in r["offene_punkte"])
+    assert t["punkte"] == 60.0 and "profile mix unknown" in e["aussage"]
+    assert not any("No business profile documented in the team" in p for p in r["offene_punkte"])
     # einer ausdrücklich (Rolle "CTO"), einer nur OpenAlex: weiterhin offen
     gemischt = [fp("Alexander Reder", "CTO (LinkedIn)", "tech"), fp("Chris Hentschel", "Geschäftsführung (Impressum)", "tech", url=IMP)]
     assert komp(gegruendet(founder_profiles=gemischt, evidence=oa[1:]))[1]["punkte"] == 60.0

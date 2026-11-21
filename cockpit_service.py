@@ -67,6 +67,6 @@ def email_draft(lead):
     if not address:
         return None
     name = " ".join(re.sub(r"[\x00-\x1f\x7f]", " ", lead.name).split())
-    query = urlencode({"subject": f"Austausch zu {name}",
-        "body": f"Guten Tag,\n\nich würde gerne mehr über {name} erfahren und einen kurzen Austausch vereinbaren.\nHaben Sie in den kommenden Tagen Zeit für ein Gespräch?\n\nViele Grüße"}, quote_via=quote)
+    query = urlencode({"subject": f"Introduction: {name}",
+        "body": f"Hello,\n\nI would like to learn more about {name} and set up a short call.\nWould you have time for a conversation in the coming days?\n\nBest regards"}, quote_via=quote)
     return f"mailto:{quote(address, safe='@.')}?{query}"

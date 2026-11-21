@@ -140,8 +140,8 @@ def test_dossier_carries_every_enriched_field_with_source():
     r = evaluate(lead)
     assert r.stage_classification == "Pre-Seed" and r.confidence_score > 60
     # 900 k€ funding is 25 risk points (< texte.risiko_ab), so it reduces risk and is listed as a driver
-    assert any(x.startswith("Risikomindernd: Bisherige Förderung 900.000 EUR") for x in r.score_drivers)
-    assert not any("900.000 EUR" in x for x in r.risks) and any("Papers" in x for x in r.score_drivers)
+    assert any(x.startswith("Risk-reducing: Prior funding EUR 900,000") for x in r.score_drivers)
+    assert not any("EUR 900,000" in x for x in r.risks) and any("papers" in x for x in r.score_drivers)
 
 
 def test_field_terms_and_default_lookups():

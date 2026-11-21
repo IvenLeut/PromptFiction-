@@ -415,8 +415,8 @@ def _is_risk(e: dict) -> bool:
 
 
 def _driver(e: dict) -> str:
-    text = ("Risikomindernd: " if e["dimension"] == "risiko" else "") + e["aussage"]
-    return "%s (Quelle: %s)" % (text, e["url"])
+    text = ("Risk-reducing: " if e["dimension"] == "risiko" else "") + e["aussage"]
+    return "%s (source: %s)" % (text, e["url"])
 
 
 def _scores(r: dict, lead: EnrichedLead | None) -> dict:
@@ -430,14 +430,14 @@ def _scores(r: dict, lead: EnrichedLead | None) -> dict:
         market_potential_score=r["marktpotenzial_score"], risk_score=r["risiko_score"],
         stage_classification=STAGE_LABEL.get(r["stage"], "Unbekannt"),
         value_proposition=r["value_proposition"] or beschreibung,
-        investment_thesis=r["investmenthypothese"] or "Nicht bewertet. %s." % r["ausschluss_grund"],
+        investment_thesis=r["investmenthypothese"] or "Not scored. %s." % r["ausschluss_grund"],
         confidence_score=round(r["confidence"] * 100, 1),
         earliness_delta_months=r["earliness_delta_monate"],
         scoring_status=r["status"],
         # Only risk criteria at or above texte.risiko_ab are risks; lower ones reduce risk and count as drivers.
         score_drivers=[_driver(e) for e in belege if not _is_risk(e)],
-        risks=["%s (Quelle: %s)" % (e["aussage"], e["url"]) for e in belege if _is_risk(e)]
-              + (["Ausschluss: " + r["ausschluss_grund"]] if r["ausschluss_grund"] else []),
+        risks=["%s (source: %s)" % (e["aussage"], e["url"]) for e in belege if _is_risk(e)]
+              + (["Excluded: " + r["ausschluss_grund"]] if r["ausschluss_grund"] else []),
         open_questions=fragen,
     )
 
