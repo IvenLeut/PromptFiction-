@@ -13,23 +13,27 @@ import sys
 from pathlib import Path
 
 
-def load_dossiers(path, cfg=None):
-    """-> Liste von Dossiers. `cfg` braucht nur die Lead-Übersetzung (Standard: scoring_config.yaml)."""
+def load_dossiers(path, cfg=None, as_of=None, raw_leads=False):
+    """-> Liste von Dossiers. `cfg` braucht nur die Lead-Übersetzung (Standard: scoring_config.yaml).
+
+    `as_of` (Stichtag) wird an `to_dossier` durchgereicht: Belege nach dem Stichtag zählen nicht.
+    `raw_leads=True` (CLI): gültige Leads bleiben als Lead-Dicts stehen; `scoring.__main__._score_input` baut daraus
+    wie die Pipeline einen frischen ScoringInput und prüft die Zulassung (Deutschland-Beleg, VC)."""
     path = Path(path)
     if path.is_dir():
         out = []
         for f in sorted(path.glob("*.json")):
             try:
-                out.extend(_from_json(f, cfg))
+                out.extend(_from_json(f, cfg, as_of, raw_leads))
             except ValueError as e:  # eine kaputte Datei kostet nicht die anderen
                 print("WARNUNG: übersprungen – %s" % e, file=sys.stderr)
         return out
     if path.suffix.lower() in (".db", ".sqlite", ".sqlite3"):
         return from_sqlite(path)
-    return _from_json(path, cfg)
+    return _from_json(path, cfg, as_of, raw_leads)
 
 
-def _from_json(path, cfg=None):
+def _from_json(path, cfg=None, as_of=None, raw_leads=False):
     try:
         data = json.loads(Path(path).read_text(encoding="utf-8-sig"))
     except (OSError, ValueError, RecursionError) as e:
@@ -39,7 +43,7 @@ def _from_json(path, cfg=None):
     if not isinstance(data, list):
         raise ValueError("%s: erwartet wird ein Dossier oder eine Liste von Dossiers" % path)
     if data and all(_is_lead(x) for x in data):
-        return _from_leads(data, cfg, path)
+        return _from_leads(data, cfg, path, as_of, raw_leads)
     return data
 
 
@@ -48,7 +52,7 @@ def _is_lead(x):
     return isinstance(x, dict) and "source_url" in x and "industry" in x and "name_unternehmen" not in x
 
 
-def _from_leads(leads, cfg, path):
+def _from_leads(leads, cfg, path, as_of=None, raw_leads=False):
     # Spät importiert: evaluation.engine importiert seinerseits scoring.
     from pydantic import ValidationError
 
@@ -65,7 +69,10 @@ def _from_leads(leads, cfg, path):
             print("WARNUNG: %s: Lead %d ist kein gültiger EnrichedLead (%d Fehler)" % (path, i, e.error_count()), file=sys.stderr)
             out.append({"lead_id": roh.get("id")})
             continue
-        dossier = to_dossier(lead, cfg)
+        if raw_leads:
+            out.append(roh)
+            continue
+        dossier = to_dossier(lead, cfg, as_of=as_of)
         out.append(apply_scoring_input(dossier, lead.scoring_input) if lead.scoring_input else dossier)
     return out
 
@@ -121,6 +128,12 @@ def from_sqlite(path):
         con.close()
 
 
+GERMAN_SEAT = re.compile(
+    r"\b(?:sitz|firmensitz|unternehmenssitz|standort|hauptsitz|registered office|headquarters|project location|vorhabenort)"
+    r"\s*(?:in\s+|:\s*)(?:[\w -]{1,70},\s*)?(?:Deutschland|Germany)\s*(?=$|[.;\n])", re.I
+)
+
+
 def _read(con, path):
     tabellen = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
     if "leads" not in tabellen:
@@ -134,7 +147,9 @@ def _read(con, path):
         roh_id = lead.get("lead_id")
         lead_id = str(roh_id) if roh_id not in (None, "") else re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
         sig = sorted((s for s in signals if lead_id and str(s.get("lead_id")) == lead_id), key=lambda s: (str(s.get("date")), str(s.get("url"))))
-        de = next((s for s in sig if s.get("source") in ("foekat", "impressum") and s.get("url") and s.get("evidence")), None)
+        # Leonard (032f20d): only an explicit German seat/location counts as Deutschland-Beleg, not any excerpt.
+        de = next((s for s in sig if s.get("source") in ("foekat", "impressum")
+                   and s.get("url") and GERMAN_SEAT.search(str(s.get("evidence") or ""))), None)
         foerderung, kennzeichen = [], set()  # EXIST nur bei bekanntem Signal-Typ oder EXIST-Förderkennzeichen (03EF…/03EG…)
         for s in sig:
             typ = str(s.get("type") or "").strip().lower()

@@ -152,7 +152,7 @@ def test_sqlite_source(tmp_path):
         CREATE TABLE team(lead_id, name, rolle, institut, openalex_url);
         INSERT INTO leads VALUES('dbtest','DB-Test (Dummy)',NULL,NULL,NULL,'Life Sciences','vc_potenzial',0.8,'2025-05-01',NULL,NULL,0,0.9);
         INSERT INTO signals VALUES('dbtest','foekat','https://example.com/fk/1','2025-05-01','exist_forschungstransfer',
-                                   'EXIST-Forschungstransfer DB-Test, Dummy-Uni Jena, 650.000 EUR');
+                                   'EXIST-Forschungstransfer DB-Test, Sitz: Jena, Deutschland. 650.000 EUR');
         INSERT INTO team VALUES('dbtest','Dummy Leiterin','Projektleitung','Dummy-Uni Jena','https://example.net/oa/1');
     """)
     con.commit()
@@ -396,8 +396,8 @@ def test_sqlite_loader_does_not_invent_exist(tmp_path):
         INSERT INTO leads VALUES('k', 'Kredit (Dummy)');
         INSERT INTO signals VALUES('k', 'kfw', 'https://example.org/k', '2025-05-01', 'existenzgruender_kredit', 'Kredit 50.000 EUR');
         INSERT INTO leads VALUES('f', 'Foekat (Dummy)');
-        INSERT INTO signals VALUES('f', 'foekat', 'https://example.org/f1', '2025-05-01', 'foerderprojekt', 'FKZ 03EF9999X, 100.000 EUR');
-        INSERT INTO signals VALUES('f', 'foekat', 'https://example.org/f1', '2025-05-01', 'foerderprojekt', 'FKZ 03EF9999X, 100.000 EUR');
+        INSERT INTO signals VALUES('f', 'foekat', 'https://example.org/f1', '2025-05-01', 'foerderprojekt', 'FKZ 03EF9999X, Vorhabenort: Jena, Deutschland. 100.000 EUR');
+        INSERT INTO signals VALUES('f', 'foekat', 'https://example.org/f1', '2025-05-01', 'foerderprojekt', 'FKZ 03EF9999X, Vorhabenort: Jena, Deutschland. 100.000 EUR');
     """)
     con.commit()
     con.close()
@@ -446,8 +446,8 @@ def test_review_round3_description_grants_dates_legal_form_roles_loaders(tmp_pat
     con.executescript("""
         CREATE TABLE leads(lead_id, name); CREATE TABLE signals(lead_id, source, url, date, type, evidence);
         INSERT INTO leads VALUES('m', 'Mehrfach (Dummy)'); INSERT INTO leads VALUES('x', CAST(x'ff41' AS TEXT));
-        INSERT INTO signals VALUES('m', 'foekat', 'https://example.org/a', '2025-05-01', 'exist_forschungstransfer', 'FKZ 03EF1111A, 650.000 EUR');
-        INSERT INTO signals VALUES('m', 'foekat', 'https://example.org/b', '2025-05-02', 'foerderprojekt', 'FKZ 03EF1111A, 650.000 EUR');
+        INSERT INTO signals VALUES('m', 'foekat', 'https://example.org/a', '2025-05-01', 'exist_forschungstransfer', 'FKZ 03EF1111A, Vorhabenort: Jena, Deutschland. 650.000 EUR');
+        INSERT INTO signals VALUES('m', 'foekat', 'https://example.org/b', '2025-05-02', 'foerderprojekt', 'FKZ 03EF1111A, Vorhabenort: Jena, Deutschland. 650.000 EUR');
         INSERT INTO signals VALUES('m', 'idw', 'https://example.net/c', '2025-06-01', 'exist', 'Förderkennzeichen 03EF1111A');
     """)
     con.commit()

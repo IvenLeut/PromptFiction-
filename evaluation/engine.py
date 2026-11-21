@@ -19,6 +19,7 @@ from models import EnrichedLead, EvaluatedLead, EvaluationScores, Industry
 from pipeline import industry_unclassified
 from scoring import load_config, score_dossier
 from scoring_models import ScoringInput
+from scoring_input import source_binding
 
 BRANCHE = {Industry.AI: "digital_tech", Industry.FINTECH: "digital_tech", Industry.CLIMATE: "climate_tech",
            Industry.HEALTH: "life_sciences", Industry.INDUSTRIAL: "industrial_deep_tech"}
@@ -143,7 +144,7 @@ def _grant(lead: EnrichedLead, g) -> dict:
             "ausfuehrende_stelle": _katalog_zeile(lead, url, "Ausführende Stelle"), "thema": _katalog_zeile(lead, url, "Thema")}
 
 
-def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
+def to_dossier(lead: EnrichedLead, cfg: dict, *, as_of: date | None = None) -> dict:
     """EnrichedLead -> scorer dossier (the untyped contract with scoring/engine.py; field rules: scoring/SCORING.md).
 
     Facts are `{"wert", "quelle"}` (or None when unsourced); list entries carry their own `quelle`/`url`.
@@ -171,11 +172,38 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     | signals | [{typ, url, datum}] | `signals`, dated signal evidence, `first_web_capture` |
 
     scoring/engine.py ignores keys it does not know, so adding a key here is safe; renaming one is not.
+
+    `as_of` (cutoff, Leonard's fix ab7829b): evidence, signals, grants, partners, patents and founder profiles that are
+    documented after the cutoff, or whose source text belongs to another company (`scoring_input.source_binding`),
+    are left out; so are non-demo `assumption` evidence entries.
     """
     by_field = {}
+    snapshots = lead.scoring_sources if lead.scoring_sources is not None else lead.signals
+
+    def available(item):
+        documented = item.document_date or item.source_date
+        if as_of is not None and documented is not None and documented > as_of:
+            return False
+        quote = " ".join(item.finding.split())
+        origins = [signal for signal in snapshots if signal.url == item.url
+                   and quote in " ".join(signal.evidence.split())]
+        return not origins or any(
+            source_binding(lead, signal) is not False
+            and (as_of is None or signal.date is None or signal.date <= as_of)
+            for signal in origins
+        )
+
     for e in lead.evidence:
-        if e.field:
+        if e.field and available(e) and (lead.is_demo or e.verification_status != "assumption"):
             by_field.setdefault(e.field, e)
+
+    def available_on(url, fields, anchor=None):
+        entries = [item for item in lead.evidence if item.url == url and item.field in fields]
+        if anchor:
+            specific = [item for item in entries if anchor.casefold() in item.finding.casefold()]
+            entries = specific or entries
+        return not entries or any(available(item) and (lead.is_demo or item.verification_status != "assumption")
+                                  for item in entries)
     quelle = str(lead.source_url)
 
     def src(*fields):
@@ -188,11 +216,15 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
 
     reife = REIFE.get((lead.product_stage or "").strip().lower())
     db_quelle, db_konflikt = _db_quelle(lead)
-    if lead.founded_on and src("founded_on"):
-        gruendung = {"wert": lead.founded_on.isoformat(), "quelle": src("founded_on")}
+    if lead.founded_on and src("founded_on", "company.founding_date"):
+        gruendung = {"wert": lead.founded_on.isoformat(), "quelle": src("founded_on", "company.founding_date")}
     elif lead.founding_year:
-        wert = "%d-%02d" % (lead.founding_year, lead.founding_month) if lead.founding_month else str(lead.founding_year)
-        gruendung = {"wert": wert, "quelle": quelle}
+        wert = str(lead.founding_year)
+        if lead.founding_month is not None:
+            wert += f"-{lead.founding_month:02d}"
+        if lead.founded_day is not None:
+            wert += f"-{lead.founded_day:02d}"
+        gruendung = {"wert": wert, "quelle": src("founding_month", "founding_year") or quelle}
     else:
         gruendung = None
     # A year from a press sentence is weaker than a register/imprint date: separate field, never an exclusion.
@@ -215,6 +247,8 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
     openalex_tech = {_namekey(m.group(1)) for e in lead.evidence if e.field == "founder_profiles" and (e.source or "").startswith("OpenAlex")
                      for m in [re.match(r"\s*(.+?):\s*background tech aus OpenAlex", e.finding or "")] if m}
     for p in lead.founder_profiles:
+        if p.source_url and not available_on(p.source_url, {"founder_profiles"}, p.name):
+            continue
         url = str(p.source_url) if p.source_url else src("founder_profiles") or quelle
         herkuenfte, gruender = _rollen(p.role)
         name = _personenname(p.name) if "impressum" in herkuenfte else p.name
@@ -239,18 +273,22 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
             team.append({"name": name, "rolle": "Geschäftsführung", "quelle": gf_url, "herkunft": "impressum",
                          "herkuenfte": ["impressum"], "gruender": True})
 
-    partner = [{"name": x.name, "typ": x.kind, "quelle": str(x.url)} | ({"zitat": x.quote} if x.quote else {}) for x in lead.partners]
+    partner = [{"name": x.name, "typ": x.kind, "quelle": str(x.url)} | ({"zitat": x.quote} if x.quote else {})
+               for x in lead.partners if available_on(x.url, {"partners"}, x.quote or x.name)]
     if lead.customer_count and src("customer_count"):
         partner.append({"name": "%d Kunden" % lead.customer_count, "typ": "kunde", "quelle": src("customer_count")})
     ip = None
-    if lead.patents:
-        best = max(lead.patents, key=lambda x: x.status == "patent_erteilt")
+    patents = [item for item in lead.patents if available_on(item.url, {"patents", "ip_status"}, item.quote or item.title)]
+    if patents:
+        best = max(patents, key=lambda x: x.status == "patent_erteilt")
         ip = {"wert": best.status, "quelle": str(best.url)}
     elif lead.ip_status and src("ip_status"):
         ip = {"wert": lead.ip_status, "quelle": src("ip_status")}
 
-    signals = [{"typ": s.type, "url": str(s.url), "datum": s.date.isoformat() if s.date else None} for s in lead.signals]
-    signals += [{"typ": "wayback" if e.field == "first_web_capture" else e.field, "url": str(e.url), "datum": e.source_date.isoformat()} for e in lead.evidence if _is_signal(e)]
+    signals = [{"typ": s.type, "url": str(s.url), "datum": s.date.isoformat() if s.date else None} for s in lead.signals
+               if source_binding(lead, s) is not False and (as_of is None or s.date is None or s.date <= as_of)]
+    signals += [{"typ": "wayback" if e.field == "first_web_capture" else e.field, "url": str(e.url), "datum": e.source_date.isoformat()}
+                for e in lead.evidence if _is_signal(e) and available(e) and (lead.is_demo or e.verification_status != "assumption")]
     if lead.first_web_capture and src("first_web_capture"):
         signals.append({"typ": "wayback", "url": src("first_web_capture"), "datum": lead.first_web_capture.isoformat()})
     signals = [s for i, s in enumerate(signals) if (s["url"], s["datum"]) not in {(x["url"], x["datum"]) for x in signals[:i]}]
@@ -258,6 +296,8 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
         # Demo-Fixtures haben keine datierten Signale; nur dort gilt das Abrufdatum des Fundbelegs als Signaldatum.
         signals.append({"typ": "demo", "url": str(lead.country_evidence.url), "datum": lead.country_evidence.retrieved_at.date().isoformat()})
     ce = lead.country_evidence
+    if ce and (not available(ce) or (ce.verification_status == "assumption" and not lead.is_demo)):
+        ce = None
     return {
         "lead_id": lead.id,
         "name_unternehmen": {"wert": lead.name, "quelle": quelle},
@@ -282,7 +322,7 @@ def to_dossier(lead: EnrichedLead, cfg: dict) -> dict:
                   "volumen_eur": _sourced(lead.market_size_eur, src("market_size_eur"))},
         "partner": partner,
         "wettbewerber": [{"name": c, "quelle": src("competitors")} for c in lead.competitors if src("competitors")],
-        "foerderung": [_grant(lead, g) for g in lead.grants],
+        "foerderung": [_grant(lead, g) for g in lead.grants if available_on(g.url, {"grants"}, g.reference)],
         "website_text": ({"wert": by_field["website_text"].finding, "quelle": str(by_field["website_text"].url)}
                          if "website_text" in by_field and not by_field["website_text"].source.startswith("Ollama-Zitat") else None),
         "funding_meldung": funding,
@@ -313,6 +353,13 @@ def apply_scoring_input(dossier: dict, scoring: ScoringInput) -> dict:
     def usable(p):
         return p.status == "usable" and p.value is not None and _evidence_url(scoring, p)
 
+    for field, parameter in (("gruendungsdatum", scoring.founded), ("reifegrad", scoring.product_stage),
+                             ("funding_meldung", scoring.vc_status)):
+        if parameter.status in {"ambiguous", "conflicting"}:
+            dossier.pop(field, None)
+    if scoring.country.status != "usable":
+        dossier.pop("deutschland_beleg", None)
+
     if usable(scoring.founded):
         f = scoring.founded.value
         wert = "-".join(["%04d" % f.year] + ["%02d" % x for x in (f.month, f.day) if x is not None])
@@ -337,7 +384,7 @@ def _dossier_from_scoring(scoring: ScoringInput) -> dict:
     """Minimal dossier when only the ScoringInput is available (no lead passed)."""
     urls = [str(e.url) for e in scoring.evidence.values()]
     signals = [{"typ": e.kind, "url": str(e.url), "datum": e.document_date.isoformat() if e.document_date else None}
-               for e in scoring.evidence.values()]
+               for e in scoring.evidence.values() if e.kind != "unbound_excerpt"]
     country_url = _evidence_url(scoring, scoring.country) if scoring.country.status == "usable" else None
     return {"lead_id": scoring.lead_id, "name_unternehmen": {"wert": scoring.lead_id, "quelle": urls[0] if urls else None},
             "beschreibung_rohtext": {"wert": scoring.lead_id, "quelle": urls[0] if urls else None},
@@ -345,13 +392,22 @@ def _dossier_from_scoring(scoring: ScoringInput) -> dict:
             "signals": signals, "source_url": urls[0] if urls else None}
 
 
-def _score_record(lead: EnrichedLead | None, scoring: ScoringInput | None, as_of: date | None) -> dict:
-    cfg = _config()
-    dossier = to_dossier(lead, cfg) if lead is not None else _dossier_from_scoring(scoring)
+def _score_record(lead: EnrichedLead | None, scoring: ScoringInput | None, as_of: date | None,
+                  cfg: dict | None = None) -> dict:
+    cfg = cfg or _config()
+    if lead is not None and scoring is not None and lead.id != scoring.lead_id:
+        raise ValueError("ScoringInput und Dossier gehören zu verschiedenen Leads.")
+    stichtag = as_of or (scoring.as_of if scoring is not None else None) or date.today()
+    dossier = to_dossier(lead, cfg, as_of=stichtag) if lead is not None else _dossier_from_scoring(scoring)
     if scoring is not None:
         dossier = apply_scoring_input(dossier, scoring)
-    stichtag = as_of or (scoring.as_of if scoring is not None else None) or date.today()
     return score_dossier(dossier, cfg, stichtag)
+
+
+def score_lead(scoring: ScoringInput | None, *, lead: EnrichedLead | None = None, cfg: dict | None = None,
+               as_of: date | None = None) -> dict:
+    """Score record for a ScoringInput (optionally with its dossier); used by `python -m scoring` for frozen exports."""
+    return _score_record(lead, scoring, as_of, cfg)
 
 
 def _is_risk(e: dict) -> bool:
@@ -369,12 +425,15 @@ def _scores(r: dict, lead: EnrichedLead | None) -> dict:
     fragen = list(dict.fromkeys((list(lead.research_questions) if lead else []) + r["offene_punkte"]))
     beschreibung = (lead.description or lead.name) if lead else r["lead_id"]
     return dict(
+        evaluation_v2=r,
         overall_score=r["gesamt_score"], company_score=r["team_score"],
         market_potential_score=r["marktpotenzial_score"], risk_score=r["risiko_score"],
         stage_classification=STAGE_LABEL.get(r["stage"], "Unbekannt"),
         value_proposition=r["value_proposition"] or beschreibung,
         investment_thesis=r["investmenthypothese"] or "Nicht bewertet. %s." % r["ausschluss_grund"],
         confidence_score=round(r["confidence"] * 100, 1),
+        earliness_delta_months=r["earliness_delta_monate"],
+        scoring_status=r["status"],
         # Only risk criteria at or above texte.risiko_ab are risks; lower ones reduce risk and count as drivers.
         score_drivers=[_driver(e) for e in belege if not _is_risk(e)],
         risks=["%s (Quelle: %s)" % (e["aussage"], e["url"]) for e in belege if _is_risk(e)]

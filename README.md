@@ -1,4 +1,159 @@
-﻿# FounderRadar
+# FounderRadar 2.0 - Investment Cockpit
+
+Neuer Einstieg:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m streamlit run cockpit.py
+```
+
+Das Cockpit startet mit der Branchenauswahl. **Start analysis** führt automatisch
+Sourcing → Context → Evaluation aus und öffnet die Ergebnisse. Es gibt keinen
+manuellen Import. Standardmäßig läuft die vorhandene Demo-Pipeline mit 30 fiktiven
+Firmen pro Branche. Die zehn Scoring-Beispiele bleiben Adapter-/Regressionstests.
+`main` mit Kontext-Recherche und `feature/scoring` sind integriert.
+Die ursprüngliche Anwendung bleibt mit `streamlit run app.py` als Fallback erhalten.
+
+- **Overview:** priorisierte Review-Liste, Qualität/Confidence-Streudiagramm,
+  Entwicklungsphasen und nächste Aktionen in einem kompakten Raster. Links stehen
+  Pipeline und Research-Abdeckung, mittig die Prüfliste, rechts Firmenfokus und
+  nächste Aktion. Darunter folgt die breite Analysefläche. Warme helle Flächen,
+  schwarze Schrift und Akzente in Pfirsich, Rosé, Hellgelb und Cyan.
+- **Dealflow:** Suche und Filter; eigene Ansichten für Pending Review, Watchlist,
+  Entscheidungen und ausgeschlossene Leads; direkter Profileinstieg und JSON-Export.
+- **Company Deep Dive:** Investment brief, Company & team, Market & competition,
+  Capital & fit, Evidence & activity. Untertabs trennen Produkt, Team, Traction,
+  Marktgröße, Wettbewerb, Fund Fit, Finanzierung, Quellen und Aktivitätshistorie.
+- **Activities:** Aufgaben mit Owner, Termin, Open/Done und manuellem Kontaktstatus;
+  überfällige Aufgaben, abgeschlossene Schritte und gespeicherte Änderungen.
+- **Kontakt:** vorbereiteter `mailto:`-Entwurf bei gültiger Adresse, sonst Website.
+  Öffnen ist kein Versand und ändert den Kontaktstatus nicht.
+- **Szenarien:** Ownership-/Exit-Rechner und Deep-Tech-Readiness-Workspace mit
+  ausdrücklich gekennzeichneten Analystenannahmen.
+
+Die automatische Übergabe verwendet `AnalysisRun` aus `pipeline.run_pipeline`.
+Für Live-Betrieb und einen optionalen lokalen Extraktor:
+
+```powershell
+$env:FOUNDERRADAR_MODE = 'live'
+$env:FOUNDERRADAR_SCREENING_REPORT = 'climate.json'
+$env:FOUNDERRADAR_OLLAMA_MODEL = 'dein-installiertes-modell'
+$env:FOUNDERRADAR_DB = 'C:\Pfad\screening.sqlite3'
+.\.venv\Scripts\python.exe -m streamlit run cockpit.py
+```
+
+Das Live-Sourcing übernimmt bestätigte Leads und Feldbelege aus dem konfigurierten
+Screening-Export. Die Branche muss zur Auswahl im Cockpit passen. Ollama ist optional.
+Details und konkrete
+Integrationslücken: [Cockpit-Daten und Integrationen](docs/COCKPIT.md).
+
+Ohne DB-Variable: `data/screening.sqlite3` (Git-ignored). Additive Migrationen erhalten
+bestehende Entscheidungen. Demo und Live bleiben getrennt. Jede Änderung speichert
+einen Snapshot in derselben Transaktion. **Plan next step** speichert eine Aufgabe
+auch ohne Investmententscheidung; diese bleibt dann Pending Review. Pro Firma wird
+eine aktuelle Folgeaufgabe verwaltet, frühere Stände bleiben in der Historie.
+Analyseläufe leben in der Browsersitzung; Entscheidungen und Aufgaben überleben
+Neustarts. SQLite ist für den Hackathon gedacht, ohne Mehrbenutzer-Login.
+
+### Architektur und Grenzen
+
+| Datei | Aufgabe |
+| --- | --- |
+| `cockpit.py` | Branchenauswahl, Navigation, Overview, Dealflow, Activities |
+| `cockpit_details.py` | Firmenprofil, Untertabs, Entscheidungen und Aufgaben |
+| `cockpit_service.py` | Automatische Pipeline-Übergabe, optional Ollama, Mailto |
+| `cockpit_style.py` / `cockpit_visuals.py` | Kompaktes Layout und datenbasierte Charts |
+| `cockpit_data.py` | Normalisiertes Lead-Modell, Legacy/v2-Adapter, HTGF-Heuristik, Szenariomathematik |
+| `cockpit_research.py` | Marktcharts, Competition, Funding, sektorbezogene Ansichten |
+| `cockpit_context.py` / `cockpit_research_v2.py` | Strukturierte Recherche, Claims und Quellen, datentreue Zeitreihen und Marktmodelle |
+| `config/htgf.v1.json` | Versionierte Kriterien mit Quelle, Prüfdatum und Mandatsabgrenzung |
+| `analyst_store.py` | SQLite; Aufgaben, Kontaktstatus und transaktionale Änderungshistorie |
+| `tests/test_cockpit.py` / `tests/test_workspace.py` | Scoring-Fixtures, Adapter, Charts, Mathematik, Navigation und Persistenz |
+
+Der bestehende Python-/Streamlit-Stack wird weiterverwendet. Ein separater
+React-/Next.js-Build und eine HTTP-API sind für diese Implementierung nicht nötig.
+Die Engines werden nicht neu implementiert. Die Integration der Team-Branches erhält
+beide Modell-Feldmengen und erlaubt das belegte Ergänzen eines zuvor unbekannten
+first_signal_date; vorhandene Sourcing-Daten bleiben geschützt.
+
+`context_v2` und `evaluation_v2` sind optionale Erweiterungsobjekte. Kanonische Felder
+können darin ergänzt werden; das Original bleibt in Lead.raw erhalten. Doppelte IDs
+werden zurückgewiesen. Legacy-Confidence 0-1 wird als Prozent angezeigt; native
+confidence_score 0-100 entsprechend normalisiert. Vollständig unbelegte Dimensionen
+werden als **Not assessed** dargestellt. Gemischte Scores bleiben Originalwerte und
+tragen einen Hinweis auf neutrale 50-Punkte-Anteile. Risiko: 100 = hohes Risiko,
+entsprechend `scoring/SCORING.md`. Fehlende DB-Angaben bleiben unbekannt, Proxy-Gründung
+bleibt Proxy, first_signal_date wird nicht als Engine-Entdeckung ausgegeben.
+Dummy-Namen und example-Domains kennzeichnen Demo-Daten.
+Die native Evaluation erhält ihren vollständigen Scoring-Output in `evaluation_v2`;
+der Adapter kombiniert dessen Evidence mit den Context-Belegen. Ausschlüsse verhindern
+eine ungeprüfte Potential-Fit-Anzeige und die Aufnahme in die priorisierte Review Queue.
+
+Die [offiziellen HTGF-Kriterien](https://www.htgf.de/) wurden am 20.11.2026 geprüft:
+frühe Phase, Technologiefokus, höchstens drei Jahre und deutscher Sitz/Betriebsstätte.
+800.000+ EUR sind ein flexibler Sweet Spot, keine harte Ausschlussgrenze.
+Potential Fit benötigt passende vier Kernkriterien; Ticket und Portfolio-Overlap
+bleiben gesonderte Prüfungen. Geografie wird nicht aus Domain/Sprache abgeleitet.
+Deshalb bleiben gute Scoring-Dummies ohne geografische Angaben Review Required.
+Die Heuristik gilt für Erstinvestitionen und ist keine offizielle HTGF-Bewertung.
+
+### Research-Vertrag
+
+Der native Vertrag in `research_models.py` umfasst unter `context_v2` Unternehmen,
+Gründer, Produkt, Traction, Finanzierung und `market_intelligence`. Claims behalten
+ihre Evidence-IDs und ihren Ursprung; numerische Marktangaben zusätzlich Einheit,
+Währung, Region, Zeitraum, Methodik und Datentyp. Das Cockpit zeigt die Angaben
+in den jeweiligen Untertabs mit Quellenlinks. Vorhandene flache Felder bleiben
+erhalten; unbekannte Werte werden nicht mit null aufgefüllt.
+
+Im Demo-Bestand gibt es **150 Unternehmen in fünf Branchen**, jeweils 30 pro Lauf.
+`industrial-16` enthält zusätzlich ein Marktdossier: Eurostat-Unternehmensbestand
+2021–2023, ein daraus berechnetes TAM/SAM/SOM-Szenario, drei Wettbewerber und eine
+Vergleichsfinanzierung. Das Unternehmen selbst bleibt fiktiv. Modellannahmen und
+öffentliche Referenzquellen werden getrennt gekennzeichnet; eine Finanzierungsrunde
+ist keine Unternehmensbewertung und eine Unternehmensanzahl keine Umsatzzeitreihe.
+
+Die Oberfläche verwendet auch die bereits vorhandenen operativen Felder: Umsatz,
+Kundenzahl, Teamgröße, Finanzierungsvolumen und -phase, Produktstatus, Traction-Notizen,
+Gründerprofile, Discovery-Signale und ausführliche Bewertungsbegründungen.
+
+Zusätzlich unterstützte Legacy-Felder auf Lead-Ebene oder in flachem `context_v2`:
+
+- `market_intelligence`: definition, geography, year, methodology, sizing,
+  growth_series, drivers, uncertainties, growth, maturity, competition_intensity,
+  commercialization_potential.
+- `sizing`: Einträge mit label (TAM/SAM/SOM), value, unit, source. Grafik nur bei
+  drei belegten Größen, gleicher Einheit, TAM >= SAM >= SOM und vollständiger Methodik.
+- `growth_series`: year, value, unit, definition, geography, as_of, source,
+  kind (Historical/Forecast). Mindestens zwei eindeutige Jahre mit identischer
+  Einheit, Marktdefinition, Geografie und Datenstand. Forecasts gestrichelt;
+  CAGR aus Endpunkten, inklusive Prognosen, wenn vorhanden.
+- `competitors`: Strings oder Objekte mit name, product, customer_segment,
+  geography, stage, differentiation, funding, source.
+- `competitive_positioning`: x_label, y_label, rationale, points mit name, x, y,
+  source. Ohne belegte Koordinaten und begründete Achsen keine Positionierungsgrafik.
+- `comparable_transactions`: name, type, date, value, currency, value_type,
+  revenue, ebitda, multiple_basis, metrics_comparable, source. Multiples nur bei
+  Enterprise Value, positivem Nenner, EV/Revenue oder EV/EBITDA und explizit
+  vergleichbarer Währung/Periode (metrics_comparable: true).
+- `sector_research`: z. B. arr, retention, unit_economics für Digital Tech;
+  technology_readiness, commercial_pilots, capital_intensity für DeepTech;
+  regulatory_pathway, patent_protection, next_catalyst für Life Sciences/Chemistry.
+
+Noch kein dedizierter Market-Research-Endpunkt: kein vorgetäuschter Generate-Button.
+Die Kontext-CLI unterstützt gezielte Marktrecherche über `--lead`, `--market-input`
+und `--market-source` (siehe unten). Das Cockpit zeigt deren strukturierten Output
+automatisch. Außerhalb des genannten Demo-Marktdossiers fehlen überwiegend
+quantitative Marktdaten; diese Lücken werden nicht mit erfundenen Zahlen gefüllt.
+
+Prüfung:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m compileall -q cockpit.py cockpit_data.py cockpit_research.py
+```
+
+## Bisherige Anwendung und Pipeline
 
 FounderRadar sucht frühe Deep-Tech-Gründungsvorhaben in Deutschland und bewertet sie für ein VC-Screening.
 Vier Module laufen nacheinander: Sourcing aus dem Förderkatalog des Bundes, Kontext aus öffentlichen Quellen,
@@ -305,6 +460,23 @@ der Live-Pfad. Im Bereich Industrial / DeepTech enthält `industrial-16` echte �
 Provider, Enricher und Evaluator lassen sich für Tests einzeln injizieren. Beispiel eines exportierten
 Demo-Laufs: `examples/analysis-demo.json`.
 
+### Investment-Cockpit, Screening und Analystenentscheidungen (Iven, Leonard)
+
+Das Dashboard hat drei Ansichten (Umschalter oben): **Radar** (Standard: Scores, Earliness, Best Find, Ranking),
+**Screening & Entscheidungen** (`screening.py`: Fund Fit, Analystenstatus, Suche und Filter) und
+**Investment-Cockpit** (`cockpit.py`: Überblick, Dealflow, Firmenbrief, Aktivitäten; Details `docs/COCKPIT.md`).
+Der Deep Dive hat den Tab „Investment-Briefing & Entscheidung“ mit Scorecard (`scorecard.py`), Stärken/Risiken und
+dem Entscheidungsformular. Entscheidungen und Aktivitäten speichert `analyst_store.py` lokal in SQLite
+(`data/screening.sqlite3`, per `FOUNDERRADAR_DB` umstellbar; Demo und echte Leads getrennt). Das Cockpit läuft auch
+eigenständig: `python -m streamlit run cockpit.py`.
+
+Sourcing aus einem Screening-Export statt aus dem Förderkatalog:
+
+```bash
+FOUNDERRADAR_SCREENING_REPORT=climate.json FOUNDERRADAR_MODE=live .venv/bin/python -m streamlit run app.py
+.venv/bin/python -m context climate.json dossiers.json --light --offline --scoring-output scoring.json
+```
+
 ### Dashboard
 
 `app.py` (Kategorienwahl, Analyseauftrag, keine Bewertungslogik), `ui_theme.py` / `.streamlit/config.toml`
@@ -313,3 +485,30 @@ Demo-Laufs: `examples/analysis-demo.json`.
 HTGF-Ansicht mit großer Typografie, Weißraum, klaren Kennzahlen und dezenten Akzenten; FounderRadar verwendet
 eine eigene Marke (Farben und Schriften: `ui_theme.py`, Herkunft in `NOTICE.md`). Technik: [Streamlit](https://docs.streamlit.io/develop/api-reference/data/st.dataframe),
 [Plotly](https://plotly.com/python/3d-scatter-plots/).
+
+## Investment Screening Cockpit: erweiterter Vertrag
+
+Die bestehenden v2-Verträge wurden um optionale Screening-Felder erweitert.
+Alte JSON-Dateien bleiben lesbar; fehlende Felder werden als Unknown/null dargestellt.
+
+- Schritt 1: discovery_source, first_signal_date, discovered_at, initial_signal.
+  source_url verweist auf den Originalfund; source_name bleibt als Legacy-Feld erhalten.
+- Schritt 2: founder_profiles mit Rollen, Hintergründen, Erfahrungen und Belegen;
+  Problem, Zielkunden, Produktmechanik/-reife, Geschäftsmodell, Markt, Wettbewerber,
+  Technologie/IP und Differenzierung. traction_evidence und funding_events halten
+  belegbare Ereignisse fest. Evidence.published_on ergänzt das Abrufdatum.
+- Funding-Status: Bootstrapped / Grant-funded / Pre-Seed / Seed / Later / Unknown.
+  Keine gefundenen Finanzierungsinformationen bedeuten Unknown, niemals Bootstrapped.
+- Schritt 3: fund_fit_score, team_score, bestehender earliness_score, getrennte
+  hard_exclusions, eligibility_status und Begründungen für die drei Scores.
+  Ein expliziter Ausschluss übersteuert den Screening-Status.
+
+Die neuen Scores werden noch nicht automatisch berechnet: konkrete Fondskriterien,
+Gewichte und die vollständige Earliness-Definition stehen aus. Demo-Earliness-Werte
+sind ausdrücklich fiktive Altwerte; Fund Fit und Team bleiben ohne Grundlage null.
+Die Anforderungen endeten mitten in der Earliness-Definition; weitere Evaluation-
+und Designvorgaben müssen noch ergänzt werden.
+
+Die Startup Overview unterstützt alle Leads, Top 10/20, Funding-Filter und das
+Ausblenden expliziter Ausschlüsse. Der Company Deep Dive zeigt die neuen Fakten
+und die Discovery Timeline. Es ist weiterhin eine Demo, keine Live-Recherche.

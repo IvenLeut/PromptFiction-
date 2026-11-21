@@ -9,6 +9,7 @@ import inspect
 import logging
 import re
 from collections.abc import Callable, Sequence
+from datetime import date
 from functools import partial
 
 from models import (
@@ -106,7 +107,14 @@ def _validate_input(leads: Sequence[RawLead], use_mock: bool) -> None:
 
 def _preserve(before: RawLead, after: RawLead) -> None:
     """Raise if `after` changed any field that `before` already had."""
-    if after.model_dump(include=set(type(before).model_fields)) != before.model_dump():
+    fields = set(type(before).model_fields)
+    # The merged sourcing contract can carry this date. Context may fill an empty
+    # value only when a dated source supports it; existing values stay immutable.
+    if (type(before) is RawLead and isinstance(after, EnrichedLead)
+            and before.first_signal_date is None and after.first_signal_date is not None
+            and any(e.field == "first_signal_date" and e.source_date == after.first_signal_date for e in after.evidence)):
+        fields.discard("first_signal_date")
+    if after.model_dump(include=fields) != before.model_dump(include=fields):
         raise InputModifiedError("Ein Modul hat Eingangsdaten verändert.")
 
 
@@ -124,7 +132,7 @@ def collect_context(leads: Sequence[RawLead], *, use_mock: bool = True,
     result = ContextResult()
     for lead in leads:
         try:
-            enriched = EnrichedLead.model_validate(enricher(lead))
+            enriched = EnrichedLead.model_validate(enricher(lead.model_copy(deep=True)))
             _preserve(lead, enriched)
             result.leads.append(enriched)
         except Exception as exc:
@@ -142,6 +150,8 @@ def _call_evaluator(evaluator: Callable, scoring, lead: EnrichedLead) -> Evaluat
     """
     param = inspect.signature(evaluator).parameters.get("lead")
     takes_lead = param is not None and param.kind is inspect.Parameter.KEYWORD_ONLY
+    # Deep copies: an evaluator must not be able to mutate the dossier it is checked against (Leonard, 032f20d).
+    scoring, lead = scoring.model_copy(deep=True), lead.model_copy(deep=True)
     return EvaluationScores.model_validate(evaluator(scoring, lead=lead) if takes_lead else evaluator(scoring))
 
 
@@ -165,14 +175,17 @@ def evaluate_context(leads: Sequence[EnrichedLead], *, use_mock: bool = True,
     for lead in leads:
         try:
             if use_mock:
-                evaluated = EvaluatedLead.model_validate(evaluator(lead))
+                evaluated = EvaluatedLead.model_validate(evaluator(lead.model_copy(deep=True)))
                 _preserve(lead, evaluated)
             else:
-                scoring = build_scoring_input(lead, as_of=lead.scoring_input.as_of if lead.scoring_input else None)
+                cutoff = lead.scoring_input.as_of if lead.scoring_input else None
+                scoring = build_scoring_input(lead, as_of=cutoff or lead.screening_as_of or date.today())
                 if reason := admission_issue(scoring):
                     result.issues.append(PipelineIssue(lead_id=lead.id, stage="evaluation", message=reason))
                     continue
                 scores = _call_evaluator(evaluator, scoring, lead)
+                if scores.scoring_status == "zurueck_an_sourcing":
+                    result.issues.append(PipelineIssue(lead_id=lead.id, stage="evaluation", message=scores.investment_thesis))
                 dossier = lead.model_copy(update={"scoring_input": scoring})
                 evaluated = EvaluatedLead(**dossier.model_dump(), **scores.model_dump())
                 _preserve(dossier, evaluated)

@@ -38,7 +38,7 @@ from research_models import (
     Claim, CompanyResearch, ContextV2, FounderResearch, FundingResearch, MarketMeasure, Period,
     ProductResearch, ResearchStatus, TractionResearch,
 )
-from scoring_input import build_scoring_input
+from scoring_input import build_scoring_input, source_binding
 
 logger = logging.getLogger(__name__)
 EXIST_CONFIRMED_YEARS = 3   # an EXIST mention on the site explains a Wayback capture at most this long before the project
@@ -167,12 +167,14 @@ def labelled(line: str, labels: str) -> str | None:
     if not match:
         return None
     value = match[1].strip()
-    # Navigation menus produce "Technology: Technology" or "Technology: Projects Knowledge base"; a value that is
-    # itself a heading word, or a short capitalised word list without a verb-like token, is not a statement.
+    # Reject repeated headings and navigation labels. Capitalisation alone is not
+    # evidence of navigation: German nouns such as "Drahtlose Sensorik" are valid facts.
     if re.fullmatch(rf"(?:{HEADINGS})", value, re.IGNORECASE):
         return None
     words = value.split()
-    if 2 <= len(words) <= 4 and all(w[:1].isupper() for w in words) and not value.endswith((".", "!")):
+    navigation = {"projects", "knowledge", "base", "news", "careers", "home", "about", "contact",
+                  "menu", "navigation", "projekte", "kontakt", "karriere", "startseite"}
+    if 2 <= len(words) <= 4 and all(w.casefold() in navigation for w in words):
         return None
     return value
 
@@ -300,21 +302,24 @@ def default_lookups(cache=_DEFAULT_CACHE, model: str | None = None, patents: boo
     return found
 
 
-def cached_quotes(extract_quotes: Callable, cache) -> Callable:
+def cached_quotes(extract_quotes: Callable, cache, model=None) -> Callable:
     """Memoise the Ollama quote extractor (context/ollama.py) in the shared cache so a second run yields the same quotes.
 
     Persistent layer on top of the in-process `lru_cache` of `context.ollama.request_quotes`, see context/cache.py.
+    The key covers the model and the full signals; hits refer to signals by index, so two signals with the same URL
+    cannot swap quotes (Leonard, 032f20d).
     """
     def wrapped(name, signals, fields):
-        key = "quotes:" + hashlib.sha1(json.dumps([name, sorted(fields), [(str(s.url), s.evidence) for s in signals]],
-                                                  ensure_ascii=False).encode("utf-8")).hexdigest()
+        payload = [model, name, sorted(fields), [signal.model_dump(mode="json") for signal in signals]]
+        key = "quotes:v2:" + hashlib.sha256(json.dumps(payload, ensure_ascii=False).encode("utf-8")).hexdigest()
         hit = cache.get(key) if cache is not None else None
         if hit is None:
-            hit = [(field, quote, str(signal.url)) for field, quote, signal in extract_quotes(name, signals, fields)]
+            indices = {id(signal): index for index, signal in enumerate(signals)}
+            hit = [(field, quote, indices[id(signal)])
+                   for field, quote, signal in extract_quotes(name, signals, fields) if id(signal) in indices]
             if cache is not None:
                 cache.set(key, hit)
-        by_url = {str(s.url): s for s in signals}
-        return [(field, quote, by_url[url]) for field, quote, url in hit if url in by_url]
+        return [(field, quote, signals[index]) for field, quote, index in hit]
     return wrapped
 
 
@@ -377,7 +382,8 @@ def _run_lookups(lead: RawLead, lookups: dict, signals: list[SourceSignal], offl
     if website:
         _run(lookups, "imprint", merged, lambda f: f(website, cache=cache))
     reference = next((f["fkz"] for _, _, f in offline), None) or next(
-        (m.group(0) for s in signals for m in [re.search(r"(?<![A-Za-z0-9])03E[FG][A-Za-z0-9]{3,}", s.evidence)] if m), None)
+        (m.group(0) for s in signals if source_binding(lead, s) is not False
+         for m in [re.search(r"(?<![A-Za-z0-9])03E[FG][A-Za-z0-9]{3,}", s.evidence)] if m), None)
     institution = merged.fields.get("institution")
     result = _run(lookups, "grants", merged, lambda f: f(lead.name, institution=grant_institution or institution or lead.location,
                                                          reference=reference, cache=cache))
@@ -1019,8 +1025,11 @@ def enrich(
     """Return the original lead plus public context and per-field evidence.
 
     `light` uses only the delivered signals (no pages, lookups or model). `lookups` comes from `default_lookups`
-    (or test doubles); its "cache" is also used for website pages and model quotes. `as_of` is the scoring date.
+    (or test doubles); its "cache" is also used for website pages and model quotes. `as_of` is the scoring date
+    (default: `lead.screening_as_of`); signals after it, or bound to another company (`source_binding`), are kept
+    only in `scoring_sources` for replay, not used for the facts.
     """
+    as_of = as_of or lead.screening_as_of
     if light:
         lookups = None  # light mode never calls external services
     page_cache = lookups.get("cache") if lookups else None
@@ -1042,10 +1051,16 @@ def enrich(
     known = {g.reference for g in hits.grants if g.reference}
     grants = hits.grants + [g for g, _, _ in offline if not g.reference or g.reference not in known]   # looked-up grant wins
     evidence = [e for e in merged.evidence if str(e.url) not in hits.namesake_urls] + [e for _, e, _ in offline]
+    # Field evidence delivered by a screening export (sourcing/engine.ScreeningReport), deduplicated by id.
+    known_ids = {e.evidence_id for e in evidence}
+    evidence += list({e.evidence_id: e for entries in lead.field_evidence.values() for e in entries
+                      if e.evidence_id not in known_ids}.values())
     if not lead.is_demo and not light and (page_text := _website_text(signals, website)):
         evidence.append(page_text)
     # Frozen source excerpts for the replayable scoring handoff, incl. lookup texts (Impressum, idw, Förderkatalog).
     scoring_sources = [signal.model_copy(deep=True) for signal in signals] if not lead.is_demo else None
+    signals = [s for s in signals if source_binding(lead, s) is not False
+               and (as_of is None or s.date is None or s.date <= as_of)]
 
     facts = _Facts(evidence, lead.is_demo)
     source = _sourcing_signal(lead)
@@ -1054,7 +1069,7 @@ def enrich(
     if lookups and not lead.is_demo and lookups.get("classify"):
         _classify(lead, lookups, signals, merged, facts, exclude_names)
     if extract_quotes and lookups and lookups.get("cache") is not None:
-        extract_quotes = cached_quotes(extract_quotes, lookups["cache"])
+        extract_quotes = cached_quotes(extract_quotes, lookups["cache"], model=lookups.get("model"))
     model_failed = _model_quotes(facts, lead, signals, extract_quotes, merged) if extract_quotes and not light else False
 
     statuses = _funding_status(facts, grants)
@@ -1090,7 +1105,7 @@ def enrich(
         product_stage=facts.value("product_stage") or merged.fields.get("product_stage"),
         funding_status=statuses[1],
         vc_status=statuses[0],
-        first_signal_date=min((signal.date for signal in signals if signal.date is not None and not mention_only(signal)),
+        first_signal_date=lead.first_signal_date or min((signal.date for signal in signals if signal.date is not None and not mention_only(signal)),
                               default=None),
         founded_on=date.fromisoformat(founding_claim.value) if founding_status == "documented" else None,
         annual_revenue_eur=float(revenue) if revenue is not None else None,
@@ -1099,7 +1114,7 @@ def enrich(
         enrichment_errors=merged.errors,
     )
     values.update({k: v for k, v in extra.items() if k not in values})
-    enriched = EnrichedLead(**lead.model_dump(), **values)
+    enriched = EnrichedLead(**lead.model_dump(exclude={"first_signal_date"}), **values)
     if not lead.is_demo:
         enriched.scoring_input = build_scoring_input(enriched, as_of=as_of)
     return enriched

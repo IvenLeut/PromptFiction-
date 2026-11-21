@@ -14,6 +14,7 @@ Unbekannte Dossier-Schlüssel werden ignoriert.
 """
 from __future__ import annotations
 
+import calendar
 import datetime as dt
 import hashlib
 import json
@@ -301,25 +302,37 @@ class Scorer:
                 self.signals.append({"url": s["url"], "datum": datum, "typ": text(s.get("typ"))})
         self.signals.sort(key=lambda s: (s["datum"], s["url"]))
         self.team = []
-        for m in dicts(d.get("team")):
+        for m in self.dated_rows(d.get("team")):
             url = next((m[k] for k in ("quelle", "openalex", "openalex_url") if is_url(m.get(k))), None)
             if text(m.get("name")) and url:
                 self.team.append(dict(m, name=text(m["name"]).replace(";", ","), _url=url))
         self.team.sort(key=lambda m: (m["name"], m["_url"]))
-        roh, roh_url, _ = fact(d.get("beschreibung_rohtext"))
+        roh, roh_url, _ = self.dated_fact(d.get("beschreibung_rohtext"))
         self.rohtext = text(roh) if roh_url else None
         self.branche = norm_branche(fact(d.get("branche") or d.get("htgf_bereich"))[0])
         self.foerderung, gesehen = [], set()
         def schluessel(f):
             return (str(parse_date(f.get("start")) or "9999"), f["quelle"], str(f.get("programm")), str(num(f.get("summe_eur"))), str(f.get("ende")))
-        for f in sorted((f for f in dicts(d.get("foerderung")) if is_url(f.get("quelle"))), key=schluessel):
+        grants = (f for f in self.dated_rows(d.get("foerderung")) if is_url(f.get("quelle"))
+                  and ((start := parse_date(f.get("start"))) is None or start <= stichtag))
+        for f in sorted(grants, key=schluessel):
             if schluessel(f) not in gesehen:  # nur exakt gleiche Einträge zusammenfassen
                 gesehen.add(schluessel(f))
                 self.foerderung.append(f)
         self.markt = d.get("markt") if isinstance(d.get("markt"), dict) else {}
 
+    def dated_fact(self, item):
+        value, url, document_date = fact(item)
+        if document_date and document_date > self.stichtag.isoformat():
+            return None, None, None
+        return value, url, document_date
+
+    def dated_rows(self, items):
+        return (item for item in dicts(items)
+                if (document_date := voll(item.get("datum"))) is None or document_date <= self.stichtag)
+
     def enum(self, feld, erlaubt, quelle=None):
-        v, url, datum = fact(quelle if quelle is not None else self.d.get(feld))
+        v, url, datum = self.dated_fact(quelle if quelle is not None else self.d.get(feld))
         return (v, url, datum) if isinstance(v, str) and v in erlaubt and url else (None, None, None)
 
     # --- Förderkatalog: was Programm, Summe, Laufzeit und ausführende Stelle belegen -----------------
@@ -412,7 +425,7 @@ class Scorer:
     def mix(self):
         """True = Technik und Business belegt (auch durch ein Teammitglied), False = alle Gründer mit belegtem
         Tech-Hintergrund und niemand mit Business-Profil, None = offen. Fehlende Angaben ergeben nie False."""
-        v, url, _ = fact(self.d.get("mix_tech_business"))
+        v, url, _ = self.dated_fact(self.d.get("mix_tech_business"))
         if isinstance(v, bool) and url:
             return v
         h = [m.get("hintergrund") for m in self.team]
@@ -491,7 +504,7 @@ class Scorer:
         ex = self.exist()
         if ex:
             return dict(wert=k["werte"]["ja"], aussage="Vollzeit-Signal: %s" % clip(str(ex[0]["programm"]), 60), url=ex[0]["quelle"], datum=iso(ex[0].get("start")))
-        v, url, datum = fact(self.d.get("vollzeit_signal"))
+        v, url, datum = self.dated_fact(self.d.get("vollzeit_signal"))
         if isinstance(v, bool) and url:
             return dict(wert=k["werte"]["ja" if v else "nein"],
                         aussage="Gründer arbeiten Vollzeit am Vorhaben" if v else "Kein Vollzeit-Engagement", url=url, datum=datum)
@@ -532,7 +545,7 @@ class Scorer:
 
     # --- Marktpotenzial (1 = groß) -------------------------------------------
     def k_marktvolumen(self, k):
-        v, url, datum = fact(self.markt.get("volumen_eur"))
+        v, url, datum = self.dated_fact(self.markt.get("volumen_eur"))
         v = num(v)
         if v is None or not url:
             return None
@@ -543,7 +556,7 @@ class Scorer:
         Bruchstücke eines an "und/and" zerschnittenen Namens. Stark: Name mit Rechtsform oder bekannte Organisation;
         sonst schwach (zählt nur als Proxy)."""
         kat = self.cfg["katalog"]
-        roh = [p for p in dicts(self.d.get("partner")) if isinstance(p.get("typ"), str) and p["typ"] in k["werte"]
+        roh = [p for p in self.dated_rows(self.d.get("partner")) if isinstance(p.get("typ"), str) and p["typ"] in k["werte"]
                and is_url(p.get("quelle")) and text(p.get("name"))]
         # an "und/and" zerschnittene Namen wieder zusammensetzen: "<links> und <rechts>" steht so im Zitat
         voll, rechts_teile = {}, set()
@@ -605,7 +618,7 @@ class Scorer:
                     aussage="Produkttyp vermutlich %s (Fachgebiet: %s)" % (SKALIERUNG_TEXT[p[0]], clip(p[1], 60)))
 
     def k_zielkunde(self, k):
-        zk, u1, _ = fact(self.markt.get("zielkunde"))
+        zk, u1, _ = self.dated_fact(self.markt.get("zielkunde"))
         zk = text(zk) if u1 else None
         mo, u2, _ = self.enum("modell", ("b2b", "b2c", "b2b2c"), self.markt.get("modell"))
         if not (zk or mo):
@@ -614,7 +627,7 @@ class Scorer:
                     aussage="Zielkunde: %s; Modell: %s" % (clip(zk, 80) if zk else "nicht belegt", mo or "nicht belegt"), url=u1 if zk else u2)
 
     def k_wettbewerb(self, k):
-        ok = sorted((text(w.get("name")), w["quelle"]) for w in dicts(self.d.get("wettbewerber")) if text(w.get("name")) and is_url(w.get("quelle")))
+        ok = sorted((text(w.get("name")), w["quelle"]) for w in self.dated_rows(self.d.get("wettbewerber")) if text(w.get("name")) and is_url(w.get("quelle")))
         if not ok:
             return None
         key = "viele" if len(ok) >= k["viele_ab"] else "wenige"
@@ -691,7 +704,7 @@ class Scorer:
                     aussage="Reifegrad: %s (Textklassifikation, nur eine Quelle)" % v)
 
     def k_regulatorik(self, k):
-        v, url, datum = fact(self.d.get("regulierter_markt"))
+        v, url, datum = self.dated_fact(self.d.get("regulierter_markt"))
         if not isinstance(v, bool) or not url:
             t, url = self.fachtext()
             med = self.fach_treffer("fach_medizin", t) if url else None
@@ -737,7 +750,7 @@ class Scorer:
     # --- Einordnung -----------------------------------------------------------
     def rechtsform(self):
         """(rechtsform | 'keine' | None, in_gruendung, url). None = nicht belegt."""
-        v, url, _ = fact(self.d.get("rechtsform"))
+        v, url, _ = self.dated_fact(self.d.get("rechtsform"))
         v = text(v)
         if not v or not url:
             return None, False, None
@@ -757,7 +770,7 @@ class Scorer:
 
         Ist nur das Jahr bekannt, gilt für die Altersprüfung der 31.12., damit das Alter nie überschätzt wird.
         """
-        v, url, _ = fact(self.d.get("gruendungsdatum"))
+        v, url, _ = self.dated_fact(self.d.get("gruendungsdatum"))
         echt = parse_date(v)
         if echt and url and echt <= self.stichtag:
             if nur_jahr(v):
@@ -780,7 +793,7 @@ class Scorer:
         return h if h and not self.hinweis_ignoriert() else None
 
     def hinweis_roh(self):
-        v, url, _ = fact(self.d.get("gruendungsjahr_hinweis"))
+        v, url, _ = self.dated_fact(self.d.get("gruendungsjahr_hinweis"))
         if isinstance(v, str) and nur_jahr(v):
             v = int(v)
         if isinstance(v, bool) or not isinstance(v, int) or not url or not 1900 <= v <= self.stichtag.year:
@@ -795,7 +808,7 @@ class Scorer:
         return None
 
     def funding(self):
-        v, url, _ = fact(self.d.get("funding_meldung"))
+        v, url, _ = self.dated_fact(self.d.get("funding_meldung"))
         return url if v is True and url else None
 
     def noise(self):
@@ -806,7 +819,7 @@ class Scorer:
         if self.funding():
             return "bereits_finanziert", "heuristik", self.funding()
         for feld in ("website_text", "beschreibung_rohtext"):
-            wt, url, _ = fact(self.d.get(feld))
+            wt, url, _ = self.dated_fact(self.d.get(feld))
             if isinstance(wt, str) and url:
                 klasse = self.agentur_regel(wt)
                 if klasse:
@@ -869,6 +882,16 @@ class Scorer:
         if self.d.get("in_databases") is True and not self.d.get("in_databases_konflikt"):
             out.append("Datenbankeintrag")
         return out
+    def beyond_age_limit(self, founded):
+        raw, _, _ = self.dated_fact(self.d.get("gruendungsdatum"))
+        if isinstance(raw, str) and re.fullmatch(r"\d{4}-\d{2}", raw.strip()):
+            founded = founded.replace(day=calendar.monthrange(founded.year, founded.month)[1])
+        months = self.cfg["htgf_max_alter_monate"]
+        year, month = divmod(self.stichtag.year * 12 + self.stichtag.month - 1 - months, 12)
+        if year < 1:
+            return False
+        day = min(self.stichtag.day, calendar.monthrange(year, month + 1)[1])
+        return founded < dt.date(year, month + 1, day)
 
     def stage(self, noise):
         """(stage, grund, url)."""
@@ -881,7 +904,7 @@ class Scorer:
             return "zu_spaet", "laut Sourcing bereits finanziert", None
         if self.d.get("in_databases") is True and cfg["zu_spaet_wenn_in_databases"]:
             return "zu_spaet", "bereits in Datenbanken gelistet", text(self.d.get("in_databases_quelle"))
-        if gr and not proxy and months_between(gr, self.stichtag) > cfg["htgf_max_alter_monate"]:
+        if gr and not proxy and self.beyond_age_limit(gr):
             return "zu_spaet", "älter als %d Monate (gegründet %s)" % (cfg["htgf_max_alter_monate"], gr.strftime("%m/%Y") if monat else str(gr.year)), gr_url
         alt = None if gr and not proxy else self.alt_belegt()
         if alt:
@@ -897,7 +920,7 @@ class Scorer:
             return "in_gruendung", "Rechtsform %s" % rf, rf_url
         if self.reifegrad()[0] in ("pilot", "erste_kunden"):
             # seed nur mit unabhängig bestätigtem Reifegrad oder belegtem Kunden/Piloten, nicht aus einer Textstelle allein
-            kunden = [p for p in dicts(self.d.get("partner")) if p.get("typ") in ("kunde", "pilot") and is_url(p.get("quelle"))]
+            kunden = [p for p in self.dated_rows(self.d.get("partner")) if p.get("typ") in ("kunde", "pilot") and is_url(p.get("quelle"))]
             if self.reifegrad_bestaetigt() or kunden:
                 return "seed", "Rechtsform %s, Reifegrad %s" % (rf, self.reifegrad()[0]), rf_url
             return "pre_seed", "Rechtsform %s; Reifegrad %s nur aus einer Quelle, für seed nicht ausreichend" % (rf, self.reifegrad()[0]), rf_url
@@ -912,7 +935,7 @@ class Scorer:
 
     def email(self, website):
         """Nur generisches Postfach auf der Domain der eigenen Website, mit Quelle."""
-        v, url, _ = fact(self.d.get("email"))
+        v, url, _ = self.dated_fact(self.d.get("email"))
         v = text(v)
         if not v or not url or not website or not re.fullmatch(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", v):
             return ""
@@ -928,8 +951,8 @@ def pflicht_fehlt(s, name):
         fehlt.append("beschreibung_rohtext (mit Quellen-URL)")
     if not s.signals:
         fehlt.append("signals (mind. 1 mit URL und Datum bis zum Stichtag)")
-    de, url, _ = fact(s.d.get("deutschland_beleg"))
-    if not text(de) or not url:
+    de, url, documented = fact(s.d.get("deutschland_beleg"))
+    if not text(de) or not url or (documented and documented > s.stichtag.isoformat()):
         fehlt.append("deutschland_beleg (mit Quellen-URL)")
     return fehlt
 
@@ -1054,7 +1077,7 @@ def _website_saetze(s):
     """Inhaltliche Sätze aus dem belegten Website-Text (extraktiv, Reihenfolge der Seite). Verworfen: wiederholte Zeilen
     (Menüs), Seitentitel, Überschriften im Title Case ohne Satzzeichen, zusammengeklebte Menüeinträge, Versalien,
     Cookie-/Rechtstext, Förderhinweis, Handlungsaufforderung. -> Liste (leer ohne Website-Text mit Quelle)."""
-    wt, url, _ = fact(s.d.get("website_text"))
+    wt, url, _ = s.dated_fact(s.d.get("website_text"))
     tx = s.cfg["texte"]
     if not isinstance(wt, str) or not url or re.search(r"(?i)lorem ipsum", wt):  # Baukasten-Platzhalterseite
         return []
@@ -1286,10 +1309,10 @@ def _why_now(s, rec):
     return "; ".join(now)
 
 
-def score_all(dossiers, cfg=None, stichtag=None):
+def score_all(dossiers, cfg=None, stichtag=None, *, scorer=score_dossier):
     cfg = cfg or load_config()
     tag = _stichtag(stichtag)
-    rows = [score_dossier(d, cfg, tag) for d in (dossiers if isinstance(dossiers, list) else [])]
+    rows = [scorer(d, cfg, tag) for d in (dossiers if isinstance(dossiers, list) else [])]
     vergeben = set()
     for r in rows:  # doppelte IDs brechen den Lauf nicht ab, bleiben aber sichtbar
         if r["lead_id"] in vergeben:

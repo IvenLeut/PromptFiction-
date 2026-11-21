@@ -377,7 +377,13 @@ def test_context_light_keeps_leads_and_scoring_input_builds(leads):
     result = collect_context(leads, use_mock=False, enricher=enricher)
     assert result.issues == [] and len(result.leads) == len(leads)
     for raw, enriched in zip(leads, result.leads):
-        assert enriched.model_dump(include=set(RawLead.model_fields)) == raw.model_dump()
+        # RawLead.first_signal_date (cockpit branch) may be filled by context when step 1 left it empty and a dated
+        # source backs it (pipeline._preserve); every other step-1 field stays unchanged.
+        kept = set(RawLead.model_fields) - {"first_signal_date"}
+        assert enriched.model_dump(include=kept) == raw.model_dump(include=kept)
+        assert raw.first_signal_date is None
+        assert enriched.first_signal_date is None or any(
+            e.field == "first_signal_date" and e.source_date == enriched.first_signal_date for e in enriched.evidence)
         scoring = build_scoring_input(enriched, as_of=date(2026, 11, 20))
         assert scoring.lead_id == raw.id and scoring.country.status == "usable"
 

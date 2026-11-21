@@ -1,4 +1,9 @@
-"""Dedicated startup page; no scoring or sourcing logic."""
+"""Dedicated startup page; no scoring or sourcing logic.
+
+Tab "Investment-Briefing" (cockpit branch, Iven/Leonard): fund-fit status, scorecard, key strengths and risks,
+business and market, traction and funding, discovery timeline and the analyst decision (analyst_store).
+"""
+import re
 from collections.abc import Callable
 from datetime import date
 from html import escape
@@ -166,7 +171,7 @@ def _team_card(lead: EvaluatedLead) -> str:
 
 
 def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None], meta: dict | None = None,
-                     as_of: date | None = None):
+                     as_of: date | None = None, *, namespace: str = "demo", decision: dict | None = None):
     """Profile, signals, team, diligence, sources and contact of one lead."""
     st.button("Zurück zur Übersicht", on_click=back, key="back_to_portfolio")
     heading("Portfolio / Startup Deep Dive", lead.name,
@@ -189,7 +194,7 @@ def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None], meta: dict |
                     f'<p>{escape(lead.investment_thesis)}</p></div>', unsafe_allow_html=True)
         context = lead.context_v2
         has_market = bool(context and context.market_intelligence)
-        tabs = st.tabs(["Unternehmen & Kennzahlen", "Risiken & Prüfung", "Quellen & Belege"]
+        tabs = st.tabs(["Unternehmen & Kennzahlen", "Risiken & Prüfung", "Quellen & Belege", BRIEFING_TAB]
                        + (["Marktrecherche"] if has_market else []))
         with tabs[0]:
             _render_overview(lead)
@@ -197,8 +202,10 @@ def render_deep_dive(lead: EvaluatedLead, back: Callable[[], None], meta: dict |
             _render_diligence(lead)
         with tabs[2]:
             _render_sources(lead, has_market)
+        with tabs[3]:
+            _render_briefing(lead, namespace, decision)
         if has_market:
-            with tabs[3]:
+            with tabs[4]:
                 render_market(context)
     with contact:
         _render_contact(lead)
@@ -302,3 +309,133 @@ def _render_contact(lead: EvaluatedLead):
                        file_name=f"{lead.id}.json", mime="application/json", width="stretch")
     if lead.is_demo:
         st.caption("Fiktives Unternehmensprofil. Die Marktrecherche kennzeichnet Datenquellen und Demoannahmen.")
+
+
+# --- Investment briefing and analyst decision (cockpit branch) -----------------------------------------
+
+BRIEFING_TAB = "Investment-Briefing & Entscheidung"
+
+
+def _source_card(evidence, label: str = "Originalquelle öffnen"):
+    st.write(md_escape(evidence.finding))
+    published = format_date(evidence.published_on) if evidence.published_on else UNKNOWN
+    st.caption(md_escape(f"Quelle: {evidence.source} · Veröffentlicht: {published} · "
+                         f"Abgerufen: {format_date(evidence.retrieved_at)}"))
+    st.link_button(label, str(evidence.url))
+
+
+def _all_evidence(lead: EvaluatedLead) -> list:
+    items = list(lead.evidence) + list(lead.traction_evidence)
+    if lead.country_evidence:
+        items.append(lead.country_evidence)
+    for founder in lead.founder_profiles:
+        items.extend(founder.evidence)
+    for event in lead.funding_events:
+        items.extend(event.evidence)
+    return list({(str(item.url), item.finding, item.published_on): item for item in items}.values())
+
+
+def _arguments(items, legacy, empty: str):
+    if items:
+        for argument in items[:3]:
+            st.markdown(f"**{md_escape(argument.statement)}**")
+            st.write(md_escape(argument.rationale))
+            if not argument.evidence:
+                st.caption("Einschätzung ohne zugeordneten Beleg – vor Kontakt prüfen.")
+            for evidence in argument.evidence:
+                _source_card(evidence, "Argument belegen")
+    elif legacy:
+        for text in legacy[:3]:
+            st.markdown(f"• {source_link_markdown(text)}")
+        st.caption("Aus den Bewertungstreibern bzw. Risiken von Schritt 3.")
+    else:
+        st.caption(empty)
+
+
+def _render_briefing(lead: EvaluatedLead, namespace: str, decision: dict | None):
+    """Iven's investment briefing in the HTGF theme; every value is shown as delivered, gaps as "Unbekannt"."""
+    from analyst_store import DECISIONS, save_decision
+    from scorecard import render_scorecard
+    from screening import screening_status, source_label
+
+    st.markdown(f"**Fund-Fit-Status: {md_escape(screening_status(lead))}**")
+    if lead.hard_exclusions or lead.eligibility_status == "Excluded":
+        st.error("Harter Ausschluss: " + md_escape("; ".join(lead.hard_exclusions) or "Ausschluss laut Evaluation; Begründung fehlt."))
+    if decision:
+        st.caption(md_escape(f"Analystenentscheidung: {decision['decision']} · gespeichert {decision['updated_at']}"))
+    why = lead.why_contact_now
+    if why:  # at most two sentences, also for older provider payloads
+        why = " ".join(re.split(r"(?<=[.!?])\s+", why.strip())[:2])
+    st.markdown('<div class="fr-thesis"><div class="fr-eyebrow">Warum jetzt Kontakt? · Einschätzung</div>'
+                f'<p>{escape(why or "Noch keine belegte Begründung für eine zeitnahe Kontaktaufnahme.")}</p></div>',
+                unsafe_allow_html=True)
+    render_scorecard(lead)
+    strengths, risks = st.columns(2, gap="large")
+    with strengths:
+        st.markdown("#### Stärken")
+        _arguments(lead.key_strengths, lead.score_drivers, "Noch keine belegten Stärken.")
+    with risks:
+        st.markdown("#### Risiken / Red Flags")
+        _arguments(lead.key_risks, lead.risks, "Keine Risiken dokumentiert; kein Nachweis von Risikofreiheit.")
+    st.markdown("#### Business & Markt")
+    left, right = st.columns(2)
+    with left:
+        for label, item in [("Problem", lead.problem_statement), ("Lösung / Produkt", lead.product_mechanics),
+                            ("Zielkunden", lead.target_customers), ("Geschäftsmodell", lead.business_model)]:
+            fact(label, item or UNKNOWN)
+    with right:
+        for label, item in [("Zielmarkt", lead.target_market), ("Wettbewerber", ", ".join(lead.competitors)),
+                            ("Differenzierung", lead.differentiation), ("Technologie / IP", lead.technology_advantage)]:
+            fact(label, item or UNKNOWN)
+    st.markdown("#### Traktion & Finanzierung")
+    st.caption("Finanzierung unbekannt heißt nicht unfinanziert. Fehlende Umsätze sind kein Umsatz von null.")
+    a, b, c = st.columns(3)
+    with a:
+        fact("Produktreife", lead.product_maturity if lead.product_maturity != "Unknown" else lead.product_stage or UNKNOWN)
+        fact("Finanzierungsstatus", lead.funding_status)
+    with b:
+        fact("Finanzierung gesamt", format_number(lead.funding_total_eur, " EUR"))
+        fact("Kunden", format_number(lead.customer_count))
+    with c:
+        fact("Jahresumsatz", format_number(lead.annual_revenue_eur, " EUR"))
+        fact("Teamgröße", format_number(lead.team_size))
+    for evidence in lead.traction_evidence:
+        _source_card(evidence, "Traktionsquelle")
+    for event in lead.funding_events:
+        st.write(md_escape(f"{format_date(event.announced_on) if event.announced_on else 'Datum unbekannt'} · "
+                           f"{format_number(event.amount_eur, ' EUR')} · {', '.join(event.investors) or 'Investoren unbekannt'}"))
+        for evidence in event.evidence:
+            _source_card(evidence, "Finanzierungsquelle")
+    st.markdown("#### Entdeckung")
+    fact("Entdeckungsquelle", source_label(lead))
+    fact("Frühestes öffentliches Signal", format_date(lead.first_signal_date) if lead.first_signal_date else UNKNOWN)
+    dated = sorted((x for x in _all_evidence(lead) if x.published_on), key=lambda x: x.published_on)
+    with st.expander(f"Belege mit Veröffentlichungsdatum ({len(dated)})"):
+        for evidence in dated:
+            _source_card(evidence)
+        if not dated:
+            st.caption("Keine Belege mit Veröffentlichungsdatum.")
+
+    st.markdown("#### Analystenentscheidung")
+    st.caption("Manuelle Entscheidung, lokal gespeichert (analyst_store). „Contact“ versendet keine E-Mail.")
+    if lead.hard_exclusions or lead.eligibility_status == "Excluded":
+        st.warning("Ein harter Ausschluss bleibt in der Longlist sichtbar, auch bei abweichender Entscheidung.")
+    saved = decision or {}
+    with st.form(f"decision_{namespace}_{lead.id}"):
+        choice = st.radio("Entscheidung", list(DECISIONS),
+                          index=list(DECISIONS).index(saved["decision"]) if saved else None, horizontal=True)
+        notes = st.text_area("Analysten-Notizen", saved.get("notes", ""))
+        reason = st.text_area("Begründung der Entscheidung", saved.get("reason", ""))
+        submitted = st.form_submit_button("Entscheidung speichern", type="primary")
+    if submitted:
+        if choice is None:
+            st.error("Bitte eine Entscheidung auswählen.")
+        else:
+            try:
+                save_decision(namespace, lead.id, choice, notes, reason)
+            except ValueError as error:
+                st.error(str(error))
+            except Exception:
+                st.error("Speichern fehlgeschlagen. Datenbankzugriff prüfen.")
+            else:
+                st.success("Entscheidung und Notizen gespeichert.")

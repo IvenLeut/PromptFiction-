@@ -664,6 +664,56 @@
           "default": null,
           "title": "Source Name"
         },
+        "discovery_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discovery Source"
+        },
+        "first_signal_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Signal Date"
+        },
+        "discovered_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discovered At"
+        },
+        "initial_signal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Initial Signal"
+        },
         "country_evidence": {
           "anyOf": [
             {
@@ -742,6 +792,56 @@
           ],
           "default": null,
           "title": "Founding Month"
+        },
+        "founded_day": {
+          "anyOf": [
+            {
+              "maximum": 31,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founded Day"
+        },
+        "founding_country": {
+          "anyOf": [
+            {
+              "const": "DE",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Founding Country"
+        },
+        "field_evidence": {
+          "additionalProperties": {
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "type": "array"
+          },
+          "title": "Field Evidence",
+          "type": "object"
+        },
+        "screening_as_of": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Screening As Of"
         },
         "has_vc": {
           "anyOf": [
@@ -844,6 +944,18 @@
           "title": "Founder Profiles",
           "type": "array"
         },
+        "problem_statement": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Problem Statement"
+        },
         "target_customers": {
           "anyOf": [
             {
@@ -855,6 +967,99 @@
           ],
           "default": null,
           "title": "Target Customers"
+        },
+        "product_mechanics": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Mechanics"
+        },
+        "product_maturity": {
+          "default": "Unknown",
+          "enum": [
+            "Idea",
+            "Prototype",
+            "MVP",
+            "Market",
+            "Unknown"
+          ],
+          "title": "Product Maturity",
+          "type": "string"
+        },
+        "business_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Business Model"
+        },
+        "target_market": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Market"
+        },
+        "competitors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Competitors",
+          "type": "array"
+        },
+        "technology_advantage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Technology Advantage"
+        },
+        "differentiation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Differentiation"
+        },
+        "traction_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Traction Evidence",
+          "type": "array"
+        },
+        "funding_events": {
+          "items": {
+            "$ref": "#/$defs/FundingEvent"
+          },
+          "title": "Funding Events",
+          "type": "array"
         },
         "customer_problem": {
           "anyOf": [
@@ -974,8 +1179,14 @@
           "type": "array"
         },
         "funding_status": {
-          "default": "unknown",
+          "default": "Unknown",
           "enum": [
+            "Bootstrapped",
+            "Grant-funded",
+            "Pre-Seed",
+            "Seed",
+            "Later",
+            "Unknown",
             "vc_backed",
             "non_vc_funded",
             "unfunded",
@@ -996,19 +1207,6 @@
           ],
           "title": "Vc Status",
           "type": "string"
-        },
-        "first_signal_date": {
-          "anyOf": [
-            {
-              "format": "date",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "First Signal Date"
         },
         "imprint_url": {
           "anyOf": [
@@ -1175,30 +1373,6 @@
           ],
           "default": null,
           "title": "Market Size Eur"
-        },
-        "business_model": {
-          "anyOf": [
-            {
-              "enum": [
-                "b2b",
-                "b2c",
-                "b2b2c"
-              ],
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Business Model"
-        },
-        "competitors": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Competitors",
-          "type": "array"
         },
         "in_databases": {
           "anyOf": [
@@ -1448,6 +1622,19 @@
           "default": null,
           "title": "Field"
         },
+        "published_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published On"
+        },
         "source_date": {
           "anyOf": [
             {
@@ -1573,6 +1760,18 @@
     "FounderProfile": {
       "additionalProperties": false,
       "properties": {
+        "qualifications": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Qualifications"
+        },
         "name": {
           "minLength": 1,
           "title": "Name",
@@ -1590,30 +1789,6 @@
           "default": null,
           "title": "Role"
         },
-        "qualifications": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Qualifications"
-        },
-        "institution": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Institution"
-        },
         "background": {
           "anyOf": [
             {
@@ -1630,6 +1805,18 @@
           ],
           "default": null,
           "title": "Background"
+        },
+        "institution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Institution"
         },
         "prior_experience": {
           "items": {
@@ -1711,6 +1898,37 @@
           ],
           "default": null,
           "title": "Source Url"
+        },
+        "relevant_experience": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relevant Experience"
+        },
+        "distinctive_skills": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distinctive Skills"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
         }
       },
       "required": [
@@ -1786,6 +2004,53 @@
         "name"
       ],
       "title": "FounderResearch",
+      "type": "object"
+    },
+    "FundingEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "announced_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Announced On"
+        },
+        "amount_eur": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Amount Eur"
+        },
+        "investors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Investors",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "title": "FundingEvent",
       "type": "object"
     },
     "FundingResearch": {

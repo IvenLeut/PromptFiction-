@@ -42,6 +42,7 @@ scoring_out/
 
 # Streamlit-Zugangsdaten
 .streamlit/secrets.toml
+data/
 
 # Betriebssystem und Editoren
 .DS_Store

@@ -65,7 +65,7 @@ def extract_quotes(model, name, signals, fields):
     sources = signals[:MAX_SOURCES]
     excerpts = tuple(source.evidence[:MAX_EXCERPT] for source in sources)
     if excerpts:
-        for item in request_quotes(model, name, excerpts, fields):
+        for item in request_quotes(model, name, excerpts, tuple(fields)):
             index = item.source_index
             if index < len(excerpts) and item.quote in excerpts[index]:
                 yield item.field, item.quote, sources[index]

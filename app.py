@@ -1,5 +1,6 @@
 """Product flow: choose a data source (snapshot, demo, live) -> run steps 1–3 or load the snapshot -> dashboard."""
 import logging
+import os
 
 import streamlit as st
 
@@ -28,8 +29,12 @@ def new_analysis():
     st.session_state.pop("analysis", None)
     st.session_state.pop("analysis_meta", None)
     st.query_params.clear()
-    for key in ("top_filter", "portfolio_top_n", "portfolio_industry", "portfolio_stage", "portfolio_no_db"):
+    for key in ("top_filter", "portfolio_top_n", "portfolio_industry", "portfolio_stage", "portfolio_no_db",
+                "portfolio_filters", "industry_filter"):
         st.session_state.pop(key, None)
+    for key in list(st.session_state):
+        if key.startswith("cockpit_"):   # investment cockpit (cockpit.py) state of the previous run
+            st.session_state.pop(key, None)
     bump_table_generation()
 
 
@@ -55,6 +60,8 @@ def start_analysis(category: Industry, live: bool):
         st.error("Der Förderkatalog konnte gerade nicht abgefragt werden. Bitte später erneut versuchen "
                  "oder die Demo-Daten nutzen.")
         st.caption(str(exc))
+    except (NotImplementedError, ValueError) as exc:   # e.g. an unreadable FOUNDERRADAR_SCREENING_REPORT
+        st.error(str(exc))
     except Exception:
         logging.exception("Analysis failed")
         st.error("Die Analyse konnte nicht abgeschlossen werden. Bitte erneut versuchen.")
@@ -98,7 +105,9 @@ if run is None:
     if st.query_params.get("startup"):
         st.caption("Bitte starte eine Analyse, um die Startup-Details dieser Sitzung zu öffnen.")
     # Widget state is dropped while the dashboard is shown, so the choice is also kept under "data_source".
-    saved = st.session_state.get("data_source", "snapshot")
+    # FOUNDERRADAR_MODE=live (cockpit branch) preselects the live source; the default stays the snapshot.
+    default_source = "live" if os.getenv("FOUNDERRADAR_MODE", "").strip().lower() == "live" else "snapshot"
+    saved = st.session_state.get("data_source", default_source)
     landing(st.session_state.get("data_source_radio", saved))
     source = st.radio("Datenquelle", list(SOURCES), index=list(SOURCES).index(saved), format_func=SOURCES.get,
                       horizontal=True, key="data_source_radio",

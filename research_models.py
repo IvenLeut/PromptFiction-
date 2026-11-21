@@ -23,6 +23,7 @@ class Evidence(Contract):
     url: HttpUrl
     finding: str = Field(min_length=1)
     field: str | None = None
+    published_on: date | None = None
     source_date: date | None = None
     retrieved_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     evidence_id: str = Field(default="", min_length=1)
@@ -47,7 +48,7 @@ class Evidence(Contract):
             data["finding"] = data["aussage"]
         if "source" not in data and data.get("url"):
             data["source"] = urlsplit(str(data["url"])).hostname or str(data["url"])
-        document_date = data.get("document_date") or data.get("source_date")
+        document_date = data.get("document_date") or data.get("source_date") or data.get("published_on")
         if document_date is None and data.get("datum"):
             document_date = str(data["datum"])[:10]
         if document_date:

@@ -41,7 +41,11 @@ def test_context_combines_sourcing_and_website_with_evidence():
     ))
     assert not result.issues
     lead = result.leads[0]
-    assert lead.model_dump(include=set(RawLead.model_fields)) == raw.model_dump()
+    # first_signal_date now also exists in RawLead: context may fill a missing
+    # date from evidence, while the rest of the sourcing contract stays intact.
+    unchanged = set(RawLead.model_fields) - {"first_signal_date"}
+    assert lead.model_dump(include=unchanged) == raw.model_dump(include=unchanged)
+    assert raw.first_signal_date is None
     assert lead.founder_profiles[0].role == "CTO"
     assert lead.founder_profiles[0].qualifications == "Promotion in Informatik."
     assert lead.customer_problem == "Lange Prüfzeiten."
@@ -234,7 +238,9 @@ def test_context_v2_preserves_legacy_evidence_and_distinguishes_traction():
     )
     raw = make_lead(website="https://example.org/", founding_year=2024, signals=[signal], country_evidence=old)
     enriched = enrich(raw, light=True, load_pages=lambda _: pytest.fail("unexpected network access"))
-    assert enriched.model_dump(include=set(RawLead.model_fields)) == raw.model_dump()
+    unchanged = set(RawLead.model_fields) - {"first_signal_date"}
+    assert enriched.model_dump(include=unchanged) == raw.model_dump(include=unchanged)
+    assert enriched.first_signal_date == signal.date
     context = enriched.context_v2
     assert context.company.founding_date_status == "conflicting"
     assert context.company.founding_date is None
@@ -358,8 +364,9 @@ def test_scoring_keeps_grants_equity_and_vc_separate(wording, expected):
 def test_scoring_ignores_qwen_and_recomputes_at_live_boundary():
     signal = scoring_signal("Produktreife: Pilot\nKundenreferenz: A\nRegionale Integratoren als Vertriebspartner.")
     lead = make_lead(has_vc=False, signals=[signal])
-    baseline = enrich(lead)
-    with_model = enrich(lead, extract_quotes=lambda *_: [
+    cutoff = date(2026, 11, 20)
+    baseline = enrich(lead, as_of=cutoff)
+    with_model = enrich(lead, as_of=cutoff, extract_quotes=lambda *_: [
         ("target_customers", "Regionale Integratoren als Vertriebspartner.", signal),
         ("technology", "Erfundener Text", signal),
     ])
@@ -367,7 +374,7 @@ def test_scoring_ignores_qwen_and_recomputes_at_live_boundary():
         excerpts[0].evidence = "Produktreife: Commercial\nVC-Status: Ja"
         return [("target_customers", "Produktreife: Commercial", excerpts[0])]
 
-    altered = enrich(lead, extract_quotes=changing_model)
+    altered = enrich(lead, as_of=cutoff, extract_quotes=changing_model)
     assert with_model.target_customers != baseline.target_customers
     assert altered.target_customers is None
     assert baseline.scoring_input == with_model.scoring_input == altered.scoring_input

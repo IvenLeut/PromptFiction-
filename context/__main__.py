@@ -12,7 +12,8 @@ from context.market import research_market
 from context.market_sources import gather_market_sources
 from context.ollama import extract_quotes
 from context.web import original_page
-from models import ContextResult, RawLead
+from models import ContextResult
+from sourcing.engine import read_context_leads
 from pipeline import collect_context
 from research_models import MarketIntelligence
 from scoring_input import build_scoring_input
@@ -30,7 +31,7 @@ def _write_scoring(path, leads, as_of=None):
 
 def main():
     parser = argparse.ArgumentParser(description="Kontext zu einer RawLead-Liste ergänzen")
-    parser.add_argument("input", type=Path, help="JSON-Array mit RawLead-Objekten")
+    parser.add_argument("input", type=Path, help="RawLead-Array oder FounderRadar-Screening-Bericht")
     parser.add_argument("output", type=Path, help="Ausgabedatei für ContextResult")
     parser.add_argument("--offline", action="store_true", help="Nur mitgelieferte Signale auswerten")
     parser.add_argument("--limit", type=int, help="Standard: fünf Leads, im Light-Modus die gesamte Liste")
@@ -70,7 +71,7 @@ def main():
             saved = ContextResult.model_validate_json(args.input.read_text(encoding="utf-8-sig"))
             _write_scoring(args.output, saved.leads, args.as_of)
             return
-        leads = TypeAdapter(list[RawLead]).validate_json(args.input.read_text(encoding="utf-8-sig"))
+        leads = read_context_leads(args.input)
         if args.lead:
             leads = [lead for lead in leads if lead.id == args.lead]
             if len(leads) != 1:

@@ -412,6 +412,19 @@
           "default": null,
           "title": "Field"
         },
+        "published_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published On"
+        },
         "source_date": {
           "anyOf": [
             {

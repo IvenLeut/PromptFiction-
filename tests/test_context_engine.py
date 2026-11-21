@@ -10,6 +10,13 @@ from scoring import load_config
 U = "https://example.org/"
 
 
+def test_labelled_technology_preserves_capitalized_nouns_without_navigation():
+    from context.engine import labelled
+    assert labelled("Technologie: Drahtlose Sensorik", "Technologie|Technology") == "Drahtlose Sensorik"
+    assert labelled("Technology: Projects Knowledge Base", "Technologie|Technology") is None
+    assert labelled("Technology: Technology", "Technologie|Technology") is None
+
+
 def make_lead(**changes):
     fields = dict(id="t", name="Testwerk", description="Testwerk entwickelt Elektronenspinresonanz-Sensorik auf Chipbasis für die Materialanalyse.",
                   industry=Industry.INDUSTRIAL, htgf_sector="industrial_deep_tech", country="DE", location="Stuttgart",

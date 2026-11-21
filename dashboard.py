@@ -19,7 +19,7 @@ from models import AnalysisRun, EvaluatedLead, ResearchResult
 from pipeline import industry_unclassified, lead_priority, ranking_key
 from ui_theme import (
     FONT, GRID, INK, MUTED, ORANGE, PANEL, RISK_HIGH, RISK_LOW, SCORE_MAX, TABLE_MAX_HEIGHT, TABLE_ROW_HEIGHT,
-    TOP_N_OPTIONS, WHITE, ZERO_LINE, chips, format_date, heading, kpi_cards, md_escape, summary_kpis,
+    TOP_N_OPTIONS, UNKNOWN, WHITE, ZERO_LINE, chips, format_date, heading, kpi_cards, md_escape, summary_kpis,
 )
 
 ALL_INDUSTRIES = "Alle Branchen"
@@ -61,14 +61,30 @@ def source_link_markdown(text: str) -> str:
     return f"{md_escape(text[:match.start()])} ([Quelle]({match[1]}))"
 
 
+def contact_email(lead: EvaluatedLead) -> str | None:
+    """Step-1 contact address, else the company mailbox from the imprint if an evidence entry quotes it verbatim
+    (Leonard, 032f20d). Redacted personal addresses ("[E-Mail entfernt]", demo_snapshot) never match."""
+    if lead.contact_email:
+        return lead.contact_email
+    address = lead.imprint_email or ""
+    if not re.fullmatch(r"[A-Za-z0-9.!#$%&'*+/=?^_{}|~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", address):
+        return None
+    pattern = rf"(?<![\w.%+-]){re.escape(address)}(?![\w@-]|\.[\w-])"
+    if any(item.field == "contact_email" and item.verification_status != "assumption"
+           and re.search(pattern, item.finding, re.I) for item in lead.evidence):
+        return address
+    return None
+
+
 def contact_url(lead: EvaluatedLead) -> str | None:
     """Mailto draft to the founders; None without an e-mail address."""
-    if not lead.contact_email:
+    address = contact_email(lead)
+    if not address:
         return None
     subject = quote(f"Austausch zu {lead.name}", safe="")
     body = quote(f"Hallo,\n\nwir sind auf {lead.name} aufmerksam geworden und würden gerne mehr "
                  "über euer Unternehmen erfahren. Habt ihr Zeit für einen kurzen Austausch?\n\nViele Grüße", safe="")
-    return f"mailto:{quote(lead.contact_email, safe='@')}?subject={subject}&body={body}"
+    return f"mailto:{quote(address, safe='@')}?subject={subject}&body={body}"
 
 
 # --- Earliness and team helpers (shared with deep_dive.py) ---------------------------------------------
@@ -196,8 +212,17 @@ def render_issues(result: ResearchResult):
                 st.warning(md_escape(f"{issue.lead_id}: {issue.message}"))
 
 
+def decision_namespace(result: ResearchResult, analysis: AnalysisRun | None) -> str:
+    """analyst_store namespace: demo decisions never mix with live/snapshot ones (same rule as cockpit_data)."""
+    return "demo" if (analysis and analysis.mode == "demo") or all(x.is_demo for x in result.leads) else "live"
+
+
 def render_dashboard(result: ResearchResult, analysis: AnalysisRun | None = None, meta: dict | None = None):
-    """Overview or, with ``?startup=<id>``, the deep dive of one lead."""
+    """Overview or, with ``?startup=<id>``, the deep dive of one lead.
+
+    The overview has three views: "Radar" (scores, earliness, best find, ranking; the default), "Screening"
+    (fund fit, analyst status and filters from the cockpit branch) and "Investment-Cockpit" (cockpit.py:
+    overview, dealflow, company brief, activities). All three read the same run; decisions are shared."""
     # deep_dive imports helpers from this module, so it is imported here, not at module level.
     from deep_dive import render_deep_dive
 
@@ -205,14 +230,29 @@ def render_dashboard(result: ResearchResult, analysis: AnalysisRun | None = None
     if not result.leads:
         st.info("Für diese Kategorie liegen noch keine bewerteten Startups vor. Starte eine neue Analyse.")
         return
+    namespace = decision_namespace(result, analysis)
     requested_id = st.query_params.get("startup")
     if requested_id:
         lead = next((x for x in result.leads if x.id == requested_id), None)
         if lead is not None:
-            render_deep_dive(lead, back_to_overview, meta=meta, as_of=as_of_date(analysis, meta))
+            render_deep_dive(lead, back_to_overview, meta=meta, as_of=as_of_date(analysis, meta),
+                             namespace=namespace, decision=_load_decisions(namespace).get(lead.id))
             return
         st.warning("Dieses Startup ist im aktuellen Suchlauf nicht vorhanden.")
         st.button("Zurück zur Übersicht", on_click=back_to_overview)
+        return
+    view = st.segmented_control("Ansicht", VIEWS, key="dashboard_view", label_visibility="collapsed",
+                                default=_saved("portfolio_view", VIEWS, VIEWS[0])) or VIEWS[0]
+    st.session_state.portfolio_view = view
+    if view == VIEWS[1]:
+        _render_screening(result, analysis, meta, namespace)
+        return
+    if view == VIEWS[2]:
+        if analysis is None:
+            st.info("Das Investment-Cockpit braucht einen vollständigen Analyselauf.")
+            return
+        from cockpit import render_workspace
+        render_workspace(analysis)
         return
     live = bool(analysis and analysis.mode == "live")
     snapshot = bool(meta and meta.get("kind") == "snapshot")
@@ -247,6 +287,84 @@ def render_dashboard(result: ResearchResult, analysis: AnalysisRun | None = None
                    "Die Gewichtung ist noch keine abgestimmte Investmentmethodik.")
     else:
         st.caption("Fiktive Demo-Daten. Kontakte und Quellen verwenden example.org. Die Gewichtung ist noch keine abgestimmte Investmentmethodik.")
+
+
+VIEWS = ["Radar", "Screening & Entscheidungen", "Investment-Cockpit"]
+
+
+def _load_decisions(namespace: str) -> dict:
+    """Analyst decisions (analyst_store); {} with a warning if the local database is not readable."""
+    from analyst_store import load_decisions
+    try:
+        return load_decisions(namespace)
+    except Exception:
+        st.warning("Analystenentscheidungen konnten nicht geladen werden. Datenbankzugriff prüfen (FOUNDERRADAR_DB).")
+        return {}
+
+
+def _render_screening(result: ResearchResult, analysis: AnalysisRun | None, meta: dict | None, namespace: str):
+    """Screening longlist of the cockpit branch (Iven/Leonard): fund fit, analyst status, search and filters.
+
+    High priority is a presentation threshold (screening.high_priority), not a new score."""
+    from screening import filter_leads, high_priority, review_status
+
+    decisions = _load_decisions(namespace)
+    heading("Screening / Entscheidungen", "Früh entdecken. Klar entscheiden.",
+            "Priorisierte Longlist für die erste Kontaktentscheidung. Quellenfakten, Einschätzungen aus dem Scoring "
+            "und Analystenentscheidungen bleiben unterscheidbar.")
+    kpi_cards([("Leads gesamt", str(len(result.leads)), "im Analyselauf", None),
+               ("Hohe Priorität", str(sum(high_priority(x, decisions) for x in result.leads)), "Schwellen siehe unten", None),
+               ("Offen zur Prüfung", str(sum(review_status(x, decisions) == "Pending Review" for x in result.leads)),
+                "ohne Analystenentscheidung", None),
+               ("Kontakt-Kandidaten", str(sum(review_status(x, decisions) == "Contact" for x in result.leads)),
+                "Entscheidung „Contact“", None)], dark_first=True)
+    st.caption("Hohe Priorität: bestätigter Fund Fit, Quality ≥ 75, Fit ≥ 70, Earliness ≥ 70; kein Ausschluss/Reject. "
+               "Kontakt-Kandidaten: ausdrückliche Analystenentscheidung „Contact“ (im Deep Dive).")
+    search = st.text_input("Unternehmen oder Branche suchen", placeholder="Name oder Technologiefeld eingeben …",
+                           key="cockpit_search")
+    with st.expander("Filter und Priorisierung"):
+        a, b, c = st.columns(3)
+        locations = a.multiselect("Standort", sorted({x.location or UNKNOWN for x in result.leads}), key="cockpit_locations")
+        industries = b.multiselect("Branche", sorted({x.industry.value for x in result.leads}), key="cockpit_industries")
+        stages = c.multiselect("Stage", sorted({x.stage_classification for x in result.leads}), key="cockpit_stages")
+        d, e = st.columns(2)
+        fit = d.selectbox("Fund Fit", ["Alle", "Passend", "Ungeklärt", "Ausgeschlossen"], key="cockpit_fit")
+        statuses = e.multiselect("Screening-Status", ["Pending Review", "Contact", "Watchlist", "Reject", "Excluded"],
+                                 key="cockpit_statuses")
+    left, right = st.columns([3, 1])
+    order = left.selectbox("Sortieren nach", ["Priorität", "Quality Score", "Fund Fit", "Earliness", "Entdeckungsdatum"],
+                           key="cockpit_sort")
+    top_n = right.selectbox("Anzeigen", [0, 10, 20], key="cockpit_top",
+                            format_func=lambda x: "Alle Startups" if x == 0 else f"Top {x}")
+    filtered = filter_leads(result.leads, decisions, search=search, locations=locations, industries=industries,
+                            stages=stages, fit=fit, statuses=statuses, sort_by=order)
+    shown = filtered[:top_n] if top_n else filtered
+    st.caption(f"{len(shown)} angezeigt / {len(filtered)} passend / {len(result.leads)} insgesamt. Ausschlüsse bleiben "
+               "sichtbar und werden bei Standardpriorisierung zurückgestellt.")
+    if not shown:
+        st.info("Keine Unternehmen entsprechen den gewählten Filtern.")
+        return
+    rows = [{"Unternehmen": x.name, "Value Proposition": x.value_proposition, "Branche": industry_label(x),
+             "Standort": x.location or UNKNOWN, "Stage": stage_label(x, meta),
+             "Fund Fit": "Ausgeschlossen" if x.hard_exclusions or x.eligibility_status == "Excluded" else
+                         (f"{x.fund_fit_score:.0f}/100" if x.fund_fit_score is not None else UNKNOWN),
+             "Quality Score": x.overall_score, "Earliness Score": x.earliness_score,
+             "Screening-Status": review_status(x, decisions),
+             "Priorität": "Hoch" if high_priority(x, decisions) else "—"} for x in shown]
+    signature = sha256("|".join(x.id for x in shown).encode()).hexdigest()[:12]
+    config = {
+        "Unternehmen": st.column_config.TextColumn("Unternehmen / Deep Dive", width="medium"),
+        "Value Proposition": st.column_config.TextColumn("Value Proposition", width="medium"),
+        "Quality Score": st.column_config.ProgressColumn("Quality", min_value=0, max_value=SCORE_MAX, format="%.0f"),
+        "Earliness Score": st.column_config.ProgressColumn("Earliness", min_value=0, max_value=SCORE_MAX, format="%.0f"),
+    }
+    event = st.dataframe(rows, hide_index=True, width="stretch", height=min(TABLE_MAX_HEIGHT, 40 + len(rows) * TABLE_ROW_HEIGHT),
+                         row_height=TABLE_ROW_HEIGHT, column_config=config, on_select="rerun", selection_mode="single-row",
+                         key=f"screening_{signature}_{st.session_state.get('table_generation', 0)}")
+    if open_selected_row(event, shown):
+        st.rerun()
+    st.caption("Zeile anklicken für den Deep Dive mit Analystenentscheidung. Quality ist der Gesamt-Score aus Schritt 3; "
+               "Unbekannt beim Fund Fit heißt: Eignung noch nicht geprüft.")
 
 
 def _saved(key: str, options: list, default):

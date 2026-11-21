@@ -52,6 +52,7 @@ class ValuationResult(Contract):
     scorecard_pre_money_eur: Decimal | None = None
     vc_max_pre_money_eur: Decimal | None = None
     vc_price_headroom_eur: Decimal | None = None
+    blocked_reason: str | None = None
 
 
 def value_lead(lead: EnrichedLead, assumptions: ValuationAssumptions) -> ValuationResult:
@@ -68,6 +69,8 @@ def value_lead(lead: EnrichedLead, assumptions: ValuationAssumptions) -> Valuati
     result = ValuationResult(lead_id=lead.id, assumptions=assumptions,
                              round_size_eur=euro(round_size), asking_pre_money_eur=euro(asking))
     if scoring.vc_status.status != "usable" or scoring.vc_status.value != "reported_none":
+        if assumptions.scorecard or assumptions.vc_method:
+            result.blocked_reason = "Für die Bewertung fehlt ein belegter Status ohne bisherige VC-Beteiligung."
         return result
     if scorecard := assumptions.scorecard:
         result.scorecard_pre_money_eur = scorecard.benchmark_pre_money_eur * sum(
@@ -82,6 +85,8 @@ def value_lead(lead: EnrichedLead, assumptions: ValuationAssumptions) -> Valuati
         max_post_money = vc.exit_equity_value_eur * (1 - vc.future_dilution) / vc.target_moic
         result.vc_max_pre_money_eur = max_post_money - result.round_size_eur
         result.vc_price_headroom_eur = result.vc_max_pre_money_eur - result.asking_pre_money_eur
+    elif assumptions.vc_method:
+        result.blocked_reason = "Rundengröße und Preisforderung benötigen einen gemeinsamen Beleg."
     return result
 
 

@@ -84,7 +84,7 @@ def test_dashboard_filters_and_detail():
     assert app.query_params["startup"] == shown[1].id
     assert app.title[0].value == shown[1].name
     assert not app.dataframe
-    assert len(app.tabs) == 3
+    assert len(app.tabs) == 4  # incl. "Investment-Briefing & Entscheidung" (cockpit branch)
     next(x for x in app.button if x.key == "back_to_portfolio").click().run()
     assert not app.exception
     assert len(app.dataframe[0].value) == 20
@@ -272,3 +272,28 @@ def test_sourced_text_is_rendered_as_literal_markdown():
     assert md_escape("- Punkt\n1. Schritt\n=== R&D") == "\\- Punkt  \n1\\. Schritt  \n\\=== R\\&D"
     assert source_link_markdown("Reife_grad $x$ (Quelle: https://example.org/a_b?c=1)") == \
         r"Reife\_grad \$x\$ ([Quelle](https://example.org/a_b?c=1))"
+
+
+def test_screening_and_cockpit_views_and_decision_tab():
+    """Integrated cockpit branch: screening longlist, investment cockpit and the decision form in the deep dive."""
+    from models import Industry
+    app = start_app(Industry.HEALTH)
+    view = next(x for x in app.get("button_group") if x.label == "Ansicht")
+    view.set_value("Screening & Entscheidungen").run()
+    assert not app.exception
+    assert len(app.dataframe[0].value) == 30
+    assert any("Screening" in x.value for x in app.title) or any("Screening" in str(x.value) for x in app.markdown)
+    next(x for x in app.get("button_group") if x.label == "Ansicht").set_value("Investment-Cockpit").run()
+    assert not app.exception
+    nav = next(x for x in app.radio if x.label == "Workspace")
+    for page in ("Dealflow", "Company Deep Dive", "Activities", "Overview"):
+        nav.set_value(page).run()
+        assert not app.exception, page
+        nav = next(x for x in app.radio if x.label == "Workspace")
+    next(x for x in app.get("button_group") if x.label == "Ansicht").set_value("Radar").run()
+    assert not app.exception and len(app.dataframe[0].value) == 10
+    lead = app.session_state.analysis.result.leads[0]
+    app.query_params["startup"] = lead.id
+    app.run()
+    assert not app.exception
+    assert any(x.label == "Entscheidung" for x in app.radio)

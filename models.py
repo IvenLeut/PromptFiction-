@@ -13,7 +13,7 @@ from datetime import date as Date
 from datetime import datetime, timezone
 from typing import Literal
 
-from pydantic import Field, HttpUrl
+from pydantic import Field, HttpUrl, model_validator
 
 from research_models import ContextV2, Contract, Evidence
 from scoring_models import ScoringInput
@@ -45,22 +45,6 @@ class SourceSignal(Contract):
     subject_lead_id: str | None = None
 
 
-# Step 2 (context/openalex): a founder with optional research profile.
-class FounderProfile(Contract):
-    name: str = Field(min_length=1)
-    role: str | None = None
-    qualifications: str | None = None
-    # Enrichment (context step). Each value is backed by its own URL; None = not found, never guessed.
-    institution: str | None = None
-    background: Literal["tech", "business", "beides"] | None = None
-    prior_experience: list[Literal["fruehere_gruendung", "industrie"]] = Field(default_factory=list)
-    openalex_url: HttpUrl | None = None
-    works_total: int | None = Field(default=None, ge=0)
-    works_in_field: int | None = Field(default=None, ge=0)
-    match_confidence: float | None = Field(default=None, ge=0, le=1)
-    source_url: HttpUrl | None = None
-
-
 class Grant(Contract):
     """Public funding (e.g. EXIST) with its catalogue URL."""
     programme: str = Field(min_length=1)
@@ -89,6 +73,9 @@ class Patent(Contract):
 
 
 # Step 1 output (sourcing). Steps 2-3 must not change these fields (pipeline._preserve).
+CONTACT_EMAIL_PATTERN = r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+
+
 class RawLead(Contract):
     id: str = Field(min_length=1)
     name: str = Field(min_length=1)
@@ -98,18 +85,61 @@ class RawLead(Contract):
     location: str | None = None
     source_url: HttpUrl
     source_name: str | None = None
+    discovery_source: str | None = None
+    first_signal_date: Date | None = None
+    discovered_at: datetime | None = None
+    initial_signal: str | None = None
     country_evidence: Evidence | None = None
     is_demo: bool = False
     website: HttpUrl | None = None
     founders: list[str] = Field(default_factory=list)
-    contact_email: str | None = Field(default=None, pattern=r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+    contact_email: str | None = Field(default=None, pattern=CONTACT_EMAIL_PATTERN)
     founding_year: int | None = Field(default=None, ge=1800, le=2100)
     founding_month: int | None = Field(default=None, ge=1, le=12)
+    founded_day: int | None = Field(default=None, ge=1, le=31)
+    founding_country: Literal["DE"] | None = None
+    field_evidence: dict[str, list[Evidence]] = Field(default_factory=dict)
+    screening_as_of: Date | None = None
     has_vc: bool | None = None
     signals: list[SourceSignal] = Field(default_factory=list)
     prioritization_reason: str | None = None  # "Priorität N: …" from sourcing; pipeline.lead_priority parses N
     htgf_sector: Literal["digital_tech", "industrial_deep_tech", "climate_tech",
                          "life_sciences", "chemie_materialien"] | None = None
+
+    @model_validator(mode="after")
+    def validate_founding_day(self):
+        if self.founded_day is not None:
+            if self.founding_year is None or self.founding_month is None:
+                raise ValueError("Ein Gründungstag benötigt Monat und Jahr.")
+            Date(self.founding_year, self.founding_month, self.founded_day)
+        return self
+
+
+# Step 2 (context/openalex, context/team): a founder with optional research profile; the cockpit fields
+# (relevant_experience, distinctive_skills, evidence) come from the investment-cockpit branch.
+class FounderProfile(Contract):
+    qualifications: str | None = None
+    name: str = Field(min_length=1)
+    role: str | None = None
+    background: Literal["tech", "business", "beides"] | None = None
+    # Enrichment (context step). Each value is backed by its own URL; None = not found, never guessed.
+    institution: str | None = None
+    prior_experience: list[Literal["fruehere_gruendung", "industrie"]] = Field(default_factory=list)
+    openalex_url: HttpUrl | None = None
+    works_total: int | None = Field(default=None, ge=0)
+    works_in_field: int | None = Field(default=None, ge=0)
+    match_confidence: float | None = Field(default=None, ge=0, le=1)
+    source_url: HttpUrl | None = None
+    relevant_experience: str | None = None
+    distinctive_skills: str | None = None
+    evidence: list[Evidence] = Field(default_factory=list)
+
+
+class FundingEvent(Contract):
+    announced_on: Date | None = None
+    amount_eur: float | None = Field(default=None, ge=0, allow_inf_nan=False)
+    investors: list[str] = Field(default_factory=list)
+    evidence: list[Evidence] = Field(default_factory=list)
 
 
 # Step 2 output (context). Sections below are grouped by comment only; the field order is part of the
@@ -123,7 +153,17 @@ class EnrichedLead(RawLead):
     scoring_input: ScoringInput | None = None          # handoff to step 3; rebuilt by pipeline in live mode
     # --- Legacy context fields (free-text dossier, valuation inputs, status) ---
     founder_profiles: list[FounderProfile] = Field(default_factory=list)
+    problem_statement: str | None = None
     target_customers: str | None = None
+    product_mechanics: str | None = None
+    product_maturity: Literal["Idea", "Prototype", "MVP", "Market", "Unknown"] = "Unknown"
+    business_model: str | None = None
+    target_market: str | None = None
+    competitors: list[str] = Field(default_factory=list)
+    technology_advantage: str | None = None
+    differentiation: str | None = None
+    traction_evidence: list[Evidence] = Field(default_factory=list)
+    funding_events: list[FundingEvent] = Field(default_factory=list)
     customer_problem: str | None = None
     solution: str | None = None
     market: str | None = None
@@ -134,7 +174,7 @@ class EnrichedLead(RawLead):
     round_size_eur: int | None = Field(default=None, gt=0)
     asking_pre_money_eur: int | None = Field(default=None, gt=0)
     research_questions: list[str] = Field(default_factory=list)
-    funding_status: Literal["vc_backed", "non_vc_funded", "unfunded", "funded", "conflicting", "unknown"] = "unknown"
+    funding_status: Literal["Bootstrapped", "Grant-funded", "Pre-Seed", "Seed", "Later", "Unknown", "vc_backed", "non_vc_funded", "unfunded", "funded", "conflicting", "unknown"] = "Unknown"
     vc_status: Literal["confirmed", "reported_none", "conflicting", "unknown"] = "unknown"
     first_signal_date: Date | None = None
     # --- Enrichment for scoring (scoring owner) ---
@@ -154,8 +194,6 @@ class EnrichedLead(RawLead):
     product_type: Literal["software", "plattform", "hardware", "hardware_software", "wirkstoff"] | None = None
     regulated_market: bool | None = None
     market_size_eur: int | None = Field(default=None, ge=0)
-    business_model: Literal["b2b", "b2c", "b2b2c"] | None = None
-    competitors: list[str] = Field(default_factory=list)
     in_databases: bool | None = None                   # Crunchbase/Dealroom profile found
     first_db_date: Date | None = None
     database_urls: list[HttpUrl] = Field(default_factory=list)
@@ -178,8 +216,29 @@ class EnrichedLead(RawLead):
     matched_website: HttpUrl | None = None
 
 
+# Cockpit (Iven): one key strength/risk with its rationale and evidence.
+class InvestmentArgument(Contract):
+    statement: str
+    rationale: str
+    evidence: list[Evidence] = Field(default_factory=list)
+
+
 # Step 3 output of the evaluator (evaluation/engine.py or demo), merged with the dossier.
 class EvaluationScores(Contract):
+    # Preserve the scoring engine's full evidence and missing-value semantics.
+    evaluation_v2: dict | None = None
+    technology_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    why_contact_now: str | None = None
+    key_strengths: list[InvestmentArgument] = Field(default_factory=list, max_length=3)
+    key_risks: list[InvestmentArgument] = Field(default_factory=list, max_length=3)
+    score_rationales: dict[str, str] = Field(default_factory=dict)
+    fund_fit_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    team_score: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    hard_exclusions: list[str] = Field(default_factory=list)
+    eligibility_status: Literal["Eligible", "Excluded", "Unknown"] = "Unknown"
+    fund_fit_rationale: str | None = None
+    team_rationale: str | None = None
+    earliness_rationale: str | None = None
     overall_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
     company_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
     market_potential_score: float | None = Field(ge=0, le=100, allow_inf_nan=False)
@@ -190,6 +249,8 @@ class EvaluationScores(Contract):
     open_questions: list[str] = Field(default_factory=list)
     quality_score: float | None = Field(default=None, ge=0, le=100)
     earliness_score: float | None = Field(default=None, ge=0, le=100)
+    earliness_delta_months: int | None = Field(default=None, ge=0)
+    scoring_status: Literal["bewertet", "zurueck_an_sourcing"] | None = None
     confidence_score: float | None = Field(default=None, ge=0, le=100)
     investment_thesis: str
     risks: list[str] = Field(default_factory=list)
